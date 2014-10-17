@@ -41,3 +41,18 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+.classpath
+.gradle/2.1/taskArtifacts/cache.properties
+.gradle/2.1/taskArtifacts/cache.properties.lock
+.gradle/2.1/taskArtifacts/fileHashes.bin
+.gradle/2.1/taskArtifacts/fileSnapshots.bin
+.gradle/2.1/taskArtifacts/outputFileStates.bin
+.gradle/2.1/taskArtifacts/taskArtifacts.bin
+.project
+.settings/.jsdtscope
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.wst.common.component
+.settings/org.eclipse.wst.common.project.facet.core.xml
+.settings/org.eclipse.wst.jsdt.ui.superType.container
+.settings/org.eclipse.wst.jsdt.ui.superType.name
