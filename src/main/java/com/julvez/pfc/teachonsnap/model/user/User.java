@@ -6,13 +6,22 @@ public class User {
 	private String email;
 	private String firstName;
 	private String lastName;
+	
+	private boolean author;
 		
 	@Override
-	public String toString() {		
-		return (new StringBuffer("User ").append(id)
-				.append(" [name: '").append(firstName).append(" ").append(lastName)
-				.append("; email: '").append(email)
-				.append("']")).toString();
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", author=" + author
+				+ "]";
+	}
+
+	public boolean isAuthor() {
+		return author;
+	}
+
+	public void setAuthor(boolean author) {
+		this.author = author;
 	}
 
 	public int getId() {
