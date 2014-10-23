@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.julvez.pfc.teachonsnap.model.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 
 /**
  * Servlet implementation class WebController
@@ -37,7 +37,7 @@ public class WebController extends HttpServlet {
 		less.setTitle(session.getId());
 				
 		request.setAttribute("lesson", less); 
-	    request.getRequestDispatcher("/WEB-INF/views/lesson.jsp").forward(request, response);	    
+	    request.getRequestDispatcher("/WEB-INF/views/test.jsp").forward(request, response);	    
 	}
 
 	/**
