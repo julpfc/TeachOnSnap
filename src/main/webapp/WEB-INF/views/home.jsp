@@ -7,8 +7,8 @@
 <title>Title</title>
 </head>
 <body>
-	<h1>Lesson title: ${lesson.title}</h1> 
+	
 
-	<h2>Fin de pagina</h2>
+	<h5>Fin de pagina</h5>
 </body>
 </html>
