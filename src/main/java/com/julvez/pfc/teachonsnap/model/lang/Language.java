@@ -1,33 +1,42 @@
 package com.julvez.pfc.teachonsnap.model.lang;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+
+@Entity
 public class Language {
-	private int id;
-	private String lang;
+	@Id
+	@Column(name = "idLanguage")
+	private short id;
+	@Column
+	private String language;
 	
 	
 	@Override
 	public String toString() {
-		return "Language [id=" + id + ", lang=" + lang + "]";
+		return "Language [id=" + id + ", lang=" + language + "]";
 	}
 
 
-	public int getId() {
+	public short getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(short id) {
 		this.id = id;
 	}
 
 
-	public String getLang() {
-		return lang;
+	public String getLanguage() {
+		return language;
 	}
 
 
-	public void setLang(String lang) {
-		this.lang = lang;
+	public void setLanguage(String lang) {
+		this.language = lang;
 	}
 	
 	

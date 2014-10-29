@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.model.lang.Language;
+import com.julvez.pfc.teachonsnap.repository.lang.db.LangRepositoryDB;
+
 /**
  * Servlet implementation class WebController
  */
@@ -39,6 +42,12 @@ public class HomeController extends HttpServlet {
 		// TODO Nube de tags (más vistas)
 		// TODO TOP de lessons (más vistas, activas)
 		// TODO Últimas lessons
+		
+		LangRepositoryDB langRepo = new LangRepositoryDB();
+		
+		Language lang = langRepo.getLanguage((short)2);
+		
+		request.setAttribute("lang", lang);
 	    request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);	    
 	}
 

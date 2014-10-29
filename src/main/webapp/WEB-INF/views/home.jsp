@@ -7,6 +7,7 @@
 <title>Title</title>
 </head>
 <body>
+	${lang.language}
 	
 
 	<h5>Fin de pagina</h5>
