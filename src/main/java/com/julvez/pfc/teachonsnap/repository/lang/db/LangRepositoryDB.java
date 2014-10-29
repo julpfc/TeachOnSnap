@@ -1,15 +1,18 @@
 package com.julvez.pfc.teachonsnap.repository.lang.db;
 
+import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.repository.lang.LangRepository;
 
 public class LangRepositoryDB implements LangRepository {
 
+	private DBManager dbm = DBManagerFactory.getDBManager();
+	
 	@Override
 	public Language getLanguage(short idLanguage) {
-		return (Language) DBManagerFactory.getDBManager()
-				.getQueryResultUnique("test", Language.class, idLanguage);
+		return (Language) dbm
+				.getQueryResultUnique("SQL_LANG_GET_LANGUAGE", Language.class, idLanguage);
 	}
 
 }

@@ -2,10 +2,9 @@
 <!DOCTYPE hibernate-mapping PUBLIC
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
- 
-<sql-query name="test">
-    SELECT idLanguage,language
-    FROM tlanguage
-    WHERE idlanguage=?
-</sql-query>
+	 <sql-query name="SQL_LANG_GET_LANGUAGE">
+	    SELECT idLanguage,language
+	    FROM tlanguage
+	    WHERE idlanguage=?
+	</sql-query>
 </hibernate-mapping>

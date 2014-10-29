@@ -8,12 +8,14 @@
         <property name="hibernate.connection.password">julpfc</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/teachonsnap</property>
         <property name="hibernate.current_session_context_class">thread</property>
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         <property name="format_sql">false</property>
     
     	<mapping class="com.julvez.pfc.teachonsnap.model.lang.Language"/>
+    	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Lesson"/>
         
-        <mapping resource="test.hbm.xml"/>
+        <mapping resource="/hibernate/lang.hbm.xml"/>
+        <mapping resource="/hibernate/lesson.hbm.xml"/>
      
     </session-factory>
 </hibernate-configuration>

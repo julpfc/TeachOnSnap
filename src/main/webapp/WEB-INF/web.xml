@@ -12,9 +12,21 @@
   	<servlet-name>HomeController</servlet-name>
   	<servlet-class>com.julvez.pfc.teachonsnap.controller.HomeController</servlet-class>
   </servlet>
+  <servlet>
+  	<description>
+  	</description>
+  	<display-name>TagController</display-name>
+  	<servlet-name>TagController</servlet-name>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.TagController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>TagController</servlet-name>
+  	<url-pattern>/tag/*</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>HomeController</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
+  
  
 </web-app>

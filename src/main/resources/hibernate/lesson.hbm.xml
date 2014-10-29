@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+	 <sql-query name="SQL_LESSON_GET_LESSON">
+	    SELECT idLesson, idUser, idLanguage, title, date
+	    FROM tlesson	    
+	    WHERE idLesson = ?
+	</sql-query>
+	 <sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_TAG">
+	    SELECT idLesson
+	    FROM tlessontag
+	    JOIN ttag USING(idTag)
+	    WHERE tag = ?
+	</sql-query>
+</hibernate-mapping>

@@ -12,7 +12,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.model.lang.Language;
 
 public class DBManagerHibernate implements DBManager{
 
@@ -44,23 +43,7 @@ public class DBManagerHibernate implements DBManager{
             throw new ExceptionInInitializerError(ex);
         }
     }
-        
-	public Language getLanguage(short idLanguage) {
-		
-		Session sess = sessionFactory.getCurrentSession();
-		
-		List<?> resultados = new ArrayList<>();
-		
-		sess.beginTransaction();
-		
-		resultados = sess.createSQLQuery(sess.getNamedQuery("test").getQueryString())
-				.addEntity(Language.class).setShort("id", idLanguage).list();		
-		
-		sess.getTransaction().commit();
-		
-		return (Language)resultados.get(0);
-	}
-
+    
 	private SQLQuery getQuery(Session sess, String queryName, Class<?> entityClass,
 			Object... queryParams){
 		
@@ -74,10 +57,15 @@ public class DBManagerHibernate implements DBManager{
 	
 		int i=0;
 		
+		String queryLog = query.getQueryString();
+		
 		for (Object queryParam : queryParams) {
 			query.setParameter(i++, queryParam);
+			queryLog = queryLog.replaceFirst("\\?", queryParam.toString());
 		}
 		
+		System.out.println("QueryLog: "+ queryLog);
+				
 		return query;
 	}
 	
@@ -97,7 +85,7 @@ public class DBManagerHibernate implements DBManager{
 			resultados = query.list();
 			
 			sess.getTransaction().commit();
-
+			
 		} catch (HibernateException e) {
 			System.out.println(e);
 			resultados = null;
@@ -121,7 +109,7 @@ public class DBManagerHibernate implements DBManager{
 			resultado = query.uniqueResult();
 			
 			sess.getTransaction().commit();
-
+					
 		} catch (HibernateException e) {
 			System.out.println(e);
 			resultado = null;

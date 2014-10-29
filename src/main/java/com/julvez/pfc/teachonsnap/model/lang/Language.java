@@ -9,8 +9,7 @@ import javax.persistence.Id;
 public class Language {
 	@Id
 	@Column(name = "idLanguage")
-	private short id;
-	@Column
+	private short id;	
 	private String language;
 	
 	

@@ -3,19 +3,30 @@ package com.julvez.pfc.teachonsnap.model.lesson;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+@Entity
 public class Lesson {
 
+	@Id
+	@Column (name="idLesson")
 	private int id;
 	private String title;
 	private int idUser;
 	private int idLanguage;
 	private Date date;
 	
+	@Transient
 	private String text;
-	
+	@Transient
 	private List<Integer> sourceLinks;
+	@Transient
 	private List<Integer> moreInfoLinks;
+	@Transient
 	private List<Integer> linkedLessons;
+	@Transient
 	private List<Integer> tags;
 	
 	@Override
