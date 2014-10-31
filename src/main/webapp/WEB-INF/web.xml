@@ -27,6 +27,16 @@
   	<servlet-name>HomeController</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
-  
+   <servlet>
+  	<description>
+  	</description>
+  	<display-name>LessonController</display-name>
+  	<servlet-name>LessonController</servlet-name>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.LessonController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LessonController</servlet-name>
+  	<url-pattern>/lesson/*</url-pattern>
+  </servlet-mapping>
  
 </web-app>

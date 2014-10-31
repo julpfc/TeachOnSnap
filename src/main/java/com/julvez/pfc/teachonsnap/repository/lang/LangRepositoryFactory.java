@@ -1,6 +1,6 @@
 package com.julvez.pfc.teachonsnap.repository.lang;
 
-import com.julvez.pfc.teachonsnap.repository.lang.db.LangRepositoryDB;
+import com.julvez.pfc.teachonsnap.repository.lang.db.cache.LangRepositoryDBCache;
 
 public class LangRepositoryFactory {
 
@@ -8,7 +8,7 @@ public class LangRepositoryFactory {
 	
 	public static LangRepository getRepository(){
 		if(repo==null){
-			repo = new LangRepositoryDB();
+			repo = new LangRepositoryDBCache();
 		}
 		return repo;
 	}

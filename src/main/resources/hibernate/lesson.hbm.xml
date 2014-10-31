@@ -2,15 +2,54 @@
 <!DOCTYPE hibernate-mapping PUBLIC
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
-	 <sql-query name="SQL_LESSON_GET_LESSON">
-	    SELECT idLesson, idUser, idLanguage, title, date
-	    FROM tlesson	    
+	<sql-query name="SQL_LESSON_GET_LESSON">
+		SELECT idLesson, idUser, idLanguage, title, date,text,URIname
+	    FROM tlesson
+	    LEFT JOIN tlessontxt USING(idLesson)	    
 	    WHERE idLesson = ?
 	</sql-query>
-	 <sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_TAG">
+	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_TAG">
 	    SELECT idLesson
 	    FROM tlessontag
 	    JOIN ttag USING(idTag)
 	    WHERE tag = ?
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_LESSONID_FROM_URI">
+	    SELECT idLesson
+	    FROM tlesson	    
+	    WHERE URIname = ?
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_LESSONTAGIDS">
+	    SELECT idTag
+	    FROM tlessontag
+	    WHERE idLesson = ?
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_LINKEDLESSONIDS">
+	    SELECT idLessonReferenced
+	    FROM tlessonlinked	    
+	    WHERE idLesson = ?
+	    ORDER BY priority
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_MOREINFOLINKIDS">
+	    SELECT idLink
+	    FROM tlessonmoreinfo	    
+	    WHERE idLesson = ?
+	    ORDER BY priority
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_SOURCELINKIDS">
+	    SELECT idLink
+	    FROM tlessonsource	    
+	    WHERE idLesson = ?
+	    ORDER BY priority
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_LINK">
+		SELECT idLink, URL, tlink.desc
+	    FROM tlink	    	    
+	    WHERE idLink = ?
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_TAG">
+		SELECT idTag, tag
+	    FROM ttag	    	    
+	    WHERE idTag = ?
 	</sql-query>
 </hibernate-mapping>

@@ -1,31 +1,62 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-    <jsp:directive.page language="java"
-        contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
-    <jsp:text>
-        <![CDATA[ <?xml version="1.0" encoding="UTF-8" ?> ]]>
-    </jsp:text>
-    <jsp:text>
-        <![CDATA[ <!DOCTYPE html> ]]>
-    </jsp:text>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
-	
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Lesson ${lesson.id}</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>	
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Title lesson</title>
 </head>
-
 <body>
-<h1>Lesson title: ${lesson.title}</h1> 
-
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<h2>Fin de pagina</h2>
+	<h2>Lesson</h2>
+	<table>
+		<tr><th>id</th><th>title</th><th>idUser</th><th>idLanguage</th><th>date</th><th>text</th></tr>
+		<tr><td>${lesson.id}</td><td>${lesson.title}</td><td>${lesson.idUser}</td>
+		<td>${lesson.idLanguage}</td><td>${lesson.date}</td>
+		<c:if test="${not empty lesson.text}"><td>${lesson.text}</td></c:if>
+		</tr>		
+	</table>
+	
+	<h2>Sources</h2>
+	<table>
+		<tr><th>id</th><th>desc</th></tr>
+		<c:forEach items="${sourceLinks}" var="link">		
+			<tr>
+				<td><a href="${link.URL}">${link.id}</a></td><td>${link.desc}</td>
+			</tr>		
+		</c:forEach>
+	</table>
+	
+	<h2>Linked Lessons</h2>
+	<table>
+		<tr><th>id</th><th>title</th><th>idUser</th><th>idLanguage</th><th>date</th><th>text</th></tr>
+		<c:forEach items="${linkedLessons}" var="linkedlesson">		
+		<tr>
+			<td><a href="${linkedlesson.URL}">${linkedlesson.id}</a></td><td>${linkedlesson.title}</td>
+			<td>${linkedlesson.idUser}</td><td>${linkedlesson.idLanguage}</td><td>${linkedlesson.date}</td>
+		</tr>		
+	</c:forEach>
+	</table>
+	
+	<h2>More info</h2>
+	<table>
+		<tr><th>id</th><th>desc</th></tr>
+		<c:forEach items="${moreInfoLinks}" var="link">		
+			<tr>
+				<td><a href="${link.URL}">${link.id}</a></td><td>${link.desc}</td>
+			</tr>		
+		</c:forEach>
+	</table>
+	
+	<h2>Tags</h2>
+	<table>
+		<c:forEach items="${tags}" var="tag">		
+			<tr>
+				<td><a href="${tag.URL}">${tag.tag}</a></td>
+			</tr>		
+		</c:forEach>
+	</table>
+	
+	<h5>Fin de pagina</h5>
 </body>
 </html>
-</jsp:root>

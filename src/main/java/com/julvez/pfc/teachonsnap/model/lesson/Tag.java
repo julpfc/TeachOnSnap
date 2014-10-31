@@ -1,6 +1,14 @@
 package com.julvez.pfc.teachonsnap.model.lesson;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Tag {
+	
+	@Id
+	@Column (name="idTag")
 	private int id;
 	private String tag;
 	
@@ -25,6 +33,8 @@ public class Tag {
 		this.tag = tag;
 	}	
 	
-	
+	public String getURL() {
+		return "/tag/" + tag;
+	}
 	
 }
