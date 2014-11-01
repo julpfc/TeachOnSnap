@@ -1,22 +1,19 @@
 package com.julvez.pfc.teachonsnap.repository.lang.db.cache;
 
-import java.util.HashMap;
-
+import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
+import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
+import com.julvez.pfc.teachonsnap.repository.lang.LangRepository;
 import com.julvez.pfc.teachonsnap.repository.lang.db.LangRepositoryDB;
 
-public class LangRepositoryDBCache extends LangRepositoryDB {
+public class LangRepositoryDBCache implements LangRepository {
 
-	private static HashMap<Short, Language> langCache = new HashMap<Short, Language>();
-	
-	@Override
+	private CacheManager cache = CacheManagerFactory.getCacheManager();
+	private LangRepositoryDB repoDB = new LangRepositoryDB();
+		
 	public Language getLanguage(short idLanguage) {
-		Language lang = langCache.get(Short.valueOf(idLanguage)); 
-		if(lang == null ){
-			lang = super.getLanguage(idLanguage);
-			langCache.put(Short.valueOf(idLanguage), lang);
-		}				
-		return lang;
+		return (Language)cache.executeImplCached(repoDB, idLanguage);
 	}
+	 			
 
 }

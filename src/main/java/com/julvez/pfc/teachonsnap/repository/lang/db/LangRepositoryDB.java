@@ -7,7 +7,7 @@ import com.julvez.pfc.teachonsnap.repository.lang.LangRepository;
 
 public class LangRepositoryDB implements LangRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();
+	private DBManager dbm = DBManagerFactory.getDBManager();	
 	
 	@Override
 	public Language getLanguage(short idLanguage) {
