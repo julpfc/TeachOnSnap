@@ -24,7 +24,7 @@ public class CacheManagerImpl implements CacheManager {
 		
 		synchronized (cache) {
 			result = cache.get(getKey(params));	
-			System.out.println("Cache: "+methodName+"[" + getKey(params)+"]="+result);
+			System.out.println("Cache: "+methodName+getKey(params)+"="+result);
 
 			if(result == null ){		
 				try{
@@ -109,7 +109,7 @@ public class CacheManagerImpl implements CacheManager {
 	
 	private String getKey(Object...objects){
 		String format = new String(new char[objects.length])
-        .replace("\0", "%s.");
+        .replace("\0", "[%s]");
 		return String.format(format, objects);
 	}
 	

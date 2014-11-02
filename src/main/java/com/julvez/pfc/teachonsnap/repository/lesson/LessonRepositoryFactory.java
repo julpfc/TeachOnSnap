@@ -1,6 +1,6 @@
 package com.julvez.pfc.teachonsnap.repository.lesson;
 
-import com.julvez.pfc.teachonsnap.repository.lesson.db.LessonRepositoryDB;
+import com.julvez.pfc.teachonsnap.repository.lesson.db.cache.LessonRepositoryDBCache;
 
 
 public class LessonRepositoryFactory {
@@ -9,7 +9,7 @@ public class LessonRepositoryFactory {
 	
 	public static LessonRepository getRepository(){
 		if(repo==null){
-			repo = new LessonRepositoryDB();
+			repo = new LessonRepositoryDBCache();
 		}
 		return repo;
 	}
