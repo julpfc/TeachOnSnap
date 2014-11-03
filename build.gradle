@@ -9,6 +9,7 @@ repositories {
 
  dependencies {
         compile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.6.Final'
+        compile group: 'org.hibernate', name: 'hibernate-c3p0', version: '4.3.6.Final'
     	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.31'
     	compile group: 'jstl', name: 'jstl', version: '1.2'    	
 		
