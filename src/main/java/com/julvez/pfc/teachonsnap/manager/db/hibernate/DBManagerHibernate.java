@@ -90,7 +90,7 @@ public class DBManagerHibernate implements DBManager{
 			System.out.println(e);
 			resultados = null;
 		}		
-		
+		System.out.println("QueryLog: -> "+ resultados);
 		return resultados;	
 	}
 
@@ -114,7 +114,7 @@ public class DBManagerHibernate implements DBManager{
 			System.out.println(e);
 			resultado = null;
 		}		
-		
+		System.out.println("QueryLog: -> "+ resultado);
 		return resultado;	
 	}
 }
