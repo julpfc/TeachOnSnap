@@ -25,5 +25,7 @@ public interface LessonRepository {
 	public Tag getTag(int idTag);
 
 	public Link getLink(int idLink);
+
+	public List<Integer> getLastLessonIDs();
 	
 }

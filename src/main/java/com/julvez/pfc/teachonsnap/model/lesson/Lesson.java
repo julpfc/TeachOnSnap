@@ -14,7 +14,7 @@ public class Lesson {
 	private int id;
 	private String title;
 	private int idUser;
-	private int idLanguage;
+	private short idLanguage;
 	private Date date;
 	private String text;
 	private String URIname;
@@ -53,10 +53,10 @@ public class Lesson {
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
-	public int getIdLanguage() {
+	public short getIdLanguage() {
 		return idLanguage;
 	}
-	public void setIdLanguage(int idLanguage) {
+	public void setIdLanguage(short idLanguage) {
 		this.idLanguage = idLanguage;
 	}
 	public Date getDate() {

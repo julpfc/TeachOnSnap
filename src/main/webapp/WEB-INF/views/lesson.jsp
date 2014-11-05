@@ -10,9 +10,9 @@
 <body>
 	<h2>Lesson</h2>
 	<table>
-		<tr><th>id</th><th>title</th><th>idUser</th><th>idLanguage</th><th>date</th><th>text</th></tr>
-		<tr><td>${lesson.id}</td><td>${lesson.title}</td><td>${lesson.idUser}</td>
-		<td>${lesson.idLanguage}</td><td>${lesson.date}</td>
+		<tr><th>id</th><th>title</th><th>Author</th><th>idLanguage</th><th>date</th><th>text</th></tr>
+		<tr><td>${lesson.id}</td><td>${lesson.title}</td><td>${author.firstName} ${author.lastName}</td>
+		<td>${lessonLanguage.language}</td><td>${lesson.date}</td>
 		<c:if test="${not empty lesson.text}"><td>${lesson.text}</td></c:if>
 		</tr>		
 	</table>

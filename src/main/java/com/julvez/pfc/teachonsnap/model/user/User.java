@@ -1,7 +1,14 @@
 package com.julvez.pfc.teachonsnap.model.user;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class User {
 
+	@Id
+	@Column (name="idUser")
 	private int id;
 	private String email;
 	private String firstName;

@@ -52,4 +52,10 @@
 	    FROM ttag	    	    
 	    WHERE idTag = ?
 	</sql-query>
+	<sql-query name="SQL_LESSON_GET_LASTLESSONIDS">
+	    SELECT idLesson
+	    FROM tlesson
+	    ORDER BY idLesson DESC	    
+	    LIMIT 10
+	</sql-query>
 </hibernate-mapping>

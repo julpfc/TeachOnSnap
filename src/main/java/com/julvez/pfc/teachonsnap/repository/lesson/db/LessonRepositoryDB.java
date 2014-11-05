@@ -76,4 +76,12 @@ public class LessonRepositoryDB implements LessonRepository {
 		return (Link) dbm.getQueryResultUnique("SQL_LESSON_GET_LINK", Link.class, idLink);
 	}
 
+	@Override
+	public List<Integer> getLastLessonIDs() {
+		@SuppressWarnings("unchecked")
+		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LASTLESSONIDS", null, new Object[0]);
+						
+		return ids;
+	}
+
 }
