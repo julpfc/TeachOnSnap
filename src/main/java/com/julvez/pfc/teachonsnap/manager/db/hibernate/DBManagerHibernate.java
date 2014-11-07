@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.manager.db.hibernate;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -12,6 +13,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 public class DBManagerHibernate implements DBManager{
 
@@ -90,7 +92,7 @@ public class DBManagerHibernate implements DBManager{
 			System.out.println(e);
 			resultados = null;
 		}		
-		System.out.println("QueryLog: -> "+ resultados);
+		System.out.println("QueryLog: -> "+ resultados + " -> " + (resultados.size()>0?resultados.get(0).getClass().getCanonicalName():"empty"));
 		return resultados;	
 	}
 
@@ -116,5 +118,25 @@ public class DBManagerHibernate implements DBManager{
 		}		
 		System.out.println("QueryLog: -> "+ resultado);
 		return resultado;	
+	}
+
+	@Override
+	public void close() {
+		try{
+			if(sessionFactory!=null){
+				sessionFactory.close();
+				sessionFactory = null;
+				AbandonedConnectionCleanupThread.shutdown();
+				Enumeration<java.sql.Driver> drivers = java.sql.DriverManager.getDrivers();
+				   while (drivers.hasMoreElements()) {
+				      java.sql.Driver driver = drivers.nextElement();
+				      java.sql.DriverManager.deregisterDriver(driver);				     
+				   }
+			} 
+			System.out.println("DBManager: Cerrando conexiones");
+		}
+		catch(Throwable t){
+			System.out.println(t);
+		}		
 	}
 }

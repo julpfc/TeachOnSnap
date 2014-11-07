@@ -4,10 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>	
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<c:import url="./import/head_bootstrap.jsp"/>
 <title>Title lessons</title>
 </head>
 <body>
+<c:import url="./import/nav.jsp"/>
 	<h1>Tag: ${tag}</h1>
 	
 	<h2>Lessons</h2>
@@ -22,5 +23,9 @@
 	</c:forEach>
 	</table>
 	<h5>Fin de pagina</h5>
+    <c:import url="./import/footer.jsp"/>
+
+	<c:import url="./import/js_bootstrap.jsp"/>
+
 </body>
 </html>

@@ -1,9 +1,11 @@
 package com.julvez.pfc.teachonsnap.service.lesson.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.model.lang.Language;
+import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
@@ -126,6 +128,31 @@ public class LessonServiceImpl implements LessonService{
 		}
 		
 		return lessons;
+	}
+
+	@Override
+	public List<CloudTag> getCloudTags() {
+		List<CloudTag> cloudTags = new ArrayList<CloudTag>();
+		final int weightLevel = 6;
+		
+		List<Object[]> result= lessonRepository.getCloudTags();
+		int max=0;
+		int min=0;
+		for(Object ids[]:result){
+			int aux= ((BigInteger)ids[1]).intValue();
+			if(aux>max) max=aux;
+			if(min==0 || aux<min) min=aux;
+			
+			cloudTags.add(new CloudTag(lessonRepository.getTag(((Integer)ids[0]).intValue()),((BigInteger)ids[1]).shortValue()));
+		}
+		
+		// Normalizamos los pesos
+		for(CloudTag cloudTag:cloudTags){
+			short weight = (short) (Math.floor(((double)((weightLevel-1) * (cloudTag.getWeight() - min)))/(double)(max-min)) + 1);
+			cloudTag.setWeight(weight);
+		}
+		
+		return cloudTags;
 	}
 
 }

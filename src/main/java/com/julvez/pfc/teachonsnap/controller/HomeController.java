@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
@@ -36,12 +37,7 @@ public class HomeController extends HttpServlet {
 	    // Set the session valid for 5 secs
 	    session.setMaxInactiveInterval(5);
 	  */  
-	 //   Lesson less = new Lesson();
-	//	less.setId(1);
-	//	less.setTitle(session.getId());
-				
-	//	request.setAttribute("lesson", less); 
-		
+			
 		// TODO Buscador
 		// TODO Nube de tags (más lessons)
 		// TODO TOP de lessons (más vistas, activas)
@@ -49,8 +45,10 @@ public class HomeController extends HttpServlet {
 		
 		
 		List<Lesson> lastLessons = lessonService.getLastLessons();
-		
+		List<CloudTag> cloudTags = lessonService.getCloudTags();
+		 
 		request.setAttribute("lastLessons", lastLessons);
+		request.setAttribute("cloudTags", cloudTags);
 	    request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);	    
 	}
 

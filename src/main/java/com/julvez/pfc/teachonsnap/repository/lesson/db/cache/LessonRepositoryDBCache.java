@@ -72,6 +72,12 @@ public class LessonRepositoryDBCache implements LessonRepository {
 		return (List<Integer>)cache.executeImplCached(repoDB, new Object[0]);		
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getCloudTags() {
+		return (List<Object[]>)cache.executeImplCached(repoDB, new Object[0]);
+	}
+
 	
 
 }

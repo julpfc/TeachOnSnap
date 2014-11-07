@@ -84,4 +84,11 @@ public class LessonRepositoryDB implements LessonRepository {
 		return ids;
 	}
 
+	@Override
+	public List<Object[]> getCloudTags() {
+		@SuppressWarnings("unchecked")
+		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_LESSON_GET_IDTAGWEIGHTS", null, new Object[0]);
+		return ids;
+	}
+
 }

@@ -52,6 +52,17 @@
 	    FROM ttag	    	    
 	    WHERE idTag = ?
 	</sql-query>
+	<sql-query name="SQL_LESSON_GET_IDTAGWEIGHTS">
+		SELECT idTag,weight FROM (
+			SELECT 	`idTag`, COUNT(idlesson) AS weight
+			FROM tlessontag
+			GROUP BY idtag
+			ORDER BY weight DESC
+			LIMIT 50
+		) AS t
+		JOIN ttag USING (idtag)
+		ORDER BY tag;
+	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LASTLESSONIDS">
 	    SELECT idLesson
 	    FROM tlesson

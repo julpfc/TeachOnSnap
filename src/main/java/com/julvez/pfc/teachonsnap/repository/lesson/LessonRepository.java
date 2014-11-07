@@ -27,5 +27,7 @@ public interface LessonRepository {
 	public Link getLink(int idLink);
 
 	public List<Integer> getLastLessonIDs();
+
+	public List<Object[]> getCloudTags();
 	
 }

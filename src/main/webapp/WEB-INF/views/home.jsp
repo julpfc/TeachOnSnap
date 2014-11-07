@@ -5,6 +5,7 @@
 <html>
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
+<link rel="stylesheet" href="<c:url value="/resources/css/home.css"/>"/>
 <title>Teach On Snap - Home</title>
 </head>
 <body>
@@ -20,11 +21,12 @@
 			<div class="col-sm-8">
 				<c:forEach items="${lastLessons}" var="lesson">		
 					<div>
-	            		<h2><a href="${lesson.URL}">${lesson.title}</a></h2>
-	            		<p>${lesson.date} by <a href="#">${lesson.idUser}</a> in ${lesson.idLanguage}</p>            		
+	            		<h2 class="lesson-title"><a href="${lesson.URL}">${lesson.title}</a></h2>
+	            		<p class="lesson-meta">${lesson.date} by <a href="#">${lesson.idUser}</a> in ${lesson.idLanguage}</p>            		
 	    				<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
 		             	<a href="${lesson.URL}"><button class="btn btn-default col-sm-offset-8" type="button">More</button></a>
-		          	</div>	          	
+		          	</div>
+		          	<hr/>	          	
 				</c:forEach>			
 	   
 				<nav>
@@ -40,23 +42,13 @@
             		<h4>About</h4>
             		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
           		</div>
-          		<div>
+          		<div class="tags">
             		<h4>Tag cloud</h4>
-		            <span class="label label-default" style="font-size:160%;">Enero</span>
-		            <span class="label label-default">Febrero</span>
-		            <span class="label label-default">Marzo</span>
-		           	<span class="label label-default">Abril</span>
-		            <span class="label label-default">Mayo</span>
-		            <span class="label label-default">Junio</span>
-		            <span class="label label-default">Julio</span>
-		            <span class="label label-default">Agosto</span>
-		            <span class="label label-default">Septiembre</span>
-		            <span class="label label-default">Octubre</span>
-		            <span class="label label-default">Noviembre</span>
-		            <span class="label label-default">Diciembre</span>
-		            <span class="label label-default">Lunes</span>
-		            <span class="label label-default">Martes</span>
-			        
+            		<ul class="tags">
+            		<c:forEach items="${cloudTags}" var="cloudTag">
+            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.tag.URL}">${cloudTag.tag.tag}</a></li>
+		            </c:forEach>
+		            </ul>
           		</div>
           		<div>
             		<h4>Elsewhere</h4>
@@ -68,8 +60,8 @@
           		</div>
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
-	    <c:import url="./import/footer.jsp"/>
     </div><!-- /.container -->
+    <c:import url="./import/footer.jsp"/>
 
 	<c:import url="./import/js_bootstrap.jsp"/>
 </body>

@@ -7,5 +7,7 @@ public interface DBManager {
 	public List<?> getQueryResultList(String queryName,Class<?> entityClass,Object... queryParams);
 	
 	public Object getQueryResultUnique(String queryName,Class<?> entityClass,Object... queryParams);
+
+	public void close();
 			
 }
