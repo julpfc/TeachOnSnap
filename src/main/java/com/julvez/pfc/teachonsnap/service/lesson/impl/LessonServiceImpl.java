@@ -4,12 +4,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
-import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.repository.lang.LangRepository;
 import com.julvez.pfc.teachonsnap.repository.lang.LangRepositoryFactory;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
@@ -33,7 +31,7 @@ public class LessonServiceImpl implements LessonService{
 		List<Integer> ids = lessonRepository.getLessonIDsFromTag(tag);
 		
 		for(int id:ids){
-			lessons.add(lessonRepository.getLesson(id));
+			lessons.add(getLesson(id));
 		}
 		
 		return lessons;
@@ -45,7 +43,7 @@ public class LessonServiceImpl implements LessonService{
 
 		int id = lessonRepository.getLessonIDFromURI(lessonURI);
 		
-		lesson= lessonRepository.getLesson(id);
+		lesson= getLesson(id);
 		
 		return lesson;
 	}
@@ -70,7 +68,7 @@ public class LessonServiceImpl implements LessonService{
 		List<Integer> ids = lessonRepository.getLinkedLessonIDs(idLesson);
 		
 		for(int id:ids){
-			lessons.add(lessonRepository.getLesson(id));
+			lessons.add(getLesson(id));
 		}
 		
 		return lessons;
@@ -103,28 +101,13 @@ public class LessonServiceImpl implements LessonService{
 	}
 
 	@Override
-	public User getAuthor(Lesson lesson) {
-		User author = null;
-		
-		author = userRepository.getUser(lesson.getIdUser());
-		return author;
-	}
-
-	@Override
-	public Language getLanguage(Lesson lesson) {
-		Language lang = null;
-		lang = langRepository.getLanguage(lesson.getIdLanguage());
-		return lang;
-	}
-
-	@Override
 	public List<Lesson> getLastLessons() {
 		List<Lesson> lessons = new ArrayList<Lesson>();
 		
 		List<Integer> ids = lessonRepository.getLastLessonIDs();
 		
 		for(int id:ids){
-			lessons.add(lessonRepository.getLesson(id));
+			lessons.add(getLesson(id));
 		}
 		
 		return lessons;
@@ -153,6 +136,14 @@ public class LessonServiceImpl implements LessonService{
 		}
 		
 		return cloudTags;
+	}
+
+	@Override
+	public Lesson getLesson(int idLesson) {
+		Lesson lesson = lessonRepository.getLesson(idLesson);
+		lesson.setAuthor(userRepository.getUser(lesson.getIdUser()));
+		lesson.setLanguage(langRepository.getLanguage(lesson.getIdLanguage()));
+		return lesson;
 	}
 
 }

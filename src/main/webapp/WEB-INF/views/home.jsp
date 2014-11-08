@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>	
@@ -13,7 +14,7 @@
 
     <div class="container-fluid">
 
-		<div>
+		<div> 
 	        <h1>Teach On Snap</h1>
 	        <p class="lead">Learn on snapshots!</p>
 	    </div>
@@ -22,7 +23,10 @@
 				<c:forEach items="${lastLessons}" var="lesson">		
 					<div>
 	            		<h2 class="lesson-title"><a href="${lesson.URL}">${lesson.title}</a></h2>
-	            		<p class="lesson-meta">${lesson.date} by <a href="#">${lesson.idUser}</a> in ${lesson.idLanguage}</p>            		
+	            		<p class="lesson-meta">
+	            			<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>	            			 
+	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
+	            			 by <a href="#">${lesson.author.fullName}</a></p>            		
 	    				<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
 		             	<a href="${lesson.URL}"><button class="btn btn-default col-sm-offset-8" type="button">More</button></a>
 		          	</div>

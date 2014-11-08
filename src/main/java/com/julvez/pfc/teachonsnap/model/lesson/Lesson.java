@@ -5,6 +5,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.julvez.pfc.teachonsnap.model.lang.Language;
+import com.julvez.pfc.teachonsnap.model.user.User;
 
 @Entity
 public class Lesson {
@@ -18,6 +22,11 @@ public class Lesson {
 	private Date date;
 	private String text;
 	private String URIname;
+	
+	@Transient
+	private User author;
+	@Transient
+	private Language language;
 	
 	
 	@Override
@@ -77,5 +86,22 @@ public class Lesson {
 	public String getURL() {
 		return "/lesson/"+URIname;
 	}
+
+	public User getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	public Language getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+	}
+	
 	
 }

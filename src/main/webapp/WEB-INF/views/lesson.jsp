@@ -11,9 +11,9 @@
 <c:import url="./import/nav.jsp"/>
 	<h2>Lesson</h2>
 	<table>
-		<tr><th>id</th><th>title</th><th>Author</th><th>idLanguage</th><th>date</th><th>text</th></tr>
-		<tr><td>${lesson.id}</td><td>${lesson.title}</td><td>${author.firstName} ${author.lastName}</td>
-		<td>${lessonLanguage.language}</td><td>${lesson.date}</td>
+		<tr><th>id</th><th>title</th><th>Author</th><th>Language</th><th>date</th><th>text</th></tr>
+		<tr><td>${lesson.id}</td><td>${lesson.title}</td><td>${lesson.author.fullName}</td>
+		<td>${lesson.language.language}</td><td>${lesson.date}</td>
 		<c:if test="${not empty lesson.text}"><td>${lesson.text}</td></c:if>
 		</tr>		
 	</table>
@@ -34,7 +34,7 @@
 		<c:forEach items="${linkedLessons}" var="linkedlesson">		
 		<tr>
 			<td><a href="${linkedlesson.URL}">${linkedlesson.id}</a></td><td>${linkedlesson.title}</td>
-			<td>${linkedlesson.idUser}</td><td>${linkedlesson.idLanguage}</td><td>${linkedlesson.date}</td>
+			<td>${linkedlesson.author.fullName}</td><td>${linkedlesson.language.language}</td><td>${linkedlesson.date}</td>
 		</tr>		
 	</c:forEach>
 	</table>
