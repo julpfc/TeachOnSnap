@@ -19,7 +19,7 @@
 	        <p class="lead">Learn on snapshots!</p>
 	    </div>
 		<div class="row">
-			<div class="col-sm-8">
+			<div class="col-sm-7">
 				<c:forEach items="${lastLessons}" var="lesson">		
 					<div>
 	            		<h2 class="lesson-title"><a href="${lesson.URL}">${lesson.title}</a></h2>
@@ -41,7 +41,7 @@
 				</nav>
 	        </div><!-- col -->
 
-        	<div class="col-sm-3 col-sm-offset-1">
+        	<div class="col-sm-4 col-sm-offset-1">
           		<div>
             		<h4>About</h4>
             		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
@@ -53,15 +53,7 @@
             			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.tag.URL}">${cloudTag.tag.tag}</a></li>
 		            </c:forEach>
 		            </ul>
-          		</div>
-          		<div>
-            		<h4>Elsewhere</h4>
-            		<ol class="list-unstyled">
-              			<li><a href="#">GitHub</a></li>
-              			<li><a href="#">Twitter</a></li>
-              			<li><a href="#">Facebook</a></li>
-            		</ol>
-          		</div>
+          		</div>          		
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

@@ -5,6 +5,11 @@
   }
 }
 
+/* Quitar el azul de los enlaces */
+.lesson-meta a, .label a, h2 a {   
+    color: inherit;
+}
+
 /* Footer */
 .footer {
   bottom: 0;
