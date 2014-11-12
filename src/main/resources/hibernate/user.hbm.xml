@@ -3,7 +3,7 @@
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
 	<sql-query name="SQL_USER_GET_USER">
-	    SELECT idUser,email,firstName,lastName,IFNULL(tuserauthor.idUser,0) as author
+	    SELECT idUser,email,firstName,lastName,IFNULL(tuserauthor.idUser,0) as author,URIName
 	    FROM tuser
 	    LEFT JOIN tuserauthor USING (idUser)
 	    WHERE idUser=?

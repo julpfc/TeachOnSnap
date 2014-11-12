@@ -19,16 +19,16 @@ import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 /**
  * Servlet implementation class TagController
  */
-public class TagController extends HttpServlet {
+public class AuthorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private LessonService lessonService = LessonServiceFactory.getService();
-	private LangService langService = LangServiceFactory.getService();
+	private LangService langService = LangServiceFactory.getService();	
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TagController() {
+    public AuthorController() {
         super();       
     }
 
@@ -36,18 +36,17 @@ public class TagController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String tag = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
+		String author = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
 		
-			
-		List<Lesson> lessons = lessonService.getLessonsFromTag(tag);		
-	
+		List<Lesson> lessons = lessonService.getLessonsFromAuthor(author);		
+		
 		String acceptLang = request.getHeader("accept-language");
 		Language browserLang = langService.getLanguageFromAccept(acceptLang);
 		request.setAttribute("browserLang", browserLang);
-				
-		request.setAttribute("searchType", "tag");
-		request.setAttribute("searchKeyword", tag);
-		request.setAttribute("searchResults", lessons.size()); //Hasta que tengamos paginación
+		
+		request.setAttribute("searchType", "author");
+		request.setAttribute("searchKeyword", lessons.size()>0?lessons.get(0).getAuthor().getFullName():author);
+		request.setAttribute("searchResults", lessons.size()); //Hasta que tengamos paginación 
 		request.setAttribute("lessons", lessons);
 	    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);	 
 	}

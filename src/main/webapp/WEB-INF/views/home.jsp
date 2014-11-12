@@ -10,33 +10,39 @@
 <title>Teach On Snap - Home</title>
 </head>
 <body>
-	<c:import url="./import/nav.jsp"/>
-
-    <div class="container-fluid">
-
-		<div> 
-	        <h1>Teach On Snap</h1>
-	        <p class="lead">Learn on snapshots!</p>
+ 	<c:import url="./import/nav.jsp"/>
+      <div class="content container-fluid">
+		<div class="home">
+			<div class="container-fluid"> 
+		        <div class="col-sm-8">
+		        	<h1>TeachOnSnap</h1>
+		        	<p>Learn on snapshots!</p>
+		        </div>
+		        <div class="col-sm-4">
+		        	<h2><span class="glyphicon glyphicon-facetime-video"></span><span class="glyphicon glyphicon-book"></span></h2>
+		        </div>
+		    </div>
 	    </div>
-		<div class="row">
+		<div class="row">					
 			<div class="col-sm-7">
-				<c:forEach items="${lastLessons}" var="lesson">		
+				<c:forEach items="${lastLessons}" var="lesson">					
 					<div>
 	            		<h2 class="lesson-title"><a href="${lesson.URL}">${lesson.title}</a></h2>
 	            		<p class="lesson-meta">
-	            			<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>	            			 
+	            			<c:if test="${browserLang.id != lesson.language.id}">
+	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
+	            			</c:if>	            			 
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
-	            			 by <a href="#">${lesson.author.fullName}</a></p>            		
-	    				<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
-		             	<a href="${lesson.URL}"><button class="btn btn-default col-sm-offset-8" type="button">More</button></a>
+	            			 by <a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>            		
+						<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
+			            <a href="${lesson.URL}"><button class="btn btn-default col-sm-offset-8" type="button"><span class="glyphicon glyphicon-play"></span> Let's see</button></a>
 		          	</div>
 		          	<hr/>	          	
 				</c:forEach>			
 	   
 				<nav>
 					<ul class="pager">
-						<li><a href="#">Previous</a></li>
-						<li><a href="#">Next</a></li>
+						<li><a href="#">Older</a></li>						
 					</ul>
 				</nav>
 	        </div><!-- col -->

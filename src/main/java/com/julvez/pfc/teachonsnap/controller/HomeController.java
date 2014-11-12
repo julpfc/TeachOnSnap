@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.service.lang.LangService;
+import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 
@@ -20,6 +23,7 @@ public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private LessonService lessonService = LessonServiceFactory.getService();
+	private LangService langService = LangServiceFactory.getService();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,13 +47,16 @@ public class HomeController extends HttpServlet {
 		// TODO TOP de lessons (más vistas, activas)
 		// TODO Últimas lessons
 		
-		
 		List<Lesson> lastLessons = lessonService.getLastLessons();
 		List<CloudTag> cloudTags = lessonService.getCloudTags();
-		 
+		
+		String acceptLang = request.getHeader("accept-language");
+		Language browserLang = langService.getLanguageFromAccept(acceptLang);
+		request.setAttribute("browserLang", browserLang);
+		
 		request.setAttribute("lastLessons", lastLessons);
 		request.setAttribute("cloudTags", cloudTags);
-	    request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);	    
+		request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);	    
 	}
 
 	/**

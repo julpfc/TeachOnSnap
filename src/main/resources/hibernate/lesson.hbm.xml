@@ -14,6 +14,12 @@
 	    JOIN ttag USING(idTag)
 	    WHERE tag = ?
 	</sql-query>
+	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR">
+	    SELECT idLesson
+	    FROM tlesson
+	    JOIN tuserauthor USING(iduser)
+	    WHERE tuserauthor.URIName = ?
+	</sql-query>	
 	<sql-query name="SQL_LESSON_GET_LESSONID_FROM_URI">
 	    SELECT idLesson
 	    FROM tlesson	    

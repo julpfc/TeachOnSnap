@@ -18,7 +18,7 @@ public class LessonRepositoryDB implements LessonRepository {
 	@Override
 	public Lesson getLesson(int idLesson) {
 		return (Lesson) dbm.getQueryResultUnique("SQL_LESSON_GET_LESSON", Lesson.class, idLesson);
-	}	
+	}
 	
 	@Override
 	public List<Integer> getLessonIDsFromTag(String tag) {
@@ -26,7 +26,7 @@ public class LessonRepositoryDB implements LessonRepository {
 		@SuppressWarnings("unchecked")
 		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_TAG", null, tag);
 						
-		return ids;
+		return ids; 
 	}
 
 	@Override
@@ -89,6 +89,14 @@ public class LessonRepositoryDB implements LessonRepository {
 		@SuppressWarnings("unchecked")
 		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_LESSON_GET_IDTAGWEIGHTS", null, new Object[0]);
 		return ids;
+	}
+
+	@Override
+	public List<Integer> getLessonIDsFromAuthor(String author) {
+		@SuppressWarnings("unchecked")
+		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR", null, author);
+						
+		return ids; 
 	}
 
 }

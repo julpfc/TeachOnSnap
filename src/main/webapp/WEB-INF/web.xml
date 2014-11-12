@@ -45,5 +45,15 @@
   	<servlet-name>LessonController</servlet-name>
   	<url-pattern>/lesson/*</url-pattern>
   </servlet-mapping>
- 
+ <servlet>
+  	<description>
+  	</description>
+  	<display-name>AuthorController</display-name>
+  	<servlet-name>AuthorController</servlet-name>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.AuthorController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AuthorController</servlet-name>
+  	<url-pattern>/author/*</url-pattern>
+  </servlet-mapping>
 </web-app>

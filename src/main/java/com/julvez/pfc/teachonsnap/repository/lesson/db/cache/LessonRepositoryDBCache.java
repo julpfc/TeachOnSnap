@@ -78,6 +78,12 @@ public class LessonRepositoryDBCache implements LessonRepository {
 		return (List<Object[]>)cache.executeImplCached(repoDB, new Object[0]);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Integer> getLessonIDsFromAuthor(String author) {
+		return (List<Integer>)cache.executeImplCached(repoDB, author);
+	}
+
 	
 
 }

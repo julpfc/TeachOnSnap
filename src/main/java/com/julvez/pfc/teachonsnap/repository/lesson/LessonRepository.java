@@ -29,5 +29,7 @@ public interface LessonRepository {
 	public List<Integer> getLastLessonIDs();
 
 	public List<Object[]> getCloudTags();
+
+	public List<Integer> getLessonIDsFromAuthor(String author);
 	
 }

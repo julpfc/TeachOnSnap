@@ -23,6 +23,8 @@ public interface LessonService {
 	public List<Lesson> getLastLessons();
 
 	public List<CloudTag> getCloudTags();
+
+	public List<Lesson> getLessonsFromAuthor(String author);
 	
 	
 }

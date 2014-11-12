@@ -146,4 +146,17 @@ public class LessonServiceImpl implements LessonService{
 		return lesson;
 	}
 
+	@Override
+	public List<Lesson> getLessonsFromAuthor(String author) {
+		List<Lesson> lessons = new ArrayList<Lesson>();
+		
+		List<Integer> ids = lessonRepository.getLessonIDsFromAuthor(author);
+		
+		for(int id:ids){
+			lessons.add(getLesson(id));
+		}
+		
+		return lessons;
+	}
+
 }

@@ -6,22 +6,28 @@
 <html>
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
-<title>Title lesson</title>
+<title>TeachOnSnap - ${lesson.title}</title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>
-	<div class="container-fluid">
+	<div class="content container-fluid">
 		<div>
        		<h2 class="lesson-title">${lesson.title}</h2>       		 	
+			<p class="lesson-meta">
+				<c:if test="${browserLang.id != lesson.language.id}">
+     				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
+     			</c:if>	            			 
+      			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
+      			 by <a href="${lesson.author.URL}">${lesson.author.fullName}</a>
+   			</p> 
        	</div>
 		<div class="row">
 			<div class="col-sm-7">
 				<div>
-					<p class="lesson-meta">
-		       			<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>	            			 
-		       			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
-		       			 by <a href="#">${lesson.author.fullName}</a>
-	     			</p>           		
+	     			<div class="lesson-video">
+<!-- 	     				<video src="/resources/video/bunny.webm" id="my_video" controls="controls" poster="" height="auto" width="100%"><source src="/resources/video/bunny.webm" type='video/webm; codecs="vp8, vorbis"'></video>
+ -->	     				<video src="/resources/video/epi.mp4" id="lesson_video" controls="controls" poster="" height="auto" width="100%"><source src="/resources/video/epi.mp4" type='video/mp4; codecs="h264"'></video>
+	     			</div>          		
     				<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>	             	
 	          	
 	          		<c:forEach items="${tags}" var="tag">		
@@ -32,7 +38,7 @@
 
         	<div class="col-sm-4 col-sm-offset-1">
           		<c:if test="${not empty sourceLinks}">
-	          		<div>
+	          		<div class="sidebar">
 	               		<h4>Sources</h4>
 	            		<ol class="list-unstyled">
 	            			<c:forEach items="${sourceLinks}" var="link">		
@@ -42,7 +48,7 @@
 	          		</div>
 	          	</c:if>
           		<c:if test="${not empty moreInfoLinks}">
-	          		<div>
+	          		<div class="sidebar">
 	               		<h4>More info</h4>
 	            		<ol class="list-unstyled">
 	            			<c:forEach items="${moreInfoLinks}" var="link">		
@@ -52,7 +58,7 @@
 	          		</div>
 	          	</c:if>
 	          	<c:if test="${not empty linkedLessons}">
-		          	<div> 	
+		          	<div class="sidebar"> 	
 						<h4>Recomendado por el autor</h4>
 						<ol class="list-unstyled">
 	            			<c:forEach items="${linkedLessons}" var="linkedlesson">		

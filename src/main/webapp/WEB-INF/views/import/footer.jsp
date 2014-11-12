@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<div class="footer well">
+<div class="footer">
       <div class="container-fluid">
         <p class="text-muted">Place footer content here.</p>
       </div>

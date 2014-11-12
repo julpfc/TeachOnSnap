@@ -15,12 +15,22 @@ public class User {
 	private String lastName;
 	
 	private boolean author;
+	
+	private String URIName;
 		
+	public String getURIName() {
+		return URIName;
+	}
+
+	public void setURIName(String uRIName) {
+		URIName = uRIName;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", author=" + author
-				+ "]";
+				+ ", URIName=" + URIName + "]";
 	}
 
 	public boolean isAuthor() {
@@ -65,6 +75,12 @@ public class User {
 	
 	public String getFullName() {
 		return firstName+" "+lastName;
+	}
+	
+	public String getURL() {
+		if(URIName!=null)
+			return "/author/"+URIName;
+		else return "#";		
 	}
 	
 }

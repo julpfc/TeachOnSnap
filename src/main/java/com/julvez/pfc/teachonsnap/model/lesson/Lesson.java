@@ -22,7 +22,7 @@ public class Lesson {
 	private Date date;
 	private String text;
 	private String URIname;
-	
+
 	@Transient
 	private User author;
 	@Transient

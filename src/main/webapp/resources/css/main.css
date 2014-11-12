@@ -4,26 +4,79 @@
     width: 970px;
   }
 }
+ 
+html, body {
+background-color: #eee;
+}
 
 /* Quitar el azul de los enlaces */
 .lesson-meta a, .label a, h2 a {   
     color: inherit;
 }
 
+.sidebar a{
+	color: #563D7C;
+}
+	
+
+/* Reducir margen superior cabeceras*/
+h1, h2{
+	margin-top: 0px;
+}
+
+/* The white background content wrapper */
+.content {
+	background-color: #fff;
+	padding: 20px;	
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+/* Navbar*/
+
+.navbar{
+	margin-bottom: 0px;
+}
+
+
 /* Footer */
 .footer {
+  padding-top: 10px;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #f5f5f5;
+  
 } 
+
+/* Pager */
+
+.pager li > a{
+	background-color: #563D7C;
+	color: white;
+}
+
+.pager li > a:hover, .pager li > a:focus{
+	background-color: #CDBFE3;	
+	color: #563D7C;
+}
 
 /*Lesson*/
 .lesson-title {
   margin-bottom: 0px;  
+  font-size: 25px;
 }
 .lesson-meta {
   margin-bottom: 20px;
   color: #999;
 }
+
+
+
+/*Lesson video*/
+/*.lesson-video*/
+
