@@ -29,11 +29,11 @@
       <ul class="nav navbar-nav navbar-right">
       	<li class="dropdown">
         	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        		<img alt="${browserLang.language}" src="/resources/img/ico/flag_${browserLang.language}.jpg"/> <span class="caret"></span>
+        		<img alt="${userLang.language}" src="/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
        		</a>
             <ul class="dropdown-menu" role="menu">            	
-            	<li><a href="#"><img alt="EN" src="/resources/img/ico/flag_uk.jpg"/> English UK</a></li>
-            	<li><a href="#"><img alt="ES" src="/resources/img/ico/flag_es.jpg"/> Español ES</a></li>
+            	<li><a href="?changeLang=en"><img alt="EN" src="/resources/img/ico/flag_en.jpg"/> English EN</a></li>
+            	<li><a href="?changeLang=es"><img alt="ES" src="/resources/img/ico/flag_es.jpg"/> Español ES</a></li>
 			</ul>
         </li>
         <li><a href="#">Iniciar sesión <span class="glyphicon glyphicon-log-in"></span></a></li>        

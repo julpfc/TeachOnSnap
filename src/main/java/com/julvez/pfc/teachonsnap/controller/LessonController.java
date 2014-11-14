@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
+import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
+import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
@@ -27,6 +30,8 @@ public class LessonController extends HttpServlet {
 	private LessonService lessonService = LessonServiceFactory.getService();
 
 	private LangService langService = LangServiceFactory.getService();
+
+	private RequestManager requestManager = RequestManagerFactory.getManager();
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,9 +52,16 @@ public class LessonController extends HttpServlet {
 		List<Link> moreInfoLinks = lessonService.getMoreInfoLinks(lesson.getId());
 		List<Link> sourceLinks = lessonService.getSourceLinks(lesson.getId());		
 		
-		String acceptLang = request.getHeader("accept-language");
-		Language browserLang = langService .getLanguageFromAccept(acceptLang);
-		request.setAttribute("browserLang", browserLang);
+		String acceptLang = requestManager .getAcceptLanguage(request);
+		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
+		String paramLang = requestManager.getParamChangeLanguage(request);
+		User sessionUser = requestManager.getSessionUser(request);
+		
+		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,sessionUser);
+		// TODO Actualizar usuario BBDD/Cache/Session
+		requestManager.setUserSessionLanguage(request,userLang);
+
+		request.setAttribute("userLang", userLang);
 		
 		request.setAttribute("lesson", lesson);
 		request.setAttribute("tags", tags);

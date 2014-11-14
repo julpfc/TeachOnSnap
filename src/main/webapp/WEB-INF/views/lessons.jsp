@@ -18,7 +18,7 @@
 					<div>
 	            		<h2 class="lesson-title"><a href="${lesson.URL}">${lesson.title}</a></h2>
 	            		<p class="lesson-meta">
-	            			<c:if test="${browserLang.id != lesson.language.id}">
+	            			<c:if test="${userLang.id != lesson.language.id}">
 	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
 	            			</c:if>	            			 
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>

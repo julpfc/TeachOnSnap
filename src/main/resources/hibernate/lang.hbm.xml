@@ -12,4 +12,8 @@
 	    FROM tlanguage
 	    WHERE language=?
 	</sql-query>
+	<sql-query name="SQL_LANG_GET_DEFAULT_IDLANGUAGE">
+	    SELECT idLanguage
+	 	FROM tlanguagedefault
+	</sql-query>	
 </hibernate-mapping>

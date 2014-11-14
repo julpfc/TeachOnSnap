@@ -8,19 +8,19 @@ import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
-import com.julvez.pfc.teachonsnap.repository.lang.LangRepository;
-import com.julvez.pfc.teachonsnap.repository.lang.LangRepositoryFactory;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepositoryFactory;
-import com.julvez.pfc.teachonsnap.repository.user.UserRepository;
-import com.julvez.pfc.teachonsnap.repository.user.UserRepositoryFactory;
+import com.julvez.pfc.teachonsnap.service.lang.LangService;
+import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.service.user.UserService;
+import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 
 public class LessonServiceImpl implements LessonService{
 
-	private LessonRepository lessonRepository = LessonRepositoryFactory.getRepository();
-	private UserRepository userRepository = UserRepositoryFactory.getRepository();
-	private LangRepository langRepository = LangRepositoryFactory.getRepository();
+	private LessonRepository lessonRepository = LessonRepositoryFactory.getRepository();	
+	private UserService userService = UserServiceFactory.getService();
+	private LangService langService = LangServiceFactory.getService();
 	
 	
 	@Override
@@ -141,8 +141,8 @@ public class LessonServiceImpl implements LessonService{
 	@Override
 	public Lesson getLesson(int idLesson) {
 		Lesson lesson = lessonRepository.getLesson(idLesson);
-		lesson.setAuthor(userRepository.getUser(lesson.getIdUser()));
-		lesson.setLanguage(langRepository.getLanguage(lesson.getIdLanguage()));
+		lesson.setAuthor(userService .getUser(lesson.getIdUser()));
+		lesson.setLanguage(langService.getLanguage(lesson.getIdLanguage()));
 		return lesson;
 	}
 
