@@ -4,9 +4,12 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.model.lesson.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
+import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepositoryFactory;
@@ -157,6 +160,29 @@ public class LessonServiceImpl implements LessonService{
 		}
 		
 		return lessons;
+	}
+
+	@Override
+	public LessonTest getLessonTest(int idLessonTest) {
+		LessonTest test = lessonRepository.getLessonTest(idLessonTest);
+		
+		List<Integer> questionIDs = lessonRepository.getLessonTestQuestionIDs(idLessonTest);
+		List<Question> questions = new ArrayList<Question>();
+				
+		for(int questionID:questionIDs){
+			Question question = lessonRepository.getQuestion(questionID);
+			List<Integer> answerIDs = lessonRepository.getQuestionAnswerIDs(questionID);
+			List<Answer> answers = new ArrayList<Answer>();
+			for(int answerID:answerIDs){
+				Answer answer = lessonRepository.getAnswer(answerID);
+				answers.add(answer);
+			}
+			question.setAnswers(answers);
+			questions.add(question);			
+		}
+		test.setQuestions(questions);
+		
+		return test;
 	}
 
 }

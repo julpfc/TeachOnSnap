@@ -1,0 +1,9 @@
+.list-group-item input {
+    display: none;
+  
+}
+
+
+.list-group-item.active {
+    background-color: #CDBFE3;
+}

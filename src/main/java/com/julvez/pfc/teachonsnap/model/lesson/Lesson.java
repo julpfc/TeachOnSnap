@@ -22,6 +22,7 @@ public class Lesson {
 	private Date date;
 	private String text;
 	private String URIname;
+	private int idLessonTest;
 
 	@Transient
 	private User author;
@@ -33,7 +34,9 @@ public class Lesson {
 	public String toString() {
 		return "Lesson [id=" + id + ", title=" + title + ", idUser=" + idUser
 				+ ", idLanguage=" + idLanguage + ", date=" + date + ", text="
-				+ text + ", URIname=" + URIname + "]";
+				+ text + ", URIname=" + URIname + ", idLessonTest="
+				+ idLessonTest + ", author=" + author + ", language="
+				+ language + "]";
 	}
 
 	public String getText() {
@@ -86,6 +89,10 @@ public class Lesson {
 	public String getURL() {
 		return "/lesson/"+URIname;
 	}
+	
+	public String getTestURL() {
+		return idLessonTest>0?("/test/"+URIname):"#";
+	}
 
 	public User getAuthor() {
 		return author;
@@ -101,6 +108,14 @@ public class Lesson {
 
 	public void setLanguage(Language language) {
 		this.language = language;
+	}
+
+	public int getIdLessonTest() {
+		return idLessonTest;
+	}
+
+	public void setIdLessonTest(int idLessonTest) {
+		this.idLessonTest = idLessonTest;
 	}
 	
 	

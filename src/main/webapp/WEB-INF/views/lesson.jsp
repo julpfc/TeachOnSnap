@@ -32,11 +32,17 @@
 	          	
 	          		<c:forEach items="${tags}" var="tag">		
 						<span class="label label-default"><a href="${tag.URL}">${tag.tag}</a></span>									
-					</c:forEach>		
+					</c:forEach>
 				</div>
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
+        		<c:if test="${lesson.idLessonTest>0}">
+						<div class="sidebar">
+							<h4>Test de autoevaluación</h4>
+							 <a href="${lesson.testURL}"><button class="btn btn-success" type="button">Comenzar test</button></a>
+						</div>
+				</c:if>
           		<c:if test="${not empty sourceLinks}">
 	          		<div class="sidebar">
 	               		<h4>Sources</h4>

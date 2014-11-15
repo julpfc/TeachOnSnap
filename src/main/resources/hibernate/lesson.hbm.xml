@@ -3,9 +3,10 @@
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
 	<sql-query name="SQL_LESSON_GET_LESSON">
-		SELECT idLesson, idUser, idLanguage, title, date,text,URIname
+		SELECT idLesson, idUser, idLanguage, title, date,text,URIname,IFNULL(idLessonTest,-1) as idLessonTest
 	    FROM tlesson
-	    LEFT JOIN tlessontxt USING(idLesson)	    
+	    LEFT JOIN tlessontxt USING(idLesson)
+	    LEFT JOIN tlessontest using (idLesson)	    
 	    WHERE idLesson = ?
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_TAG">
@@ -75,4 +76,30 @@
 	    ORDER BY idLesson DESC	    
 	    LIMIT 10
 	</sql-query>
+	<sql-query name="SQL_LESSON_GET_TEST">
+		SELECT idLessonTest,idlesson,numQuestions,numAnswers,multiplechoice
+	    FROM tlessontest    
+	    WHERE idLessonTest = ?
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_QUESTION">
+		SELECT idQuestion,idLessonTest,text,priority
+	    FROM tquestion    
+	    WHERE idQuestion = ?
+	</sql-query>	
+	<sql-query name="SQL_LESSON_GET_QUESTIONIDS_FROM_IDLESSONTEST">
+	    SELECT idQuestion
+	    FROM tquestion
+	    WHERE idLessonTest = ?
+	    ORDER BY priority
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_ANSWERIDS_FROM_IDQUESTION">
+	    SELECT idAnswer
+	    FROM tanswer
+	    WHERE idQuestion = ?	    
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_ANSWER">
+	    SELECT idAnswer,idQuestion,text,correct,reason
+	    FROM tanswer
+	    WHERE idAnswer = ?	    
+	</sql-query>		
 </hibernate-mapping>

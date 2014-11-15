@@ -2,8 +2,11 @@ package com.julvez.pfc.teachonsnap.repository.lesson;
 
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.model.lesson.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
+import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
 
 public interface LessonRepository {
@@ -31,5 +34,15 @@ public interface LessonRepository {
 	public List<Object[]> getCloudTags();
 
 	public List<Integer> getLessonIDsFromAuthor(String author);
+
+	public LessonTest getLessonTest(int idLessonTest);
+
+	public List<Integer> getLessonTestQuestionIDs(int idLessonTest);
+
+	public Question getQuestion(int idQuestion);
+
+	public List<Integer> getQuestionAnswerIDs(int idQuestion);
+
+	public Answer getAnswer(int idAnswer);
 	
 }

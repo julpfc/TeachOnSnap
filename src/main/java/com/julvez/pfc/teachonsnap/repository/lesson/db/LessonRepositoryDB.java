@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
+import com.julvez.pfc.teachonsnap.model.lesson.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
+import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 
@@ -97,6 +100,37 @@ public class LessonRepositoryDB implements LessonRepository {
 		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR", null, author);
 						
 		return ids; 
+	}
+
+	@Override
+	public LessonTest getLessonTest(int idLessonTest) {
+		return (LessonTest) dbm.getQueryResultUnique("SQL_LESSON_GET_TEST", LessonTest.class, idLessonTest);
+	}
+
+	@Override
+	public List<Integer> getLessonTestQuestionIDs(int idLessonTest) {
+		@SuppressWarnings("unchecked")
+		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_QUESTIONIDS_FROM_IDLESSONTEST", null, idLessonTest);
+						
+		return ids; 
+	}
+
+	@Override
+	public Question getQuestion(int idQuestion) {
+		return (Question) dbm.getQueryResultUnique("SQL_LESSON_GET_QUESTION", Question.class, idQuestion);
+	}
+
+	@Override
+	public List<Integer> getQuestionAnswerIDs(int idQuestion) {
+		@SuppressWarnings("unchecked")
+		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_ANSWERIDS_FROM_IDQUESTION", null, idQuestion);
+		
+		return ids;
+	}
+
+	@Override
+	public Answer getAnswer(int idAnswer) {
+		return (Answer) dbm.getQueryResultUnique("SQL_LESSON_GET_ANSWER", Answer.class, idAnswer);
 	}
 
 }

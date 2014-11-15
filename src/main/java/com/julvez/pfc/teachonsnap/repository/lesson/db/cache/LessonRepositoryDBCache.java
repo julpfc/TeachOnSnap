@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
+import com.julvez.pfc.teachonsnap.model.lesson.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
+import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 import com.julvez.pfc.teachonsnap.repository.lesson.db.LessonRepositoryDB;
@@ -82,6 +85,33 @@ public class LessonRepositoryDBCache implements LessonRepository {
 	@Override
 	public List<Integer> getLessonIDsFromAuthor(String author) {
 		return (List<Integer>)cache.executeImplCached(repoDB, author);
+	}
+
+	@Override
+	public LessonTest getLessonTest(int idLessonTest) {
+		return (LessonTest)cache.executeImplCached(repoDB, idLessonTest);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Integer> getLessonTestQuestionIDs(int idLessonTest) {
+		return (List<Integer>)cache.executeImplCached(repoDB, idLessonTest);
+	}
+
+	@Override
+	public Question getQuestion(int idQuestion) {
+		return (Question)cache.executeImplCached(repoDB, idQuestion);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Integer> getQuestionAnswerIDs(int idQuestion) {
+		return (List<Integer>)cache.executeImplCached(repoDB, idQuestion);
+	}
+
+	@Override
+	public Answer getAnswer(int idAnswer) {
+		return (Answer)cache.executeImplCached(repoDB, idAnswer);
 	}
 
 	

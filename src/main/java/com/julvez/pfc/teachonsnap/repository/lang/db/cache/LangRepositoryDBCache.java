@@ -22,7 +22,7 @@ public class LangRepositoryDBCache implements LangRepository {
 
 	@Override
 	public short getDefaultIdLanguage() {
-		return (short)cache.executeImplCached(repoDB, (Object[])null);
+		return (short)cache.executeImplCached(repoDB, new Object[0]);
 	}
 	 			
 

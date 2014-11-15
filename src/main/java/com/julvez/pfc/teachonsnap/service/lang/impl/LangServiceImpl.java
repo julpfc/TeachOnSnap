@@ -39,7 +39,7 @@ public class LangServiceImpl implements LangService {
 			userSessionLanguage = langRepo.getLanguage(sessionIdLang);
 		}
 		
-		if(userSessionLanguage==null){
+		if(userSessionLanguage==null && acceptLang!=null){
 			userSessionLanguage = getLanguage(acceptLang);
 		}
 		

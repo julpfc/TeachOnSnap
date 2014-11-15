@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
 
@@ -25,6 +26,8 @@ public interface LessonService {
 	public List<CloudTag> getCloudTags();
 
 	public List<Lesson> getLessonsFromAuthor(String author);
+
+	public LessonTest getLessonTest(int idLessonTest);
 	
 	
 }

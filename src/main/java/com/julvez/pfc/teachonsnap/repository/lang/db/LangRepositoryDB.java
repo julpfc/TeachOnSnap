@@ -24,7 +24,7 @@ public class LangRepositoryDB implements LangRepository {
 	@Override
 	public short getDefaultIdLanguage() {
 		return Short.parseShort(dbm
-				.getQueryResultUnique("SQL_LANG_GET_DEFAULT_IDLANGUAGE", null,(Object[])null).toString());
+				.getQueryResultUnique("SQL_LANG_GET_DEFAULT_IDLANGUAGE", null, new Object[0]).toString());
 	}
 
 }
