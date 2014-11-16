@@ -22,9 +22,11 @@ public class UserQuestion {
 			userAnswers = new ArrayList<UserAnswer>();
 			for(Answer answer:question.getAnswers()){
 				boolean checked = false;
-				for(String marked:answers){
-					if(Integer.parseInt(marked) == answer.getId())
-						checked=true;
+				if(answers!=null){
+					for(String marked:answers){
+						if(Integer.parseInt(marked) == answer.getId())
+							checked=true;
+					}
 				}
 				userAnswers.add(new UserAnswer(answer, checked));
 			}

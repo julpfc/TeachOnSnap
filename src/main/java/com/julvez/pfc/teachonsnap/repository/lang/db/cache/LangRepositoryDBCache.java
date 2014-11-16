@@ -17,7 +17,11 @@ public class LangRepositoryDBCache implements LangRepository {
 
 	@Override
 	public short getIdLanguage(String language) {
-		return (short)cache.executeImplCached(repoDB, language);
+		short idLanguage = -1;
+		Short obj = (Short)cache.executeImplCached(repoDB, language);
+		if(obj!=null)
+			idLanguage = obj.shortValue();
+		return idLanguage;
 	}
 
 	@Override

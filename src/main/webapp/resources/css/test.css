@@ -3,7 +3,10 @@
   
 }
 
-
 .list-group-item.active {
     background-color: #CDBFE3;
+}
+
+.sidebar h2 {
+	text-align: right;
 }

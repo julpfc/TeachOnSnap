@@ -33,17 +33,25 @@
 	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
 	            			</c:if>	            			 
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
-	            			 by <a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>            		
+	            			 by <a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>
+	            		<p class="lesson-addons">
+	            			<%//TODO Controlar si tiene video %>
+							<span class="glyphicon glyphicon-facetime-video"></span> video
+							<c:if test="${lesson.idLessonTest>0}">
+								<span class="glyphicon glyphicon-edit"></span> test
+							</c:if>
+						</p>            		
 						<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
-			            <a href="${lesson.URL}"><button class="btn btn-default col-sm-offset-8" type="button"><span class="glyphicon glyphicon-play"></span> Let's see</button></a>
+													            
+			            <nav class="col-sm-offset-8"><ul class="pager"><li>
+							<a href="${lesson.URL}"><span class="glyphicon glyphicon-book"></span> Learn more</a></li></ul>
+						</nav>
 		          	</div>
 		          	<hr/>	          	
 				</c:forEach>			
 	   
-				<nav>
-					<ul class="pager">
-						<li><a href="#">Older</a></li>						
-					</ul>
+				<nav><ul class="pager"><li>
+					<a href="#"><span class="glyphicon glyphicon-chevron-right"></span> Older</a></li></ul>
 				</nav>
 	        </div><!-- col -->
 
@@ -53,7 +61,7 @@
             		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
           		</div>
           		<div class="tags">
-            		<h4>Tag cloud</h4>
+            		<h4><span class="glyphicon glyphicon-tags"></span> Tag cloud</h4>
             		<ul class="tags">
             		<c:forEach items="${cloudTags}" var="cloudTag">
             			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.tag.URL}">${cloudTag.tag.tag}</a></li>

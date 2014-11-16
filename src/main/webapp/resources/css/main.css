@@ -56,13 +56,13 @@ h1, h2{
 /* Pager */
 
 .pager li > a{
-	background-color: #563D7C;
-	color: white;
+	background-color: #CDBFE3;	
+	color: #563D7C;
 }
 
 .pager li > a:hover, .pager li > a:focus{
-	background-color: #CDBFE3;	
-	color: #563D7C;
+	background-color: #563D7C;
+	color: white;
 }
 
 /*Lesson*/
@@ -71,7 +71,7 @@ h1, h2{
   font-size: 25px;
 }
 .lesson-meta {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   color: #999;
 }
 

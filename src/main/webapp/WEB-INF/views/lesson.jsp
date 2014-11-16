@@ -6,6 +6,7 @@
 <html>
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
+<link rel="stylesheet" href="<c:url value="/resources/css/lesson.css"/>"/>
 <title>TeachOnSnap - ${lesson.title}</title>
 </head>
 <body>
@@ -30,17 +31,24 @@
 	     			</div>          		
     				<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>	             	
 	          	
+	          	
+	          		<span class="label label-default"><span class="glyphicon glyphicon-tags"></span></span>
 	          		<c:forEach items="${tags}" var="tag">		
 						<span class="label label-default"><a href="${tag.URL}">${tag.tag}</a></span>									
 					</c:forEach>
 				</div>
+				<nav>
+					<ul class="pager">
+						<li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>						
+					</ul>
+				</nav>	
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
         		<c:if test="${lesson.idLessonTest>0}">
 						<div class="sidebar">
 							<h4>Test de autoevaluación</h4>
-							 <a href="${lesson.testURL}"><button class="btn btn-success" type="button">Comenzar test</button></a>
+							 <a href="${lesson.testURL}"><button class="btn btn-success" type="button"><span class="glyphicon glyphicon-edit"></span> Comenzar test</button></a>
 						</div>
 				</c:if>
           		<c:if test="${not empty sourceLinks}">
