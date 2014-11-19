@@ -24,6 +24,8 @@ public interface RequestManager {
 	User getSessionUser(HttpServletRequest request);
 
 	void setUserSessionLanguage(HttpServletRequest request, Language userLang);
+	
+	String[] getControllerParams(HttpServletRequest request);
 
 	
 }

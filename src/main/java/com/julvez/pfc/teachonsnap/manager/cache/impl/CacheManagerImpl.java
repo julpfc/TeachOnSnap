@@ -22,6 +22,8 @@ public class CacheManagerImpl implements CacheManager {
 		
 		Map<String, Object> cache = getCache(methodName);
 		
+		//TODO Revisar si sacamos el get la primera vez fuera y si es null ya sincronizamos
+		
 		synchronized (cache) {
 			result = cache.get(getKey(params));	
 			System.out.println("Cache: "+methodName+getKey(params)+"="+result);

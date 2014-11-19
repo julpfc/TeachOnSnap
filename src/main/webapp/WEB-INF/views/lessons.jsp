@@ -25,8 +25,9 @@
 	            			 by <a href="${lesson.author.URL}">${lesson.author.fullName}</a>
             			</p>
 	            		<p class="lesson-addons">
-	            			<%//TODO Controlar si tiene video %>
-							<span class="glyphicon glyphicon-facetime-video"></span> video
+	            			<c:if test="${lesson.idLessonVideo>0}">
+								<span class="glyphicon glyphicon-facetime-video"></span> video
+							</c:if>
 							<c:if test="${lesson.idLessonTest>0}">
 								<span class="glyphicon glyphicon-edit"></span> test
 							</c:if>
@@ -37,22 +38,47 @@
 						</nav>
 		          	</div>
 		          	<hr/>	          	
-				</c:forEach>			
+				</c:forEach>
+				<c:if test="${empty lessons}">
+					<h2>No existen resultados.</h2>
+				</c:if>			
 	   
 				<nav>
 					<ul class="pager">
-						<li><a href="#">Older</a></li>
-						<li><a href="#">Newer</a></li>
+						<c:if test="${not empty nextPage}">
+							<li><a href="${nextPage}"><span class="glyphicon glyphicon-chevron-left"></span> Older</a></li>
+						</c:if>
+						<li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+						<c:if test="${not empty prevPage && not empty lessons}">
+							<li><a href="${prevPage}"><span class="glyphicon glyphicon-chevron-right"></span> Newer</a></li>
+						</c:if>
 					</ul>
 				</nav>
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
-          		<div>
-            		<h4>Búsqueda por ${searchType}:</h4>
-            		<span class="label label-info">${searchKeyword}</span>
-            		<h5>${searchResults} resultado(s)</h5>
-          		</div>          		          		
+          		<c:if test="${not empty searchType}">
+	          		<div class="sidebar">
+	            		<h4>Búsqueda por ${searchType}:</h4>
+	            		<span class="label label-info">${searchKeyword}</span>	            		
+	          		</div>        
+          		</c:if> 
+          		<div class="sidebar tags">
+            		<h4><span class="glyphicon glyphicon-tags"></span> Tag cloud</h4>
+            		<ul class="tags">
+            		<c:forEach items="${cloudTags}" var="cloudTag">
+            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+		            </c:forEach>
+		            </ul>
+          		</div>  
+          		<div class="sidebar tags">
+            		<h4><span class="glyphicon glyphicon-tags"></span> Author cloud</h4>
+            		<ul class="tags">
+            		<c:forEach items="${authorCloudTags}" var="cloudTag">
+            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+		            </c:forEach>
+		            </ul>
+          		</div>         	 		          		
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

@@ -50,7 +50,7 @@ public class HomeController extends HttpServlet {
 		// TODO TOP de lessons (más vistas, activas)
 		// TODO Páginador
 		
-		List<Lesson> lastLessons = lessonService.getLastLessons();
+		List<Lesson> lastLessons = lessonService.getLastLessons(0);
 		List<CloudTag> cloudTags = lessonService.getCloudTags();
 		
 		String acceptLang = requestManager.getAcceptLanguage(request);
@@ -64,6 +64,9 @@ public class HomeController extends HttpServlet {
 		requestManager.setUserSessionLanguage(request,userLang);
 		
 		request.setAttribute("userLang", userLang);
+		
+		List<CloudTag> authorCloudTags = lessonService.getAuthorCloudTags();
+		request.setAttribute("authorCloudTags", authorCloudTags);
 		
 		request.setAttribute("lastLessons", lastLessons);
 		request.setAttribute("cloudTags", cloudTags);

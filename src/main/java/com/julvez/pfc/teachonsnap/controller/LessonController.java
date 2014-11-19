@@ -14,6 +14,7 @@ import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
+import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
@@ -50,7 +51,8 @@ public class LessonController extends HttpServlet {
 		List<Tag> tags = lessonService.getLessonTags(lesson.getId());
 		List<Lesson> linkedLessons = lessonService.getLinkedLessons(lesson.getId());
 		List<Link> moreInfoLinks = lessonService.getMoreInfoLinks(lesson.getId());
-		List<Link> sourceLinks = lessonService.getSourceLinks(lesson.getId());		
+		List<Link> sourceLinks = lessonService.getSourceLinks(lesson.getId());
+		List<VideoFile> videos = lessonService.getLessonVideos(lesson.getIdLessonVideo());
 		
 		String acceptLang = requestManager .getAcceptLanguage(request);
 		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
@@ -64,6 +66,7 @@ public class LessonController extends HttpServlet {
 		request.setAttribute("userLang", userLang);
 		
 		request.setAttribute("lesson", lesson);
+		request.setAttribute("videos", videos);
 		request.setAttribute("tags", tags);
 		request.setAttribute("linkedLessons", linkedLessons);
 		request.setAttribute("moreInfoLinks", moreInfoLinks);

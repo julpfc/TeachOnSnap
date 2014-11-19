@@ -23,6 +23,7 @@
     	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Link"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Question"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Tag"/>
+    	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.VideoFile"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.user.User"/>
         
         <mapping resource="/hibernate/lang.hbm.xml"/>

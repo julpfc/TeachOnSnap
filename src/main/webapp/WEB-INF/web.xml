@@ -67,4 +67,15 @@
   	<servlet-name>LessonTestController</servlet-name>
   	<url-pattern>/test/*</url-pattern>
   </servlet-mapping>
+   <servlet>
+  	<description>
+  	</description>
+  	<display-name>LastController</display-name>
+  	<servlet-name>LastController</servlet-name>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.LastController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LastController</servlet-name>
+  	<url-pattern>/last/*</url-pattern>
+  </servlet-mapping>
 </web-app>

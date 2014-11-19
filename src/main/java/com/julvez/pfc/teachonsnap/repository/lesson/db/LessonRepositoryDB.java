@@ -10,6 +10,7 @@ import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
+import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 
 
@@ -24,10 +25,10 @@ public class LessonRepositoryDB implements LessonRepository {
 	}
 	
 	@Override
-	public List<Integer> getLessonIDsFromTag(String tag) {
+	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
 		
 		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_TAG", null, tag);
+		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_TAG", null, tag,firstResult);
 						
 		return ids; 
 	}
@@ -80,9 +81,9 @@ public class LessonRepositoryDB implements LessonRepository {
 	}
 
 	@Override
-	public List<Integer> getLastLessonIDs() {
+	public List<Integer> getLastLessonIDs(int firstResult) {
 		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LASTLESSONIDS", null, new Object[0]);
+		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LASTLESSONIDS", null, firstResult);
 						
 		return ids;
 	}
@@ -90,14 +91,14 @@ public class LessonRepositoryDB implements LessonRepository {
 	@Override
 	public List<Object[]> getCloudTags() {
 		@SuppressWarnings("unchecked")
-		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_LESSON_GET_IDTAGWEIGHTS", null, new Object[0]);
+		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_LESSON_GET_CLOUDTAG_TAG", null, new Object[0]);
 		return ids;
 	}
 
 	@Override
-	public List<Integer> getLessonIDsFromAuthor(String author) {
+	public List<Integer> getLessonIDsFromAuthor(String author,int firstResult) {
 		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR", null, author);
+		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR", null, author,firstResult);
 						
 		return ids; 
 	}
@@ -131,6 +132,19 @@ public class LessonRepositoryDB implements LessonRepository {
 	@Override
 	public Answer getAnswer(int idAnswer) {
 		return (Answer) dbm.getQueryResultUnique("SQL_LESSON_GET_ANSWER", Answer.class, idAnswer);
+	}
+
+	@Override
+	public List<Object[]> getAuthorCloudTags() {
+		@SuppressWarnings("unchecked")
+		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_LESSON_GET_CLOUDTAG_AUTHOR", null, new Object[0]);
+		return ids;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<VideoFile> getLessonVideos(int idLessonVideo) {
+		return (List<VideoFile>)dbm.getQueryResultList("SQL_LESSON_GET_LESSONVIDEOS", VideoFile.class, idLessonVideo);
 	}
 
 }

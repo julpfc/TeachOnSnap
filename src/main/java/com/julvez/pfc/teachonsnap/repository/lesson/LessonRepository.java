@@ -8,12 +8,13 @@ import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
+import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 
 public interface LessonRepository {
 
 	public Lesson getLesson(int idLesson);
 	
-	public List<Integer> getLessonIDsFromTag(String tag);
+	public List<Integer> getLessonIDsFromTag(String tag, int firstResult);
 
 	public int getLessonIDFromURI(String lessonURI);
 
@@ -29,11 +30,11 @@ public interface LessonRepository {
 
 	public Link getLink(int idLink);
 
-	public List<Integer> getLastLessonIDs();
+	public List<Integer> getLastLessonIDs(int firstResult);
 
 	public List<Object[]> getCloudTags();
 
-	public List<Integer> getLessonIDsFromAuthor(String author);
+	public List<Integer> getLessonIDsFromAuthor(String author, int firstResult);
 
 	public LessonTest getLessonTest(int idLessonTest);
 
@@ -44,5 +45,9 @@ public interface LessonRepository {
 	public List<Integer> getQuestionAnswerIDs(int idQuestion);
 
 	public Answer getAnswer(int idAnswer);
+
+	public List<Object[]> getAuthorCloudTags();
+
+	public List<VideoFile> getLessonVideos(int idLessonVideo);
 	
 }

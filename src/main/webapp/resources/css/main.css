@@ -17,7 +17,13 @@ background-color: #eee;
 .sidebar a{
 	color: #563D7C;
 }
-	
+.sidebar .label-info{
+	background-color: #563D7C;
+}
+
+.sidebar{
+	padding-bottom: 40px;
+}
 
 /* Reducir margen superior cabeceras*/
 h1, h2{
@@ -39,9 +45,8 @@ h1, h2{
 /* Navbar*/
 
 .navbar{
-	margin-bottom: 0px;
+	margin-bottom: 0px;	
 }
-
 
 /* Footer */
 .footer {
@@ -70,13 +75,40 @@ h1, h2{
   margin-bottom: 0px;  
   font-size: 25px;
 }
+
+.lesson-title a:hover{
+	color: #563D7C;
+}
+
 .lesson-meta {
   margin-bottom: 0px;
   color: #999;
 }
 
-
+.lesson-addons{
+	color: #563D7C;
+}
 
 /*Lesson video*/
 /*.lesson-video*/
 
+/* Tag cloud */
+.tags ul{			
+	padding-left: 0px;			
+}
+.tags li{
+	margin:0;
+	padding:0;
+	list-style:none;
+	display:inline;	
+}	
+
+.tags a{
+	color: #563D7C;
+}
+.tag1{font-size:100%;}
+.tag2{font-size:120%;}
+.tag3{font-size:140%;}
+.tag4{font-size:160%;}
+.tag5{font-size:180%;}
+.tag6{font-size:200%;}

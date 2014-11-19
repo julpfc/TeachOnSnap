@@ -7,10 +7,11 @@ import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
+import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 
 public interface LessonService {
 	
-	public List<Lesson> getLessonsFromTag(String tag);
+	public List<Lesson> getLessonsFromTag(String tag, int firstResult);
 
 	public Lesson getLessonFromURI(String lessonURI);
 
@@ -21,13 +22,17 @@ public interface LessonService {
 
 	public Lesson getLesson(int idLesson);
 
-	public List<Lesson> getLastLessons();
+	public List<Lesson> getLastLessons(int firstResult);
 
 	public List<CloudTag> getCloudTags();
 
-	public List<Lesson> getLessonsFromAuthor(String author);
+	public List<Lesson> getLessonsFromAuthor(String author, int firstResult);
 
 	public LessonTest getLessonTest(int idLessonTest);
+
+	public List<CloudTag> getAuthorCloudTags();
+
+	public List<VideoFile> getLessonVideos(int idLessonVideo);
 	
 	
 }

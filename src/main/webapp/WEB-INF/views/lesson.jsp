@@ -20,18 +20,22 @@
      			</c:if>	            			 
       			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
       			 by <a href="${lesson.author.URL}">${lesson.author.fullName}</a>
-   			</p> 
+   			</p>
        	</div>
 		<div class="row">
 			<div class="col-sm-7">
-				<div>
-	     			<div class="lesson-video">
-<!-- 	     				<video src="/resources/video/bunny.webm" id="my_video" controls="controls" poster="" height="auto" width="100%"><source src="/resources/video/bunny.webm" type='video/webm; codecs="vp8, vorbis"'></video>
- -->	     				<video src="/resources/video/epi.mp4" id="lesson_video" controls="controls" poster="" height="auto" width="100%"><source src="/resources/video/epi.mp4" type='video/mp4; codecs="h264"'></video>
-	     			</div>          		
+				<div>												
+		     		<div class="lesson-video">		     		
+		     			<c:set var="firstVideo" value="${videos[0]}"/>
+		     			<video src="${firstVideo.URL}" id="lesson_video" controls="controls" poster="" height="auto" width="100%">
+			     			<c:forEach items="${videos}" var="video">		
+		       					<source src="${video.URL}" type='video/mp4'/>							    							
+							</c:forEach>
+						</video>   
+		     		</div>         		
+					
     				<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>	             	
-	          	
-	          	
+	          		          	
 	          		<span class="label label-default"><span class="glyphicon glyphicon-tags"></span></span>
 	          		<c:forEach items="${tags}" var="tag">		
 						<span class="label label-default"><a href="${tag.URL}">${tag.tag}</a></span>									
@@ -51,26 +55,6 @@
 							 <a href="${lesson.testURL}"><button class="btn btn-success" type="button"><span class="glyphicon glyphicon-edit"></span> Comenzar test</button></a>
 						</div>
 				</c:if>
-          		<c:if test="${not empty sourceLinks}">
-	          		<div class="sidebar">
-	               		<h4>Sources</h4>
-	            		<ol class="list-unstyled">
-	            			<c:forEach items="${sourceLinks}" var="link">		
-								<li><a href="${link.URL}">${link.desc}</a></li>									
-							</c:forEach>              			
-	            		</ol>
-	          		</div>
-	          	</c:if>
-          		<c:if test="${not empty moreInfoLinks}">
-	          		<div class="sidebar">
-	               		<h4>More info</h4>
-	            		<ol class="list-unstyled">
-	            			<c:forEach items="${moreInfoLinks}" var="link">		
-								<li><a href="${link.URL}">${link.desc}</a></li>									
-							</c:forEach>              			
-	            		</ol>
-	          		</div>
-	          	</c:if>
 	          	<c:if test="${not empty linkedLessons}">
 		          	<div class="sidebar"> 	
 						<h4>Recomendado por el autor</h4>
@@ -81,6 +65,30 @@
 	            		</ol>
 					</div>
 				</c:if>
+          		<c:if test="${not empty moreInfoLinks}">
+	          		<div class="sidebar">
+	               		<h4>More info</h4>
+	            		<ol class="list-unstyled">
+	            			<c:forEach items="${moreInfoLinks}" var="link">		
+								<li><a href="${link.URL}">${link.desc}</a></li>									
+							</c:forEach>              			
+	            		</ol>
+	          		</div>
+	          	</c:if>
+          		<c:if test="${not empty sourceLinks}">
+	          		<div class="sidebar">
+	               		<h4>Sources</h4>
+	            		<ol class="list-unstyled">
+	            			<c:forEach items="${sourceLinks}" var="link">		
+								<li><a href="${link.URL}">${link.desc}</a></li>									
+							</c:forEach>              			
+	            		</ol>
+	          		</div>
+	          	</c:if>
+	          	<div class="sidebar">
+               		<h4>Del mismo autor</h4>
+            		<p><a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>
+          		</div>
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

@@ -23,6 +23,7 @@ public class Lesson {
 	private String text;
 	private String URIname;
 	private int idLessonTest;
+	private int idLessonVideo;
 
 	@Transient
 	private User author;
@@ -35,8 +36,8 @@ public class Lesson {
 		return "Lesson [id=" + id + ", title=" + title + ", idUser=" + idUser
 				+ ", idLanguage=" + idLanguage + ", date=" + date + ", text="
 				+ text + ", URIname=" + URIname + ", idLessonTest="
-				+ idLessonTest + ", author=" + author + ", language="
-				+ language + "]";
+				+ idLessonTest + ", idLessonVideo=" + idLessonVideo + ", author=" 
+				+ author + ", language="+ language + "]";
 	}
 
 	public String getText() {
@@ -116,6 +117,14 @@ public class Lesson {
 
 	public void setIdLessonTest(int idLessonTest) {
 		this.idLessonTest = idLessonTest;
+	}
+
+	public int getIdLessonVideo() {
+		return idLessonVideo;
+	}
+
+	public void setIdLessonVideo(int idLessonVideo) {
+		this.idLessonVideo = idLessonVideo;
 	}
 	
 	

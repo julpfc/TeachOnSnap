@@ -10,6 +10,7 @@ import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
+import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 import com.julvez.pfc.teachonsnap.repository.lesson.db.LessonRepositoryDB;
 
@@ -26,8 +27,8 @@ public class LessonRepositoryDBCache implements LessonRepository {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Integer> getLessonIDsFromTag(String tag) {
-		return (List<Integer>)cache.executeImplCached(repoDB, tag);
+	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
+		return (List<Integer>)cache.executeImplCached(repoDB, tag,firstResult);
 	}
 
 	@Override
@@ -71,8 +72,8 @@ public class LessonRepositoryDBCache implements LessonRepository {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Integer> getLastLessonIDs() {
-		return (List<Integer>)cache.executeImplCached(repoDB, new Object[0]);		
+	public List<Integer> getLastLessonIDs(int firstResult) {
+		return (List<Integer>)cache.executeImplCached(repoDB, firstResult);		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -83,8 +84,8 @@ public class LessonRepositoryDBCache implements LessonRepository {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Integer> getLessonIDsFromAuthor(String author) {
-		return (List<Integer>)cache.executeImplCached(repoDB, author);
+	public List<Integer> getLessonIDsFromAuthor(String author,int firstResult) {
+		return (List<Integer>)cache.executeImplCached(repoDB, author,firstResult);
 	}
 
 	@Override
@@ -112,6 +113,18 @@ public class LessonRepositoryDBCache implements LessonRepository {
 	@Override
 	public Answer getAnswer(int idAnswer) {
 		return (Answer)cache.executeImplCached(repoDB, idAnswer);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getAuthorCloudTags() {
+		return (List<Object[]>)cache.executeImplCached(repoDB, new Object[0]);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<VideoFile> getLessonVideos(int idLessonVideo) {
+		return (List<VideoFile>)cache.executeImplCached(repoDB, idLessonVideo);
 	}
 
 	

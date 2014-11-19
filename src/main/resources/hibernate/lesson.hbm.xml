@@ -3,10 +3,12 @@
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
 	<sql-query name="SQL_LESSON_GET_LESSON">
-		SELECT idLesson, idUser, idLanguage, title, date,text,URIname,IFNULL(idLessonTest,-1) as idLessonTest
+		SELECT idLesson, idUser, idLanguage, title, date,text,URIname,
+			IFNULL(idLessonTest,-1) as idLessonTest,IFNULL(idLessonVideo,-1) as idLessonVideo
 	    FROM tlesson
 	    LEFT JOIN tlessontxt USING(idLesson)
-	    LEFT JOIN tlessontest using (idLesson)	    
+	    LEFT JOIN tlessontest using (idLesson)
+	    LEFT JOIN tlessonvideo using (idLesson)		    
 	    WHERE idLesson = ?
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_TAG">
@@ -14,12 +16,16 @@
 	    FROM tlessontag
 	    JOIN ttag USING(idTag)
 	    WHERE tag = ?
+	    ORDER BY idLesson DESC
+	    LIMIT ?,2
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR">
 	    SELECT idLesson
 	    FROM tlesson
 	    JOIN tuserauthor USING(iduser)
 	    WHERE tuserauthor.URIName = ?
+	    ORDER BY idLesson DESC
+	    LIMIT ?,2
 	</sql-query>	
 	<sql-query name="SQL_LESSON_GET_LESSONID_FROM_URI">
 	    SELECT idLesson
@@ -59,9 +65,9 @@
 	    FROM ttag	    	    
 	    WHERE idTag = ?
 	</sql-query>
-	<sql-query name="SQL_LESSON_GET_IDTAGWEIGHTS">
+	<sql-query name="SQL_LESSON_GET_CLOUDTAG_TAG">
 		SELECT idTag,weight FROM (
-			SELECT 	`idTag`, COUNT(idlesson) AS weight
+			SELECT 	idTag, COUNT(idlesson) AS weight
 			FROM tlessontag
 			GROUP BY idtag
 			ORDER BY weight DESC
@@ -70,11 +76,22 @@
 		JOIN ttag USING (idtag)
 		ORDER BY tag;
 	</sql-query>
+	<sql-query name="SQL_LESSON_GET_CLOUDTAG_AUTHOR">
+		SELECT idUser,weight FROM (
+			SELECT 	idUser, COUNT(idlesson) AS weight
+			FROM tlesson
+			GROUP BY idUser
+			ORDER BY weight DESC
+			LIMIT 50
+		) AS t
+		JOIN tuser USING (iduser)
+		ORDER BY lastname;
+	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LASTLESSONIDS">
 	    SELECT idLesson
 	    FROM tlesson
 	    ORDER BY idLesson DESC	    
-	    LIMIT 10
+	    LIMIT ?,2
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_TEST">
 		SELECT idLessonTest,idlesson,numQuestions,numAnswers,multiplechoice
@@ -101,5 +118,11 @@
 	    SELECT idAnswer,idQuestion,text,correct,reason
 	    FROM tanswer
 	    WHERE idAnswer = ?	    
-	</sql-query>		
+	</sql-query>
+	<sql-query name="SQL_LESSON_GET_LESSONVIDEOS">
+	    SELECT idVideoFile,idLessonVideo,idVideoRepository,filename,mimetype
+	    FROM tvideofile
+	    JOIN tvideomimetype USING (idvideomimetype)
+	    WHERE idLessonVideo = ?	    
+	</sql-query>
 </hibernate-mapping>

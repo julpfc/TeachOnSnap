@@ -35,8 +35,9 @@
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
 	            			 by <a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>
 	            		<p class="lesson-addons">
-	            			<%//TODO Controlar si tiene video %>
-							<span class="glyphicon glyphicon-facetime-video"></span> video
+	            			<c:if test="${lesson.idLessonVideo>0}">
+								<span class="glyphicon glyphicon-facetime-video"></span> video
+							</c:if>
 							<c:if test="${lesson.idLessonTest>0}">
 								<span class="glyphicon glyphicon-edit"></span> test
 							</c:if>
@@ -51,23 +52,31 @@
 				</c:forEach>			
 	   
 				<nav><ul class="pager"><li>
-					<a href="#"><span class="glyphicon glyphicon-chevron-right"></span> Older</a></li></ul>
+					<a href="/last/1"><span class="glyphicon glyphicon-chevron-left"></span> Older</a></li></ul>
 				</nav>
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
-          		<div>
+          		<div class="sidebar">
             		<h4>About</h4>
             		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
           		</div>
-          		<div class="tags">
+          		<div class="sidebar tags">
             		<h4><span class="glyphicon glyphicon-tags"></span> Tag cloud</h4>
             		<ul class="tags">
             		<c:forEach items="${cloudTags}" var="cloudTag">
-            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.tag.URL}">${cloudTag.tag.tag}</a></li>
+            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
 		            </c:forEach>
 		            </ul>
-          		</div>          		
+          		</div>   
+          		<div class="sidebar tags">
+            		<h4><span class="glyphicon glyphicon-tags"></span> Author cloud</h4>
+            		<ul class="tags">
+            		<c:forEach items="${authorCloudTags}" var="cloudTag">
+            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+		            </c:forEach>
+		            </ul>
+          		</div>            		
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

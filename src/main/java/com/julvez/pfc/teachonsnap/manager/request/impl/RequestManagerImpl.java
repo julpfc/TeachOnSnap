@@ -53,4 +53,18 @@ public class RequestManagerImpl implements RequestManager {
 		}		
 	}
 
+	@Override
+	public String[] getControllerParams(HttpServletRequest request) {
+		String[] params = null;
+		String req = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
+				
+		if(req.contains("/")){
+			params = req.split("/");
+		}
+		else if(!stringManager.isEmpty(req))
+			params = new String[]{req};		
+		
+		return params;
+	}
+
 }

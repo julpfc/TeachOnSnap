@@ -25,20 +25,21 @@ import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 /**
  * Servlet implementation class TagController
  */
-public class TagController extends HttpServlet {
+public class LastController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	private static final int MAX_RESULTS_PAGE = 1;
     
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private LangService langService = LangServiceFactory.getService();
 
-	private RequestManager requestManager = RequestManagerFactory.getManager();
+	private RequestManager requestManager = RequestManagerFactory.getManager();	
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TagController() {
+    public LastController() {
         super();       
     }
 
@@ -46,31 +47,27 @@ public class TagController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.getControllerParams(request);
 		
 		int pageResult = 0;
 		boolean hasNextPage = false;
-		String tag = null;
 				
-		if(params!=null && params.length>0){			
-			tag = params[0];
-			if(params.length>1 && !stringManager .isEmpty(params[1])){
-				pageResult = Integer.parseInt(params[1]);
-			}
+		if(params!=null && params.length>0 && !stringManager.isEmpty(params[0])){			
+			pageResult = Integer.parseInt(params[0]);
 		}
 		
-		List<Lesson> lessons = lessonService.getLessonsFromTag(tag,pageResult);	
+		List<Lesson> lessons = lessonService.getLastLessons(pageResult);	
 		
 		if(lessons.size()>MAX_RESULTS_PAGE){
 			hasNextPage = true;
 			lessons.remove(MAX_RESULTS_PAGE);
 		}
-		String nextPage = hasNextPage?"/tag/"+tag+"/"+(pageResult+MAX_RESULTS_PAGE):null;
-		String prevPage = pageResult>0?("/tag/"+tag+"/"+(pageResult>MAX_RESULTS_PAGE?pageResult-MAX_RESULTS_PAGE:"")):null;
+		String nextPage = hasNextPage?"/last/"+(pageResult+MAX_RESULTS_PAGE):null;
+		String prevPage = pageResult>0?("/last/"+(pageResult>MAX_RESULTS_PAGE?pageResult-MAX_RESULTS_PAGE:"")):null;
 		request.setAttribute("nextPage", nextPage);
 		request.setAttribute("prevPage", prevPage);
 		
-		String acceptLang = requestManager .getAcceptLanguage(request);
+		String acceptLang = requestManager.getAcceptLanguage(request);
 		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
 		String paramLang = requestManager.getParamChangeLanguage(request);
 		User sessionUser = requestManager.getSessionUser(request);
@@ -78,7 +75,6 @@ String[] params = requestManager.getControllerParams(request);
 		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,sessionUser);
 		// TODO Actualizar usuario BBDD/Cache/Session
 		requestManager.setUserSessionLanguage(request,userLang);
-
 		
 		request.setAttribute("userLang", userLang);
 		
@@ -86,11 +82,9 @@ String[] params = requestManager.getControllerParams(request);
 		request.setAttribute("cloudTags", cloudTags);
 		List<CloudTag> authorCloudTags = lessonService.getAuthorCloudTags();
 		request.setAttribute("authorCloudTags", authorCloudTags);
-		
-		request.setAttribute("searchType", "tag");
-		request.setAttribute("searchKeyword", tag);		
-		request.setAttribute("lessons", lessons);
-	    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);	 
+
+		request.setAttribute("lessons", lessons);		 
+		request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);	 
 	}
 
 	/**
