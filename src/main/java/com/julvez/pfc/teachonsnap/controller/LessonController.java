@@ -55,6 +55,8 @@ public class LessonController extends HttpServlet {
 		List<VideoFile> videos = lessonService.getLessonVideos(lesson.getIdLessonVideo());
 		
 		String acceptLang = requestManager .getAcceptLanguage(request);
+		//TODO Revisar si es mejor sacarlo del Locale que del Accept a pelo
+	//	System.out.println(request.getLocale().getLanguage());
 		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
 		String paramLang = requestManager.getParamChangeLanguage(request);
 		User sessionUser = requestManager.getSessionUser(request);
@@ -62,7 +64,7 @@ public class LessonController extends HttpServlet {
 		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,sessionUser);
 		// TODO Actualizar usuario BBDD/Cache/Session
 		requestManager.setUserSessionLanguage(request,userLang);
-
+		
 		request.setAttribute("userLang", userLang);
 		
 		request.setAttribute("lesson", lesson);

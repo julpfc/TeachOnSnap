@@ -78,4 +78,15 @@
   	<servlet-name>LastController</servlet-name>
   	<url-pattern>/last/*</url-pattern>
   </servlet-mapping>
+     <servlet>
+  	<description>
+  	</description>
+  	<display-name>VideoRecordController</display-name>
+  	<servlet-name>VideoRecordController</servlet-name>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.VideoRecordController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>VideoRecordController</servlet-name>
+  	<url-pattern>/record/*</url-pattern>
+  </servlet-mapping>
 </web-app>

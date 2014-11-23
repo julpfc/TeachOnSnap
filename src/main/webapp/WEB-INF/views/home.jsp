@@ -2,12 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setLocale value="${userLang.language}"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.home" var="homeBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+
 <!DOCTYPE html>
 <html>
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/home.css"/>"/>
-<title>TeachOnSnap - Home</title> 
+<title>TeachOnSnap - <fmt:message key="pager.home"/></title> 
 </head>
 <body>
  	<c:import url="./import/nav.jsp"/>
@@ -16,10 +20,11 @@
 			<div class="container-fluid"> 
 		        <div class="col-sm-8">
 		        	<h1>TeachOnSnap</h1>
-		        	<p>Learn on snapshots!</p>
+		        	<p><fmt:message key="brand.subtitle" bundle="${homeBundle}"/></p>
 		        </div>
 		        <div class="col-sm-4">
-		        	<h2><span class="glyphicon glyphicon-facetime-video"></span><span class="glyphicon glyphicon-book"></span></h2>
+		        	<h2><span class="glyphicon glyphicon-facetime-video"></span>
+		        	<span class="glyphicon glyphicon-book"></span></h2>
 		        </div>
 		    </div>
 	    </div>
@@ -33,7 +38,9 @@
 	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
 	            			</c:if>	            			 
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
-	            			 by <a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>
+	            			 <fmt:message key="lesson.meta.author.by"/> 
+            			 	<a href="${lesson.author.URL}">${lesson.author.fullName}</a>
+           			 	</p>
 	            		<p class="lesson-addons">
 	            			<c:if test="${lesson.idLessonVideo>0}">
 								<span class="glyphicon glyphicon-facetime-video"></span> video
@@ -45,14 +52,16 @@
 						<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
 													            
 			            <nav class="col-sm-offset-8"><ul class="pager"><li>
-							<a href="${lesson.URL}"><span class="glyphicon glyphicon-book"></span> Learn more</a></li></ul>
+							<a href="${lesson.URL}"><span class="glyphicon glyphicon-book"></span>
+							 <fmt:message key="lesson.more"/></a></li></ul>
 						</nav>
 		          	</div>
 		          	<hr/>	          	
 				</c:forEach>			
 	   
 				<nav><ul class="pager"><li>
-					<a href="/last/1"><span class="glyphicon glyphicon-chevron-left"></span> Older</a></li></ul>
+					<a href="/last/1"><span class="glyphicon glyphicon-chevron-left"></span>
+					 <fmt:message key="pager.previous"/></a></li></ul>
 				</nav>
 	        </div><!-- col -->
 
@@ -62,7 +71,7 @@
             		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
           		</div>
           		<div class="sidebar tags">
-            		<h4><span class="glyphicon glyphicon-tags"></span> Tag cloud</h4>
+            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.heading"/></h4>
             		<ul class="tags">
             		<c:forEach items="${cloudTags}" var="cloudTag">
             			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
@@ -70,7 +79,7 @@
 		            </ul>
           		</div>   
           		<div class="sidebar tags">
-            		<h4><span class="glyphicon glyphicon-tags"></span> Author cloud</h4>
+            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.author.heading"/></h4>
             		<ul class="tags">
             		<c:forEach items="${authorCloudTags}" var="cloudTag">
             			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
