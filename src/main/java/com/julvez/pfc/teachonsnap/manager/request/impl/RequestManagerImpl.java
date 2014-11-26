@@ -31,11 +31,6 @@ public class RequestManagerImpl implements RequestManager {
 	}
 
 	@Override
-	public String getParamChangeLanguage(HttpServletRequest request) {
-		return request.getParameter(PARAM_CHANGE_LANGUAGE);
-	}
-
-	@Override
 	public User getSessionUser(HttpServletRequest request) {
 		return (User)request.getSession(true).getAttribute(SESSION_USER);
 	}
@@ -65,6 +60,37 @@ public class RequestManagerImpl implements RequestManager {
 			params = new String[]{req};		
 		
 		return params;
+	}
+
+	
+	private String getParam(HttpServletRequest request,String paramName) {
+		String param = request.getParameter(paramName);
+		if(stringManager.isEmpty(param)){
+			param = null;
+		}
+		return param;
+	}
+	
+	@Override
+	public String getParamChangeLanguage(HttpServletRequest request) {
+		return getParam(request,PARAM_CHANGE_LANGUAGE);		
+	}	
+	
+	@Override
+	public String getParamLoginEmail(HttpServletRequest request) {		
+		return getParam(request,PARAM_LOGIN_EMAIL);
+	}
+
+	@Override
+	public String getParamLoginPassword(HttpServletRequest request) {		
+		return getParam(request,PARAM_LOGIN_PASSWORD);
+	}
+
+	@Override
+	public void setUserSession(HttpServletRequest request, User user) {
+		if(user!=null){
+			request.getSession(true).setAttribute(SESSION_USER, user);			
+		}	
 	}
 
 }

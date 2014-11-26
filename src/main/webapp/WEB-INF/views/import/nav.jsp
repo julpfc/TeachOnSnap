@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar ${not empty user?'navbar-inverse':'navbar-default'}" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -39,8 +39,9 @@
             	<li><a href="?changeLang=es"><img alt="ES" src="/resources/img/ico/flag_es.jpg"/> Español ES</a></li>
 			</ul>
         </li>
-        <li><a href="#"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></a></li>        
+        <li><a href="#" data-toggle="modal" data-target="#login"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></a></li>        
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<c:import url="./import/login.jsp"/>

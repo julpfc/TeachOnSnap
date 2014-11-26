@@ -19,4 +19,23 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public User getUserFromEmail(String email) {
+		User user = null;
+		int idUser = userRepository.getIdUserFromEmail(email);
+		if (idUser>0){
+			user = getUser(idUser);
+		}
+		return user;
+	}
+
+	@Override
+	public boolean validatePassword(User user, String password) {
+		boolean valid = false;
+		if(user!=null && password!=null){
+			valid = userRepository.isValidPassword(user.getId(),password);
+		}
+		return valid;
+	}
+
 }

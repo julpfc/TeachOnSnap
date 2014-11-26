@@ -13,6 +13,8 @@ public interface RequestManager {
 	public static final String SESSION_USER				= "user";
 	
 	public static final String PARAM_CHANGE_LANGUAGE 	= "changeLang";
+	public static final String PARAM_LOGIN_EMAIL 		= "email";
+	public static final String PARAM_LOGIN_PASSWORD		= "password";
 	
 	
 	String getAcceptLanguage(HttpServletRequest request);
@@ -26,6 +28,12 @@ public interface RequestManager {
 	void setUserSessionLanguage(HttpServletRequest request, Language userLang);
 	
 	String[] getControllerParams(HttpServletRequest request);
+
+	String getParamLoginEmail(HttpServletRequest request);
+
+	String getParamLoginPassword(HttpServletRequest request);
+
+	void setUserSession(HttpServletRequest request, User user);
 
 	
 }

@@ -54,22 +54,26 @@ public class HomeController extends HttpServlet {
 		List<CloudTag> cloudTags = lessonService.getCloudTags();
 		
 		String acceptLang = requestManager.getAcceptLanguage(request);
-		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
-		String paramLang = requestManager.getParamChangeLanguage(request);
-		User sessionUser = requestManager.getSessionUser(request);
+		short sessionIdLang = requestManager.getSessionIdLanguage(request);
 		
-		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,sessionUser);
+		String paramLang = requestManager.getParamChangeLanguage(request);
+		User user = requestManager.getSessionUser(request);
+		
+		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,user);
 		
 		// TODO Actualizar usuario BBDD/Cache/Session
 		requestManager.setUserSessionLanguage(request,userLang);
 		
 		request.setAttribute("userLang", userLang);
 		
+		request.setAttribute("user", user);
+		
 		List<CloudTag> authorCloudTags = lessonService.getAuthorCloudTags();
 		request.setAttribute("authorCloudTags", authorCloudTags);
 		
 		request.setAttribute("lastLessons", lastLessons);
 		request.setAttribute("cloudTags", cloudTags);
+		
 		request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);	    
 	}
 

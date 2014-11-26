@@ -12,4 +12,19 @@ public class StringManagerImpl implements StringManager {
 		return StringUtils.isBlank(string);		
 	}
 
+	@Override
+	public boolean isTrue(String string) {
+		boolean isTrue = false;
+		
+		if(!isEmpty(string)){
+			try {
+				int i = Integer.parseInt(string);
+				isTrue = i>0;
+			} catch (Exception e) {
+				isTrue = Boolean.parseBoolean(string);
+			}
+		}
+		return isTrue;
+	}
+
 }

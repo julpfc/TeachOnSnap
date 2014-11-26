@@ -35,7 +35,11 @@ public class LessonRepositoryDB implements LessonRepository {
 
 	@Override
 	public int getLessonIDFromURI(String lessonURI) {
-		return (int) dbm.getQueryResultUnique("SQL_LESSON_GET_LESSONID_FROM_URI", null, lessonURI);
+		int id = -1;
+		Object obj = dbm.getQueryResultUnique("SQL_LESSON_GET_LESSONID_FROM_URI", null, lessonURI);
+		if(obj!=null)
+			id = Integer.parseInt(obj.toString());
+		return id; 
 	}
 
 	@Override

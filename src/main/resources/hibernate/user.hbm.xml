@@ -8,4 +8,14 @@
 	    LEFT JOIN tuserauthor USING (idUser)
 	    WHERE idUser=?
 	</sql-query>
+	<sql-query name="SQL_USER_GET_IDUSER_FROM_EMAIL">
+	    SELECT idUser
+	    FROM tuser	    
+	    WHERE email=?
+	</sql-query>
+	<sql-query name="SQL_USER_GET_ISVALIDPASSWORD">
+	    SELECT password = PASSWORD(?)
+	    FROM tuser	    
+	    WHERE idUser=?
+	</sql-query>	
 </hibernate-mapping>

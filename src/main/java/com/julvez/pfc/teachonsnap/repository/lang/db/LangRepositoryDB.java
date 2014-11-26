@@ -17,14 +17,22 @@ public class LangRepositoryDB implements LangRepository {
 
 	@Override
 	public short getIdLanguage(String language) {
-		return Short.parseShort(dbm
-				.getQueryResultUnique("SQL_LANG_GET_IDLANGUAGE_FROM_LANGUAGE", null, language).toString());
+		short id = -1;
+		Object obj = dbm.getQueryResultUnique("SQL_LANG_GET_IDLANGUAGE_FROM_LANGUAGE", null, language);
+		if(obj!=null)
+			id = Short.parseShort(obj.toString());
+		return id;		
 	}
 
 	@Override
 	public short getDefaultIdLanguage() {
-		return Short.parseShort(dbm
-				.getQueryResultUnique("SQL_LANG_GET_DEFAULT_IDLANGUAGE", null, new Object[0]).toString());
+		short id = -1;
+		Object obj = dbm
+				.getQueryResultUnique("SQL_LANG_GET_DEFAULT_IDLANGUAGE", null, new Object[0]);
+		System.out.println("LLEGOOOOOOOOOOOOOOOOOOOOOOOOOOO "+obj);
+		if(obj!=null)
+			id = Short.parseShort(obj.toString());
+		return id;		
 	}
 
 }

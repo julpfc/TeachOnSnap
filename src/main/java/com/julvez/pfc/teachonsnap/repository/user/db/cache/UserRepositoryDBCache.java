@@ -16,4 +16,14 @@ public class UserRepositoryDBCache implements UserRepository {
 		return (User)cache.executeImplCached(repoDB, idUser);
 	}
 
+	@Override
+	public int getIdUserFromEmail(String email) {
+		return (int)cache.executeImplCached(repoDB, email);
+	}
+
+	@Override
+	public boolean isValidPassword(int idUser, String password) {
+		return (boolean)cache.executeImplCached(repoDB, idUser,password);
+	}
+
 }

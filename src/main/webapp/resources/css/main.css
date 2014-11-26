@@ -112,3 +112,107 @@ h1, h2{
 .tag4{font-size:160%;}
 .tag5{font-size:180%;}
 .tag6{font-size:200%;}
+
+
+/* Login */
+button.close{
+	color: white;
+	padding-top: 5px;
+}
+
+.modal-header{	
+    text-align: left;
+    text-indent: 40px;
+    text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+    background-color: #6F5499;
+    background-image: linear-gradient(to bottom, #563D7C 0px, #6F5499 100%);
+    background-repeat: repeat-x; 
+    -webkit-border-radius: 6px 6px 6px 6px;
+	-moz-border-radius: 6px 6px 6px 6px;
+	border-radius: 6px 6px 6px 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);   
+}
+.modal-header h2{
+		font-size: 20px;
+		color: #CDBFE3;
+}
+.modal-header span{
+	text-indent: 0px;	
+}
+
+.modal-icons{
+	padding-right: 10px;	
+}
+
+.modal-content{
+	background-color: #eee;	
+}
+.modal-body{
+	background-color: #fff;
+	padding: 20px;	
+	margin-bottom: 5px;
+	-webkit-border-radius: 6px 6px 6px 6px;
+	-moz-border-radius: 6px 6px 6px 6px;
+	border-radius: 6px 6px 6px 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+.form-signin {
+  max-width: 330px;
+ padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-signin a{
+	color: #563D7C;
+	padding-left: 20px;	
+}
+.modal-footer{
+	border-top: 0px;
+	padding-top: 0px;
+	padding-right: 0px;	
+}
+.modal-footer button {
+	background-image: linear-gradient(to bottom, #563D7C 0px, #7851b3 100%);
+	background-repeat: repeat-x;
+	border-color: #563D7C;
+	background-color: #563D7C;
+}
+
+.modal-footer button:hover
+,.modal-footer button:focus {
+	border-color: #563D7C;
+	background-color: #563D7C;
+}
+
