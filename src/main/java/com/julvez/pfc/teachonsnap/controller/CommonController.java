@@ -10,32 +10,24 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
-import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.model.user.UserLessonTest;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 
 
 /**
- * Servlet implementation class TagController
+ * Servlet implementation class CommonController
  */
-public class LessonTestController extends HttpServlet {
+public abstract class CommonController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
-	private LessonService lessonService = LessonServiceFactory.getService();
-
-	private LangService langService = LangServiceFactory.getService();
-
-	private RequestManager requestManager = RequestManagerFactory.getManager();
 	
+	protected LangService langService = LangServiceFactory.getService();
+	protected RequestManager requestManager = RequestManagerFactory.getManager();
+		
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LessonTestController() {
+    public CommonController() {
         super();       
     }
 
@@ -43,31 +35,23 @@ public class LessonTestController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String lessonURI = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
 		
-		Lesson lesson = lessonService.getLessonFromURI(lessonURI);
-		LessonTest test = lessonService.getLessonTest(lesson.getIdLessonTest());
-		
-		if(request.getMethod().equals("POST")){
-			UserLessonTest userTest = new UserLessonTest(test, request.getParameterMap());
-			request.setAttribute("userTest", userTest);
-		}			
-		
+		//TODO Revisar si es mejor sacarlo del Locale que del Accept a pelo
+		//	System.out.println(request.getLocale().getLanguage());
 		String acceptLang = requestManager .getAcceptLanguage(request);
 		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
 		String paramLang = requestManager.getParamChangeLanguage(request);
-		User sessionUser = requestManager.getSessionUser(request);
+		User user = requestManager.getSessionUser(request);
 		
-		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,sessionUser);
+		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,user);
 		// TODO Actualizar usuario BBDD/Cache/Session
 		requestManager.setUserSessionLanguage(request,userLang);
-
-		request.setAttribute("userLang", userLang);
 		
-		request.setAttribute("lesson", lesson);
-		request.setAttribute("test", test);
-				
-	    request.getRequestDispatcher("/WEB-INF/views/test.jsp").forward(request, response);	 
+		request.setAttribute("userLang", userLang);
+		request.setAttribute("user", user);
+		
+		//TODO Loguear la página en la que estamos	    
+	    processController(request, response);
 	}
 
 	/**
@@ -77,4 +61,5 @@ public class LessonTestController extends HttpServlet {
 		doGet(request, response);
 	}
 
+	protected abstract void processController(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

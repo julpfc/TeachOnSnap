@@ -66,7 +66,7 @@ public class LoginController extends HttpServlet {
 		
 			
 		if(loginError)
-			request.setAttribute("loginError", loginError);
+			request.setAttribute("loginError", loginError); // Mejor en session
 		
 		request.getRequestDispatcher("/").forward(request, response);
 		//response.sendRedirect("/");

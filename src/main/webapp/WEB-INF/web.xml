@@ -13,14 +13,14 @@
   	</description>
   	<display-name>HomeController</display-name>
   	<servlet-name>HomeController</servlet-name>
-  	<servlet-class>com.julvez.pfc.teachonsnap.controller.HomeController</servlet-class>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.common.HomeController</servlet-class>
   </servlet>
   <servlet>
   	<description>
   	</description>
   	<display-name>TagController</display-name>
   	<servlet-name>TagController</servlet-name>
-  	<servlet-class>com.julvez.pfc.teachonsnap.controller.TagController</servlet-class>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.pager.TagController</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>TagController</servlet-name>
@@ -39,7 +39,7 @@
   	</description>
   	<display-name>LessonController</display-name>
   	<servlet-name>LessonController</servlet-name>
-  	<servlet-class>com.julvez.pfc.teachonsnap.controller.LessonController</servlet-class>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.common.LessonController</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>LessonController</servlet-name>
@@ -50,7 +50,7 @@
   	</description>
   	<display-name>AuthorController</display-name>
   	<servlet-name>AuthorController</servlet-name>
-  	<servlet-class>com.julvez.pfc.teachonsnap.controller.AuthorController</servlet-class>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.pager.AuthorController</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>AuthorController</servlet-name>
@@ -61,7 +61,7 @@
   	</description>
   	<display-name>LessonTestController</display-name>
   	<servlet-name>LessonTestController</servlet-name>
-  	<servlet-class>com.julvez.pfc.teachonsnap.controller.LessonTestController</servlet-class>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.common.LessonTestController</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>LessonTestController</servlet-name>
@@ -72,7 +72,7 @@
   	</description>
   	<display-name>LastController</display-name>
   	<servlet-name>LastController</servlet-name>
-  	<servlet-class>com.julvez.pfc.teachonsnap.controller.LastController</servlet-class>
+  	<servlet-class>com.julvez.pfc.teachonsnap.controller.pager.LastController</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>LastController</servlet-name>

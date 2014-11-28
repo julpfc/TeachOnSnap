@@ -73,7 +73,7 @@
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
-          		<c:if test="${not empty searchType}">
+          		<c:if test="${not empty searchKeyword}">
 	          		<div class="sidebar">
 	            		<h4><fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}:</h4>
 	            		<span class="label label-info">${searchKeyword}</span>	            		
