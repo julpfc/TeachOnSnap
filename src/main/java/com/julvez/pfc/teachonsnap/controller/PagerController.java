@@ -35,8 +35,17 @@ public abstract class PagerController extends CommonController {
 				
 		if(params!=null && params.length>0){			
 			searchURI = params[0];
-			if(params.length>1 && !stringManager .isEmpty(params[1])){
+			if(params.length>1 && !stringManager.isEmpty(params[1])){
 				pageResult = Integer.parseInt(params[1]);
+			}
+			else if(!stringManager.isEmpty(params[0])){
+				try{
+					pageResult = Integer.parseInt(params[0]);
+					searchURI = null;
+				}
+				catch(Throwable t){
+					//TODO log exception
+				}
 			}
 		}
 		
@@ -49,12 +58,18 @@ public abstract class PagerController extends CommonController {
 		
 		String nextPage = null;
 		if(hasNextPage){
-			nextPage = request.getServletPath()+"/"+searchURI+"/"+(pageResult+MAX_RESULTS_PAGE);
+			if(searchURI == null)
+				nextPage = request.getServletPath()+"/"+(pageResult+MAX_RESULTS_PAGE);
+			else
+				nextPage = request.getServletPath()+"/"+searchURI+"/"+(pageResult+MAX_RESULTS_PAGE);
 		}
 		
 		String prevPage = null;
 		if(pageResult>0){
-			prevPage = request.getServletPath()+"/"+searchURI+"/";
+			if(searchURI == null)
+				prevPage = request.getServletPath()+"/";
+			else
+				prevPage = request.getServletPath()+"/"+searchURI+"/";
 			if(pageResult>MAX_RESULTS_PAGE){
 				prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);
 			}

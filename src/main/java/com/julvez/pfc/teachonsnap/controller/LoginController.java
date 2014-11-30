@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
@@ -50,7 +51,7 @@ public class LoginController extends HttpServlet {
 			
 				if(password!=null){
 					if(userService.validatePassword(user, password)){
-						//TODO setUserSession
+						//Login OK
 						requestManager.setUserSession(request, user);
 						loginError = false;
 					}					
@@ -61,17 +62,24 @@ public class LoginController extends HttpServlet {
 		else{
 			// Ya estaba logueado
 			loginError = false;
-		}
-		
-		
 			
-		if(loginError)
-			request.setAttribute("loginError", loginError); // Mejor en session
+			boolean logOut = requestManager.getParamLogout(request);
+			if(logOut){
+				requestManager.setUserSession(request, null);
+			}
+		}
+			
+		if(loginError){
+			requestManager.setErrorSession(request, ErrorType.ERR_LOGIN);			
+		}
+		else{
+			requestManager.setErrorSession(request, ErrorType.ERR_NONE);
+		}	
 		
-		request.getRequestDispatcher("/").forward(request, response);
-		//response.sendRedirect("/");
-		
-		
+		// GOTO LastPage
+		String lastPage = requestManager.getLastPage(request);
+		if(lastPage==null) lastPage = "/";
+		response.sendRedirect(lastPage);
 	}
 
 	/**

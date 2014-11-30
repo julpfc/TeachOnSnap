@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
 
@@ -88,9 +89,40 @@ public class RequestManagerImpl implements RequestManager {
 
 	@Override
 	public void setUserSession(HttpServletRequest request, User user) {
-		if(user!=null){
-			request.getSession(true).setAttribute(SESSION_USER, user);			
-		}	
+		request.getSession(true).setAttribute(SESSION_USER, user);
 	}
+
+	@Override
+	public void setErrorSession(HttpServletRequest request, ErrorType error) {
+		if(error!=null){
+			request.getSession(true).setAttribute(SESSION_ERROR, error);			
+		}			
+	}
+
+	@Override
+	public ErrorType getErrorSession(HttpServletRequest request) {
+		Object obj = request.getSession(true).getAttribute(SESSION_ERROR);
+		if(obj!=null)
+			return (ErrorType)obj;
+		else return ErrorType.ERR_NONE;
+	}
+
+	@Override
+	public void setLastPage(HttpServletRequest request) {
+		request.getSession(true).setAttribute(SESSION_LAST_PAGE, request.getRequestURI());		
+	}
+
+	@Override
+	public String getLastPage(HttpServletRequest request) {
+		return (String) request.getSession(true).getAttribute(SESSION_LAST_PAGE);				
+	}
+
+	@Override
+	public boolean getParamLogout(HttpServletRequest request) {
+		String param = getParam(request,PARAM_LOGOUT);
+		return stringManager.isTrue(param);
+	}
+	
+	
 
 }

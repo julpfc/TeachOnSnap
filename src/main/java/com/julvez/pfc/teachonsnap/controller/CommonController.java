@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
@@ -49,6 +50,21 @@ public abstract class CommonController extends HttpServlet {
 		
 		request.setAttribute("userLang", userLang);
 		request.setAttribute("user", user);
+		
+		ErrorType errorType = requestManager.getErrorSession(request);
+		
+		switch(errorType){
+			case ERR_LOGIN:
+				request.setAttribute("loginError", "loginError");
+				break;
+			case ERR_NONE:
+				break;
+			default:
+				break;
+			
+		}
+		requestManager.setErrorSession(request, ErrorType.ERR_NONE);
+		requestManager.setLastPage(request);
 		
 		//TODO Loguear la página en la que estamos	    
 	    processController(request, response);

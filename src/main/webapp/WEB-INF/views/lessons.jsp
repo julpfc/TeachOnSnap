@@ -11,7 +11,7 @@
 <head>	
 	<c:import url="./import/head_bootstrap.jsp"/>
 	<c:choose>
-		<c:when test="${not empty searchType}">
+		<c:when test="${not empty searchKeyword}">
 			<title>TeachOnSnap - <fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}: ${searchKeyword}</title>
 		</c:when>
 		<c:otherwise>
