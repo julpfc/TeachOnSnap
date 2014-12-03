@@ -51,23 +51,33 @@ public abstract class CommonController extends HttpServlet {
 		request.setAttribute("userLang", userLang);
 		request.setAttribute("user", user);
 		
-		ErrorType errorType = requestManager.getErrorSession(request);
-		
-		switch(errorType){
-			case ERR_LOGIN:
-				request.setAttribute("loginError", "loginError");
-				break;
-			case ERR_NONE:
-				break;
-			default:
-				break;
-			
+		// Si es zona restringida pedimos login
+		if(user==null && isPrivateZone()){
+			requestManager.setErrorSession(request, ErrorType.ERR_LOGIN);
+			String lastPage = requestManager.getLastPage(request);
+			if(lastPage==null) lastPage = "/";
+			response.sendRedirect(lastPage);
 		}
-		requestManager.setErrorSession(request, ErrorType.ERR_NONE);
-		requestManager.setLastPage(request);
-		
-		//TODO Loguear la página en la que estamos	    
-	    processController(request, response);
+		else{
+			ErrorType errorType = requestManager.getErrorSession(request);
+			
+			switch(errorType){
+				case ERR_LOGIN:
+					request.setAttribute("loginError", "loginError");
+					break;
+				case ERR_NONE:
+					break;
+				default:
+					break;
+				
+			}
+			requestManager.setErrorSession(request, ErrorType.ERR_NONE);
+			requestManager.setLastPage(request);
+			
+			//TODO Loguear la página en la que estamos	  
+			System.out.println("#########"+request.getRequestURI()+"#########");
+		    processController(request, response);
+		}
 	}
 
 	/**
@@ -78,4 +88,6 @@ public abstract class CommonController extends HttpServlet {
 	}
 
 	protected abstract void processController(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+	
+	protected abstract boolean isPrivateZone();
 }

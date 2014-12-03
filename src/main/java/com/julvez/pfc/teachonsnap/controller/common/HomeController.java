@@ -39,4 +39,9 @@ public class HomeController extends CommonController {
 
 	}
 
+	@Override
+	protected boolean isPrivateZone() {		
+		return false;
+	}
+
 }

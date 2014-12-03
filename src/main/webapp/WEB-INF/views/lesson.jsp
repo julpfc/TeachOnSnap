@@ -57,6 +57,15 @@
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
+        		<c:if test="${lesson.author.id == user.id}">
+						<div class="sidebar">
+							<h4><fmt:message key="lesson.command.heading" bundle="${lessonBundle}"/></h4>
+							<a href="${lesson.editURL}"><button class="btn btn-default" type="button">
+							 	<fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/>
+							 	 <span class="glyphicon glyphicon-edit"></span></button>
+						 	</a>
+						</div>
+				</c:if>
         		<c:if test="${lesson.idLessonTest>0}">
 						<div class="sidebar">
 							<h4><fmt:message key="lesson.test.heading" bundle="${lessonBundle}"/></h4>

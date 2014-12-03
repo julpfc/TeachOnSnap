@@ -82,7 +82,7 @@
 							<h2>								
 								<c:if test="${percentage<40}">
 									<fmt:message key="lesson.test.result.verypoor" bundle="${testBundle}"/>
-								</c:if>
+	 							</c:if>
 								<c:if test="${percentage>=40 && percentage<60}">
 									<fmt:message key="lesson.test.result.poor" bundle="${testBundle}"/>
 								</c:if>

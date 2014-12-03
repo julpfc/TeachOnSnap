@@ -44,4 +44,9 @@ public class LessonController extends CommonController {
 	    request.getRequestDispatcher("/WEB-INF/views/lesson.jsp").forward(request, response);
 	}
 
+	@Override
+	protected boolean isPrivateZone() {
+		return false;
+	}
+
 }

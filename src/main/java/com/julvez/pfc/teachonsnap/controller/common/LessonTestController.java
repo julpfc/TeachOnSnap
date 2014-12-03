@@ -39,4 +39,9 @@ public class LessonTestController extends CommonController {
 
 	}
 
+	@Override
+	protected boolean isPrivateZone() {		
+		return true;
+	}
+
 }

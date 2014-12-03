@@ -91,6 +91,10 @@ public class Lesson {
 		return "/lesson/"+URIname;
 	}
 	
+	public String getEditURL() {
+		return "/lesson/edit/"+id;
+	}
+	
 	public String getTestURL() {
 		return idLessonTest>0?("/test/"+URIname):"#";
 	}

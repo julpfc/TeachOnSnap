@@ -24,6 +24,11 @@ public abstract class PagerController extends CommonController {
 	protected StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
+	protected boolean isPrivateZone() {		
+		return false;
+	}
+	
+	@Override
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 

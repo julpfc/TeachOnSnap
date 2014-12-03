@@ -28,8 +28,7 @@ public class LangRepositoryDB implements LangRepository {
 	public short getDefaultIdLanguage() {
 		short id = -1;
 		Object obj = dbm
-				.getQueryResultUnique("SQL_LANG_GET_DEFAULT_IDLANGUAGE", null, new Object[0]);
-		System.out.println("LLEGOOOOOOOOOOOOOOOOOOOOOOOOOOO "+obj);
+				.getQueryResultUnique("SQL_LANG_GET_DEFAULT_IDLANGUAGE", null, new Object[0]);		
 		if(obj!=null)
 			id = Short.parseShort(obj.toString());
 		return id;		

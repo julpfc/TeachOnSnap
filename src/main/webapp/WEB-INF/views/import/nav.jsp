@@ -29,7 +29,7 @@
                 <li><a href="#"><fmt:message key="nav.menu.explore.about"/></a></li>                
 			</ul>
         </li>
-        <li><a href="#"><fmt:message key="nav.menu.upload"/> <span class="glyphicon glyphicon-cloud-upload"></span></a></li>        
+        <li><a href="/lesson/new/"><fmt:message key="nav.menu.upload"/> <span class="glyphicon glyphicon-cloud-upload"></span></a></li>        
       </ul>
       <ul class="nav navbar-nav navbar-right">      	
         <c:choose>
@@ -44,7 +44,7 @@
 					</ul>
 		        </li>
 				<li><a href="#" data-toggle="modal" data-target="#login"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></a></li>			        
-        	</c:when>
+        	</c:when> 
         	<c:otherwise>
 		        <li class="dropdown">
 		        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">${user.fullName} <span class="caret"></span></a>
