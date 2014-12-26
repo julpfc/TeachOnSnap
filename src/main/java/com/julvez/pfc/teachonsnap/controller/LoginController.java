@@ -65,7 +65,7 @@ public class LoginController extends HttpServlet {
 			
 			boolean logOut = requestManager.getParamLogout(request);
 			if(logOut){
-				requestManager.setUserSession(request, null);
+				requestManager.setUserSession(request, null);				
 			}
 		}
 			

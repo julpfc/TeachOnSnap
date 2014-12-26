@@ -4,6 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
+import com.julvez.pfc.teachonsnap.repository.upload.UploadRepositoryFactory;
 
 public class TeachOnSnapServletContextListener implements
 		ServletContextListener {
@@ -14,7 +15,9 @@ public class TeachOnSnapServletContextListener implements
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		DBManagerFactory.getDBManager().close();		
+		DBManagerFactory.getDBManager().close();
+		UploadRepositoryFactory.getRepository().close();
 	}
 
+	
 }

@@ -54,8 +54,7 @@ public abstract class CommonController extends HttpServlet {
 		// Si es zona restringida pedimos login
 		if(user==null && isPrivateZone()){
 			requestManager.setErrorSession(request, ErrorType.ERR_LOGIN);
-			String lastPage = requestManager.getLastPage(request);
-			if(lastPage==null) lastPage = "/";
+			String lastPage = "/";
 			response.sendRedirect(lastPage);
 		}
 		else{
@@ -75,7 +74,7 @@ public abstract class CommonController extends HttpServlet {
 			requestManager.setLastPage(request);
 			
 			//TODO Loguear la página en la que estamos	  
-			System.out.println("#########"+request.getRequestURI()+"#########");
+			System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########");
 		    processController(request, response);
 		}
 	}

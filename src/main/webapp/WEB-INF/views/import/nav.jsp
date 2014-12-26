@@ -50,7 +50,7 @@
 		        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">${user.fullName} <span class="caret"></span></a>
 		            <ul class="dropdown-menu" role="menu">
 		            	<c:if test="${user.author}">
-		            		<li><a href="#"><fmt:message key="nav.menu.user.lessons"/></a></li>
+		            		<li><a href="${user.URL}"><fmt:message key="nav.menu.user.lessons"/></a></li>
 		            		<li class="divider"></li>
 		            	</c:if>
 		            	<li><a href="#"><fmt:message key="nav.menu.user.preferences"/></a></li>                

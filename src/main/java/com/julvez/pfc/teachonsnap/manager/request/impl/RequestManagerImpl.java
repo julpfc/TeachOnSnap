@@ -1,12 +1,20 @@
 package com.julvez.pfc.teachonsnap.manager.request.impl;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
+import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
 
 public class RequestManagerImpl implements RequestManager {
@@ -122,7 +130,53 @@ public class RequestManagerImpl implements RequestManager {
 		String param = getParam(request,PARAM_LOGOUT);
 		return stringManager.isTrue(param);
 	}
+
+	@Override
+	public List<FileMetadata> getUploadFiles(HttpServletRequest request) {
+		List<FileMetadata> files = new LinkedList<FileMetadata>();
+		
+		
+	    Collection<Part> parts;
+		try {
+			parts = request.getParts();
+			
+			FileMetadata temp = null;
+			
+			for(Part part:parts){  
+				if(part.getContentType() != null){
+                
+					temp = new FileMetadata();
+					temp.setFileName(getFilename(part));
+					temp.setFileSize(part.getSize()/1024 +" Kb");
+					temp.setFileType(part.getContentType());
+					temp.setContent(part.getInputStream());
+					
+					System.out.println("Upload.Part: "+temp);
+					files.add(temp);
+				}
+			}
+		 
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		} catch (ServletException e) {
+			
+			e.printStackTrace();
+		}
+	 
+		return files;
+	}
 	
+	private String getFilename(Part part) {
+		String filename = null;
+	        for (String cd : part.getHeader("content-disposition").split(";")) {
+	            if (cd.trim().startsWith("filename")) {
+	                filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+	                filename = filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+	            }
+	        }
+	        return filename;
+	    }
 	
 
 }

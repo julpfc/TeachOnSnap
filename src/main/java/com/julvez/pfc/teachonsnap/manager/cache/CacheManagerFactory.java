@@ -1,6 +1,6 @@
 package com.julvez.pfc.teachonsnap.manager.cache;
 
-import com.julvez.pfc.teachonsnap.manager.cache.impl.CacheManagerImpl;
+import com.julvez.pfc.teachonsnap.manager.cache.map.CacheManagerMap;
 
 public class CacheManagerFactory {
 
@@ -8,7 +8,7 @@ public class CacheManagerFactory {
 	
 	public static CacheManager getCacheManager(){
 		if(cache==null){
-			cache = new CacheManagerImpl();
+			cache = new CacheManagerMap();
 		}
 		return cache;
 	}

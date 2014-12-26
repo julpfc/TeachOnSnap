@@ -1,10 +1,14 @@
 package com.julvez.pfc.teachonsnap.manager.request;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
+import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
+
 
 public interface RequestManager {
 
@@ -47,5 +51,7 @@ public interface RequestManager {
 	String getLastPage(HttpServletRequest request);
 
 	boolean getParamLogout(HttpServletRequest request);
+	
+	List<FileMetadata> getUploadFiles(HttpServletRequest request);
 	
 }

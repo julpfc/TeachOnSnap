@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.manager.cache.impl;
+package com.julvez.pfc.teachonsnap.manager.cache.map;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -7,9 +7,10 @@ import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 
-public class CacheManagerImpl implements CacheManager {
+public class CacheManagerMap implements CacheManager {
 
-	private static Map<String, Map<String, Object>> caches = 
+	//He quitado el static, supuestamente no afecta, vigilar cachés
+	private Map<String, Map<String, Object>> caches = 
 			Collections.synchronizedMap(new HashMap<String, Map<String, Object>>());
 	
 	@Override
