@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.model.upload.ContentType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.upload.UploadService;
@@ -48,9 +49,9 @@ public class FileUploadController extends HttpServlet {
     		response.setStatus(403);
     	}
     	else{
-    		
-    		System.out.println("/upload/?"+request.getParameterMap());
-    		
+    		//TODO Controlar mejor que no venga una '/' detrás o que no sea uno de los tipos definidos (crear una enumeración)
+    		ContentType contentType = ContentType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
+    		System.out.println(request.getRequestURI()+"?"+request.getParameterMap());
     		
     		// 1. Get f from URL upload?f="?"
     		//TODO hacerlo con el requestmanager
@@ -59,7 +60,7 @@ public class FileUploadController extends HttpServlet {
  
     		if(value!=null){
 	         // 2. Get the file of index "f" from the list "files"
-	         FileMetadata tempFile = uploadService.getTemporaryFile(user,Integer.parseInt(value));
+	         FileMetadata tempFile = uploadService.getTemporaryFile(user,contentType,Integer.parseInt(value));
 	 
 	         try {        
 	                 // 3. Set the response content type = file content type
@@ -90,18 +91,18 @@ public class FileUploadController extends HttpServlet {
              ObjectMapper mapper = new ObjectMapper();
       
              // 4. Send resutl to client
-             mapper.writeValue(response.getOutputStream(), uploadService.getTemporaryFiles(user));
+             mapper.writeValue(response.getOutputStream(), uploadService.getTemporaryFiles(user,contentType));
          }
          else if (request.getParameter("r")!=null){
         	 String index = request.getParameter("r");
-        	 uploadService.removeTemporaryFile(user,Integer.parseInt(index));
+        	 uploadService.removeTemporaryFile(user,contentType,Integer.parseInt(index));
         	 response.setContentType("application/json");
         	 
              // 3. Convert List<FileMetadata> into JSON format
              ObjectMapper mapper = new ObjectMapper();
       
              // 4. Send resutl to client
-             mapper.writeValue(response.getOutputStream(), uploadService.getTemporaryFiles(user));
+             mapper.writeValue(response.getOutputStream(), uploadService.getTemporaryFiles(user,contentType));
          }
     		
     	}
@@ -118,10 +119,12 @@ public class FileUploadController extends HttpServlet {
     		response.setStatus(403);
     	}
     	else{
-			
-    		uploadService.addTemporaryFiles(user,requestManager.getUploadFiles(request));
+    		//TODO Controlar mejor que no venga una '/' detrás o que no sea uno de los tipos definidos (crear una enumeración)
+    		ContentType contentType = ContentType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
+
+    		uploadService.addTemporaryFiles(user,contentType,requestManager.getUploadFiles(request));
     		
-    		List<FileMetadata> files = uploadService.getTemporaryFiles(user);
+    		List<FileMetadata> files = uploadService.getTemporaryFiles(user,contentType);
 			
 			
 			//TODO Cuidado con que haya muchos files en memoria (remove?)

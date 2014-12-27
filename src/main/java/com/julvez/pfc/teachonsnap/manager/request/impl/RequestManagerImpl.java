@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
+import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
 
@@ -177,6 +179,39 @@ public class RequestManagerImpl implements RequestManager {
 	        }
 	        return filename;
 	    }
+
+	@Override
+	public Lesson getParamNewLesson(Map<String, String[]> parameterMap) {
+		Lesson lesson = null;
+		
+		if(parameterMap.get(PARAM_LESSON_NEW_TITLE)!=null && parameterMap.get(PARAM_LESSON_NEW_TITLE).length>0){
+			String title = parameterMap.get(PARAM_LESSON_NEW_TITLE)[0];
+			if(parameterMap.get(PARAM_LESSON_NEW_LANGUAGE)!=null && parameterMap.get(PARAM_LESSON_NEW_LANGUAGE).length>0){
+				String lang = parameterMap.get(PARAM_LESSON_NEW_LANGUAGE)[0];
+				short idLanguage = 0;
+				try {
+					idLanguage = Short.valueOf(lang);
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				if(idLanguage>0){
+					lesson = new Lesson();
+					lesson.setTitle(title);
+					lesson.setIdLanguage(idLanguage);					
+					if(parameterMap.get(PARAM_LESSON_NEW_TEXT)!=null && parameterMap.get(PARAM_LESSON_NEW_TEXT).length>0){
+						lesson.setText(parameterMap.get(PARAM_LESSON_NEW_TEXT)[0]);
+					}
+				}
+			}				
+		}
+		
+		
+				
+		 
+		
+		return lesson;
+	}
 	
 
 }
