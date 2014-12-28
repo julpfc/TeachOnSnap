@@ -127,6 +127,16 @@ public class LessonRepositoryDBCache implements LessonRepository {
 		return (List<VideoFile>)cache.executeImplCached(repoDB, idLessonVideo);
 	}
 
+	@Override
+	public int createLesson(Lesson newLesson) {		
+		return (int)cache.updateImplCached(repoDB, null, null, newLesson);
+	}
+
+	@Override
+	public void saveLessonText(int idLesson, String newText) {
+		cache.updateImplCached(repoDB, idLesson, "getLesson", idLesson, newText);		
+	}
+
 	
 
 }

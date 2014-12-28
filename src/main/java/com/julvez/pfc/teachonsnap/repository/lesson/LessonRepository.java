@@ -49,5 +49,9 @@ public interface LessonRepository {
 	public List<Object[]> getAuthorCloudTags();
 
 	public List<VideoFile> getLessonVideos(int idLessonVideo);
+
+	public int createLesson(Lesson newLesson);
+
+	public void saveLessonText(int idLesson, String newText);
 	
 }

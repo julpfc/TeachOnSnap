@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
@@ -25,6 +27,7 @@ public class LessonServiceImpl implements LessonService{
 	private LessonRepository lessonRepository = LessonRepositoryFactory.getRepository();	
 	private UserService userService = UserServiceFactory.getService();
 	private LangService langService = LangServiceFactory.getService();
+	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	
 	@Override
@@ -214,6 +217,32 @@ public class LessonServiceImpl implements LessonService{
 	public List<VideoFile> getLessonVideos(int idLessonVideo) {
 		List<VideoFile> videos = lessonRepository.getLessonVideos(idLessonVideo);		
 		return videos;
+	}
+
+	@Override
+	public Lesson createLesson(Lesson newLesson) {
+		Lesson ret = null;
+		if(newLesson!=null){
+			newLesson.setURIname(stringManager.generateURIname(newLesson.getTitle()));
+			//TODO controlar duplicate keys, title, uriname,...
+			//TODO Actualizar cachés de listados
+			int idLesson = lessonRepository.createLesson(newLesson);
+			newLesson.setId(idLesson);
+			saveLessonText(newLesson, newLesson.getText());
+			ret = getLesson(idLesson);
+		}
+		return ret;
+	}
+
+	@Override
+	public Lesson saveLessonText(Lesson lesson, String newText) {
+		Lesson ret = null;
+		if(lesson!=null && lesson.getId()>0 && newText!=null){
+			lessonRepository.saveLessonText(lesson.getId(),newText);
+			lesson.setText(newText);
+			ret = lesson;
+		}
+		return ret;
 	}
 
 }

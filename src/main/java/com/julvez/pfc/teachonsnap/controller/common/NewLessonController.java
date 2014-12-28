@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 
 public class NewLessonController extends CommonController {
 
 	private static final long serialVersionUID = 7608540908435958036L;
 	
+	private LessonService lessonService = LessonServiceFactory.getService();
 	
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -24,20 +27,28 @@ public class NewLessonController extends CommonController {
 		if(request.getMethod().equals("POST")){
 			
 			Lesson newLesson = requestManager.getParamNewLesson(request.getParameterMap());
-			//TODO Le falta el idtest, el uriname
+			//TODO Le falta el idtest
 			if(newLesson!=null){
 				newLesson.setIdUser(user.getId());
 				//TODO Crear lesson en BBDD
+				
+				newLesson = lessonService.createLesson(newLesson);
 				
 				
 				//TODO recuperar video o audio
 				
 				//TODO crear video en BBDD y mover fichero a disco
+				
+				//TODO tags
+				
+				//TODO otros
 			}
 			else{
 				//TODO Error
 			}
 			
+			
+			//TODO SI todo es correcto cargarse los temporales que no hemos usado
 		}
 		
 

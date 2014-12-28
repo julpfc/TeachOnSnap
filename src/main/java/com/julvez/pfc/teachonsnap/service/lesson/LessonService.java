@@ -33,6 +33,10 @@ public interface LessonService {
 	public List<CloudTag> getAuthorCloudTags();
 
 	public List<VideoFile> getLessonVideos(int idLessonVideo);
+
+	public Lesson createLesson(Lesson newLesson);
+	
+	public Lesson saveLessonText(Lesson lesson,String newText);
 	
 	
 }

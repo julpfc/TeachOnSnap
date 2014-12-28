@@ -18,7 +18,7 @@ public abstract class PagerController extends CommonController {
 
 	private static final long serialVersionUID = 1428850419073596728L;
 
-	protected static final int MAX_RESULTS_PAGE = 1;
+	protected static final int MAX_RESULTS_PAGE = 10;
 	
 	protected LessonService lessonService = LessonServiceFactory.getService();
 	protected StringManager stringManager = StringManagerFactory.getManager();

@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.manager.cache;
 
+
 public interface CacheManager {
 
 	//TODO Se puede ampliar con otros metodos que permitan elegir el nombre en lugar del nombre del metodo y las keys
@@ -12,5 +13,7 @@ public interface CacheManager {
 	 * @param params Parametros de entrada del metodo de la interfaz.
 	 * @return
 	 */
-	public Object executeImplCached(Object impl,Object... params);
+	public Object executeImplCached(Object impl, Object... params);
+
+	public Object updateImplCached(Object impl, Object cacheKey, String cacheName, Object... params);
 }

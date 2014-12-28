@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.manager.db.hibernate;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -18,6 +19,8 @@ import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 public class DBManagerHibernate implements DBManager{
 
 	private SessionFactory sessionFactory;
+	
+	private static final String LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
     
     public DBManagerHibernate(){
     	sessionFactory = buildSessionFactory();
@@ -138,5 +141,31 @@ public class DBManagerHibernate implements DBManager{
 		catch(Throwable t){
 			System.out.println(t);
 		}		
+	}
+
+	@Override
+	public long updateQuery(String queryName, Object... queryParams) {
+		Session sess = sessionFactory.getCurrentSession();
+		
+		long lastInsertID=-1;
+		
+		try{
+			sess.beginTransaction();
+
+			SQLQuery query = getQuery(sess, queryName, null, queryParams);
+					
+			query.executeUpdate();
+			
+			query = sess.createSQLQuery(LAST_INSERT_ID);
+			
+			lastInsertID = ((BigInteger)query.uniqueResult()).longValue();
+			
+			sess.getTransaction().commit();
+					
+		} catch (HibernateException e) {
+			System.out.println(e);			
+		}		
+		System.out.println("QueryLog: -> "+ lastInsertID);
+		return lastInsertID;
 	}
 }

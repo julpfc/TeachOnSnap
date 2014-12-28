@@ -39,6 +39,8 @@ public abstract class CommonController extends HttpServlet {
 		
 		//TODO Revisar si es mejor sacarlo del Locale que del Accept a pelo
 		//	System.out.println(request.getLocale().getLanguage());
+		request.setCharacterEncoding("UTF-8");
+		
 		String acceptLang = requestManager .getAcceptLanguage(request);
 		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
 		String paramLang = requestManager.getParamChangeLanguage(request);

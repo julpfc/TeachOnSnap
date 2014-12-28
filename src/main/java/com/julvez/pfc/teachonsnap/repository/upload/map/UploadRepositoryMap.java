@@ -86,7 +86,7 @@ public class UploadRepositoryMap implements UploadRepository {
 					}
 				}
 			}
-			System.out.println("UploadRepositoryMap: Todos los ficheros cerrados.");
+			System.out.println("UploadRepository: Todos los ficheros cerrados.");
 		}		
 	}
 

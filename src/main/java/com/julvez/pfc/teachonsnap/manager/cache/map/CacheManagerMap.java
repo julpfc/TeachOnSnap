@@ -115,6 +115,37 @@ public class CacheManagerMap implements CacheManager {
         .replace("\0", "[%s]");
 		return String.format(format, objects);
 	}
+
+
+	@Override
+	public Object updateImplCached(Object impl, Object cacheKey,
+			String cacheName, Object... params) {
+		
+		Object result = null;
+		
+		String methodName = getCallerMethodName();
+		
+		Class<?>[] paramClasses = getClasses(params);
+		
+		try{
+			Method m = impl.getClass().getMethod(methodName, paramClasses);
+			result = m.invoke(impl,params);
+
+			if(cacheKey!=null){
+				Map<String, Object> cache = getCache(cacheName);
+			
+				synchronized (cache) {
+					cache.remove(getKey(cacheKey));
+					System.out.println("CacheEliminada: "+cacheName+"["+getKey(cacheKey)+"]");
+				}
+			}
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 		
 }

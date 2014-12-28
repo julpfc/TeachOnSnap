@@ -1,5 +1,8 @@
 package com.julvez.pfc.teachonsnap.manager.string.impl;
 
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -25,6 +28,21 @@ public class StringManagerImpl implements StringManager {
 			}
 		}
 		return isTrue;
+	}
+
+	@Override
+	public String generateURIname(String source) {
+		String result = null;
+		
+		if(source!=null){
+			result = Normalizer.normalize(source.toLowerCase(), Form.NFD)
+			        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+			        .replaceAll("[^\\p{Alnum}]+", "-")
+			        .replaceAll("[^a-z0-9]+$", "")
+			        .replaceAll("^[^a-z0-9]+", "");
+		}
+		
+		return result;
 	}
 
 }

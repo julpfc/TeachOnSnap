@@ -17,7 +17,7 @@
 	    JOIN ttag USING(idTag)
 	    WHERE tag = ?
 	    ORDER BY idLesson DESC
-	    LIMIT ?,2
+	    LIMIT ?,11
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR">
 	    SELECT idLesson
@@ -25,7 +25,7 @@
 	    JOIN tuserauthor USING(iduser)
 	    WHERE tuserauthor.URIName = ?
 	    ORDER BY idLesson DESC
-	    LIMIT ?,2
+	    LIMIT ?,11
 	</sql-query>	
 	<sql-query name="SQL_LESSON_GET_LESSONID_FROM_URI">
 	    SELECT idLesson
@@ -91,7 +91,7 @@
 	    SELECT idLesson
 	    FROM tlesson
 	    ORDER BY idLesson DESC	    
-	    LIMIT ?,2
+	    LIMIT ?,11
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_TEST">
 		SELECT idLessonTest,idlesson,numQuestions,numAnswers,multiplechoice
@@ -125,4 +125,13 @@
 	    JOIN tvideomimetype USING (idvideomimetype)
 	    WHERE idLessonVideo = ?	    
 	</sql-query>
+	<sql-query name="SQL_LESSON_CREATE_LESSON">
+	    INSERT INTO tlesson(idUser, idLanguage, title, `date`,URIname)
+	    VALUES (?, ?, ?, now(),?)   
+	</sql-query>
+	<sql-query name="SQL_LESSON_SAVE_TEXT">
+	    INSERT INTO tlessontxt(idLesson,text)
+	    VALUES (?,?)
+	    ON DUPLICATE KEY UPDATE text = ?   
+	</sql-query>		
 </hibernate-mapping>

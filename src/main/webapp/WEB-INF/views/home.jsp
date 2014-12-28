@@ -60,7 +60,7 @@
 				</c:forEach>			
 	   
 				<nav><ul class="pager"><li>
-					<a href="/last/1"><span class="glyphicon glyphicon-chevron-left"></span>
+					<a href="/last/11"><span class="glyphicon glyphicon-chevron-left"></span>
 					 <fmt:message key="pager.previous"/></a></li></ul>
 				</nav>
 	        </div><!-- col -->

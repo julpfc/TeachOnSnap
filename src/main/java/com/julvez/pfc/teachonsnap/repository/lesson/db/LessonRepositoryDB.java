@@ -151,4 +151,15 @@ public class LessonRepositoryDB implements LessonRepository {
 		return (List<VideoFile>)dbm.getQueryResultList("SQL_LESSON_GET_LESSONVIDEOS", VideoFile.class, idLessonVideo);
 	}
 
+	@Override
+	public int createLesson(Lesson newLesson) {
+		return (int)dbm.updateQuery("SQL_LESSON_CREATE_LESSON", newLesson.getIdUser(),
+				newLesson.getIdLanguage(),newLesson.getTitle(),newLesson.getURIname());
+	}
+
+	@Override
+	public void saveLessonText(int idLesson, String newText) {
+		dbm.updateQuery("SQL_LESSON_SAVE_TEXT", idLesson,newText,newText);
+	}
+
 }

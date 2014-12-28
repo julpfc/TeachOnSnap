@@ -184,6 +184,7 @@ public class RequestManagerImpl implements RequestManager {
 	public Lesson getParamNewLesson(Map<String, String[]> parameterMap) {
 		Lesson lesson = null;
 		
+		//TODO COntrolar caracteres extraños UTF8
 		if(parameterMap.get(PARAM_LESSON_NEW_TITLE)!=null && parameterMap.get(PARAM_LESSON_NEW_TITLE).length>0){
 			String title = parameterMap.get(PARAM_LESSON_NEW_TITLE)[0];
 			if(parameterMap.get(PARAM_LESSON_NEW_LANGUAGE)!=null && parameterMap.get(PARAM_LESSON_NEW_LANGUAGE).length>0){
@@ -196,6 +197,7 @@ public class RequestManagerImpl implements RequestManager {
 					// TODO: handle exception
 				}
 				if(idLanguage>0){
+					
 					lesson = new Lesson();
 					lesson.setTitle(title);
 					lesson.setIdLanguage(idLanguage);					
@@ -205,10 +207,6 @@ public class RequestManagerImpl implements RequestManager {
 				}
 			}				
 		}
-		
-		
-				
-		 
 		
 		return lesson;
 	}

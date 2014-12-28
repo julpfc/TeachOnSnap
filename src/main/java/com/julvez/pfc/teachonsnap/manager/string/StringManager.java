@@ -5,4 +5,6 @@ public interface StringManager {
 	public boolean isEmpty(String string);
 
 	public boolean isTrue(String string);
+	
+	public String generateURIname(String source);
 }
