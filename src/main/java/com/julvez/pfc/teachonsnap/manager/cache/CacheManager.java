@@ -15,5 +15,7 @@ public interface CacheManager {
 	 */
 	public Object executeImplCached(Object impl, Object... params);
 
-	public Object updateImplCached(Object impl, Object cacheKey, String cacheName, Object... params);
+	public Object updateImplCached(Object impl, String[] cacheKeys, String[] cacheNames, Object... params);
+
+	public void clearCache(String cacheName);
 }

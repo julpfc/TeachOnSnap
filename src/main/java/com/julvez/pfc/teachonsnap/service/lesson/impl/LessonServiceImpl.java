@@ -225,10 +225,10 @@ public class LessonServiceImpl implements LessonService{
 		if(newLesson!=null){
 			newLesson.setURIname(stringManager.generateURIname(newLesson.getTitle()));
 			//TODO controlar duplicate keys, title, uriname,...
-			//TODO Actualizar cachés de listados
 			int idLesson = lessonRepository.createLesson(newLesson);
 			newLesson.setId(idLesson);
-			saveLessonText(newLesson, newLesson.getText());
+			if(!stringManager.isEmpty(newLesson.getText()))
+				saveLessonText(newLesson, newLesson.getText());
 			ret = getLesson(idLesson);
 		}
 		return ret;
@@ -244,5 +244,34 @@ public class LessonServiceImpl implements LessonService{
 		}
 		return ret;
 	}
+
+	@Override
+	public Lesson addLessonTags(Lesson lesson, List<String> tags) {
+		ArrayList<Integer> tagIDs = new ArrayList<Integer>();
+		Lesson ret = null;
+		
+		if(lesson!=null && lesson.getId()>0 && tags!=null){
+
+			for(String tag:tags){
+				int tagID = 0;
+				tagID = lessonRepository.getTagID(tag);
+				if(tagID>0){
+					tagIDs.add(tagID);
+				}
+				else{
+					tagID = lessonRepository.createTag(tag);	
+					if(tagID>0){
+						tagIDs.add(tagID);
+					}
+				}
+			}
+			if(tags.size()>0){
+				lessonRepository.addLessonTags(lesson.getId(), tagIDs);
+			}
+			ret = lesson;
+		}
+		return ret;
+	}
+	
 
 }

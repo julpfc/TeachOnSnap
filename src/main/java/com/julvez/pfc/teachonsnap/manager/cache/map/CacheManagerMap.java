@@ -6,12 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
 public class CacheManagerMap implements CacheManager {
 
 	//He quitado el static, supuestamente no afecta, vigilar cachés
 	private Map<String, Map<String, Object>> caches = 
 			Collections.synchronizedMap(new HashMap<String, Map<String, Object>>());
+	
+	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	public Object executeImplCached(Object impl, Object... params) {
@@ -26,14 +30,14 @@ public class CacheManagerMap implements CacheManager {
 		//TODO Revisar si sacamos el get la primera vez fuera y si es null ya sincronizamos
 		
 		synchronized (cache) {
-			result = cache.get(getKey(params));	
-			System.out.println("Cache: "+methodName+getKey(params)+"="+result);
+			result = cache.get(stringManager.getKey(params));	
+			System.out.println("Cache: "+methodName+stringManager.getKey(params)+"="+result);
 
 			if(result == null ){		
 				try{
 					Method m = impl.getClass().getMethod(methodName, paramClasses);
 					result = m.invoke(impl,params);
-					cache.put(getKey(params), result);
+					cache.put(stringManager.getKey(params), result);
 				}
 				catch(Throwable t){
 					t.printStackTrace();
@@ -110,16 +114,8 @@ public class CacheManagerMap implements CacheManager {
 		return cache;		
 	}
 	
-	private String getKey(Object...objects){
-		String format = new String(new char[objects.length])
-        .replace("\0", "[%s]");
-		return String.format(format, objects);
-	}
-
-
 	@Override
-	public Object updateImplCached(Object impl, Object cacheKey,
-			String cacheName, Object... params) {
+	public Object updateImplCached(Object impl, String[] cacheKeys, String[] cacheNames, Object... params) {
 		
 		Object result = null;
 		
@@ -131,12 +127,16 @@ public class CacheManagerMap implements CacheManager {
 			Method m = impl.getClass().getMethod(methodName, paramClasses);
 			result = m.invoke(impl,params);
 
-			if(cacheKey!=null){
-				Map<String, Object> cache = getCache(cacheName);
-			
-				synchronized (cache) {
-					cache.remove(getKey(cacheKey));
-					System.out.println("CacheEliminada: "+cacheName+"["+getKey(cacheKey)+"]");
+			if(cacheKeys!=null){
+				int i=0;
+				for(String cacheName:cacheNames){
+					Map<String, Object> cache = getCache(cacheName);
+				
+					synchronized (cache) {
+						cache.remove(cacheKeys[i]);
+						System.out.println("CacheEliminada: "+cacheName+"["+cacheKeys[i]+"]");
+					}
+					i++;
 				}
 			}
 		}
@@ -145,6 +145,20 @@ public class CacheManagerMap implements CacheManager {
 		}
 		
 		return result;
+	}
+
+
+	@Override
+	public void clearCache(String cacheName) {
+		if(cacheName!=null){
+			
+			Map<String, Object> cache = getCache(cacheName);
+			
+			synchronized (cache) {
+				cache.clear();
+				System.out.println("CacheEliminadaTotal: "+cacheName);
+			}
+		}
 	}
 	
 		

@@ -36,11 +36,11 @@ public abstract class CommonController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//TODO Revisar si lo ponemos en más sitios
+		request.setCharacterEncoding("UTF-8");
 		
 		//TODO Revisar si es mejor sacarlo del Locale que del Accept a pelo
 		//	System.out.println(request.getLocale().getLanguage());
-		request.setCharacterEncoding("UTF-8");
-		
 		String acceptLang = requestManager .getAcceptLanguage(request);
 		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
 		String paramLang = requestManager.getParamChangeLanguage(request);

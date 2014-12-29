@@ -45,4 +45,11 @@ public class StringManagerImpl implements StringManager {
 		return result;
 	}
 
+	
+	@Override
+	public  String getKey(Object...objects){
+		String format = new String(new char[objects.length])
+        .replace("\0", "[%s]");
+		return String.format(format, objects);
+	}
 }

@@ -31,6 +31,7 @@ public interface RequestManager {
 	public static final String PARAM_LESSON_NEW_AUDIO_INDEX	= "index_audio";
 	public static final String PARAM_LESSON_NEW_FILE_ATTACH	= "attach";
 	public static final String PARAM_LESSON_NEW_TEXT		= "text";
+	public static final String PARAM_LESSON_NEW_TAGS		= "tags";
 	 
 	
 	String getAcceptLanguage(HttpServletRequest request);
@@ -63,5 +64,7 @@ public interface RequestManager {
 	List<FileMetadata> getUploadFiles(HttpServletRequest request);
 
 	Lesson getParamNewLesson(Map<String, String[]> parameterMap);
+
+	List<String> getParamNewTags(Map<String, String[]> parameterMap);
 	
 }

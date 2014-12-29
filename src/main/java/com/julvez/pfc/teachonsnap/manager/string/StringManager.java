@@ -7,4 +7,6 @@ public interface StringManager {
 	public boolean isTrue(String string);
 	
 	public String generateURIname(String source);
+
+	public String getKey(Object... objects);
 }

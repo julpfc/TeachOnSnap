@@ -65,6 +65,11 @@
 	    FROM ttag	    	    
 	    WHERE idTag = ?
 	</sql-query>
+	<sql-query name="SQL_LESSON_GET_TAGID">
+		SELECT idTag
+	    FROM ttag	    	    
+	    WHERE tag = ?
+	</sql-query>	
 	<sql-query name="SQL_LESSON_GET_CLOUDTAG_TAG">
 		SELECT idTag,weight FROM (
 			SELECT 	idTag, COUNT(idlesson) AS weight
@@ -129,9 +134,17 @@
 	    INSERT INTO tlesson(idUser, idLanguage, title, `date`,URIname)
 	    VALUES (?, ?, ?, now(),?)   
 	</sql-query>
+	<sql-query name="SQL_LESSON_CREATE_TAG">
+	    INSERT INTO ttag(tag)
+	    VALUES (?)   
+	</sql-query>	
 	<sql-query name="SQL_LESSON_SAVE_TEXT">
 	    INSERT INTO tlessontxt(idLesson,text)
 	    VALUES (?,?)
 	    ON DUPLICATE KEY UPDATE text = ?   
-	</sql-query>		
+	</sql-query>
+	<sql-query name="SQL_LESSON_SAVE_TAG">
+	    INSERT IGNORE INTO tlessontag(idLesson,idTag)
+	    VALUES (?,?)	       
+	</sql-query>					
 </hibernate-mapping>

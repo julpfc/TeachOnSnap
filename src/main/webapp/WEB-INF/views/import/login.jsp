@@ -23,8 +23,8 @@
 			        <span class="glyphicon glyphicon-book"></span></span>
        				TeachOnSnap
        			</h2>
-     		 </div>
-    		<form action="https://192.168.1.3/login/" method="post" class="form-signin" role="form" id="loginForm" >
+     		 </div> 
+    		<form action="https://pfc.julvez.com/login/" method="post" class="form-signin" role="form" id="loginForm" >
 	      		<div class="modal-body">
 	      			<h2 class="form-signin-heading"><fmt:message key="login.form.title" bundle="${loginBundle}"/></h2>
 	        		<label for="inputEmail" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>

@@ -23,7 +23,7 @@ public class Lesson {
 	private String text;
 	private String URIname;
 	private int idLessonTest;
-	private int idLessonVideo;
+	private int idLessonVideo;	
 
 	@Transient
 	private User author;

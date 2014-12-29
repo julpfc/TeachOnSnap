@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.controller.common;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,16 +31,16 @@ public class NewLessonController extends CommonController {
 			//TODO Le falta el idtest
 			if(newLesson!=null){
 				newLesson.setIdUser(user.getId());
-				//TODO Crear lesson en BBDD
-				
 				newLesson = lessonService.createLesson(newLesson);
 				
 				
+				//TODO Ver como hacer repositorio(BBDD) para ficheros de audio o video
 				//TODO recuperar video o audio
 				
 				//TODO crear video en BBDD y mover fichero a disco
 				
-				//TODO tags
+				List<String> tags = requestManager.getParamNewTags(request.getParameterMap());
+				newLesson = lessonService.addLessonTags(newLesson, tags);
 				
 				//TODO otros
 			}

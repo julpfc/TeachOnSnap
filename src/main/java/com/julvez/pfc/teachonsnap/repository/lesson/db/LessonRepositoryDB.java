@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.repository.lesson.db;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
@@ -12,7 +13,6 @@ import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
 import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
-
 
 
 public class LessonRepositoryDB implements LessonRepository {
@@ -160,6 +160,26 @@ public class LessonRepositoryDB implements LessonRepository {
 	@Override
 	public void saveLessonText(int idLesson, String newText) {
 		dbm.updateQuery("SQL_LESSON_SAVE_TEXT", idLesson,newText,newText);
+	}
+
+	@Override
+	public void addLessonTags(int idLesson, ArrayList<Integer> tagIDs) {
+		for(int tagID:tagIDs){
+			dbm.updateQuery("SQL_LESSON_SAVE_TAG", idLesson,tagID);
+		}		
+	}
+
+	@Override
+	public int getTagID(String tag) {
+		int id = -1;
+		Object obj = dbm.getQueryResultUnique("SQL_LESSON_GET_TAGID", null, tag);
+		if(obj!=null)
+			id = Integer.parseInt(obj.toString());
+		return id; 	}
+
+	@Override
+	public int createTag(String tag) {
+		return (int)dbm.updateQuery("SQL_LESSON_CREATE_TAG", tag);
 	}
 
 }

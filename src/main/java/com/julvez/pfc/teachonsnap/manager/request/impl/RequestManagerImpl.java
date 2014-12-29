@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.manager.request.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -184,7 +185,6 @@ public class RequestManagerImpl implements RequestManager {
 	public Lesson getParamNewLesson(Map<String, String[]> parameterMap) {
 		Lesson lesson = null;
 		
-		//TODO COntrolar caracteres extraños UTF8
 		if(parameterMap.get(PARAM_LESSON_NEW_TITLE)!=null && parameterMap.get(PARAM_LESSON_NEW_TITLE).length>0){
 			String title = parameterMap.get(PARAM_LESSON_NEW_TITLE)[0];
 			if(parameterMap.get(PARAM_LESSON_NEW_LANGUAGE)!=null && parameterMap.get(PARAM_LESSON_NEW_LANGUAGE).length>0){
@@ -209,6 +209,21 @@ public class RequestManagerImpl implements RequestManager {
 		}
 		
 		return lesson;
+	}
+
+	@Override
+	public List<String> getParamNewTags(Map<String, String[]> parameterMap) {
+		List<String> tags = null;
+	
+		if(parameterMap.get(PARAM_LESSON_NEW_TAGS)!=null && parameterMap.get(PARAM_LESSON_NEW_TAGS).length>0){
+			tags = new ArrayList<String>();
+			for(String tag:parameterMap.get(PARAM_LESSON_NEW_TAGS)){
+				if(!stringManager.isEmpty(tag)){
+					tags.add(tag);
+				}
+			}
+		}
+		return tags;
 	}
 	
 

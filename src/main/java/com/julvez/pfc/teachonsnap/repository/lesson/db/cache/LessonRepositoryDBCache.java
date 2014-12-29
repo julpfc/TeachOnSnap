@@ -1,9 +1,12 @@
 package com.julvez.pfc.teachonsnap.repository.lesson.db.cache;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
@@ -19,6 +22,7 @@ public class LessonRepositoryDBCache implements LessonRepository {
 
 	private LessonRepositoryDB repoDB = new LessonRepositoryDB();
 	private CacheManager cache = CacheManagerFactory.getCacheManager();
+	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	public Lesson getLesson(int idLesson) {
@@ -129,13 +133,46 @@ public class LessonRepositoryDBCache implements LessonRepository {
 
 	@Override
 	public int createLesson(Lesson newLesson) {		
-		return (int)cache.updateImplCached(repoDB, null, null, newLesson);
+		int id =(int)cache.updateImplCached(repoDB, null, null, newLesson);
+		
+		if(id>0){
+			cache.clearCache("getLastLessonIDs");
+			cache.clearCache("getAuthorCloudTags");
+
+			//TODO Idealmente sólo nos cargaríamos la caché de ese autor (URIname que no tenemos)
+			//getLessonIDsFromAuthor(String author,int firstResult)			
+			cache.clearCache("getLessonIDsFromAuthor");
+		}
+		
+		return id;
 	}
 
 	@Override
 	public void saveLessonText(int idLesson, String newText) {
-		cache.updateImplCached(repoDB, idLesson, "getLesson", idLesson, newText);		
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getLesson"}, idLesson, newText);		
 	}
+
+	@Override
+	public void addLessonTags(int idLesson, ArrayList<Integer> tagIDs) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getLessonTagIDs"}, idLesson, tagIDs);
+		
+		cache.clearCache("getLessonIDsFromTag");
+		cache.clearCache("getCloudTags");			
+	}
+
+	@Override
+	public int getTagID(String tag) {
+		return (int)cache.executeImplCached(repoDB, tag);		
+	}
+
+	@Override
+	public int createTag(String tag) {
+		return (int)cache.updateImplCached(repoDB, null, null, tag);
+	}
+
+
 
 	
 

@@ -37,6 +37,11 @@ public interface LessonService {
 	public Lesson createLesson(Lesson newLesson);
 	
 	public Lesson saveLessonText(Lesson lesson,String newText);
+
+	public Lesson addLessonTags(Lesson lesson, List<String> tags);
+
+		
+	//TODO un removeLessonTags para el editor de lecciones, le dices cuales añades y cuales quitas
 	
 	
 }

@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.repository.lesson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.model.lesson.Answer;
@@ -53,5 +54,12 @@ public interface LessonRepository {
 	public int createLesson(Lesson newLesson);
 
 	public void saveLessonText(int idLesson, String newText);
-	
+
+	public void addLessonTags(int idLesson, ArrayList<Integer> tagIDs);
+
+	public int getTagID(String tag);
+
+	public int createTag(String tag);
+
+		
 }
