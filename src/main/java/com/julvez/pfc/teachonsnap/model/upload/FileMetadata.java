@@ -3,13 +3,16 @@ package com.julvez.pfc.teachonsnap.model.upload;
 import java.io.InputStream;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.julvez.pfc.teachonsnap.model.media.MediaType;
 
-@JsonIgnoreProperties({"content"})
+@JsonIgnoreProperties({"content","mediaType"})
 public class FileMetadata {
 
 	private String fileName;
 	private String fileSize;
-	private String fileType;	 
+	private String fileType;	
+	
+	private MediaType mediaType;
 	 
 	private InputStream content;
 
@@ -49,6 +52,14 @@ public class FileMetadata {
 
 	public void setContent(InputStream content) {
 		this.content = content;
+	}
+
+	public MediaType getMediaType() {
+		return mediaType;
+	}
+
+	public void setMediaType(MediaType mediaType) {
+		this.mediaType = mediaType;
 	} 
 	 
 }

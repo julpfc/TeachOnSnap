@@ -36,17 +36,17 @@
 			    	
 					<div class="form-group">
     					<label for="exampleInputFile">Video File input</label>
-    					<input type="file" id="exampleInputFile" value="${lesson.idLessonVideo}">
+    					<input type="file" id="exampleInputFile" value="${lesson.idLessonMedia}">
     					<p class="help-block">Example block-level help text here.</p>
   					</div>
 				
 					<div>
-						<c:if test="${lesson.idLessonVideo>0}">					
+						<c:if test="${lesson.idLessonMedia>0}">					
 				     		<div class="lesson-video">		     		
-				     			<c:set var="firstVideo" value="${videos[0]}"/>
+				     			<c:set var="firstVideo" value="${medias[0]}"/>
 				     			<video src="${firstVideo.URL}" id="lesson_video" controls="controls" poster="" height="auto" width="100%">
-					     			<c:forEach items="${videos}" var="video">		
-				       					<source src="${video.URL}" type='video/mp4'/>							    							
+					     			<c:forEach items="${medias}" var="media">		
+				       					<source src="${media.URL}" type='video/mp4'/>							    							
 									</c:forEach>
 								</video>   
 				     		</div>         		

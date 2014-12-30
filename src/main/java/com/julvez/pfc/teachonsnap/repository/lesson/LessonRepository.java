@@ -9,7 +9,6 @@ import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
-import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 
 public interface LessonRepository {
 
@@ -48,8 +47,6 @@ public interface LessonRepository {
 	public Answer getAnswer(int idAnswer);
 
 	public List<Object[]> getAuthorCloudTags();
-
-	public List<VideoFile> getLessonVideos(int idLessonVideo);
 
 	public int createLesson(Lesson newLesson);
 

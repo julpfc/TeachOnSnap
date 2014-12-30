@@ -13,7 +13,6 @@ import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
-import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
@@ -211,12 +210,6 @@ public class LessonServiceImpl implements LessonService{
 		}
 		
 		return getCloudTagListNormalized(cloudTags,max,min);
-	}
-
-	@Override
-	public List<VideoFile> getLessonVideos(int idLessonVideo) {
-		List<VideoFile> videos = lessonRepository.getLessonVideos(idLessonVideo);		
-		return videos;
 	}
 
 	@Override

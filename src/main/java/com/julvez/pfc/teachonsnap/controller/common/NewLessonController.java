@@ -9,15 +9,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.media.MediaFile;
+import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
+import com.julvez.pfc.teachonsnap.service.media.MediaFileServiceFactory;
 
 public class NewLessonController extends CommonController {
 
 	private static final long serialVersionUID = 7608540908435958036L;
 	
 	private LessonService lessonService = LessonServiceFactory.getService();
+	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
 	
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -33,16 +38,27 @@ public class NewLessonController extends CommonController {
 				newLesson.setIdUser(user.getId());
 				newLesson = lessonService.createLesson(newLesson);
 				
-				
-				//TODO Ver como hacer repositorio(BBDD) para ficheros de audio o video
-				//TODO recuperar video o audio
-				
-				//TODO crear video en BBDD y mover fichero a disco
-				
-				List<String> tags = requestManager.getParamNewTags(request.getParameterMap());
-				newLesson = lessonService.addLessonTags(newLesson, tags);
-				
-				//TODO otros
+				if(newLesson!=null){				
+					FileMetadata file = requestManager.getSubmittedFile(request);
+					
+					if(file!=null){						
+						MediaFile mediaFile = mediaFileService.saveMediaFile(newLesson,file);
+						if(mediaFile==null){
+							//TODO error
+						}
+					}
+					else{
+						//TODO no habia fichero
+					}
+					
+					List<String> tags = requestManager.getParamNewTags(request.getParameterMap());
+					newLesson = lessonService.addLessonTags(newLesson, tags);
+					
+					//TODO otros
+				}
+				else{
+					//TODO error					
+				}
 			}
 			else{
 				//TODO Error

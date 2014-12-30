@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+	<sql-query name="SQL_MEDIA_GET_MEDIAFILES">
+	    SELECT idMediaFile,idLessonMedia,idMediaRepository,filename,mimetype,mediaType
+	    FROM tMediafile
+	    JOIN tMediamimetype USING (idmediamimetype)
+	    JOIN tMediatype USING (idmediatype)
+	    WHERE idLessonMedia = ?	    
+	</sql-query>
+	<sql-query name="SQL_MEDIA_GET_MEDIAREPOSITORY">
+	    SELECT idMediaRepository,URI,filePathSeparator
+	    FROM tmediarepository	    
+	    WHERE idMediaRepository = ?	    
+	</sql-query>	
+	<sql-query name="SQL_MEDIA_GET_MIMETYPEID">
+	    SELECT idMediamimetype
+	    FROM tMediamimetype
+	    JOIN tMediatype USING (idmediatype)
+	    WHERE mediatype = ? AND mimetype = ?	    
+	</sql-query>
+	<sql-query name="SQL_MEDIA_CREATE_LESSONMEDIA">
+	    INSERT INTO tlessonmedia(idLesson)
+	    VALUES (?)   
+	</sql-query>
+	<sql-query name="SQL_MEDIA_CREATE_MEDIAFILE">
+	    INSERT INTO tmediafile(idlessonmedia, idmediarepository, idmediamimetype, filename)
+	    VALUES (?, ?, ?, ?);   
+	</sql-query>
+</hibernate-mapping>

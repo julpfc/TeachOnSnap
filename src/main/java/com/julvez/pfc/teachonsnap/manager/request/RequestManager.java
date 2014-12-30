@@ -66,5 +66,7 @@ public interface RequestManager {
 	Lesson getParamNewLesson(Map<String, String[]> parameterMap);
 
 	List<String> getParamNewTags(Map<String, String[]> parameterMap);
+
+	FileMetadata getSubmittedFile(HttpServletRequest request);
 	
 }

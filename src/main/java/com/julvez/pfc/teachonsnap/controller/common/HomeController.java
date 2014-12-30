@@ -27,6 +27,8 @@ public class HomeController extends CommonController {
 		// TODO Páginador
 		
 		List<Lesson> lastLessons = lessonService.getLastLessons(0);
+		lastLessons.remove(lastLessons.size()-1);
+		
 		List<CloudTag> cloudTags = lessonService.getCloudTags();
 		
 		List<CloudTag> authorCloudTags = lessonService.getAuthorCloudTags();

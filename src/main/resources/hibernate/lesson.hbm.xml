@@ -4,11 +4,11 @@
  <hibernate-mapping>
 	<sql-query name="SQL_LESSON_GET_LESSON">
 		SELECT idLesson, idUser, idLanguage, title, date,text,URIname,
-			IFNULL(idLessonTest,-1) as idLessonTest,IFNULL(idLessonVideo,-1) as idLessonVideo
+			IFNULL(idLessonTest,-1) as idLessonTest,IFNULL(idLessonMedia,-1) as idLessonMedia
 	    FROM tlesson
 	    LEFT JOIN tlessontxt USING(idLesson)
 	    LEFT JOIN tlessontest using (idLesson)
-	    LEFT JOIN tlessonvideo using (idLesson)		    
+	    LEFT JOIN tlessonmedia using (idLesson)		    
 	    WHERE idLesson = ?
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_TAG">
@@ -124,11 +124,12 @@
 	    FROM tanswer
 	    WHERE idAnswer = ?	    
 	</sql-query>
-	<sql-query name="SQL_LESSON_GET_LESSONVIDEOS">
-	    SELECT idVideoFile,idLessonVideo,idVideoRepository,filename,mimetype
-	    FROM tvideofile
-	    JOIN tvideomimetype USING (idvideomimetype)
-	    WHERE idLessonVideo = ?	    
+	<sql-query name="SQL_LESSON_GET_LESSONMEDIAS">
+	    SELECT idMediaFile,idLessonMedia,idMediaRepository,filename,mimetype,mediaType
+	    FROM tMediafile
+	    JOIN tMediamimetype USING (idmediamimetype)
+	    JOIN tMediatype USING (idmediatype)
+	    WHERE idLessonMedia = ?	    
 	</sql-query>
 	<sql-query name="SQL_LESSON_CREATE_LESSON">
 	    INSERT INTO tlesson(idUser, idLanguage, title, `date`,URIname)

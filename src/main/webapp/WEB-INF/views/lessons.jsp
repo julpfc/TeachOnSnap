@@ -10,7 +10,7 @@
 <html>
 <head>	
 	<c:import url="./import/head_bootstrap.jsp"/>
-	<c:choose>
+	<c:choose> 
 		<c:when test="${not empty searchKeyword}">
 			<title>TeachOnSnap - <fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}: ${searchKeyword}</title>
 		</c:when>
@@ -37,7 +37,7 @@
 	            			 <a href="${lesson.author.URL}">${lesson.author.fullName}</a>
             			</p>
 	            		<p class="lesson-addons">
-	            			<c:if test="${lesson.idLessonVideo>0}">
+	            			<c:if test="${lesson.idLessonMedia>0}">
 								<span class="glyphicon glyphicon-facetime-video"></span> video
 							</c:if>
 							<c:if test="${lesson.idLessonTest>0}">

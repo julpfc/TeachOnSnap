@@ -78,18 +78,33 @@ public class DBManagerHibernate implements DBManager{
 	@Override
 	public List<?> getQueryResultList(String queryName, Class<?> entityClass,
 			Object... queryParams) {
-		Session sess = sessionFactory.getCurrentSession();
-		
-		List<?> resultados = new ArrayList<>();
+		List<?> list = null;
 		
 		try{
-			sess.beginTransaction();
+			Session sess = beginTransaction();
+			
+			list = getQueryResultList_NoCommit(sess,queryName,entityClass,queryParams);
+			
+			endTransaction(true, sess);
+		}
+		catch (HibernateException e) {
+				System.out.println(e);
+				list = null;
+		}			
+		return list;
+	}
+	
+	@Override
+	public List<?> getQueryResultList_NoCommit(Object session, String queryName, Class<?> entityClass,
+			Object... queryParams) {
 		
-			SQLQuery query = getQuery(sess, queryName, entityClass, queryParams);
+		List<?> resultados = new ArrayList<>();
+		Session sess = (Session)session;
+		
+		try{
+			SQLQuery query = getQuery(sess, queryName, entityClass, queryParams);			
 			
 			resultados = query.list();
-			
-			sess.getTransaction().commit();
 			
 		} catch (HibernateException e) {
 			System.out.println(e);
@@ -102,19 +117,32 @@ public class DBManagerHibernate implements DBManager{
 	@Override
 	public Object getQueryResultUnique(String queryName,
 			Class<?> entityClass, Object... queryParams) {
-		Session sess = sessionFactory.getCurrentSession();
-		
-		Object resultado;
+		Object result = null;
 		
 		try{
-			sess.beginTransaction();
-
-			SQLQuery query = getQuery(sess, queryName, entityClass, queryParams);
-					
-			resultado = query.uniqueResult();
+			Session sess = beginTransaction();
 			
-			sess.getTransaction().commit();
-					
+			result = getQueryResultUnique_NoCommit(sess,queryName,entityClass,queryParams);
+			
+			endTransaction(true, sess);
+		}
+		catch (HibernateException e) {
+				System.out.println(e);
+				result = null;
+		}			
+		return result;
+	}
+	
+	@Override
+	public Object getQueryResultUnique_NoCommit(Object session, String queryName,
+			Class<?> entityClass, Object... queryParams) {
+		Object resultado;
+		Session sess = (Session)session;
+		
+		try{
+			SQLQuery query = getQuery(sess, queryName, entityClass, queryParams);
+			resultado = query.uniqueResult();
+		
 		} catch (HibernateException e) {
 			System.out.println(e);
 			resultado = null;
@@ -145,13 +173,27 @@ public class DBManagerHibernate implements DBManager{
 
 	@Override
 	public long updateQuery(String queryName, Object... queryParams) {
-		Session sess = sessionFactory.getCurrentSession();
-		
-		long lastInsertID=-1;
+		long result = -1;
 		
 		try{
-			sess.beginTransaction();
-
+			Session sess = beginTransaction();
+			
+			result = updateQuery_NoCommit(sess,queryName,queryParams);
+			
+			endTransaction(true, sess);
+		}
+		catch (HibernateException e) {
+				System.out.println(e);
+				result = -1;
+		}			
+		return result;
+	}
+	
+	@Override
+	public long updateQuery_NoCommit(Object session, String queryName, Object... queryParams) {
+		long lastInsertID=-1;
+		Session sess = (Session)session;
+		try{
 			SQLQuery query = getQuery(sess, queryName, null, queryParams);
 					
 			query.executeUpdate();
@@ -160,12 +202,30 @@ public class DBManagerHibernate implements DBManager{
 			
 			lastInsertID = ((BigInteger)query.uniqueResult()).longValue();
 			
-			sess.getTransaction().commit();
-					
 		} catch (HibernateException e) {
 			System.out.println(e);			
 		}		
 		System.out.println("QueryLog: -> "+ lastInsertID);
 		return lastInsertID;
+	}
+
+	@Override
+	public Session beginTransaction() {
+		Session sess = sessionFactory.getCurrentSession();
+		sess.beginTransaction();
+		return sess;
+	}
+
+	@Override
+	public void endTransaction(boolean commit, Object session) {
+		if(session!=null){
+			Session sess = (Session) session;
+			if(commit){
+				sess.getTransaction().commit();
+			}
+			else{
+				sess.getTransaction().rollback();
+			}
+		}		
 	}
 }

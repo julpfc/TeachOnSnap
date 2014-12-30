@@ -16,18 +16,20 @@
         <property name="show_sql">false</property>
         <property name="format_sql">false</property>
     
-    	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Answer"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.lang.Language"/>
+    	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Answer"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Lesson"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.LessonTest"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Link"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Question"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.Tag"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.model.lesson.VideoFile"/>
+    	<mapping class="com.julvez.pfc.teachonsnap.model.media.MediaFile"/>
+    	<mapping class="com.julvez.pfc.teachonsnap.model.media.MediaFileRepositoryPath"/>
     	<mapping class="com.julvez.pfc.teachonsnap.model.user.User"/>
         
         <mapping resource="/hibernate/lang.hbm.xml"/>
         <mapping resource="/hibernate/lesson.hbm.xml"/>
+        <mapping resource="/hibernate/media.hbm.xml"/>
         <mapping resource="/hibernate/user.hbm.xml"/>
      
     </session-factory>

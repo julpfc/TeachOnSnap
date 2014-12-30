@@ -8,7 +8,7 @@
 
 <!DOCTYPE html>
 <html>
-<head>	
+<head>
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/home.css"/>"/>
 <title>TeachOnSnap - <fmt:message key="pager.home"/></title> 
@@ -42,7 +42,7 @@
             			 	<a href="${lesson.author.URL}">${lesson.author.fullName}</a>
            			 	</p>
 	            		<p class="lesson-addons">
-	            			<c:if test="${lesson.idLessonVideo>0}">
+	            			<c:if test="${lesson.idLessonMedia>0}">
 								<span class="glyphicon glyphicon-facetime-video"></span> video
 							</c:if>
 							<c:if test="${lesson.idLessonTest>0}">
@@ -60,7 +60,7 @@
 				</c:forEach>			
 	   
 				<nav><ul class="pager"><li>
-					<a href="/last/11"><span class="glyphicon glyphicon-chevron-left"></span>
+					<a href="/last/10"><span class="glyphicon glyphicon-chevron-left"></span>
 					 <fmt:message key="pager.previous"/></a></li></ul>
 				</nav>
 	        </div><!-- col -->

@@ -13,7 +13,6 @@ import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
-import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 import com.julvez.pfc.teachonsnap.repository.lesson.db.LessonRepositoryDB;
 
@@ -123,12 +122,6 @@ public class LessonRepositoryDBCache implements LessonRepository {
 	@Override
 	public List<Object[]> getAuthorCloudTags() {
 		return (List<Object[]>)cache.executeImplCached(repoDB, new Object[0]);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<VideoFile> getLessonVideos(int idLessonVideo) {
-		return (List<VideoFile>)cache.executeImplCached(repoDB, idLessonVideo);
 	}
 
 	@Override

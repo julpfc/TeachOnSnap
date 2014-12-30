@@ -11,7 +11,6 @@ import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Question;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
-import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 
 
@@ -143,12 +142,6 @@ public class LessonRepositoryDB implements LessonRepository {
 		@SuppressWarnings("unchecked")
 		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_LESSON_GET_CLOUDTAG_AUTHOR", null, new Object[0]);
 		return ids;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<VideoFile> getLessonVideos(int idLessonVideo) {
-		return (List<VideoFile>)dbm.getQueryResultList("SQL_LESSON_GET_LESSONVIDEOS", VideoFile.class, idLessonVideo);
 	}
 
 	@Override

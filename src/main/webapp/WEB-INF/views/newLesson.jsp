@@ -95,18 +95,7 @@
 
 			    	<br/>
 				
-					<div>
-						<c:if test="${lesson.idLessonVideo>0}">					
-				     		<div class="lesson-video">		     		
-				     			<c:set var="firstVideo" value="${videos[0]}"/>
-				     			<video src="${firstVideo.URL}" id="lesson_video" controls="controls" poster="" height="auto" width="100%">
-					     			<c:forEach items="${videos}" var="video">		
-				       					<source src="${video.URL}" type='video/mp4'/>							    							
-									</c:forEach>
-								</video>   
-				     		</div>         		
-						</c:if>												
-					</div>
+					
 					<div class="form-group">
 						<label for="textareaLessonText"><fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/></label>
 				    	<textarea name="text" id="textareaLessonText" class="form-control" maxlength="140" 

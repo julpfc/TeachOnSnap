@@ -11,15 +11,18 @@ import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
-import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
+import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
+import com.julvez.pfc.teachonsnap.service.media.MediaFileServiceFactory;
 
 public class EditLessonController extends CommonController {
 
 	private static final long serialVersionUID = 7608540908435958036L;
 	
 	private LessonService lessonService = LessonServiceFactory.getService();
+	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
 
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -34,10 +37,10 @@ public class EditLessonController extends CommonController {
 		List<Lesson> linkedLessons = lessonService.getLinkedLessons(lesson.getId());
 		List<Link> moreInfoLinks = lessonService.getMoreInfoLinks(lesson.getId());
 		List<Link> sourceLinks = lessonService.getSourceLinks(lesson.getId());
-		List<VideoFile> videos = lessonService.getLessonVideos(lesson.getIdLessonVideo());
+		List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
 		
 		request.setAttribute("lesson", lesson);
-		request.setAttribute("videos", videos);
+		request.setAttribute("medias", medias);
 		request.setAttribute("tags", tags);
 		request.setAttribute("linkedLessons", linkedLessons);
 		request.setAttribute("moreInfoLinks", moreInfoLinks);

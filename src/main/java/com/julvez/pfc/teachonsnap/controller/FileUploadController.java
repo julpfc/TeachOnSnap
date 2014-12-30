@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
-import com.julvez.pfc.teachonsnap.model.upload.ContentType;
+import com.julvez.pfc.teachonsnap.model.media.MediaType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.upload.UploadService;
@@ -50,7 +50,7 @@ public class FileUploadController extends HttpServlet {
     	}
     	else{
     		//TODO Controlar mejor que no venga una '/' detrás o que no sea uno de los tipos definidos (crear una enumeración)
-    		ContentType contentType = ContentType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
+    		MediaType contentType = MediaType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
     		System.out.println(request.getRequestURI()+"?"+request.getParameterMap());
     		
     		// 1. Get f from URL upload?f="?"
@@ -120,7 +120,7 @@ public class FileUploadController extends HttpServlet {
     	}
     	else{
     		//TODO Controlar mejor que no venga una '/' detrás o que no sea uno de los tipos definidos (crear una enumeración)
-    		ContentType contentType = ContentType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
+    		MediaType contentType = MediaType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
 
     		uploadService.addTemporaryFiles(user,contentType,requestManager.getUploadFiles(request));
     		

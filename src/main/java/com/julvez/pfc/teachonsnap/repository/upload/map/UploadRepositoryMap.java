@@ -7,19 +7,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.julvez.pfc.teachonsnap.model.upload.ContentType;
+import com.julvez.pfc.teachonsnap.model.media.MediaType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.repository.upload.UploadRepository;
 
 public class UploadRepositoryMap implements UploadRepository {
 
-	private Map<String, Map<ContentType,List<FileMetadata>>> temporaryFileRepository = 
-			Collections.synchronizedMap(new HashMap<String, Map<ContentType,List<FileMetadata>>>());
+	private Map<String, Map<MediaType,List<FileMetadata>>> temporaryFileRepository = 
+			Collections.synchronizedMap(new HashMap<String, Map<MediaType,List<FileMetadata>>>());
 
 	@Override
-	public FileMetadata getTemporaryFile(int idUser, ContentType contentType, int index) {
+	public FileMetadata getTemporaryFile(int idUser, MediaType contentType, int index) {
 		FileMetadata file = null;
-		Map<ContentType,List<FileMetadata>> userMap = temporaryFileRepository.get(""+idUser);
+		Map<MediaType,List<FileMetadata>> userMap = temporaryFileRepository.get(""+idUser);
 		
 		if(userMap!=null){
 			List<FileMetadata> userFiles = userMap.get(contentType);
@@ -32,33 +32,33 @@ public class UploadRepositoryMap implements UploadRepository {
 	}
 
 	@Override
-	public List<FileMetadata> getTemporaryFiles(int idUser, ContentType contentType) {
+	public List<FileMetadata> getTemporaryFiles(int idUser, MediaType contentType) {
 		List<FileMetadata> userFiles = null;
-		Map<ContentType,List<FileMetadata>> userMap = temporaryFileRepository.get(""+idUser);
+		Map<MediaType,List<FileMetadata>> userMap = temporaryFileRepository.get(""+idUser);
 		if(userMap!=null)
 			userFiles = userMap.get(contentType);
 		return userFiles;
 	}
 
 	@Override
-	public void addTemporaryFiles(int idUser, ContentType contentType, List<FileMetadata> uploadFiles) {
+	public void addTemporaryFiles(int idUser, MediaType contentType, List<FileMetadata> uploadFiles) {
 		List<FileMetadata> userFiles = getList(""+idUser,contentType);
 		
 		userFiles.addAll(uploadFiles);
 	}
 	
-	private List<FileMetadata> getList(String key, ContentType contentType){
-		Map<ContentType,List<FileMetadata>> userMap = temporaryFileRepository.get(key);
+	private List<FileMetadata> getList(String key, MediaType contentType){
+		Map<MediaType,List<FileMetadata>> userMap = temporaryFileRepository.get(key);
 		
 		if(userMap==null){
 			synchronized (temporaryFileRepository) {
 				userMap = temporaryFileRepository.get(key);
 				if(userMap==null){
-					temporaryFileRepository.put(key,Collections.synchronizedMap(new HashMap<ContentType,List<FileMetadata>>()));
+					temporaryFileRepository.put(key,Collections.synchronizedMap(new HashMap<MediaType,List<FileMetadata>>()));
 			
 					userMap = temporaryFileRepository.get(key);
 					
-					for(ContentType ct:ContentType.values()){
+					for(MediaType ct:MediaType.values()){
 						userMap.put(ct,new LinkedList<FileMetadata>());
 					}
 					System.out.println("UploadRepositoryMap: creada "+key);
@@ -73,7 +73,7 @@ public class UploadRepositoryMap implements UploadRepository {
 	@Override
 	public void close() {
 		synchronized (temporaryFileRepository) {
-			for(Map<ContentType,List<FileMetadata>> maps:temporaryFileRepository.values()){
+			for(Map<MediaType,List<FileMetadata>> maps:temporaryFileRepository.values()){
 				for(List<FileMetadata> files : maps.values()){				
 					for(FileMetadata file:files){ 
 						try {
@@ -91,8 +91,8 @@ public class UploadRepositoryMap implements UploadRepository {
 	}
 
 	@Override
-	public void removeTemporaryFile(int idUser, ContentType contentType, int index) {
-		Map<ContentType,List<FileMetadata>> userMap = temporaryFileRepository.get(""+idUser);
+	public void removeTemporaryFile(int idUser, MediaType contentType, int index) {
+		Map<MediaType,List<FileMetadata>> userMap = temporaryFileRepository.get(""+idUser);
 		
 		if(userMap!=null){
 		

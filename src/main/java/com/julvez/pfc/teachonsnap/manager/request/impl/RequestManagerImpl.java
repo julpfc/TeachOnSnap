@@ -17,12 +17,16 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.media.MediaType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.service.upload.UploadService;
+import com.julvez.pfc.teachonsnap.service.upload.UploadServiceFactory;
 
 public class RequestManagerImpl implements RequestManager {
 
-	StringManager stringManager=StringManagerFactory.getManager();
+	private StringManager stringManager = StringManagerFactory.getManager();
+	private UploadService uploadService = UploadServiceFactory.getService();
 	
 	@Override
 	public String getAcceptLanguage(HttpServletRequest request) {
@@ -138,7 +142,6 @@ public class RequestManagerImpl implements RequestManager {
 	public List<FileMetadata> getUploadFiles(HttpServletRequest request) {
 		List<FileMetadata> files = new LinkedList<FileMetadata>();
 		
-		
 	    Collection<Part> parts;
 		try {
 			parts = request.getParts();
@@ -153,6 +156,7 @@ public class RequestManagerImpl implements RequestManager {
 					temp.setFileSize(part.getSize()/1024 +" Kb");
 					temp.setFileType(part.getContentType());
 					temp.setContent(part.getInputStream());
+					temp.setMediaType(MediaType.valueOf(getParam(request, PARAM_LESSON_NEW_FILE_ATTACH).toUpperCase()));
 					
 					System.out.println("Upload.Part: "+temp);
 					files.add(temp);
@@ -224,6 +228,46 @@ public class RequestManagerImpl implements RequestManager {
 			}
 		}
 		return tags;
+	}
+
+	@Override
+	public FileMetadata getSubmittedFile(HttpServletRequest request) {
+		FileMetadata file = null;
+		User user = getSessionUser(request);
+		String attach = getParam(request, PARAM_LESSON_NEW_FILE_ATTACH);
+		
+		if(user!=null && !stringManager.isEmpty(attach)){
+			MediaType mediaType = MediaType.valueOf(attach.toUpperCase());
+			String index = null;
+			
+			if(mediaType!=null){
+				switch (mediaType) {
+				case VIDEO:
+					index =  getParam(request, PARAM_LESSON_NEW_VIDEO_INDEX);
+					break;
+				case AUDIO:
+					index =  getParam(request, PARAM_LESSON_NEW_AUDIO_INDEX);
+					break;
+				}
+				
+				if(!stringManager.isEmpty(index)){
+					int mediaIndex = -1;
+					
+					try{
+						mediaIndex = Integer.parseInt(index);
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+					
+					if(mediaIndex>=0){
+						file = uploadService.getTemporaryFile(user, mediaType , mediaIndex);
+					}
+				}
+			}
+		}		
+		
+		return file;
 	}
 	
 

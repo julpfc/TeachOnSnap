@@ -7,7 +7,6 @@ import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
-import com.julvez.pfc.teachonsnap.model.lesson.VideoFile;
 
 public interface LessonService {
 	
@@ -31,8 +30,6 @@ public interface LessonService {
 	public LessonTest getLessonTest(int idLessonTest);
 
 	public List<CloudTag> getAuthorCloudTags();
-
-	public List<VideoFile> getLessonVideos(int idLessonVideo);
 
 	public Lesson createLesson(Lesson newLesson);
 	
