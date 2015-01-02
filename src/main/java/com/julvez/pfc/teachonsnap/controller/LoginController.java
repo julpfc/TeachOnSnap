@@ -22,8 +22,7 @@ public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private RequestManager requestManager = RequestManagerFactory.getManager();
-	private UserService userService = UserServiceFactory.getService();
-	
+	private UserService userService = UserServiceFactory.getService();	
 	
     /**
      * @see HttpServlet#HttpServlet()

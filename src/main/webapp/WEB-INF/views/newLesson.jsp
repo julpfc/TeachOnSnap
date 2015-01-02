@@ -104,18 +104,24 @@
 			    	</div>
 	    				
 	    			
-	    			<div class="form-inline form-group">
-				    	<input type="text" id="inputLessonTag" class="form-control" 
-				    		placeholder="<fmt:message key="lesson.form.addTag" bundle="${editLessonBundle}"/>">
-				    	<button id="addTag" type="button" class="btn btn-default"><fmt:message key="lesson.form.addTag" bundle="${editLessonBundle}"/>
-				    	 <span class="glyphicon glyphicon-tags"></span>
-			    	 	</button>
+	    			
+			    	
+			    	<div class="form-group">
 		    			<div class="form-group">
-	    					<div id="tags"></div>
-							<p class="help-block">Pincha sobre los tags para eliminarlos.</p>
-	    					<select multiple="multiple" id="formTags" hidden="true" name="tags"></select>	    								
+	    					<table class="table table-striped" id="sources">
+		    					<tr><th>Sources</th></tr>		    					
+	    					</table>
+    						<p class="help-block">Añade URLs, si te equivocas puedes hacer click sobre las URLs para eliminarlas.</p>
+	    					<div class="form-group form-inline">				    			
+				    			<input type="text" id="inputLessonSource" class="form-control" 
+					    			placeholder="Source URL">
+					    		<button id="addSource" type="button" class="btn btn-default">Add URL</button>
+					    	</div>
+							<select multiple="multiple" id="formSources" hidden="true" name="sources"></select>
 						</div>
+						
 			    	</div>
+			    	
 			    		
 		          	<c:if test="${not empty linkedLessons}">
 			          	<div class="sidebar"> 	
@@ -152,6 +158,19 @@
 	
 	        	<div class="col-sm-4 col-sm-offset-1">	        		
 	        		<div class="sidebar">
+	        			<h4>Tags</h4>
+		        		<div class="form-inline form-group">
+					    	<input type="text" id="inputLessonTag" class="form-control" 
+					    		placeholder="<fmt:message key="lesson.form.addTag" bundle="${editLessonBundle}"/>">
+					    	<button id="addTag" type="button" class="btn btn-default"><fmt:message key="lesson.form.addTag" bundle="${editLessonBundle}"/>
+					    	 <span class="glyphicon glyphicon-tags"></span>
+				    	 	</button>
+			    			<div class="form-group">
+		    					<div id="tags"></div>
+								<p class="help-block">Pincha sobre los tags para eliminarlos.</p>
+		    					<select multiple="multiple" id="formTags" hidden="true" name="tags"></select>	    								
+							</div>
+				    	</div>
 						<h4><fmt:message key="lesson.command.heading" bundle="${lessonBundle}"/></h4>
 						<button id="buttonSave" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
 						 <fmt:message key="lesson.form.save" bundle="${editLessonBundle}"/></button>
@@ -167,6 +186,7 @@
 	<script src="/resources/js/ext/jquery.iframe-transport.js"></script>
 	<script src="/resources/js/ext/jquery.fileupload.js"></script>
 	<script src="/resources/js/ext/jquery.fileupload-validate.js"></script>
+	<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 	<script src="/resources/js/editLesson.js"></script>
 	
 </body>

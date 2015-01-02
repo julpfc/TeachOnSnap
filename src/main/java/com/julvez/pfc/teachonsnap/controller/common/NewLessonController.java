@@ -66,10 +66,12 @@ public class NewLessonController extends CommonController {
 			
 			
 			//TODO SI todo es correcto cargarse los temporales que no hemos usado
+			
+			response.sendRedirect(newLesson.getEditURL());
 		}
-		
-
-		request.getRequestDispatcher("/WEB-INF/views/newLesson.jsp").forward(request, response);
+		else{
+			request.getRequestDispatcher("/WEB-INF/views/newLesson.jsp").forward(request, response);
+		}
 	}
 
 	@Override

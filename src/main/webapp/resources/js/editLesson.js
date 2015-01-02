@@ -1,24 +1,26 @@
-function reloadUploadedFiles(data,contentType) {		
-	var len = data.length;
-	var uploadedFiles = $("#uploaded-files_"+contentType);
-	uploadedFiles.empty();
-	if(len==0){
-		uploadedFiles.append(
-    			$('<tr/>')
-    				.append($('<td/>').text('Selecciona un fichero de '+contentType+' o arrástralo hasta la zona marcada.')
-    	));		
+function reloadUploadedFiles(data,contentType) {	
+	if(data){
+		var len = data.length;
+		var uploadedFiles = $("#uploaded-files_"+contentType);
+		uploadedFiles.empty();
+		if(len==0){
+			uploadedFiles.append(
+	    			$('<tr/>')
+	    				.append($('<td/>').text('Selecciona un fichero de '+contentType+' o arrástralo hasta la zona marcada.')
+	    	));		
+		}
+	    $.each(data, function (index, file) {        	  
+	    	uploadedFiles.append(
+	    			$('<tr/>')
+	    				.append($('<td/>').html("<input type='radio' name='index_"+contentType+"' value='"+index+"' required "+((index==len-1)?"checked='checked'":'')+" />"))
+	                    .append($('<td/>').text(file.fileName))
+	                    .append($('<td/>').text(file.fileSize))
+	                    .append($('<td/>').text(file.fileType))
+	                    .append($('<td/>').html("<a href='/upload/"+contentType+"?f="+index+"'>Download</a>"))
+	                    .append($('<td/>').html("<span class='glyphicon glyphicon-remove' onclick=$.ajax('/upload/"+contentType+"?r="+index+"').done(function(data){reloadUploadedFiles(data,'"+contentType+"');})></span>"))
+	    	)//end $("#uploaded-files").append()
+	    });		
 	}
-    $.each(data, function (index, file) {        	  
-    	uploadedFiles.append(
-    			$('<tr/>')
-    				.append($('<td/>').html("<input type='radio' name='index_"+contentType+"' value='"+index+"' required "+((index==len-1)?"checked='checked'":'')+" />"))
-                    .append($('<td/>').text(file.fileName))
-                    .append($('<td/>').text(file.fileSize))
-                    .append($('<td/>').text(file.fileType))
-                    .append($('<td/>').html("<a href='/upload/"+contentType+"?f="+index+"'>Download</a>"))
-                    .append($('<td/>').html("<span class='glyphicon glyphicon-remove' onclick=$.ajax('/upload/"+contentType+"?r="+index+"').done(function(data){reloadUploadedFiles(data,'"+contentType+"');})></span>"))
-    	)//end $("#uploaded-files").append()
-    });		
 }
 
 
@@ -44,6 +46,22 @@ $(document).ready(function() {
 			newTag.focus();
 		}
     });
+	
+	var sources = $('#sources');
+	var formSource = $('#formSources');
+	var newSource = $('#inputLessonSource');
+	
+	$('#addSource').on('click', function(event) {
+		var source = newSource.prop('value');
+		
+		if (source){
+			sources.append('<tr onclick="this.remove();$(\'#opts_'+CryptoJS.MD5(source)+'\').remove();"><td>'+source+'</td></tr>');
+			formSource.append('<option id="opts_'+CryptoJS.MD5(source)+'" selected="selected">'+source+'</option>');
+			newSource.prop('value','');
+			newSource.focus();
+		}
+    });
+	
 	$.ajax("/upload/video?l=1").done(function(data){reloadUploadedFiles(data,'video');});
 	$.ajax("/upload/audio?l=1").done(function(data){reloadUploadedFiles(data,'audio');});
 	

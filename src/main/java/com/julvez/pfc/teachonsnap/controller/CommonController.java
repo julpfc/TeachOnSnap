@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
@@ -24,6 +27,7 @@ public abstract class CommonController extends HttpServlet {
 	
 	protected LangService langService = LangServiceFactory.getService();
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
+	protected PropertyManager properties = PropertyManagerFactory.getManager();
 		
     /**
      * @see HttpServlet#HttpServlet()
@@ -50,8 +54,12 @@ public abstract class CommonController extends HttpServlet {
 		// TODO Actualizar usuario BBDD/Cache/Session
 		requestManager.setUserSessionLanguage(request,userLang);
 		
+		String host = properties.getProperty(PropertyName.TEACHONSNAP_HOST);
+		
 		request.setAttribute("userLang", userLang);
 		request.setAttribute("user", user);
+		request.setAttribute("host", host);
+		
 		
 		// Si es zona restringida pedimos login
 		if(user==null && isPrivateZone()){
