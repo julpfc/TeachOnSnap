@@ -37,6 +37,12 @@ public interface LessonService {
 
 	public Lesson addLessonTags(Lesson lesson, List<String> tags);
 
+	public Lesson addLessonSources(Lesson lesson, List<String> sources);
+
+	public int createLink(String URL);
+
+	public Lesson addLessonMoreInfo(Lesson lesson, List<String> moreInfos);
+
 		
 	//TODO un removeLessonTags para el editor de lecciones, le dices cuales añades y cuales quitas
 	

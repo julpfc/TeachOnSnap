@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.Link;
 import com.julvez.pfc.teachonsnap.model.lesson.Tag;
@@ -37,12 +38,12 @@ public class LessonController extends CommonController {
 		List<Link> sourceLinks = lessonService.getSourceLinks(lesson.getId());
 		List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
 		
-		request.setAttribute("lesson", lesson);
-		request.setAttribute("medias", medias);
-		request.setAttribute("tags", tags);
-		request.setAttribute("linkedLessons", linkedLessons);
-		request.setAttribute("moreInfoLinks", moreInfoLinks);
-		request.setAttribute("sourceLinks", sourceLinks);
+		request.setAttribute(Attribute.LESSON.toString(), lesson);
+		request.setAttribute(Attribute.LIST_MEDIAFILE_LESSONFILES.toString(), medias);
+		request.setAttribute(Attribute.LIST_TAG_LESSONTAGS.toString(), tags);
+		request.setAttribute(Attribute.LIST_LESSON_LINKEDLESSONS.toString(), linkedLessons);
+		request.setAttribute(Attribute.LIST_LINK_MOREINFO.toString(), moreInfoLinks);
+		request.setAttribute(Attribute.LIST_LINK_SOURCES.toString(), sourceLinks);
 				
 	    request.getRequestDispatcher("/WEB-INF/views/lesson.jsp").forward(request, response);
 	}

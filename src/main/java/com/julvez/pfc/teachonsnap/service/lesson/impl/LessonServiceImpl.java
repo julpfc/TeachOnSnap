@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.service.lesson.impl;
 
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -258,10 +259,89 @@ public class LessonServiceImpl implements LessonService{
 					}
 				}
 			}
-			if(tags.size()>0){
+			if(tagIDs.size()>0){
 				lessonRepository.addLessonTags(lesson.getId(), tagIDs);
+				lesson = getLesson(lesson.getId());
 			}
 			ret = lesson;
+		}
+		return ret;
+	}
+
+	@Override
+	public Lesson addLessonSources(Lesson lesson, List<String> sources) {
+		ArrayList<Integer> linkIDs = new ArrayList<Integer>();
+		Lesson ret = null;
+		
+		if(lesson!=null && lesson.getId()>0 && sources!=null){
+
+			for(String link:sources){
+				int linkID = 0;
+				linkID = lessonRepository.getLinkID(link);
+				if(linkID>0){
+					linkIDs.add(linkID);
+				}
+				else{
+					
+					linkID = createLink(link);	
+					if(linkID>0){
+						linkIDs.add(linkID);
+					}
+				}
+			}
+			if(linkIDs.size()>0){
+				lessonRepository.addLessonSources(lesson.getId(), linkIDs);
+				lesson = getLesson(lesson.getId());
+			}
+			ret = lesson; 
+		}
+		return ret;
+	}
+
+	@Override
+	public int createLink(String url) {
+		int id = -1;
+		if(!url.startsWith("http")){
+			url = "http://" + url;
+		}
+		try{
+			URL link = new URL(url);
+			String host = link.getHost();
+			id = lessonRepository.createLink(url,host);
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+		}
+		return id; 
+		 
+	}
+
+	@Override
+	public Lesson addLessonMoreInfo(Lesson lesson, List<String> moreInfos) {
+		ArrayList<Integer> linkIDs = new ArrayList<Integer>();
+		Lesson ret = null;
+		
+		if(lesson!=null && lesson.getId()>0 && moreInfos!=null){
+
+			for(String link:moreInfos){
+				int linkID = 0;
+				linkID = lessonRepository.getLinkID(link);
+				if(linkID>0){
+					linkIDs.add(linkID);
+				}
+				else{
+					
+					linkID = createLink(link);	
+					if(linkID>0){
+						linkIDs.add(linkID);
+					}
+				}
+			}
+			if(linkIDs.size()>0){
+				lessonRepository.addLessonMoreInfos(lesson.getId(), linkIDs);
+				lesson = getLesson(lesson.getId());
+			}
+			ret = lesson; 
 		}
 		return ret;
 	}

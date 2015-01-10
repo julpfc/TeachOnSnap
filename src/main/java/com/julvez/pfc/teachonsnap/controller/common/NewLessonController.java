@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.manager.mail.MailManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
@@ -33,7 +34,7 @@ public class NewLessonController extends CommonController {
 		if(request.getMethod().equals("POST")){
 			
 			Lesson newLesson = requestManager.getParamNewLesson(request.getParameterMap());
-			//TODO Le falta el idtest
+
 			if(newLesson!=null){
 				newLesson.setIdUser(user.getId());
 				newLesson = lessonService.createLesson(newLesson);
@@ -44,29 +45,43 @@ public class NewLessonController extends CommonController {
 					if(file!=null){						
 						MediaFile mediaFile = mediaFileService.saveMediaFile(newLesson,file);
 						if(mediaFile==null){
-							//TODO error
+							//TODO error, habia fichero pero no hemos podido guardarlo
 						}
-					}
-					else{
-						//TODO no habia fichero
-					}
+					}					
 					
 					List<String> tags = requestManager.getParamNewTags(request.getParameterMap());
-					newLesson = lessonService.addLessonTags(newLesson, tags);
+
+					if(tags!=null){
+						newLesson = lessonService.addLessonTags(newLesson, tags);
+					}
 					
-					//TODO otros
+					List<String> sources = requestManager.getParamNewSources(request.getParameterMap());
+
+					if(sources!=null){
+						newLesson = lessonService.addLessonSources(newLesson, sources);
+					}
+										
+					List<String> moreInfo = requestManager.getParamNewMoreInfos(request.getParameterMap());
+
+					if(moreInfo!=null){
+						newLesson = lessonService.addLessonMoreInfo(newLesson, moreInfo);
+					}
+					
+					
 				}
 				else{
-					//TODO error					
+					//TODO error no se pudo crear la lesson				
 				}
 			}
 			else{
-				//TODO Error
+				//TODO Error no se recuperaron params para el lesson
 			}
 			
 			
 			//TODO SI todo es correcto cargarse los temporales que no hemos usado
 			
+			//TODO Mandar el mail bien, sistema de notificaciones en un servicio apra los seguimientos etc
+			MailManagerFactory.getManager().send(user.getEmail(), "Lesson " + newLesson.getId() + " creada", newLesson.toString());
 			response.sendRedirect(newLesson.getEditURL());
 		}
 		else{

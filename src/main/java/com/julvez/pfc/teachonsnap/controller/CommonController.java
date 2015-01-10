@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
+import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
@@ -56,9 +57,9 @@ public abstract class CommonController extends HttpServlet {
 		
 		String host = properties.getProperty(PropertyName.TEACHONSNAP_HOST);
 		
-		request.setAttribute("userLang", userLang);
-		request.setAttribute("user", user);
-		request.setAttribute("host", host);
+		request.setAttribute(Attribute.LANGUAGE_USERLANGUAGE.toString(), userLang);
+		request.setAttribute(Attribute.USER.toString(), user);
+		request.setAttribute(Attribute.STRING_HOST.toString(), host);
 		
 		
 		// Si es zona restringida pedimos login
@@ -72,7 +73,7 @@ public abstract class CommonController extends HttpServlet {
 			
 			switch(errorType){
 				case ERR_LOGIN:
-					request.setAttribute("loginError", "loginError");
+					request.setAttribute(Attribute.STRING_LOGINERROR.toString(), "loginError");
 					break;
 				case ERR_NONE:
 					break;

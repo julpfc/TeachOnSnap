@@ -6,6 +6,8 @@ import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.file.FileManager;
 import com.julvez.pfc.teachonsnap.manager.file.FileManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.model.media.MediaFileRepositoryPath;
 import com.julvez.pfc.teachonsnap.model.media.MediaType;
@@ -16,6 +18,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 
 	private DBManager dbm = DBManagerFactory.getDBManager();
 	private FileManager fileManager = FileManagerFactory.getManager();
+	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -34,8 +37,17 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 
 	@Override
 	public short getDefaultRepositoryID() {
-		//TODO Sacarlo de un properties
-		return 1; 
+		short id = 1;
+		String prop = properties.getProperty(MediaFileRepositoryPropertyName.MEDIAFILE_DEFAULT_REPOSITORY);
+		
+		try{
+			id = Short.parseShort(prop);
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+		}
+		
+		return id; 
 	}
 
 	@Override
@@ -60,10 +72,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 				
 				if(!copyOK){
 					idMediaFile = -1;
-				}
-				else{
-					//TODO Borrar fichero temporal
-				}
+				}				
 			}
 		}
 		

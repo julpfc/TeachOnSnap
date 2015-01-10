@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
 import com.julvez.pfc.teachonsnap.model.user.UserLessonTest;
@@ -29,11 +30,11 @@ public class LessonTestController extends CommonController {
 		
 		if(request.getMethod().equals("POST")){
 			UserLessonTest userTest = new UserLessonTest(test, request.getParameterMap());
-			request.setAttribute("userTest", userTest);
+			request.setAttribute(Attribute.USERLESSONTEST_ANSWERS.toString(), userTest);
 		}			
 				
-		request.setAttribute("lesson", lesson);
-		request.setAttribute("test", test);
+		request.setAttribute(Attribute.LESSON.toString(), lesson);
+		request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
 				
 	    request.getRequestDispatcher("/WEB-INF/views/test.jsp").forward(request, response);	 
 

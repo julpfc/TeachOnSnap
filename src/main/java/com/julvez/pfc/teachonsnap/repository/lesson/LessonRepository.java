@@ -58,5 +58,13 @@ public interface LessonRepository {
 
 	public int createTag(String tag);
 
+	public int getLinkID(String link);
+
+	public int createLink(String url, String desc);
+
+	public void addLessonSources(int idLesson, ArrayList<Integer> sourceLinkIDs);
+
+	public void addLessonMoreInfos(int idLesson, ArrayList<Integer> moreInfoLinkIDs);
+
 		
 }

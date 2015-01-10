@@ -30,13 +30,13 @@
 	    </div>
 		<div class="row">					
 			<div class="col-sm-7">
-				<c:forEach items="${lastLessons}" var="lesson">					
-					<div>
+				<c:forEach items="${lessons}" var="lesson">					
+					<div> 
 	            		<h2 class="lesson-title"><a href="${lesson.URL}">${lesson.title}</a></h2>
 	            		<p class="lesson-meta">
 	            			<c:if test="${userLang.id != lesson.language.id}">
 	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
-	            			</c:if>	            			 
+	            			</c:if>	           			 
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
 	            			 <fmt:message key="lesson.meta.author.by"/> 
             			 	<a href="${lesson.author.URL}">${lesson.author.fullName}</a>

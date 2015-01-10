@@ -37,13 +37,14 @@
 							<img alt="EN" src="/resources/img/ico/flag_en.jpg"/>
 						</span>										    					    	
 			    	</div>
-			    
-			    	<div role="tabpanel">
+			    	<div class="panel panel-default">
+		    			
+			    	<div class="panel-body" role="tabpanel">
 						<!-- Nav tabs -->
 				  		<ul class="nav nav-tabs" role="tablist">
 				    		<li role="presentation" class="active"><a href="#video" aria-controls="video" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-facetime-video"></span> video</a></li>
 				    		<li role="presentation"><a href="#audio" aria-controls="audio" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-bullhorn"></span> audio</a></li>
-				    		<li role="presentation"><a href="#nofiles" aria-controls="nofiles" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-ban-circle"></span> No attachments</a></li>				    		
+				    		<li role="presentation"><a href="#nofiles" aria-controls="nofiles" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-ban-circle"></span> No files</a></li>				    		
 			    		</ul>
 				
 				  		<!-- Tab panes -->
@@ -91,10 +92,8 @@
 				  				<p class="help-block">No se adjuntarán ficheros multimedia a la lección.</p>
 			  				</div>
 						</div>				
+					</div>
 					</div>			    	
-
-			    	<br/>
-				
 					
 					<div class="form-group">
 						<label for="textareaLessonText"><fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/></label>
@@ -102,16 +101,31 @@
 				    		placeholder="<fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/>">${lesson.text}</textarea>
 				    	<p class="help-block">Recuerda: Un máximo de 140 caracteres.</p>				    	
 			    	</div>
-	    				
-	    			
-	    			
-			    	
-			    	<div class="form-group">
-		    			<div class="form-group">
-	    					<table class="table table-striped" id="sources">
-		    					<tr><th>Sources</th></tr>		    					
+			    				    	
+		        	<div class="panel panel-default">
+		        		<div class="panel-heading">Tags</div>
+		    			<div class="panel-body">
+		    				<div class="form-group form-inline">	
+		    			    	<input type="text" id="inputLessonTag" class="form-control" 
+						    		placeholder="<fmt:message key="lesson.form.addTag" bundle="${editLessonBundle}"/>">
+						    	<button id="addTag" type="button" class="btn btn-default"><fmt:message key="lesson.form.addTag" bundle="${editLessonBundle}"/>
+						    	 <span class="glyphicon glyphicon-tags"></span>
+				    	 		</button>
+				    	 	</div>
+
+			    			<div class="form-group">
+		    					<div id="tags"></div>
+								<p class="help-block">Pincha sobre los tags para eliminarlos.</p>
+		    					<select multiple="multiple" id="formTags" hidden="true" name="tags"></select>	    								
+							</div>
+				    	</div>
+			    	</div>
+			    	<div class="panel panel-default">
+			    		<div class="panel-heading"><fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/></div>
+		    			<div class="panel-body">
+	    					<table class="table table-striped" id="sources">		    							    					
 	    					</table>
-    						<p class="help-block">Añade URLs, si te equivocas puedes hacer click sobre las URLs para eliminarlas.</p>
+    						<p class="help-block">Añade URLs, si te equivocas puedes hacer click sobre ellas para eliminarlas.</p>
 	    					<div class="form-group form-inline">				    			
 				    			<input type="text" id="inputLessonSource" class="form-control" 
 					    			placeholder="Source URL">
@@ -119,7 +133,21 @@
 					    	</div>
 							<select multiple="multiple" id="formSources" hidden="true" name="sources"></select>
 						</div>
-						
+			    	</div>
+			    				    	
+			    	<div class="panel panel-default">
+			    		<div class="panel-heading"><fmt:message key="lesson.moreInfo.heading" bundle="${lessonBundle}"/></div>
+		    			<div class="panel-body">
+	    					<table class="table table-striped" id="moreInfo">		    							    					
+	    					</table>
+    						<p class="help-block">Añade URLs, si te equivocas puedes hacer click sobre ellas para eliminarlas.</p>
+	    					<div class="form-group form-inline">				    			
+				    			<input type="text" id="inputLessonMoreInfo" class="form-control" 
+					    			placeholder="More Info URL">
+					    		<button id="addMoreInfo" type="button" class="btn btn-default">Add URL</button>
+					    	</div>
+							<select multiple="multiple" id="formMoreInfo" hidden="true" name="moreInfos"></select>
+						</div>
 			    	</div>
 			    	
 			    		
@@ -133,44 +161,11 @@
 		            		</ol>
 						</div>
 					</c:if>
-	          		<c:if test="${not empty moreInfoLinks}">
-		          		<div class="sidebar">
-		               		<h4><fmt:message key="lesson.moreInfo.heading" bundle="${lessonBundle}"/></h4>
-		            		<ol class="list-unstyled">
-		            			<c:forEach items="${moreInfoLinks}" var="link">		
-									<li><a href="${link.URL}">${link.desc}</a></li>									
-								</c:forEach>              			
-		            		</ol>
-		          		</div>
-		          	</c:if>
-	          		<c:if test="${not empty sourceLinks}">
-		          		<div class="sidebar">
-		               		<h4><fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/></h4>
-		            		<ol class="list-unstyled">
-		            			<c:forEach items="${sourceLinks}" var="link">		
-									<li><a href="${link.URL}">${link.desc}</a></li>									
-								</c:forEach>              			
-		            		</ol>
-		          		</div>
-		          	</c:if>          	
 				
 		        </div><!-- col -->
 	
 	        	<div class="col-sm-4 col-sm-offset-1">	        		
-	        		<div class="sidebar">
-	        			<h4>Tags</h4>
-		        		<div class="form-inline form-group">
-					    	<input type="text" id="inputLessonTag" class="form-control" 
-					    		placeholder="<fmt:message key="lesson.form.addTag" bundle="${editLessonBundle}"/>">
-					    	<button id="addTag" type="button" class="btn btn-default"><fmt:message key="lesson.form.addTag" bundle="${editLessonBundle}"/>
-					    	 <span class="glyphicon glyphicon-tags"></span>
-				    	 	</button>
-			    			<div class="form-group">
-		    					<div id="tags"></div>
-								<p class="help-block">Pincha sobre los tags para eliminarlos.</p>
-		    					<select multiple="multiple" id="formTags" hidden="true" name="tags"></select>	    								
-							</div>
-				    	</div>
+	        		<div class="sidebar">	        			
 						<h4><fmt:message key="lesson.command.heading" bundle="${lessonBundle}"/></h4>
 						<button id="buttonSave" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
 						 <fmt:message key="lesson.form.save" bundle="${editLessonBundle}"/></button>

@@ -62,6 +62,23 @@ $(document).ready(function() {
 		}
     });
 	
+	
+	var moreInfo = $('#moreInfo');
+	var formMoreInfo = $('#formMoreInfo');
+	var newMoreInfo = $('#inputLessonMoreInfo');
+	
+	$('#addMoreInfo').on('click', function(event) {
+		var moreInfoURL = newMoreInfo.prop('value');
+		
+		if (moreInfoURL){
+			moreInfo.append('<tr onclick="this.remove();$(\'#opts_'+CryptoJS.MD5(moreInfoURL)+'\').remove();"><td>'+moreInfoURL+'</td></tr>');
+			formMoreInfo.append('<option id="opts_'+CryptoJS.MD5(moreInfoURL)+'" selected="selected">'+moreInfoURL+'</option>');
+			newMoreInfo.prop('value','');
+			newMoreInfo.focus();
+		}
+    });
+
+	
 	$.ajax("/upload/video?l=1").done(function(data){reloadUploadedFiles(data,'video');});
 	$.ajax("/upload/audio?l=1").done(function(data){reloadUploadedFiles(data,'audio');});
 	

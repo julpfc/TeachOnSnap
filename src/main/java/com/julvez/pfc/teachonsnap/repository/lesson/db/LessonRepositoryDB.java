@@ -168,11 +168,41 @@ public class LessonRepositoryDB implements LessonRepository {
 		Object obj = dbm.getQueryResultUnique("SQL_LESSON_GET_TAGID", null, tag);
 		if(obj!=null)
 			id = Integer.parseInt(obj.toString());
-		return id; 	}
+		return id; 	
+	}
 
 	@Override
 	public int createTag(String tag) {
 		return (int)dbm.updateQuery("SQL_LESSON_CREATE_TAG", tag);
+	}
+
+	@Override
+	public int getLinkID(String link) {
+		int id = -1;
+		Object obj = dbm.getQueryResultUnique("SQL_LESSON_GET_LINKID", null, link);
+		if(obj!=null)
+			id = Integer.parseInt(obj.toString());
+		return id;
+	}
+
+	@Override
+	public int createLink(String url, String desc) {
+		return (int)dbm.updateQuery("SQL_LESSON_CREATE_LINK", url, desc);
+	}
+
+	@Override
+	public void addLessonSources(int idLesson, ArrayList<Integer> sourceLinkIDs) {
+		for(int linkID:sourceLinkIDs){
+			dbm.updateQuery("SQL_LESSON_SAVE_SOURCE", idLesson,linkID);
+		}			
+	}
+
+	@Override
+	public void addLessonMoreInfos(int idLesson, ArrayList<Integer> moreInfoLinkIDs) {
+		for(int linkID:moreInfoLinkIDs){
+			dbm.updateQuery("SQL_LESSON_SAVE_MOREINFO", idLesson,linkID);
+		}			
+		
 	}
 
 }

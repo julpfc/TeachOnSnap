@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
@@ -79,23 +80,23 @@ public abstract class PagerController extends CommonController {
 				prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);
 			}
 		}
-		request.setAttribute("nextPage", nextPage);
-		request.setAttribute("prevPage", prevPage);
+		request.setAttribute(Attribute.STRING_NEXTPAGE.toString(), nextPage);
+		request.setAttribute(Attribute.STRING_PREVPAGE.toString(), prevPage);
 		
 		
 		List<CloudTag> cloudTags = lessonService.getCloudTags();
 		List<CloudTag> authorCloudTags = lessonService.getAuthorCloudTags();
-		request.setAttribute("authorCloudTags", authorCloudTags);
-		request.setAttribute("cloudTags", cloudTags);
+		request.setAttribute(Attribute.LIST_CLOUDTAG_AUTHOR.toString(), authorCloudTags);
+		request.setAttribute(Attribute.LIST_CLOUDTAG.toString(), cloudTags);
 
-		request.setAttribute("lessons", lessons);
+		request.setAttribute(Attribute.LIST_LESSON.toString(), lessons);
 		
-		request.setAttribute("searchType",request.getServletPath().substring(1));
+		request.setAttribute(Attribute.STRING_SEARCHTYPE.toString(),request.getServletPath().substring(1));
 		
 		String searchKeyword = getSearchKeyword(searchURI,lessons);
 		
 		if(!stringManager.isEmpty(searchKeyword)){
-			request.setAttribute("searchKeyword", searchKeyword);
+			request.setAttribute(Attribute.STRING_SEARCHKEYWORD.toString(), searchKeyword);
 		}
 	    
 	    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);

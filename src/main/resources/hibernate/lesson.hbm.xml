@@ -60,6 +60,11 @@
 	    FROM tlink	    	    
 	    WHERE idLink = ?
 	</sql-query>
+	<sql-query name="SQL_LESSON_GET_LINKID">
+		SELECT idLink
+	    FROM tlink	    	    
+	    WHERE URL = ?
+	</sql-query>
 	<sql-query name="SQL_LESSON_GET_TAG">
 		SELECT idTag, tag
 	    FROM ttag	    	    
@@ -132,12 +137,16 @@
 	    WHERE idLessonMedia = ?	    
 	</sql-query>
 	<sql-query name="SQL_LESSON_CREATE_LESSON">
-	    INSERT INTO tlesson(idUser, idLanguage, title, `date`,URIname)
+	    INSERT INTO tlesson(idUser, idLanguage, title, `date`, URIname)
 	    VALUES (?, ?, ?, now(),?)   
 	</sql-query>
 	<sql-query name="SQL_LESSON_CREATE_TAG">
 	    INSERT INTO ttag(tag)
 	    VALUES (?)   
+	</sql-query>
+	<sql-query name="SQL_LESSON_CREATE_LINK">
+	    INSERT INTO tlink(url,`desc`)
+	    VALUES (?,?)   
 	</sql-query>	
 	<sql-query name="SQL_LESSON_SAVE_TEXT">
 	    INSERT INTO tlessontxt(idLesson,text)
@@ -147,5 +156,13 @@
 	<sql-query name="SQL_LESSON_SAVE_TAG">
 	    INSERT IGNORE INTO tlessontag(idLesson,idTag)
 	    VALUES (?,?)	       
-	</sql-query>					
+	</sql-query>
+	<sql-query name="SQL_LESSON_SAVE_SOURCE">
+	    INSERT IGNORE INTO tlessonsource(idLesson,idLink)
+	    VALUES (?,?)	       
+	</sql-query>
+	<sql-query name="SQL_LESSON_SAVE_MOREINFO">
+	    INSERT IGNORE INTO tlessonmoreinfo(idLesson,idLink)
+	    VALUES (?,?)	       
+	</sql-query>						
 </hibernate-mapping>

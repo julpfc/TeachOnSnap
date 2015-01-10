@@ -11,7 +11,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
+import com.julvez.pfc.teachonsnap.manager.request.Header;
+import com.julvez.pfc.teachonsnap.manager.request.Parameter;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
+import com.julvez.pfc.teachonsnap.manager.request.SessionAttribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
@@ -30,7 +33,7 @@ public class RequestManagerImpl implements RequestManager {
 	
 	@Override
 	public String getAcceptLanguage(HttpServletRequest request) {
-		String language = request.getHeader(HTTP_ACCEPT_LANG);		
+		String language = request.getHeader(Header.ACCEPT_LANG.toString());		
 		if(!stringManager.isEmpty(language)){
 			language = language.substring(0,language.indexOf("-")==-1?0:language.indexOf("-"));
 		}
@@ -41,14 +44,14 @@ public class RequestManagerImpl implements RequestManager {
 	@Override
 	public short getSessionIdLanguage(HttpServletRequest request) {
 		short id = -1;
-		Short idlang = (Short)request.getSession(true).getAttribute(SESSION_IDLANGUAGE);
+		Short idlang = (Short)request.getSession(true).getAttribute(SessionAttribute.IDLANGUAGE.toString());
 		if(idlang!=null) id=idlang.shortValue();
 		return id;
 	}
 
 	@Override
 	public User getSessionUser(HttpServletRequest request) {
-		return (User)request.getSession(true).getAttribute(SESSION_USER);
+		return (User)request.getSession(true).getAttribute(SessionAttribute.USER.toString());
 	}
 
 	@Override
@@ -59,7 +62,7 @@ public class RequestManagerImpl implements RequestManager {
 			short sessionIdLang = getSessionIdLanguage(request);
 			
 			if(sessionIdLang != userLang.getId()){
-				request.getSession(true).setAttribute(SESSION_IDLANGUAGE, userLang.getId());
+				request.getSession(true).setAttribute(SessionAttribute.IDLANGUAGE.toString(), userLang.getId());
 			}
 		}		
 	}
@@ -79,8 +82,8 @@ public class RequestManagerImpl implements RequestManager {
 	}
 
 	
-	private String getParam(HttpServletRequest request,String paramName) {
-		String param = request.getParameter(paramName);
+	private String getParam(HttpServletRequest request,Parameter parameter) {
+		String param = request.getParameter(parameter.toString());
 		if(stringManager.isEmpty(param)){
 			param = null;
 		}
@@ -89,34 +92,34 @@ public class RequestManagerImpl implements RequestManager {
 	
 	@Override
 	public String getParamChangeLanguage(HttpServletRequest request) {
-		return getParam(request,PARAM_CHANGE_LANGUAGE);		
+		return getParam(request,Parameter.CHANGE_LANGUAGE);		
 	}	
 	
 	@Override
 	public String getParamLoginEmail(HttpServletRequest request) {		
-		return getParam(request,PARAM_LOGIN_EMAIL);
+		return getParam(request,Parameter.LOGIN_EMAIL);
 	}
 
 	@Override
 	public String getParamLoginPassword(HttpServletRequest request) {		
-		return getParam(request,PARAM_LOGIN_PASSWORD);
+		return getParam(request,Parameter.LOGIN_PASSWORD);
 	}
 
 	@Override
 	public void setUserSession(HttpServletRequest request, User user) {
-		request.getSession(true).setAttribute(SESSION_USER, user);
+		request.getSession(true).setAttribute(SessionAttribute.USER.toString(), user);
 	}
 
 	@Override
 	public void setErrorSession(HttpServletRequest request, ErrorType error) {
 		if(error!=null){
-			request.getSession(true).setAttribute(SESSION_ERROR, error);			
+			request.getSession(true).setAttribute(SessionAttribute.ERROR.toString(), error);			
 		}			
 	}
 
 	@Override
 	public ErrorType getErrorSession(HttpServletRequest request) {
-		Object obj = request.getSession(true).getAttribute(SESSION_ERROR);
+		Object obj = request.getSession(true).getAttribute(SessionAttribute.ERROR.toString());
 		if(obj!=null)
 			return (ErrorType)obj;
 		else return ErrorType.ERR_NONE;
@@ -124,17 +127,17 @@ public class RequestManagerImpl implements RequestManager {
 
 	@Override
 	public void setLastPage(HttpServletRequest request) {
-		request.getSession(true).setAttribute(SESSION_LAST_PAGE, request.getRequestURI());		
+		request.getSession(true).setAttribute(SessionAttribute.LAST_PAGE.toString(), request.getRequestURI());		
 	}
 
 	@Override
 	public String getLastPage(HttpServletRequest request) {
-		return (String) request.getSession(true).getAttribute(SESSION_LAST_PAGE);				
+		return (String) request.getSession(true).getAttribute(SessionAttribute.LAST_PAGE.toString());				
 	}
 
 	@Override
 	public boolean getParamLogout(HttpServletRequest request) {
-		String param = getParam(request,PARAM_LOGOUT);
+		String param = getParam(request,Parameter.LOGOUT);
 		return stringManager.isTrue(param);
 	}
 
@@ -156,7 +159,7 @@ public class RequestManagerImpl implements RequestManager {
 					temp.setFileSize(part.getSize()/1024 +" Kb");
 					temp.setFileType(part.getContentType());
 					temp.setContent(part.getInputStream());
-					temp.setMediaType(MediaType.valueOf(getParam(request, PARAM_LESSON_NEW_FILE_ATTACH).toUpperCase()));
+					temp.setMediaType(MediaType.valueOf(getParam(request, Parameter.LESSON_NEW_FILE_ATTACH).toUpperCase()));
 					
 					System.out.println("Upload.Part: "+temp);
 					files.add(temp);
@@ -176,7 +179,7 @@ public class RequestManagerImpl implements RequestManager {
 	
 	private String getFilename(Part part) {
 		String filename = null;
-	        for (String cd : part.getHeader("content-disposition").split(";")) {
+	        for (String cd : part.getHeader(Header.CONTENT_DISPOSITION.toString()).split(";")) {
 	            if (cd.trim().startsWith("filename")) {
 	                filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
 	                filename = filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
@@ -189,10 +192,10 @@ public class RequestManagerImpl implements RequestManager {
 	public Lesson getParamNewLesson(Map<String, String[]> parameterMap) {
 		Lesson lesson = null;
 		
-		if(parameterMap.get(PARAM_LESSON_NEW_TITLE)!=null && parameterMap.get(PARAM_LESSON_NEW_TITLE).length>0){
-			String title = parameterMap.get(PARAM_LESSON_NEW_TITLE)[0];
-			if(parameterMap.get(PARAM_LESSON_NEW_LANGUAGE)!=null && parameterMap.get(PARAM_LESSON_NEW_LANGUAGE).length>0){
-				String lang = parameterMap.get(PARAM_LESSON_NEW_LANGUAGE)[0];
+		if(parameterMap.get(Parameter.LESSON_NEW_TITLE.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_TITLE.toString()).length>0){
+			String title = parameterMap.get(Parameter.LESSON_NEW_TITLE.toString())[0];
+			if(parameterMap.get(Parameter.LESSON_NEW_LANGUAGE.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_LANGUAGE.toString()).length>0){
+				String lang = parameterMap.get(Parameter.LESSON_NEW_LANGUAGE.toString())[0];
 				short idLanguage = 0;
 				try {
 					idLanguage = Short.valueOf(lang);
@@ -205,8 +208,8 @@ public class RequestManagerImpl implements RequestManager {
 					lesson = new Lesson();
 					lesson.setTitle(title);
 					lesson.setIdLanguage(idLanguage);					
-					if(parameterMap.get(PARAM_LESSON_NEW_TEXT)!=null && parameterMap.get(PARAM_LESSON_NEW_TEXT).length>0){
-						lesson.setText(parameterMap.get(PARAM_LESSON_NEW_TEXT)[0]);
+					if(parameterMap.get(Parameter.LESSON_NEW_TEXT.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_TEXT.toString()).length>0){
+						lesson.setText(parameterMap.get(Parameter.LESSON_NEW_TEXT.toString())[0]);
 					}
 				}
 			}				
@@ -219,9 +222,9 @@ public class RequestManagerImpl implements RequestManager {
 	public List<String> getParamNewTags(Map<String, String[]> parameterMap) {
 		List<String> tags = null;
 	
-		if(parameterMap.get(PARAM_LESSON_NEW_TAGS)!=null && parameterMap.get(PARAM_LESSON_NEW_TAGS).length>0){
+		if(parameterMap.get(Parameter.LESSON_NEW_TAGS.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_TAGS.toString()).length>0){
 			tags = new ArrayList<String>();
-			for(String tag:parameterMap.get(PARAM_LESSON_NEW_TAGS)){
+			for(String tag:parameterMap.get(Parameter.LESSON_NEW_TAGS.toString())){
 				if(!stringManager.isEmpty(tag)){
 					tags.add(tag);
 				}
@@ -234,7 +237,7 @@ public class RequestManagerImpl implements RequestManager {
 	public FileMetadata getSubmittedFile(HttpServletRequest request) {
 		FileMetadata file = null;
 		User user = getSessionUser(request);
-		String attach = getParam(request, PARAM_LESSON_NEW_FILE_ATTACH);
+		String attach = getParam(request, Parameter.LESSON_NEW_FILE_ATTACH);
 		
 		if(user!=null && !stringManager.isEmpty(attach)){
 			MediaType mediaType = MediaType.valueOf(attach.toUpperCase());
@@ -243,10 +246,10 @@ public class RequestManagerImpl implements RequestManager {
 			if(mediaType!=null){
 				switch (mediaType) {
 				case VIDEO:
-					index =  getParam(request, PARAM_LESSON_NEW_VIDEO_INDEX);
+					index =  getParam(request, Parameter.LESSON_NEW_VIDEO_INDEX);
 					break;
 				case AUDIO:
-					index =  getParam(request, PARAM_LESSON_NEW_AUDIO_INDEX);
+					index =  getParam(request, Parameter.LESSON_NEW_AUDIO_INDEX);
 					break;
 				}
 				
@@ -268,6 +271,36 @@ public class RequestManagerImpl implements RequestManager {
 		}		
 		
 		return file;
+	}
+
+	@Override
+	public List<String> getParamNewSources(Map<String, String[]> parameterMap) {
+		List<String> sources = null;
+		
+		if(parameterMap.get(Parameter.LESSON_NEW_SOURCES.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_SOURCES.toString()).length>0){
+			sources = new ArrayList<String>();
+			for(String source:parameterMap.get(Parameter.LESSON_NEW_SOURCES.toString())){
+				if(!stringManager.isEmpty(source)){
+					sources.add(source);
+				}
+			}
+		}
+		return sources;
+	}
+
+	@Override
+	public List<String> getParamNewMoreInfos(Map<String, String[]> parameterMap) {
+		List<String> moreInfos = null;
+		
+		if(parameterMap.get(Parameter.LESSON_NEW_MOREINFOS.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_MOREINFOS.toString()).length>0){
+			moreInfos = new ArrayList<String>();
+			for(String moreInfo:parameterMap.get(Parameter.LESSON_NEW_MOREINFOS.toString())){
+				if(!stringManager.isEmpty(moreInfo)){
+					moreInfos.add(moreInfo);
+				}
+			}
+		}
+		return moreInfos;
 	}
 	
 

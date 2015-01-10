@@ -165,6 +165,28 @@ public class LessonRepositoryDBCache implements LessonRepository {
 		return (int)cache.updateImplCached(repoDB, null, null, tag);
 	}
 
+	@Override
+	public int getLinkID(String link) {
+		return (int)cache.executeImplCached(repoDB, link);		
+	}
+
+	@Override
+	public int createLink(String url, String desc) {
+		return (int)cache.updateImplCached(repoDB, null, null, url, desc);
+	}
+
+	@Override
+	public void addLessonSources(int idLesson, ArrayList<Integer> sourceLinkIDs) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getSourceLinkIDs"}, idLesson, sourceLinkIDs);		
+	}
+
+	@Override
+	public void addLessonMoreInfos(int idLesson, ArrayList<Integer> moreInfoLinkIDs) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getMoreInfoLinkIDs"}, idLesson, moreInfoLinkIDs);		
+	}
+
 
 
 	

@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 
 public class PropertyManagerImpl implements PropertyManager {
 	
@@ -12,7 +11,7 @@ public class PropertyManagerImpl implements PropertyManager {
 	private Integer lock = new Integer(0);
 
 	@Override
-	public String getProperty(PropertyName propertyName) {
+	public String getProperty(Enum<?> propertyName) {
 		String property = null;
 		
 		if(propertyName!=null){
@@ -20,7 +19,7 @@ public class PropertyManagerImpl implements PropertyManager {
 				loadDefaultProperties();
 			}
 			if(properties!=null){
-				property = properties.getProperty(propertyName.name());
+				property = properties.getProperty(propertyName.toString());
 			}
 		}
 		return property;
