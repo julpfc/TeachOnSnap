@@ -15,15 +15,24 @@ import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.link.LinkService;
+import com.julvez.pfc.teachonsnap.service.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileServiceFactory;
+import com.julvez.pfc.teachonsnap.service.tag.TagService;
+import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
+import com.julvez.pfc.teachonsnap.service.upload.UploadService;
+import com.julvez.pfc.teachonsnap.service.upload.UploadServiceFactory;
 
 public class NewLessonController extends CommonController {
 
 	private static final long serialVersionUID = 7608540908435958036L;
 	
 	private LessonService lessonService = LessonServiceFactory.getService();
+	private LinkService linkService = LinkServiceFactory.getService();
+	private TagService tagService = TagServiceFactory.getService();
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
+	private UploadService uploadService = UploadServiceFactory.getService();
 	
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -52,19 +61,19 @@ public class NewLessonController extends CommonController {
 					List<String> tags = requestManager.getParamNewTags(request.getParameterMap());
 
 					if(tags!=null){
-						newLesson = lessonService.addLessonTags(newLesson, tags);
+						newLesson = tagService.addLessonTags(newLesson, tags);
 					}
 					
 					List<String> sources = requestManager.getParamNewSources(request.getParameterMap());
 
 					if(sources!=null){
-						newLesson = lessonService.addLessonSources(newLesson, sources);
+						newLesson = linkService.addLessonSources(newLesson, sources);
 					}
 										
 					List<String> moreInfo = requestManager.getParamNewMoreInfos(request.getParameterMap());
 
 					if(moreInfo!=null){
-						newLesson = lessonService.addLessonMoreInfo(newLesson, moreInfo);
+						newLesson = linkService.addLessonMoreInfo(newLesson, moreInfo);
 					}
 					
 					
@@ -79,6 +88,7 @@ public class NewLessonController extends CommonController {
 			
 			
 			//TODO SI todo es correcto cargarse los temporales que no hemos usado
+			uploadService.removeTemporaryFiles(user);
 			
 			//TODO Mandar el mail bien, sistema de notificaciones en un servicio apra los seguimientos etc
 			MailManagerFactory.getManager().send(user.getEmail(), "Lesson " + newLesson.getId() + " creada", newLesson.toString());

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+	<sql-query name="SQL_COMMENT_GET_COMMENTIDS">
+		SELECT idComment
+	 	FROM tcomment 	
+		WHERE idlesson=?;
+	</sql-query>	
+	<sql-query name="SQL_COMMENT_GET_COMMENT">
+		SELECT 	tc.idComment,idUser,`date`, IFNULL(idcommentresponse,0) AS idParentComment, body
+	 	FROM tcomment tc
+		JOIN tcommentbody tcb ON tcb.idcomment=tc.idcomment
+		LEFT JOIN tcommentresponse tcr ON tc.idcomment=idcommentresponse
+		WHERE tc.idComment = ?;
+	</sql-query>
+</hibernate-mapping>

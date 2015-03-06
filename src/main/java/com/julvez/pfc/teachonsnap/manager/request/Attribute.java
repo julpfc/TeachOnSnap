@@ -15,7 +15,8 @@ public enum Attribute {
 	LIST_LESSON_LINKEDLESSONS("linkedLessons"),
 	LIST_LINK_MOREINFO("moreInfoLinks"),
 	LIST_LINK_SOURCES("sourceLinks"),
-
+	LIST_COMMENTS("comments"),
+	
 	//Lesson test
 	USERLESSONTEST_ANSWERS("userTest"),
 	LESSONTEST_QUESTIONS("test"),

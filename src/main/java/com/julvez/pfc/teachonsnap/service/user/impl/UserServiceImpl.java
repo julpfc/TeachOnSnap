@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.service.user.impl;
 
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.repository.user.UserRepository;
 import com.julvez.pfc.teachonsnap.repository.user.UserRepositoryFactory;
@@ -11,11 +13,13 @@ public class UserServiceImpl implements UserService {
 
 	UserRepository userRepository = UserRepositoryFactory.getRepository();
 	LangService langService = LangServiceFactory.getService(); 
+	StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	public User getUser(int idUser) {
 		User user = userRepository.getUser(idUser);
-		user.setLanguage(langService.getLanguage(user.getIdLanguage()));		
+		user.setLanguage(langService.getLanguage(user.getIdLanguage()));
+		user.setMD5(stringManager.generateMD5(user.getEmail()));
 		return user;
 	}
 

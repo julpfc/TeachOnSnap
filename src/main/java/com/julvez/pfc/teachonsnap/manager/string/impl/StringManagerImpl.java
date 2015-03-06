@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.manager.string.impl;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 
@@ -51,5 +53,32 @@ public class StringManagerImpl implements StringManager {
 		String format = new String(new char[objects.length])
         .replace("\0", "[%s]");
 		return String.format(format, objects);
+	}
+
+	@Override
+	public String generateMD5(String input) {
+		String output = null;
+		
+		if(!input.isEmpty()){
+			MessageDigest md;
+		
+			try {
+				md = MessageDigest.getInstance("MD5");
+			
+				md.update(input.getBytes());
+				
+				byte byteData[] = md.digest();
+				
+				StringBuffer sb = new StringBuffer();
+				for (int i = 0; i < byteData.length; i++) {
+					sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+				}
+				output = sb.toString();
+			}
+			catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+		} 
+		return output;
 	}
 }

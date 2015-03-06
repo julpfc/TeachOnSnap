@@ -1,8 +1,9 @@
-package com.julvez.pfc.teachonsnap.model.lesson;
+package com.julvez.pfc.teachonsnap.model.tag;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Tag {
@@ -11,6 +12,8 @@ public class Tag {
 	@Column (name="idTag")
 	private int id;
 	private String tag;
+	@Transient
+	private String MD5;
 	
 	@Override
 	public String toString() {
@@ -35,6 +38,14 @@ public class Tag {
 	
 	public String getURL() {
 		return "/tag/" + tag;
+	}
+	
+	public void setMD5(String md5) {
+		MD5 = md5;
+	}
+	
+	public String getMD5() {		
+		return MD5;
 	}
 	
 }

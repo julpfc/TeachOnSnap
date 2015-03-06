@@ -103,6 +103,30 @@ public class UploadRepositoryMap implements UploadRepository {
 			}
 		}
 	}
+
+	@Override
+	public void removeTemporaryFiles(int idUser) {
+		Map<MediaType,List<FileMetadata>> userMap = temporaryFileRepository.get(""+idUser);
+		
+		if(userMap!=null){
+			
+			for(List<FileMetadata> files : userMap.values()){				
+				for(FileMetadata file:files){ 
+					try {
+						file.getContent().close();
+						System.out.println("UploadRepositoryMap: Cerrando fichero "+file);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+					
+			userMap.clear(); 
+			System.out.println("UploadRepositoryMap: Ficheros cerrados del usuario "+idUser);
+		}
+		
+	}
 	
 	
 }

@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.model.lesson;
+package com.julvez.pfc.teachonsnap.model.tag;
 
 import com.julvez.pfc.teachonsnap.model.user.User;
 

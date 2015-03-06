@@ -4,7 +4,7 @@
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name>TeachOnSnap</display-name>
-	<listener> 
+	<listener>  
 		<listener-class>com.julvez.pfc.teachonsnap.listener.TeachOnSnapServletContextListener</listener-class>
 	</listener>
 	<servlet>
@@ -46,7 +46,7 @@
 	</servlet-mapping>
 	<servlet>
 		<description>
-  	</description>
+  	</description> 
 		<display-name>AuthorController</display-name>
 		<servlet-name>AuthorController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.pager.AuthorController</servlet-class>
@@ -57,7 +57,7 @@
 	</servlet-mapping>
 	<servlet>
 		<description>
-  	</description>
+  		</description>
 		<display-name>LessonTestController</display-name>
 		<servlet-name>LessonTestController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.LessonTestController</servlet-class>
@@ -65,6 +65,28 @@
 	<servlet-mapping>
 		<servlet-name>LessonTestController</servlet-name>
 		<url-pattern>/test/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
+		<display-name>EditLessonTestController</display-name>
+		<servlet-name>EditLessonTestController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.EditLessonTestController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditLessonTestController</servlet-name>
+		<url-pattern>/test/edit/*</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<description>
+  		</description>
+		<display-name>NewLessonTestController</display-name>
+		<servlet-name>NewLessonTestController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.NewLessonTestController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NewLessonTestController</servlet-name>
+		<url-pattern>/test/new/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<description>

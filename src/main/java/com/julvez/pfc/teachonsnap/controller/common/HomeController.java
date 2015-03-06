@@ -9,16 +9,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
-import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.tag.CloudTag;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.tag.TagService;
+import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
 
 public class HomeController extends CommonController {
 
 	private static final long serialVersionUID = 1L;
 
 	private LessonService lessonService = LessonServiceFactory.getService();
+	private TagService tagService = TagServiceFactory.getService();
+
 	
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -28,9 +32,9 @@ public class HomeController extends CommonController {
 		List<Lesson> lastLessons = lessonService.getLastLessons(0);
 		lastLessons.remove(lastLessons.size()-1);
 		
-		List<CloudTag> cloudTags = lessonService.getCloudTags();
+		List<CloudTag> cloudTags = tagService.getCloudTags();
 		
-		List<CloudTag> authorCloudTags = lessonService.getAuthorCloudTags();
+		List<CloudTag> authorCloudTags = tagService.getAuthorCloudTags();
 		request.setAttribute(Attribute.LIST_CLOUDTAG_AUTHOR.toString(), authorCloudTags);
 		
 		request.setAttribute(Attribute.LIST_LESSON.toString(), lastLessons);

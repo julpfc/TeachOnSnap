@@ -40,8 +40,8 @@ $(document).ready(function() {
 		var tag = newTag.prop('value');
 		
 		if (tag){
-			tags.append('<span class="label label-default" onclick="this.remove();$(\'#opt_'+tag.replace(/\s+/g, '')+'\').remove();">'+tag+'</span> ');
-			formTags.append('<option id="opt_'+tag.replace(/\s+/g, '')+'" selected="selected">'+tag+'</option>');
+			tags.append('<span class="label label-default" onclick="this.remove();$(\'#tag_'+CryptoJS.MD5(tag)+'\').remove();">'+tag+'</span> ');
+			formTags.append('<option id="tag_'+CryptoJS.MD5(tag)+'" selected="selected">'+tag+'</option>');
 			newTag.prop('value','');
 			newTag.focus();
 		}
@@ -55,8 +55,8 @@ $(document).ready(function() {
 		var source = newSource.prop('value');
 		
 		if (source){
-			sources.append('<tr onclick="this.remove();$(\'#opts_'+CryptoJS.MD5(source)+'\').remove();"><td>'+source+'</td></tr>');
-			formSource.append('<option id="opts_'+CryptoJS.MD5(source)+'" selected="selected">'+source+'</option>');
+			sources.append('<tr onclick="this.remove();$(\'#sources_'+CryptoJS.MD5(source)+'\').remove();"><td>'+source+'</td></tr>');
+			formSource.append('<option id="sources_'+CryptoJS.MD5(source)+'" selected="selected">'+source+'</option>');
 			newSource.prop('value','');
 			newSource.focus();
 		}
@@ -71,8 +71,8 @@ $(document).ready(function() {
 		var moreInfoURL = newMoreInfo.prop('value');
 		
 		if (moreInfoURL){
-			moreInfo.append('<tr onclick="this.remove();$(\'#opts_'+CryptoJS.MD5(moreInfoURL)+'\').remove();"><td>'+moreInfoURL+'</td></tr>');
-			formMoreInfo.append('<option id="opts_'+CryptoJS.MD5(moreInfoURL)+'" selected="selected">'+moreInfoURL+'</option>');
+			moreInfo.append('<tr onclick="this.remove();$(\'#more_'+CryptoJS.MD5(moreInfoURL)+'\').remove();"><td>'+moreInfoURL+'</td></tr>');
+			formMoreInfo.append('<option id="more_'+CryptoJS.MD5(moreInfoURL)+'" selected="selected">'+moreInfoURL+'</option>');
 			newMoreInfo.prop('value','');
 			newMoreInfo.focus();
 		}

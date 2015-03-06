@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+	<sql-query name="SQL_TAG_GET_LESSONIDS_FROM_TAG">
+	    SELECT idLesson
+	    FROM tlessontag
+	    JOIN ttag USING(idTag)
+	    WHERE tag = ?
+	    ORDER BY idLesson DESC
+	    LIMIT ?,11
+	</sql-query>
+	<sql-query name="SQL_TAG_GET_LESSONTAGIDS">
+	    SELECT idTag
+	    FROM tlessontag
+	    WHERE idLesson = ?
+	</sql-query>
+	<sql-query name="SQL_TAG_GET_TAG">
+		SELECT idTag, tag
+	    FROM ttag	    	    
+	    WHERE idTag = ?
+	</sql-query>
+	<sql-query name="SQL_TAG_GET_CLOUDTAG_TAG">
+		SELECT idTag,weight FROM (
+			SELECT 	idTag, COUNT(idlesson) AS weight
+			FROM tlessontag
+			GROUP BY idtag
+			ORDER BY weight DESC
+			LIMIT 50
+		) AS t
+		JOIN ttag USING (idtag)
+		ORDER BY tag;
+	</sql-query>
+	<sql-query name="SQL_TAG_GET_CLOUDTAG_AUTHOR">
+		SELECT idUser,weight FROM (
+			SELECT 	idUser, COUNT(idlesson) AS weight
+			FROM tlesson
+			GROUP BY idUser
+			ORDER BY weight DESC
+			LIMIT 50
+		) AS t
+		JOIN tuser USING (iduser)
+		ORDER BY lastname;
+	</sql-query>
+	<sql-query name="SQL_TAG_SAVE_TAG">
+	    INSERT IGNORE INTO tlessontag(idLesson,idTag)
+	    VALUES (?,?)	       
+	</sql-query>
+	<sql-query name="SQL_TAG_GET_TAGID">
+		SELECT idTag
+	    FROM ttag	    	    
+	    WHERE tag = ?
+	</sql-query>	
+	<sql-query name="SQL_TAG_CREATE_TAG">
+	    INSERT INTO ttag(tag)
+	    VALUES (?)   
+	</sql-query>						
+</hibernate-mapping>

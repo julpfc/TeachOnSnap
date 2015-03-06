@@ -1,10 +1,10 @@
-package com.julvez.pfc.teachonsnap.model.user;
+package com.julvez.pfc.teachonsnap.model.user.test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.julvez.pfc.teachonsnap.model.lesson.Answer;
-import com.julvez.pfc.teachonsnap.model.lesson.Question;
+import com.julvez.pfc.teachonsnap.model.lesson.test.Answer;
+import com.julvez.pfc.teachonsnap.model.lesson.test.Question;
 
 public class UserQuestion {
 

@@ -1,16 +1,10 @@
 package com.julvez.pfc.teachonsnap.repository.lesson.db;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
-import com.julvez.pfc.teachonsnap.model.lesson.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
-import com.julvez.pfc.teachonsnap.model.lesson.Link;
-import com.julvez.pfc.teachonsnap.model.lesson.Question;
-import com.julvez.pfc.teachonsnap.model.lesson.Tag;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 
 
@@ -23,14 +17,6 @@ public class LessonRepositoryDB implements LessonRepository {
 		return (Lesson) dbm.getQueryResultUnique("SQL_LESSON_GET_LESSON", Lesson.class, idLesson);
 	}
 	
-	@Override
-	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
-		
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_TAG", null, tag,firstResult);
-						
-		return ids; 
-	}
 
 	@Override
 	public int getLessonIDFromURI(String lessonURI) {
@@ -42,14 +28,6 @@ public class LessonRepositoryDB implements LessonRepository {
 	}
 
 	@Override
-	public List<Integer> getLessonTagIDs(int idLesson) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LESSONTAGIDS", null, idLesson);
-						
-		return ids;
-	}
-
-	@Override
 	public List<Integer> getLinkedLessonIDs(int idLesson) {
 		@SuppressWarnings("unchecked")
 		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LINKEDLESSONIDS", null, idLesson);
@@ -58,43 +36,10 @@ public class LessonRepositoryDB implements LessonRepository {
 	}
 
 	@Override
-	public List<Integer> getMoreInfoLinkIDs(int idLesson) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_MOREINFOLINKIDS", null, idLesson);
-						
-		return ids;
-	}
-
-	@Override
-	public List<Integer> getSourceLinkIDs(int idLesson) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_SOURCELINKIDS", null, idLesson);
-						
-		return ids;
-	}
-
-	@Override
-	public Tag getTag(int idTag) {
-		return (Tag) dbm.getQueryResultUnique("SQL_LESSON_GET_TAG", Tag.class, idTag);
-	}
-
-	@Override
-	public Link getLink(int idLink) {
-		return (Link) dbm.getQueryResultUnique("SQL_LESSON_GET_LINK", Link.class, idLink);
-	}
-
-	@Override
 	public List<Integer> getLastLessonIDs(int firstResult) {
 		@SuppressWarnings("unchecked")
 		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_LASTLESSONIDS", null, firstResult);
 						
-		return ids;
-	}
-
-	@Override
-	public List<Object[]> getCloudTags() {
-		@SuppressWarnings("unchecked")
-		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_LESSON_GET_CLOUDTAG_TAG", null, new Object[0]);
 		return ids;
 	}
 
@@ -107,44 +52,6 @@ public class LessonRepositoryDB implements LessonRepository {
 	}
 
 	@Override
-	public LessonTest getLessonTest(int idLessonTest) {
-		return (LessonTest) dbm.getQueryResultUnique("SQL_LESSON_GET_TEST", LessonTest.class, idLessonTest);
-	}
-
-	@Override
-	public List<Integer> getLessonTestQuestionIDs(int idLessonTest) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_QUESTIONIDS_FROM_IDLESSONTEST", null, idLessonTest);
-						
-		return ids; 
-	}
-
-	@Override
-	public Question getQuestion(int idQuestion) {
-		return (Question) dbm.getQueryResultUnique("SQL_LESSON_GET_QUESTION", Question.class, idQuestion);
-	}
-
-	@Override
-	public List<Integer> getQuestionAnswerIDs(int idQuestion) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LESSON_GET_ANSWERIDS_FROM_IDQUESTION", null, idQuestion);
-		
-		return ids;
-	}
-
-	@Override
-	public Answer getAnswer(int idAnswer) {
-		return (Answer) dbm.getQueryResultUnique("SQL_LESSON_GET_ANSWER", Answer.class, idAnswer);
-	}
-
-	@Override
-	public List<Object[]> getAuthorCloudTags() {
-		@SuppressWarnings("unchecked")
-		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_LESSON_GET_CLOUDTAG_AUTHOR", null, new Object[0]);
-		return ids;
-	}
-
-	@Override
 	public int createLesson(Lesson newLesson) {
 		return (int)dbm.updateQuery("SQL_LESSON_CREATE_LESSON", newLesson.getIdUser(),
 				newLesson.getIdLanguage(),newLesson.getTitle(),newLesson.getURIname());
@@ -153,56 +60,6 @@ public class LessonRepositoryDB implements LessonRepository {
 	@Override
 	public void saveLessonText(int idLesson, String newText) {
 		dbm.updateQuery("SQL_LESSON_SAVE_TEXT", idLesson,newText,newText);
-	}
-
-	@Override
-	public void addLessonTags(int idLesson, ArrayList<Integer> tagIDs) {
-		for(int tagID:tagIDs){
-			dbm.updateQuery("SQL_LESSON_SAVE_TAG", idLesson,tagID);
-		}		
-	}
-
-	@Override
-	public int getTagID(String tag) {
-		int id = -1;
-		Object obj = dbm.getQueryResultUnique("SQL_LESSON_GET_TAGID", null, tag);
-		if(obj!=null)
-			id = Integer.parseInt(obj.toString());
-		return id; 	
-	}
-
-	@Override
-	public int createTag(String tag) {
-		return (int)dbm.updateQuery("SQL_LESSON_CREATE_TAG", tag);
-	}
-
-	@Override
-	public int getLinkID(String link) {
-		int id = -1;
-		Object obj = dbm.getQueryResultUnique("SQL_LESSON_GET_LINKID", null, link);
-		if(obj!=null)
-			id = Integer.parseInt(obj.toString());
-		return id;
-	}
-
-	@Override
-	public int createLink(String url, String desc) {
-		return (int)dbm.updateQuery("SQL_LESSON_CREATE_LINK", url, desc);
-	}
-
-	@Override
-	public void addLessonSources(int idLesson, ArrayList<Integer> sourceLinkIDs) {
-		for(int linkID:sourceLinkIDs){
-			dbm.updateQuery("SQL_LESSON_SAVE_SOURCE", idLesson,linkID);
-		}			
-	}
-
-	@Override
-	public void addLessonMoreInfos(int idLesson, ArrayList<Integer> moreInfoLinkIDs) {
-		for(int linkID:moreInfoLinkIDs){
-			dbm.updateQuery("SQL_LESSON_SAVE_MOREINFO", idLesson,linkID);
-		}			
-		
 	}
 
 }

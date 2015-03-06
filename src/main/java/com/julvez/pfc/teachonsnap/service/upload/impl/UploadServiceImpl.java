@@ -51,4 +51,12 @@ public class UploadServiceImpl implements UploadService {
 		
 	}
 
+	@Override
+	public void removeTemporaryFiles(User user) {
+		if(user!=null){
+			uploadRepository.removeTemporaryFiles(user.getId());
+		}
+		
+	}
+
 }

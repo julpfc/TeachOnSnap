@@ -10,19 +10,26 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.lesson.Link;
-import com.julvez.pfc.teachonsnap.model.lesson.Tag;
+import com.julvez.pfc.teachonsnap.model.link.Link;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
+import com.julvez.pfc.teachonsnap.model.tag.Tag;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.link.LinkService;
+import com.julvez.pfc.teachonsnap.service.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileServiceFactory;
+import com.julvez.pfc.teachonsnap.service.tag.TagService;
+import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
 
 public class EditLessonController extends CommonController {
 
 	private static final long serialVersionUID = 7608540908435958036L;
 	
 	private LessonService lessonService = LessonServiceFactory.getService();
+	private TagService tagService = TagServiceFactory.getService();
+	private LinkService linkService = LinkServiceFactory.getService();
+
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
 
 	@Override
@@ -34,10 +41,10 @@ public class EditLessonController extends CommonController {
 		int id = Integer.parseInt(lessonID);
 		
 		Lesson lesson = lessonService.getLesson(id);
-		List<Tag> tags = lessonService.getLessonTags(lesson.getId());
+		List<Tag> tags = tagService.getLessonTags(lesson.getId());
 		List<Lesson> linkedLessons = lessonService.getLinkedLessons(lesson.getId());
-		List<Link> moreInfoLinks = lessonService.getMoreInfoLinks(lesson.getId());
-		List<Link> sourceLinks = lessonService.getSourceLinks(lesson.getId());
+		List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
+		List<Link> sourceLinks = linkService.getSourceLinks(lesson.getId());
 		List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
 		
 		request.setAttribute(Attribute.LESSON.toString(), lesson);

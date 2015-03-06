@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+	<sql-query name="SQL_LESSONTEST_GET_TEST">
+		SELECT idLessonTest,idlesson,numQuestions,numAnswers,multiplechoice
+	    FROM tlessontest    
+	    WHERE idLessonTest = ?
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_GET_QUESTION">
+		SELECT idQuestion,idLessonTest,text,priority
+	    FROM tquestion    
+	    WHERE idQuestion = ?
+	</sql-query>	
+	<sql-query name="SQL_LESSONTEST_GET_QUESTIONIDS_FROM_IDLESSONTEST">
+	    SELECT idQuestion
+	    FROM tquestion
+	    WHERE idLessonTest = ?
+	    ORDER BY priority
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_GET_ANSWERIDS_FROM_IDQUESTION">
+	    SELECT idAnswer
+	    FROM tanswer
+	    WHERE idQuestion = ?	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_GET_ANSWER">
+	    SELECT idAnswer,idQuestion,text,correct,reason
+	    FROM tanswer
+	    WHERE idAnswer = ?	    
+	</sql-query>				
+</hibernate-mapping>

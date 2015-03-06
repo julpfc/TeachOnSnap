@@ -48,7 +48,7 @@
 					</c:forEach>
 				</div>
 				<nav>
-					<ul class="pager">
+					<ul class="pager pagerBottom">
 						<li><a href="/"><span class="glyphicon glyphicon-home"></span>
 						 <fmt:message key="pager.home"/></a>
 						</li>						
@@ -111,7 +111,38 @@
           		</div>
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
-    </div><!-- /.container -->
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<h3 class="comments-section"><fmt:message key="lesson.comment.heading" bundle="${lessonBundle}"/></h3>
+				<hr/>
+				<c:choose>
+					<c:when test="${not empty comments}">
+						<c:forEach items="${comments}" var="comment">		
+							<article id="comment-${comment.id}" class="comment${comment.response?' col-sm-11 col-sm-offset-1':''}">				
+								<footer>
+									<div class="comment-author">
+									<span><img alt="avatar" src="http://www.gravatar.com/avatar/${comment.user.MD5}?s=48&d=identicon" width="48" height="48"></span>
+									<cite>${comment.user.firstName}</cite> <span class="comment-author-says"><fmt:message key="lesson.comment.author.says" bundle="${lessonBundle}"/>:</span>	
+									</div>
+								</footer>
+								<div class="comment-content">
+									${comment.body}									
+								</div>
+								<div class="comment-meta">
+									<a href="#"><time datetime="${comment.date}">
+									<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${comment.date}"/></time></a>
+									| <a href="#"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>	
+								</div><!-- .comment-meta .commentmetadata -->								
+							</article>												
+						</c:forEach>              			
+            		</c:when>
+					<c:otherwise>
+						<cite><fmt:message key="lesson.comment.nocomments" bundle="${lessonBundle}"/></cite>
+				    </c:otherwise>
+        		</c:choose>							
+			</div>				
+		</div><!-- /.row -->      	
+	</div><!-- /.container -->
 	
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>

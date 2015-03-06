@@ -9,21 +9,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
+import com.julvez.pfc.teachonsnap.model.comment.Comment;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.lesson.Link;
-import com.julvez.pfc.teachonsnap.model.lesson.Tag;
+import com.julvez.pfc.teachonsnap.model.link.Link;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
+import com.julvez.pfc.teachonsnap.model.tag.Tag;
+import com.julvez.pfc.teachonsnap.service.comment.CommentService;
+import com.julvez.pfc.teachonsnap.service.comment.CommentServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.link.LinkService;
+import com.julvez.pfc.teachonsnap.service.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileServiceFactory;
+import com.julvez.pfc.teachonsnap.service.tag.TagService;
+import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
 
 public class LessonController extends CommonController {
 
 	private static final long serialVersionUID = 7608540908435958036L;
 	
 	private LessonService lessonService = LessonServiceFactory.getService();
+	private TagService tagService = TagServiceFactory.getService();
+	private LinkService linkService = LinkServiceFactory.getService();
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
+
+	private CommentService commentService = CommentServiceFactory.getService();
 
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -32,11 +43,12 @@ public class LessonController extends CommonController {
 		String lessonURI = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
 		
 		Lesson lesson = lessonService.getLessonFromURI(lessonURI);
-		List<Tag> tags = lessonService.getLessonTags(lesson.getId());
+		List<Tag> tags = tagService.getLessonTags(lesson.getId());
 		List<Lesson> linkedLessons = lessonService.getLinkedLessons(lesson.getId());
-		List<Link> moreInfoLinks = lessonService.getMoreInfoLinks(lesson.getId());
-		List<Link> sourceLinks = lessonService.getSourceLinks(lesson.getId());
+		List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
+		List<Link> sourceLinks = linkService.getSourceLinks(lesson.getId());
 		List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
+		List<Comment> comments = commentService .getComments(lesson.getId());
 		
 		request.setAttribute(Attribute.LESSON.toString(), lesson);
 		request.setAttribute(Attribute.LIST_MEDIAFILE_LESSONFILES.toString(), medias);
@@ -44,6 +56,7 @@ public class LessonController extends CommonController {
 		request.setAttribute(Attribute.LIST_LESSON_LINKEDLESSONS.toString(), linkedLessons);
 		request.setAttribute(Attribute.LIST_LINK_MOREINFO.toString(), moreInfoLinks);
 		request.setAttribute(Attribute.LIST_LINK_SOURCES.toString(), sourceLinks);
+		request.setAttribute(Attribute.LIST_COMMENTS.toString(), comments);
 				
 	    request.getRequestDispatcher("/WEB-INF/views/lesson.jsp").forward(request, response);
 	}

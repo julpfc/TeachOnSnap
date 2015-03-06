@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.lesson.CloudTag;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.tag.CloudTag;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.tag.TagService;
+import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
 
 public abstract class PagerController extends CommonController {
 
@@ -22,6 +24,7 @@ public abstract class PagerController extends CommonController {
 	protected static final int MAX_RESULTS_PAGE = 10;
 	
 	protected LessonService lessonService = LessonServiceFactory.getService();
+	protected TagService tagService = TagServiceFactory.getService();
 	protected StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
@@ -84,8 +87,8 @@ public abstract class PagerController extends CommonController {
 		request.setAttribute(Attribute.STRING_PREVPAGE.toString(), prevPage);
 		
 		
-		List<CloudTag> cloudTags = lessonService.getCloudTags();
-		List<CloudTag> authorCloudTags = lessonService.getAuthorCloudTags();
+		List<CloudTag> cloudTags = tagService.getCloudTags();
+		List<CloudTag> authorCloudTags = tagService.getAuthorCloudTags();
 		request.setAttribute(Attribute.LIST_CLOUDTAG_AUTHOR.toString(), authorCloudTags);
 		request.setAttribute(Attribute.LIST_CLOUDTAG.toString(), cloudTags);
 

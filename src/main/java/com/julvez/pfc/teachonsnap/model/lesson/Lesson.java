@@ -98,6 +98,14 @@ public class Lesson {
 	public String getTestURL() {
 		return idLessonTest>0?("/test/"+URIname):"#";
 	}
+	
+	public String getEditTestURL() {
+		return idLessonTest>0?("/test/edit/"+URIname):getNewTestURL();
+	}
+	
+	public String getNewTestURL() {
+		return idLessonTest<=0?("/test/new/"+URIname):getEditTestURL();
+	}
 
 	public User getAuthor() {
 		return author;

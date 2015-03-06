@@ -17,4 +17,6 @@ public interface UploadRepository {
 
 	public void removeTemporaryFile(int idUser, MediaType contentType, int index);
 
+	public void removeTemporaryFiles(int idUser);
+
 }

@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.model.lesson;
+package com.julvez.pfc.teachonsnap.model.lesson.test;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

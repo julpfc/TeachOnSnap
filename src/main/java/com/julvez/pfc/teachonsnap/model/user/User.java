@@ -19,13 +19,25 @@ public class User {
 	private short idLanguage;
 	
 	private boolean author;
+	private boolean admin;
 	
 	private String URIName;
 	
 	@Transient
 	private Language language;
 	
+	@Transient
+	private String MD5;
 	
+	
+	public String getMD5() {
+		return MD5;
+	}
+
+	public void setMD5(String mD5) {
+		MD5 = mD5;
+	}
+
 	public short getIdLanguage() {
 		return idLanguage;
 	}
@@ -54,7 +66,8 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", author=" + author
+				+ firstName + ", lastName=" + lastName + ", idLanguage="
+				+ idLanguage + ", author=" + author + ", admin=" + admin
 				+ ", URIName=" + URIName + ", language=" + language + "]";
 	}
 
@@ -106,6 +119,14 @@ public class User {
 		if(URIName!=null)
 			return "/author/"+URIName;
 		else return "#";		
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 	
 }

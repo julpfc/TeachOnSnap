@@ -1,7 +1,39 @@
 .lesson-meta {
-  margin-bottom: 20px;  
+	margin-bottom: 20px;  
 }
 
 .sidebar{
 	padding-bottom: 10px;
+}
+
+/* Comments */
+.comments-section {
+	text-align: center;
+}
+
+.comment {
+	padding-bottom: 40px;
+}
+
+.comment-author cite{
+	padding-left: 12px;	
+	font-size: 20px;
+}
+.comment-author-says {
+	color: #999;
+}
+
+.comment-content {
+	padding-left: 64px;
+	padding-top: 10px;
+}
+.comment-meta {
+	text-transform: uppercase;
+	padding-top: 24px;
+	padding-left: 64px;
+	color: #999;
+}
+
+.comment-meta a{
+	color: inherit;
 }

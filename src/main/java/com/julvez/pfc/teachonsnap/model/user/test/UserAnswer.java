@@ -1,6 +1,6 @@
-package com.julvez.pfc.teachonsnap.model.user;
+package com.julvez.pfc.teachonsnap.model.user.test;
 
-import com.julvez.pfc.teachonsnap.model.lesson.Answer;
+import com.julvez.pfc.teachonsnap.model.lesson.test.Answer;
 
 public class UserAnswer {
 

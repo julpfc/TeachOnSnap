@@ -9,12 +9,13 @@ import com.julvez.pfc.teachonsnap.model.user.User;
 public interface UploadService {
 
 	FileMetadata getTemporaryFile(User user, MediaType contentType, int index);
+	void removeTemporaryFile(User user, MediaType contentType, int index);
 
 	List<FileMetadata> getTemporaryFiles(User user, MediaType contentType);
-
+	void removeTemporaryFiles(User user);
+	
 	void addTemporaryFiles(User user, MediaType contentType, List<FileMetadata> uploadFiles);
 
-	void removeTemporaryFile(User user, MediaType contentType, int index);
 	
 	
 

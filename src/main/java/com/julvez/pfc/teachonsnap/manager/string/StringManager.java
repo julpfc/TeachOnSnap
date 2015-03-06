@@ -9,4 +9,6 @@ public interface StringManager {
 	public String generateURIname(String source);
 
 	public String getKey(Object... objects);
+	
+	public String generateMD5(String input);
 }

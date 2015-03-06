@@ -11,7 +11,7 @@ public class TagController extends PagerController {
 
 	@Override
 	protected List<Lesson> getLessons(String searchURI, int pageResult) {
-		return lessonService.getLessonsFromTag(searchURI,pageResult);
+		return tagService.getLessonsFromTag(searchURI,pageResult);
 	}
 
 	@Override

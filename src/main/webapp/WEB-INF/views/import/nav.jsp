@@ -46,7 +46,15 @@
 				<li><a href="#" data-toggle="modal" data-target="#login"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></a></li>			        
         	</c:when> 
         	<c:otherwise>
-		        <li class="dropdown">
+        		<c:if test="${user.admin}">
+	        	 	<li class="dropdown">
+			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="nav.menu.admin"/> <span class="caret"></span></a>
+			            <ul class="dropdown-menu" role="menu">
+			            	<li><a href="#"><fmt:message key="nav.menu.admin.users"/></a></li>			            	                
+						</ul>
+			        </li>
+			   	</c:if>
+		       	<li class="dropdown">
 		        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">${user.fullName} <span class="caret"></span></a>
 		            <ul class="dropdown-menu" role="menu">
 		            	<c:if test="${user.author}">

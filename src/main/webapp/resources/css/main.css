@@ -71,6 +71,10 @@ h1, h2{
 	color: white;
 }
 
+.pagerBottom{
+	margin: 50px 0px;
+}
+
 /*Lesson*/
 .lesson-title {
   margin-bottom: 0px;  

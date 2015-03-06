@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+	<sql-query name="SQL_LINK_GET_MOREINFOLINKIDS">
+	    SELECT idLink
+	    FROM tlessonmoreinfo	    
+	    WHERE idLesson = ?
+	    ORDER BY priority
+	</sql-query>
+	<sql-query name="SQL_LINK_GET_SOURCELINKIDS">
+	    SELECT idLink
+	    FROM tlessonsource	    
+	    WHERE idLesson = ?
+	    ORDER BY priority
+	</sql-query>
+	<sql-query name="SQL_LINK_GET_LINK">
+		SELECT idLink, URL, tlink.desc
+	    FROM tlink	    	    
+	    WHERE idLink = ?
+	</sql-query>
+	<sql-query name="SQL_LINK_GET_LINKID">
+		SELECT idLink
+	    FROM tlink	    	    
+	    WHERE URL = ?
+	</sql-query>	
+	<sql-query name="SQL_LINK_CREATE_LINK">
+	    INSERT INTO tlink(url,`desc`)
+	    VALUES (?,?)   
+	</sql-query>	
+	<sql-query name="SQL_LINK_SAVE_SOURCE">
+	    INSERT IGNORE INTO tlessonsource(idLesson,idLink)
+	    VALUES (?,?)	       
+	</sql-query>
+	<sql-query name="SQL_LINK_SAVE_MOREINFO">
+	    INSERT IGNORE INTO tlessonmoreinfo(idLesson,idLink)
+	    VALUES (?,?)	       
+	</sql-query>						
+</hibernate-mapping>

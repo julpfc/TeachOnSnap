@@ -37,62 +37,62 @@
 							<img alt="EN" src="/resources/img/ico/flag_en.jpg"/>
 						</span>										    					    	
 			    	</div>
+			    	
 			    	<div class="panel panel-default">
-		    			
-			    	<div class="panel-body" role="tabpanel">
-						<!-- Nav tabs -->
-				  		<ul class="nav nav-tabs" role="tablist">
-				    		<li role="presentation" class="active"><a href="#video" aria-controls="video" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-facetime-video"></span> video</a></li>
-				    		<li role="presentation"><a href="#audio" aria-controls="audio" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-bullhorn"></span> audio</a></li>
-				    		<li role="presentation"><a href="#nofiles" aria-controls="nofiles" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-ban-circle"></span> No files</a></li>				    		
-			    		</ul>
-				
-				  		<!-- Tab panes -->
-						<div class="tab-content">
-				  			<div role="tabpanel" class="tab-pane fade in active" id="video">
-					  			<div class="form-group">			    					
-									<div id="dropzone_video" class="well">Drop video files here</div>
-									<p id="uploadFile_video" class="help-block"></p>
-									<div class="progress hidden" id="progress_video">
-										<div id="progressbar_video" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-											<span id="progressbar_bw_video" class="sr-only">0%</span>
-										</div>
-									</div>  									
-									<table id="uploaded-files_video" class="help-block table">
-										<tr><td>Selecciona un fichero de video o arrástralo hasta la zona marcada.</td></tr>										
-									</table>															
-			   						<span class="btn btn-default btn-file">
-										Examinar... <input type="file" id="fileupload_video" name="files_video" data-url="/upload/video" data-accept-file-types="/^video\/.*$/"/>
-									</span>
-									<h5><small>Max File Size: 2 Mb - Display last 20 files</small></h5> 
-  								</div>				  						
-			  					<input type="radio" name="attach" id="inputRadioAttach_video" value="video" required checked="checked"/>			  					
-				  			</div>
-				  			<div role="tabpanel" class="tab-pane fade" id="audio">
-				  				<div class="form-group">			    					
-									<div id="dropzone_audio" class="well">Drop audio files here</div>
-									<p id="uploadFile_audio" class="help-block"></p>
-									<div class="progress hidden" id="progress_audio">
-										<div id="progressbar_audio" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-											<span id="progressbar_bw_audio" class="sr-only">0%</span>
-										</div>
-									</div>  									
-									<table id="uploaded-files_audio" class="help-block table">
-										<tr><td>Selecciona un fichero de audio o arrástralo hasta la zona marcada.</td></tr>										
-									</table>															
-			   						<span class="btn btn-default btn-file">
-										Examinar... <input type="file" id="fileupload_audio" name="files_audio" data-url="/upload/audio" data-accept-file-types="/^audio\/.*$/"/>
-									</span>
-									<h5><small>Max File Size: 2 Mb - Display last 20 files</small></h5> 
-  								</div>	
-				  				<input type="radio" name="attach" id="inputRadioAttach_audio" value="audio" required/>
-				  			</div>
-				  			<div role="tabpanel" class="tab-pane fade" id="nofiles">
-				  				<input type="radio" name="attach" id="inputRadioAttach_nofiles" value="none" required/>
-				  				<p class="help-block">No se adjuntarán ficheros multimedia a la lección.</p>
-			  				</div>
-						</div>				
-					</div>
+		    			<div class="panel-body" role="tabpanel">
+							<!-- Nav tabs -->
+					  		<ul class="nav nav-tabs" role="tablist">
+					    		<li role="presentation" class="active"><a href="#video" aria-controls="video" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-facetime-video"></span> video</a></li>
+					    		<li role="presentation"><a href="#audio" aria-controls="audio" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-bullhorn"></span> audio</a></li>
+					    		<li role="presentation"><a href="#nofiles" aria-controls="nofiles" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-ban-circle"></span> No files</a></li>				    		
+				    		</ul>
+					
+					  		<!-- Tab panes -->
+							<div class="tab-content">
+					  			<div role="tabpanel" class="tab-pane fade in active" id="video">
+						  			<div class="form-group">			    					
+										<div id="dropzone_video" class="well">Drop video files here</div>
+										<p id="uploadFile_video" class="help-block"></p>
+										<div class="progress hidden" id="progress_video">
+											<div id="progressbar_video" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+												<span id="progressbar_bw_video" class="sr-only">0%</span>
+											</div>
+										</div>  									
+										<table id="uploaded-files_video" class="help-block table">
+											<tr><td>Selecciona un fichero de video o arrástralo hasta la zona marcada.</td></tr>										
+										</table>															
+				   						<span class="btn btn-default btn-file">
+											Examinar... <input type="file" id="fileupload_video" name="files_video" data-url="/upload/video" data-accept-file-types="/^video\/.*$/"/>
+										</span>
+										<h5><small>Max File Size: 2 Mb - Display last 20 files</small></h5> 
+	  								</div>				  						
+				  					<input type="radio" name="attach" id="inputRadioAttach_video" value="video" required checked="checked"/>			  					
+					  			</div>
+					  			<div role="tabpanel" class="tab-pane fade" id="audio">
+					  				<div class="form-group">			    					
+										<div id="dropzone_audio" class="well">Drop audio files here</div>
+										<p id="uploadFile_audio" class="help-block"></p>
+										<div class="progress hidden" id="progress_audio">
+											<div id="progressbar_audio" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+												<span id="progressbar_bw_audio" class="sr-only">0%</span>
+											</div>
+										</div>  									
+										<table id="uploaded-files_audio" class="help-block table">
+											<tr><td>Selecciona un fichero de audio o arrástralo hasta la zona marcada.</td></tr>										
+										</table>															
+				   						<span class="btn btn-default btn-file">
+											Examinar... <input type="file" id="fileupload_audio" name="files_audio" data-url="/upload/audio" data-accept-file-types="/^audio\/.*$/"/>
+										</span>
+										<h5><small>Max File Size: 2 Mb - Display last 20 files</small></h5> 
+	  								</div>	
+					  				<input type="radio" name="attach" id="inputRadioAttach_audio" value="audio" required/>
+					  			</div>
+					  			<div role="tabpanel" class="tab-pane fade" id="nofiles">
+					  				<input type="radio" name="attach" id="inputRadioAttach_nofiles" value="none" required/>
+					  				<p class="help-block">No se adjuntarán ficheros multimedia a la lección.</p>
+				  				</div>
+							</div>				
+						</div>
 					</div>			    	
 					
 					<div class="form-group">
@@ -120,6 +120,7 @@
 							</div>
 				    	</div>
 			    	</div>
+			    	
 			    	<div class="panel panel-default">
 			    		<div class="panel-heading"><fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/></div>
 		    			<div class="panel-body">

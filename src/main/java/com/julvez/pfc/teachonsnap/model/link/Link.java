@@ -1,8 +1,9 @@
-package com.julvez.pfc.teachonsnap.model.lesson;
+package com.julvez.pfc.teachonsnap.model.link;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Link {
@@ -12,7 +13,17 @@ public class Link {
 	private int id;
 	private String URL;	
 	private String desc;
+	@Transient
+	private String MD5;
 	
+	public String getMD5() {
+		return MD5;
+	}
+
+	public void setMD5(String mD5) {
+		MD5 = mD5;
+	}
+
 	@Override
 	public String toString() {
 		return "Link [id=" + id + ", url=" + URL + ", desc=" + desc + "]";

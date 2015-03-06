@@ -9,15 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.lesson.LessonTest;
-import com.julvez.pfc.teachonsnap.model.user.UserLessonTest;
+import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
+import com.julvez.pfc.teachonsnap.model.user.test.UserLessonTest;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
+import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
 
 public class LessonTestController extends CommonController {
 
 	private static final long serialVersionUID = 3593648651182715069L;
 	private LessonService lessonService = LessonServiceFactory.getService();
+	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -26,7 +29,7 @@ public class LessonTestController extends CommonController {
 		String lessonURI = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
 		
 		Lesson lesson = lessonService.getLessonFromURI(lessonURI);
-		LessonTest test = lessonService.getLessonTest(lesson.getIdLessonTest());
+		LessonTest test = lessonTestService.getLessonTest(lesson.getIdLessonTest());
 		
 		if(request.getMethod().equals("POST")){
 			UserLessonTest userTest = new UserLessonTest(test, request.getParameterMap());
