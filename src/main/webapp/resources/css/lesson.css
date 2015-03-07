@@ -15,6 +15,19 @@
 	padding-bottom: 40px;
 }
 
+.comment-new {
+	color: #999;
+	font-size: 18px;
+	text-align: center;
+}
+
+.well{
+	padding-bottom: 9px;
+}
+.comment-new a{
+	color: inherit;
+}
+
 .comment-author cite{
 	padding-left: 12px;	
 	font-size: 20px;

@@ -232,7 +232,7 @@
 	
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>
-		<script src="/resources/js/ext/jquery.ui.widget.js"></script>
+	<script src="/resources/js/ext/jquery.ui.widget.js"></script>
 	<script src="/resources/js/ext/jquery.iframe-transport.js"></script>
 	<script src="/resources/js/ext/jquery.fileupload.js"></script>
 	<script src="/resources/js/ext/jquery.fileupload-validate.js"></script>

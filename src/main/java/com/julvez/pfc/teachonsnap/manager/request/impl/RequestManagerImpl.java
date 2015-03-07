@@ -302,6 +302,25 @@ public class RequestManagerImpl implements RequestManager {
 		}
 		return moreInfos;
 	}
+
+	@Override
+	public String getParamComment(HttpServletRequest request) {
+		return getParam(request,Parameter.LESSON_COMMENT);
+	}
+
+	@Override
+	public int getParamCommentID(HttpServletRequest request) {
+		int commentID = -1;
+		String param = getParam(request, Parameter.LESSON_COMMENTID);
+		if(param!=null){
+			try{
+				commentID = Integer.parseInt(param);
+			}
+			catch(Throwable t){				
+			}
+		}
+		return commentID;
+	}
 	
 
 }

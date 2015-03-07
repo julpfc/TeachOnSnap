@@ -14,31 +14,33 @@ import com.julvez.pfc.teachonsnap.model.user.User;
 
 public interface RequestManager {
 
-	String getAcceptLanguage(HttpServletRequest request);
+	public String getAcceptLanguage(HttpServletRequest request);
 
-	short getSessionIdLanguage(HttpServletRequest request);
-	User getSessionUser(HttpServletRequest request);
-	ErrorType getErrorSession(HttpServletRequest request);
-	String getLastPage(HttpServletRequest request);
+	public short getSessionIdLanguage(HttpServletRequest request);
+	public User getSessionUser(HttpServletRequest request);
+	public ErrorType getErrorSession(HttpServletRequest request);
+	public String getLastPage(HttpServletRequest request);
 
-	void setUserSessionLanguage(HttpServletRequest request, Language userLang);
-	void setUserSession(HttpServletRequest request, User user);
-	void setErrorSession(HttpServletRequest request, ErrorType error);
-	void setLastPage(HttpServletRequest request);
+	public void setUserSessionLanguage(HttpServletRequest request, Language userLang);
+	public void setUserSession(HttpServletRequest request, User user);
+	public void setErrorSession(HttpServletRequest request, ErrorType error);
+	public void setLastPage(HttpServletRequest request);
 
-	String getParamChangeLanguage(HttpServletRequest request);
-	boolean getParamLogout(HttpServletRequest request);
-	String getParamLoginEmail(HttpServletRequest request);
-	String getParamLoginPassword(HttpServletRequest request);
-	Lesson getParamNewLesson(Map<String, String[]> parameterMap);
-	List<String> getParamNewTags(Map<String, String[]> parameterMap);
-	List<String> getParamNewSources(Map<String, String[]> parameterMap);
-	List<String> getParamNewMoreInfos(Map<String, String[]> parameterMap);
+	public String getParamChangeLanguage(HttpServletRequest request);
+	public String getParamComment(HttpServletRequest request);
+	public boolean getParamLogout(HttpServletRequest request);
+	public String getParamLoginEmail(HttpServletRequest request);
+	public String getParamLoginPassword(HttpServletRequest request);
+	public Lesson getParamNewLesson(Map<String, String[]> parameterMap);
+	public List<String> getParamNewTags(Map<String, String[]> parameterMap);
+	public List<String> getParamNewSources(Map<String, String[]> parameterMap);
+	public List<String> getParamNewMoreInfos(Map<String, String[]> parameterMap);
 
-	String[] getControllerParams(HttpServletRequest request);
+	public String[] getControllerParams(HttpServletRequest request);
 	
-	List<FileMetadata> getUploadFiles(HttpServletRequest request);
-	FileMetadata getSubmittedFile(HttpServletRequest request);
+	public List<FileMetadata> getUploadFiles(HttpServletRequest request);
+	public FileMetadata getSubmittedFile(HttpServletRequest request);
 
+	public int getParamCommentID(HttpServletRequest request);
 	
 }

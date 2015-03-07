@@ -19,7 +19,11 @@ public enum Parameter {
 	LESSON_NEW_TEXT("text"),
 	LESSON_NEW_TAGS("tags"),
 	LESSON_NEW_SOURCES("sources"),
-	LESSON_NEW_MOREINFOS("moreInfos");
+	LESSON_NEW_MOREINFOS("moreInfos"), 
+	
+	//Lesson	
+	LESSON_COMMENT("comment"), 
+	LESSON_COMMENTID("idComment");
 
 		 		
 	private final String realName;

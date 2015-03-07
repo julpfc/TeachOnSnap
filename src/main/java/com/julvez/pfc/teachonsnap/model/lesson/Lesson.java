@@ -95,6 +95,10 @@ public class Lesson {
 		return "/lesson/edit/"+id;
 	}
 	
+	public String getCommentURL() {
+		return "/lesson/comment/"+URIname;
+	}
+	
 	public String getTestURL() {
 		return idLessonTest>0?("/test/"+URIname):"#";
 	}

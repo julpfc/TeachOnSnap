@@ -12,7 +12,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">TeachOnSnap</a>
+      <a class="navbar-brand" href="/">
+      	<span><img src="/resources/favicon/apple-touch-icon-precomposed.png" width="22" height="22"/></span>
+      	TeachOnSnap</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

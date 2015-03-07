@@ -36,6 +36,29 @@ public class CommentServiceImpl implements CommentService {
 		return comment;
 	}
 
+	@Override
+	public Comment createComment(int idLesson, int idUser, String commentBody, int idParentComment) {
+		Comment comment = null;
+		if(idLesson>0 && idUser>0 && commentBody!=null){
+			int idComment = -1;
+			comment = new Comment();
+			idComment = commentRepository.createComment(idLesson, idUser);
+			
+			if(idComment>0){
+				commentRepository.saveCommentBody(idComment,commentBody);
+				
+				if(idParentComment>0){
+					commentRepository.saveCommentParent(idComment, idParentComment);
+				}
+				comment = getComment(idComment);
+			}
+			else{
+				comment = null;
+			}
+		}
+		return comment;
+	}
+
 
 
 }

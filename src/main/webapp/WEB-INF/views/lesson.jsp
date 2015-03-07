@@ -113,9 +113,29 @@
 		</div><!-- /.row -->
 		<div class="row">
 			<div class="col-sm-8 col-sm-offset-2">
-				<h3 class="comments-section"><fmt:message key="lesson.comment.heading" bundle="${lessonBundle}"/></h3>
-				<hr/>
-				<c:choose>
+				<h3 class="comments-section">
+					<span class="glyphicon glyphicon-comment"></span> 
+					<fmt:message key="lesson.comment.heading" bundle="${lessonBundle}"/>
+				</h3>
+				<hr id="commentNewAnchor" />
+				<div id="commentNew">			
+					<div class="comment-new">
+						<a data-toggle="collapse" href="#collapseNewComment" aria-expanded="${empty comments}" aria-controls="collapseNewComment">
+	  					<fmt:message key="lesson.comment.new.heading" bundle="${lessonBundle}"/> <span class="caret"></span>
+						</a>
+					</div>
+					<div class="collapse${not empty comments?'':' in'}" id="collapseNewComment">
+	  					<form role="form" action="${lesson.commentURL}" method="post">
+	  						<div class="form-group well">    					
+					    		<p><textarea name="comment" class="form-control" rows="4"></textarea></p>				    	
+	  							<p><button class="btn btn-primary form-control" type="submit"><span class="glyphicon glyphicon-send"></span>
+								 <fmt:message key="lesson.comment.new.submit" bundle="${lessonBundle}"/></button></p>
+	  						</div>
+	  					</form>
+					</div>
+					<hr/>
+				</div>
+ 				<c:choose>
 					<c:when test="${not empty comments}">
 						<c:forEach items="${comments}" var="comment">		
 							<article id="comment-${comment.id}" class="comment${comment.response?' col-sm-11 col-sm-offset-1':''}">				
@@ -131,12 +151,12 @@
 								<div class="comment-meta">
 									<a href="#"><time datetime="${comment.date}">
 									<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${comment.date}"/></time></a>
-									| <a href="#"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>	
+									| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/>');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>	
 								</div><!-- .comment-meta .commentmetadata -->								
 							</article>												
 						</c:forEach>              			
             		</c:when>
-					<c:otherwise>
+					<c:otherwise> 
 						<cite><fmt:message key="lesson.comment.nocomments" bundle="${lessonBundle}"/></cite>
 				    </c:otherwise>
         		</c:choose>							
@@ -146,6 +166,6 @@
 	
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>
-	
+	<script src="/resources/js/lesson.js"></script>
 </body>
 </html>

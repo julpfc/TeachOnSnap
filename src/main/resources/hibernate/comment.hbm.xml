@@ -3,15 +3,34 @@
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
 	<sql-query name="SQL_COMMENT_GET_COMMENTIDS">
-		SELECT idComment
-	 	FROM tcomment 	
-		WHERE idlesson=?;
+	SELECT idComment 
+	FROM 
+		(SELECT idcomment,IFNULL(idCommentParent,idcomment) as idParent
+	 		FROM tcomment        
+        	LEFT JOIN tcommentresponse ON idcomment=idcommentresponse
+			WHERE idlesson=?
+			ORDER BY idParent,idComment
+    	) as t;
 	</sql-query>	
 	<sql-query name="SQL_COMMENT_GET_COMMENT">
-		SELECT 	tc.idComment,idUser,`date`, IFNULL(idcommentresponse,0) AS idParentComment, body
+		SELECT 	tc.idComment,idUser,`date`, IFNULL(idcommentparent,0) AS idParentComment, body
 	 	FROM tcomment tc
 		JOIN tcommentbody tcb ON tcb.idcomment=tc.idcomment
 		LEFT JOIN tcommentresponse tcr ON tc.idcomment=idcommentresponse
 		WHERE tc.idComment = ?;
+	</sql-query>
+	<sql-query name="SQL_COMMENT_CREATE_COMMENT">
+	    INSERT INTO tcomment(idLesson, idUser, `date`)
+	    VALUES (?, ?, now())   
+	</sql-query>
+	<sql-query name="SQL_COMMENT_SAVE_BODY">
+	    INSERT INTO tcommentbody(idComment, body)
+	    VALUES (?,?)
+	    ON DUPLICATE KEY UPDATE body = ?   
+	</sql-query>
+	<sql-query name="SQL_COMMENT_SAVE_PARENT">
+	    INSERT INTO tcommentresponse(idCommentResponse,idCommentParent)
+	    VALUES (?,?)
+	    ON DUPLICATE KEY UPDATE idCommentParent = ?   
 	</sql-query>
 </hibernate-mapping>

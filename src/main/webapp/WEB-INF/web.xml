@@ -141,6 +141,16 @@
 		<url-pattern>/lesson/new/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<description></description>
+		<display-name>CommentController</display-name>
+		<servlet-name>CommentController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.CommentController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CommentController</servlet-name>
+		<url-pattern>/lesson/comment/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<description>
 		</description>
 		<display-name>FileUploadController</display-name>
