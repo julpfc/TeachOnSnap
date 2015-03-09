@@ -42,14 +42,17 @@ public class CommentServiceImpl implements CommentService {
 		if(idLesson>0 && idUser>0 && commentBody!=null){
 			int idComment = -1;
 			comment = new Comment();
-			idComment = commentRepository.createComment(idLesson, idUser);
+			idComment = commentRepository.createComment(idLesson, idUser, commentBody);
 			
-			if(idComment>0){
-				commentRepository.saveCommentBody(idComment,commentBody);
+			if(idComment>0 && idParentComment>0){
+				Comment parentComment = getComment(idParentComment);
 				
-				if(idParentComment>0){
-					commentRepository.saveCommentParent(idComment, idParentComment);
+				if(parentComment!=null){
+					idParentComment = parentComment.isResponse()?parentComment.getIdParentComment():idParentComment;
+					commentRepository.saveCommentParent(idComment, idParentComment);						
 				}
+			}
+			else if(idComment>0){
 				comment = getComment(idComment);
 			}
 			else{
@@ -57,6 +60,15 @@ public class CommentServiceImpl implements CommentService {
 			}
 		}
 		return comment;
+	}
+
+	@Override
+	public void saveCommentBody(int idComment, int idUser, String commentBody) {
+		Comment comment = getComment(idComment);
+		
+		if(comment!=null && comment.getIdUser()==idUser){
+			commentRepository.saveCommentBody(idComment,commentBody);
+		}		
 	}
 
 

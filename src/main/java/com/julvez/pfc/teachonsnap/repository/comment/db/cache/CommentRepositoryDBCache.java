@@ -28,15 +28,9 @@ public class CommentRepositoryDBCache implements CommentRepository {
 	}
 
 	@Override
-	public int createComment(int idLesson, int idUser) {
+	public int createComment(int idLesson, int idUser, String commentBody) {
 		return (int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
-				new String[]{"getCommentIDs"}, idLesson, idUser);	
-	}
-
-	@Override
-	public void saveCommentBody(int idComment, String commentBody) {
-		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idComment)}, 
-				new String[]{"getComment"}, idComment, commentBody);		
+				new String[]{"getCommentIDs"}, idLesson, idUser, commentBody);	
 	}
 
 	@Override
@@ -44,5 +38,12 @@ public class CommentRepositoryDBCache implements CommentRepository {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idComment)}, 
 				new String[]{"getComment"}, idComment, idParentComment);		
 	}
+	
+	@Override
+	public void saveCommentBody(int idComment, String commentBody) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idComment)}, 
+				new String[]{"getComment"}, idComment, commentBody);		
+	}
+
 
 }

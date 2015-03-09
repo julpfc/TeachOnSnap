@@ -10,10 +10,10 @@ public interface CommentRepository {
 
 	public Comment getComment(int idComment);
 
-	public int createComment(int idLesson, int idUser);
-
-	public void saveCommentBody(int idComment, String commentBody);
+	public int createComment(int idLesson, int idUser, String commentBody);
 
 	public void saveCommentParent(int idComment, int idParentComment);
+
+	public void saveCommentBody(int idComment, String commentBody);
 
 }

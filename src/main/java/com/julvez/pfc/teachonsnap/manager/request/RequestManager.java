@@ -42,5 +42,7 @@ public interface RequestManager {
 	public FileMetadata getSubmittedFile(HttpServletRequest request);
 
 	public int getParamCommentID(HttpServletRequest request);
+
+	public boolean getParamEditComment(HttpServletRequest request);
 	
 }

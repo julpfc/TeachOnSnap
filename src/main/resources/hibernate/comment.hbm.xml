@@ -13,10 +13,13 @@
     	) as t;
 	</sql-query>	
 	<sql-query name="SQL_COMMENT_GET_COMMENT">
-		SELECT 	tc.idComment,idUser,`date`, IFNULL(idcommentparent,0) AS idParentComment, body
+		SELECT 	tc.idComment,idUser,COALESCE(dateEdit,`date`) as 'date', 
+			IFNULL(idcommentparent,0) AS idParentComment, body, 
+			IFNULL(tce.idcomment,0)>0 as edited
 	 	FROM tcomment tc
 		JOIN tcommentbody tcb ON tcb.idcomment=tc.idcomment
 		LEFT JOIN tcommentresponse tcr ON tc.idcomment=idcommentresponse
+		LEFT JOIN tcommentedit tce ON tc.idcomment=tce.idcomment
 		WHERE tc.idComment = ?;
 	</sql-query>
 	<sql-query name="SQL_COMMENT_CREATE_COMMENT">
@@ -33,4 +36,9 @@
 	    VALUES (?,?)
 	    ON DUPLICATE KEY UPDATE idCommentParent = ?   
 	</sql-query>
+	<sql-query name="SQL_COMMENT_SAVE_DATEEDIT">
+	    INSERT INTO tcommentedit(idComment, dateEdit)
+	    VALUES (?,now())
+	    ON DUPLICATE KEY UPDATE dateEdit = now()   
+	</sql-query>	
 </hibernate-mapping>

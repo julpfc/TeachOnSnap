@@ -321,6 +321,12 @@ public class RequestManagerImpl implements RequestManager {
 		}
 		return commentID;
 	}
+
+	@Override
+	public boolean getParamEditComment(HttpServletRequest request) {
+		String param = getParam(request,Parameter.LESSON_COMMENT_EDIT);
+		return stringManager.isTrue(param);
+	}
 	
 
 }

@@ -138,20 +138,22 @@
  				<c:choose>
 					<c:when test="${not empty comments}">
 						<c:forEach items="${comments}" var="comment">		
-							<article id="comment-${comment.id}" class="comment${comment.response?' col-sm-11 col-sm-offset-1':''}">				
+							<article id="comment-${comment.id}" class="comment${comment.response?' col-sm-11 col-sm-offset-1 col-xs-11 col-xs-offset-1':''}">				
 								<footer>
 									<div class="comment-author">
-									<span><img alt="avatar" src="http://www.gravatar.com/avatar/${comment.user.MD5}?s=48&d=identicon" width="48" height="48"></span>
+									<span><img alt="avatar" src="https://www.gravatar.com/avatar/${comment.user.MD5}?s=48&d=identicon" width="48" height="48"></span>
 									<cite>${comment.user.firstName}</cite> <span class="comment-author-says"><fmt:message key="lesson.comment.author.says" bundle="${lessonBundle}"/>:</span>	
 									</div>
 								</footer>
-								<div class="comment-content">
-									${comment.body}									
-								</div>
+								<div class="comment-content">${comment.body}</div>
 								<div class="comment-meta">
-									<a href="#"><time datetime="${comment.date}">
-									<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${comment.date}"/></time></a>
-									| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/>');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>	
+									<time datetime="${comment.date}">
+									<c:if test="${comment.edited}"><span class="glyphicon glyphicon-edit"></span> <fmt:message key="lesson.comment.edited" bundle="${lessonBundle}"/> | </c:if>
+									<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${comment.date}"/></time>
+									| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/>');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>
+									<c:if test="${user.id == comment.user.id}">
+									| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/>','true');"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/></a>
+									</c:if>	
 								</div><!-- .comment-meta .commentmetadata -->								
 							</article>												
 						</c:forEach>              			

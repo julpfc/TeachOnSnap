@@ -23,7 +23,8 @@ public enum Parameter {
 	
 	//Lesson	
 	LESSON_COMMENT("comment"), 
-	LESSON_COMMENTID("idComment");
+	LESSON_COMMENTID("idComment"), 
+	LESSON_COMMENT_EDIT("editComment");
 
 		 		
 	private final String realName;

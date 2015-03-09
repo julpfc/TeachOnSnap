@@ -18,6 +18,7 @@ public class Comment {
 	private int idUser;
 	private Date date;
 	private int idParentComment;
+	private boolean edited;
 	
 	private String body;
 	
@@ -48,7 +49,12 @@ public class Comment {
 	public void setIdParentComment(int idParentComment) {
 		this.idParentComment = idParentComment;
 	}
-	public String getBody() {
+
+	public int getIdParentComment() {
+		return idParentComment;
+	}
+
+		public String getBody() {
 		return body;
 	}
 	public void setBody(String body) {
@@ -60,12 +66,18 @@ public class Comment {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public boolean isEdited() {
+		return edited;
+	}
+	public void setEdited(boolean edited) {
+		this.edited = edited;
+	}
 	@Override
 	public String toString() {
 		return "Comment [id=" + id + ", idUser=" + idUser + ", date=" + date
-				+ ", idParentComment=" + idParentComment + ", body=" + body
-				+ ", user=" + user + "]";
+				+ ", idParentComment=" + idParentComment + ", edited=" + edited
+				+ ", body=" + body + ", user=" + user + "]";
 	}
-	
 	
 }

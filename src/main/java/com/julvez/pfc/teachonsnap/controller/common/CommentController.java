@@ -32,10 +32,16 @@ public class CommentController extends CommonController {
 		if(request.getMethod().equals("POST")){			
 			String commentBody = requestManager.getParamComment(request);
 			int commentID = requestManager.getParamCommentID(request);
+			boolean isEditing = requestManager.getParamEditComment(request);
 			
 			if(commentBody != null){
 				User user = requestManager.getSessionUser(request);
-				commentService.createComment(lesson.getId(), user.getId(), commentBody, commentID);
+				if(isEditing){
+					commentService.saveCommentBody(commentID, user.getId(), commentBody);
+				}
+				else{
+					commentService.createComment(lesson.getId(), user.getId(), commentBody, commentID);
+				}
 			}			
 		}
 		response.sendRedirect(lesson.getURL());

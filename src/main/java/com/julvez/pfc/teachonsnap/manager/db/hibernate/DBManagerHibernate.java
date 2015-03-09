@@ -203,7 +203,8 @@ public class DBManagerHibernate implements DBManager{
 			lastInsertID = ((BigInteger)query.uniqueResult()).longValue();
 			
 		} catch (HibernateException e) {
-			System.out.println(e);			
+			System.out.println(e);		
+			lastInsertID = -1;
 		}		
 		System.out.println("QueryLog: -> "+ lastInsertID);
 		return lastInsertID;
