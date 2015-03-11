@@ -14,7 +14,7 @@
 <title>TeachOnSnap - ${lesson.title}</title>
 </head>
 <body>
-<c:import url="./import/nav.jsp"/>
+	<c:import url="./import/nav.jsp"/>
 	<div class="content container-fluid">
 		<div>
        		<h2 class="lesson-title">${lesson.title}</h2>       		 	
@@ -148,15 +148,46 @@
 								<div class="comment-content">${comment.body}</div>
 								<div class="comment-meta">
 									<time datetime="${comment.date}">
-									<c:if test="${comment.edited}"><span class="glyphicon glyphicon-edit"></span> <fmt:message key="lesson.comment.edited" bundle="${lessonBundle}"/> | </c:if>
+									<c:choose>
+										<c:when test="${comment.banned}">
+											<span class="glyphicon glyphicon-ban-circle"></span> <fmt:message key="lesson.comment.banned" bundle="${lessonBundle}"/> | 
+										</c:when>
+										<c:otherwise>
+											<c:if test="${comment.edited}"><span class="glyphicon glyphicon-edit"></span> <fmt:message key="lesson.comment.edited" bundle="${lessonBundle}"/> | </c:if>
+										</c:otherwise>
+									</c:choose>
 									<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${comment.date}"/></time>
-									| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/>');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>
+									| <a onclick="return moveCommentForm(${comment.id},'<fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/> <span class=\'comment-cancel\'> (<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>)</span>');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>
 									<c:if test="${user.id == comment.user.id}">
-									| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/>','true');"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/></a>
+									| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/> <span class=\'comment-cancel\'> (<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>)</span>','true');"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/></a>
 									</c:if>	
+									<c:if test="${user.admin}">
+										<c:choose>
+											<c:when test="${comment.banned}">
+												| <a href="${lesson.commentURL}?idComment=${comment.id}&banComment=false"><fmt:message key="lesson.comment.unblock" bundle="${lessonBundle}"/></a> 
+											</c:when>
+											<c:otherwise>
+												| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.block.reason" bundle="${lessonBundle}"/> <span class=\'comment-cancel\'> (<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>)</span>','false','<fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/>');"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></a>
+											</c:otherwise>
+										</c:choose>									
+									</c:if>
 								</div><!-- .comment-meta .commentmetadata -->								
 							</article>												
-						</c:forEach>              			
+						</c:forEach>
+						<nav>
+							<ul class="pager">
+								<c:if test="${not empty prevPage}">								
+									<li><a href="${prevPage}"><span class="glyphicon glyphicon-chevron-left"></span>
+									 <fmt:message key="pager.previous"/></a></li>
+									 <li><a href="${lesson.URL}"><span class="glyphicon glyphicon-home"></span>
+									 <fmt:message key="lesson.comment.pager" bundle="${lessonBundle}"/></a></li>
+								</c:if>								
+								<c:if test="${not empty nextPage}">									
+									<li><a href="${nextPage}"><span class="glyphicon glyphicon-chevron-right"></span>
+									  <fmt:message key="pager.next"/></a></li>
+								</c:if>
+							</ul>
+						</nav>              			
             		</c:when>
 					<c:otherwise> 
 						<cite><fmt:message key="lesson.comment.nocomments" bundle="${lessonBundle}"/></cite>

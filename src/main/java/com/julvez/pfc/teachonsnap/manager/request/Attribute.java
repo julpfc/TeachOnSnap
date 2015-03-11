@@ -30,7 +30,12 @@ public enum Attribute {
 	STRING_NEXTPAGE("nextPage"),
 	STRING_PREVPAGE("prevPage"),
 	STRING_SEARCHTYPE("searchType"),
-	STRING_SEARCHKEYWORD("searchKeyword");
+	STRING_SEARCHKEYWORD("searchKeyword"),
+	
+	
+	//Error
+	INT_ERROR_STATUS_CODE("javax.servlet.error.status_code"), 
+	THROWABLE_ERROR_EXCEPTION("javax.servlet.error.exception");
 
 	
 	private final String realName;

@@ -21,10 +21,11 @@ public enum Parameter {
 	LESSON_NEW_SOURCES("sources"),
 	LESSON_NEW_MOREINFOS("moreInfos"), 
 	
-	//Lesson	
+	//Comments	
 	LESSON_COMMENT("comment"), 
 	LESSON_COMMENTID("idComment"), 
-	LESSON_COMMENT_EDIT("editComment");
+	LESSON_COMMENT_EDIT("editComment"), 
+	LESSON_COMMENT_BAN("banComment");
 
 		 		
 	private final String realName;

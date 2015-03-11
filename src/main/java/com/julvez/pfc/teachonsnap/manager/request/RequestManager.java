@@ -14,8 +14,6 @@ import com.julvez.pfc.teachonsnap.model.user.User;
 
 public interface RequestManager {
 
-	public String getAcceptLanguage(HttpServletRequest request);
-
 	public short getSessionIdLanguage(HttpServletRequest request);
 	public User getSessionUser(HttpServletRequest request);
 	public ErrorType getErrorSession(HttpServletRequest request);
@@ -44,5 +42,12 @@ public interface RequestManager {
 	public int getParamCommentID(HttpServletRequest request);
 
 	public boolean getParamEditComment(HttpServletRequest request);
+
+	public String getParamBanComment(HttpServletRequest request);
+
+	public int getAttributeErrorStatusCode(HttpServletRequest request);
+
+	public Throwable getAttributeErrorException(HttpServletRequest request);
+	public String getRequestLanguage(HttpServletRequest request);
 	
 }

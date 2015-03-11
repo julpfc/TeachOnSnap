@@ -4,10 +4,12 @@ import com.julvez.pfc.teachonsnap.model.user.User;
 
 public interface UserRepository {
 
-	User getUser(int idUser);
+	public User getUser(int idUser);
 
-	int getIdUserFromEmail(String email);
+	public int getIdUserFromEmail(String email);
 
-	boolean isValidPassword(int idUser, String password);
+	public boolean isValidPassword(int idUser, String password);
+
+	public void saveUserLanguage(int idUser, short idLanguage);
 
 }

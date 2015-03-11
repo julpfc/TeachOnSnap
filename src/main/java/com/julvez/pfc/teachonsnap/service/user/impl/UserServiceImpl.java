@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.service.user.impl;
 
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.repository.user.UserRepository;
 import com.julvez.pfc.teachonsnap.repository.user.UserRepositoryFactory;
@@ -40,6 +41,20 @@ public class UserServiceImpl implements UserService {
 			valid = userRepository.isValidPassword(user.getId(),password);
 		}
 		return valid;
+	}
+
+	@Override
+	public User saveUserLanguage(User user, Language language) {
+		User retUser = null;
+		
+		if(user != null && language != null && user.getLanguage().getId() !=  language.getId()){
+			userRepository.saveUserLanguage(user.getId(), language.getId());
+			user.setIdLanguage(language.getId());
+			user.setLanguage(language);
+			retUser = user;
+		}
+		
+		return retUser;
 	}
 
 }

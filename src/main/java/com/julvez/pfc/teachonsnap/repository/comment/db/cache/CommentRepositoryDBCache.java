@@ -18,8 +18,8 @@ public class CommentRepositoryDBCache implements CommentRepository {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Integer> getCommentIDs(int idLesson) {
-		return (List<Integer>)cache.executeImplCached(repoDB, idLesson);
+	public List<Integer> getCommentIDs(int idLesson, int firstResult) {
+		return (List<Integer>)cache.executeImplCached(repoDB, idLesson, firstResult);
 	}
 
 	@Override
@@ -29,8 +29,11 @@ public class CommentRepositoryDBCache implements CommentRepository {
 
 	@Override
 	public int createComment(int idLesson, int idUser, String commentBody) {
-		return (int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
-				new String[]{"getCommentIDs"}, idLesson, idUser, commentBody);	
+		int id = (int)cache.updateImplCached(repoDB, null, null, idLesson, idUser, commentBody);
+		if(id>0){
+			cache.clearCache("getCommentIDs");
+		}
+		return id;
 	}
 
 	@Override
@@ -43,6 +46,18 @@ public class CommentRepositoryDBCache implements CommentRepository {
 	public void saveCommentBody(int idComment, String commentBody) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idComment)}, 
 				new String[]{"getComment"}, idComment, commentBody);		
+	}
+
+	@Override
+	public void blockComment(int idComment, int idAdmin, String reason) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idComment)}, 
+				new String[]{"getComment"}, idComment, idAdmin, reason);		
+	}
+
+	@Override
+	public void unblockComment(int idComment) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idComment)}, 
+				new String[]{"getComment"}, idComment);		
 	}
 
 

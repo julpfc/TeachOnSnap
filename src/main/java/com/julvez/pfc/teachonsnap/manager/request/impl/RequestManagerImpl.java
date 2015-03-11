@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
+import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.request.Header;
 import com.julvez.pfc.teachonsnap.manager.request.Parameter;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
@@ -31,16 +33,6 @@ public class RequestManagerImpl implements RequestManager {
 	private StringManager stringManager = StringManagerFactory.getManager();
 	private UploadService uploadService = UploadServiceFactory.getService();
 	
-	@Override
-	public String getAcceptLanguage(HttpServletRequest request) {
-		String language = request.getHeader(Header.ACCEPT_LANG.toString());		
-		if(!stringManager.isEmpty(language)){
-			language = language.substring(0,language.indexOf("-")==-1?0:language.indexOf("-"));
-		}
-		else language=null;
-		return language;
-	}
-
 	@Override
 	public short getSessionIdLanguage(HttpServletRequest request) {
 		short id = -1;
@@ -197,21 +189,20 @@ public class RequestManagerImpl implements RequestManager {
 			if(parameterMap.get(Parameter.LESSON_NEW_LANGUAGE.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_LANGUAGE.toString()).length>0){
 				String lang = parameterMap.get(Parameter.LESSON_NEW_LANGUAGE.toString())[0];
 				short idLanguage = 0;
-				try {
-					idLanguage = Short.valueOf(lang);
-					
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				if(idLanguage>0){
-					
-					lesson = new Lesson();
-					lesson.setTitle(title);
-					lesson.setIdLanguage(idLanguage);					
-					if(parameterMap.get(Parameter.LESSON_NEW_TEXT.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_TEXT.toString()).length>0){
-						lesson.setText(parameterMap.get(Parameter.LESSON_NEW_TEXT.toString())[0]);
+				
+				if(stringManager.isNumeric(lang)){
+					idLanguage = Short.valueOf(lang);					
+				
+					if(idLanguage>0){
+						
+						lesson = new Lesson();
+						lesson.setTitle(title);
+						lesson.setIdLanguage(idLanguage);					
+						if(parameterMap.get(Parameter.LESSON_NEW_TEXT.toString())!=null && parameterMap.get(Parameter.LESSON_NEW_TEXT.toString()).length>0){
+							lesson.setText(parameterMap.get(Parameter.LESSON_NEW_TEXT.toString())[0]);
+						}
 					}
-				}
+				} 
 			}				
 		}
 		
@@ -253,16 +244,9 @@ public class RequestManagerImpl implements RequestManager {
 					break;
 				}
 				
-				if(!stringManager.isEmpty(index)){
-					int mediaIndex = -1;
-					
-					try{
-						mediaIndex = Integer.parseInt(index);
-					}
-					catch(Exception e){
-						e.printStackTrace();
-					}
-					
+				if(stringManager.isNumeric(index)){
+					int mediaIndex = Integer.parseInt(index);
+										
 					if(mediaIndex>=0){
 						file = uploadService.getTemporaryFile(user, mediaType , mediaIndex);
 					}
@@ -312,12 +296,8 @@ public class RequestManagerImpl implements RequestManager {
 	public int getParamCommentID(HttpServletRequest request) {
 		int commentID = -1;
 		String param = getParam(request, Parameter.LESSON_COMMENTID);
-		if(param!=null){
-			try{
-				commentID = Integer.parseInt(param);
-			}
-			catch(Throwable t){				
-			}
+		if(stringManager.isNumeric(param)){
+			commentID = Integer.parseInt(param);			
 		}
 		return commentID;
 	}
@@ -326,6 +306,41 @@ public class RequestManagerImpl implements RequestManager {
 	public boolean getParamEditComment(HttpServletRequest request) {
 		String param = getParam(request,Parameter.LESSON_COMMENT_EDIT);
 		return stringManager.isTrue(param);
+	}
+
+	@Override
+	public String getParamBanComment(HttpServletRequest request) {
+		return getParam(request,Parameter.LESSON_COMMENT_BAN);
+	}
+
+	@Override
+	public int getAttributeErrorStatusCode(HttpServletRequest request) {
+		int statusCode = -1;
+		Object sc = request.getAttribute(Attribute.INT_ERROR_STATUS_CODE.toString());
+		if(sc != null){
+			statusCode = (int)sc;		
+		}
+		return statusCode;
+	}
+
+	@Override
+	public Throwable getAttributeErrorException(HttpServletRequest request) {
+		Throwable t = null;
+		Object exception = request.getAttribute(Attribute.THROWABLE_ERROR_EXCEPTION.toString());
+		if(exception != null){
+			t = (Throwable)exception;		
+		}
+		return t;
+	}
+
+	@Override
+	public String getRequestLanguage(HttpServletRequest request) {
+		String lang = null;
+		Locale locale = request.getLocale();
+		if(locale!=null && !stringManager.isEmpty(locale.getLanguage())){
+			lang = locale.getLanguage();
+		}
+		return lang;
 	}
 	
 

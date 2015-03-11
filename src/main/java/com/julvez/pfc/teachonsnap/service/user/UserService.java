@@ -1,12 +1,17 @@
 package com.julvez.pfc.teachonsnap.service.user;
 
+import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
 
 public interface UserService {
 	
-	User getUser(int idUser);
+	public User getUser(int idUser);
 
-	User getUserFromEmail(String email);
+	public User getUserFromEmail(String email);
 
-	boolean validatePassword(User user, String password);
+	public boolean validatePassword(User user, String password);
+
+	public User saveUserLanguage(User user, Language language);
+	
+	
 }

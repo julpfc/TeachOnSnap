@@ -35,4 +35,9 @@ public class UserRepositoryDB implements UserRepository {
 		return isValid;
 	}
 
+	@Override
+	public void saveUserLanguage(int idUser, short idLanguage) {
+		dbm.updateQuery("SQL_USER_SAVE_LANGUAGE", idLanguage, idUser);		
+	}
+
 }

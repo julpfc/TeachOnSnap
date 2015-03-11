@@ -81,4 +81,27 @@ public class StringManagerImpl implements StringManager {
 		} 
 		return output;
 	}
+
+	@Override
+	public boolean isNumeric(String string) {
+		return !isEmpty(string) && StringUtils.isNumeric(string);
+	}
+
+	@Override
+	public String convertToHTMLParagraph(String string) {
+		String ret = null;
+		if(!isEmpty(string)){
+			StringBuffer sb = new StringBuffer();
+			sb.append("<p>").append(string.replaceAll("\\r\\n|\\r|\\n", "</p><p>")).append("</p>");
+			int lastP = sb.lastIndexOf("<p></p>");
+			
+			System.out.println("[" + sb + "] l="+lastP);
+			if(lastP>0){
+				sb.delete(lastP,lastP+7);
+			}
+			ret = sb.toString();
+			System.out.println(ret);
+		}
+		return ret;
+	}
 }

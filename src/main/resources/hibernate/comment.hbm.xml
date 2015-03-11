@@ -10,35 +10,46 @@
         	LEFT JOIN tcommentresponse ON idcomment=idcommentresponse
 			WHERE idlesson=?
 			ORDER BY idParent,idComment
-    	) as t;
+    	) as t
+    LIMIT ?,51;
 	</sql-query>	
 	<sql-query name="SQL_COMMENT_GET_COMMENT">
-		SELECT 	tc.idComment,idUser,COALESCE(dateEdit,`date`) as 'date', 
-			IFNULL(idcommentparent,0) AS idParentComment, body, 
-			IFNULL(tce.idcomment,0)>0 as edited
+		SELECT 	tc.idComment,idUser,COALESCE(tcbn.date, dateEdit, tc.date) as 'date', 
+			IFNULL(idcommentparent,0) AS idParentComment, COALESCE(reason,body) as body, 
+			IFNULL(tce.idcomment,0)>0 as edited, IFNULL(tcbn.idcomment,0)>0 as banned
 	 	FROM tcomment tc
 		JOIN tcommentbody tcb ON tcb.idcomment=tc.idcomment
 		LEFT JOIN tcommentresponse tcr ON tc.idcomment=idcommentresponse
 		LEFT JOIN tcommentedit tce ON tc.idcomment=tce.idcomment
+		LEFT JOIN tcommentbanned tcbn ON tc.idcomment=tcbn.idcomment
 		WHERE tc.idComment = ?;
 	</sql-query>
 	<sql-query name="SQL_COMMENT_CREATE_COMMENT">
 	    INSERT INTO tcomment(idLesson, idUser, `date`)
-	    VALUES (?, ?, now())   
+	    VALUES (?, ?, now());   
 	</sql-query>
 	<sql-query name="SQL_COMMENT_SAVE_BODY">
 	    INSERT INTO tcommentbody(idComment, body)
 	    VALUES (?,?)
-	    ON DUPLICATE KEY UPDATE body = ?   
+	    ON DUPLICATE KEY UPDATE body = ?;   
 	</sql-query>
 	<sql-query name="SQL_COMMENT_SAVE_PARENT">
 	    INSERT INTO tcommentresponse(idCommentResponse,idCommentParent)
 	    VALUES (?,?)
-	    ON DUPLICATE KEY UPDATE idCommentParent = ?   
+	    ON DUPLICATE KEY UPDATE idCommentParent = ?;   
 	</sql-query>
 	<sql-query name="SQL_COMMENT_SAVE_DATEEDIT">
 	    INSERT INTO tcommentedit(idComment, dateEdit)
 	    VALUES (?,now())
-	    ON DUPLICATE KEY UPDATE dateEdit = now()   
+	    ON DUPLICATE KEY UPDATE dateEdit = now();
 	</sql-query>	
+	<sql-query name="SQL_COMMENT_ADD_BANNED">
+	    INSERT INTO tcommentbanned(idComment,idAdmin,reason,`date`)
+	    VALUES (?,?,?,now())
+	    ON DUPLICATE KEY UPDATE idAdmin=?, reason=?, `date`=now();   
+	</sql-query>
+	<sql-query name="SQL_COMMENT_REMOVE_BANNED">
+	    DELETE FROM tcommentbanned
+	    WHERE idComment=?;   
+	</sql-query>
 </hibernate-mapping>

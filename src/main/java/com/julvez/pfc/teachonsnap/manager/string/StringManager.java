@@ -11,4 +11,13 @@ public interface StringManager {
 	public String getKey(Object... objects);
 	
 	public String generateMD5(String input);
+
+	/**
+	 * Verifica si una cadena contiene sólo dígitos numéricos
+	 * @param string
+	 * @return true si la cadena sólo contiene dígitos de 0-9
+	 */
+	public boolean isNumeric(String string);
+
+	public String convertToHTMLParagraph(String string);
 }

@@ -27,9 +27,11 @@ public class LessonServiceImpl implements LessonService{
 	public Lesson getLessonFromURI(String lessonURI) {
 		Lesson lesson = null;
 
-		int id = lessonRepository.getLessonIDFromURI(lessonURI);
-		
-		lesson= getLesson(id);
+		if(!stringManager.isEmpty(lessonURI)){
+			int id = lessonRepository.getLessonIDFromURI(lessonURI);
+			
+			lesson = getLesson(id);
+		}
 		
 		return lesson;
 	}
@@ -51,9 +53,16 @@ public class LessonServiceImpl implements LessonService{
 	
 	@Override
 	public Lesson getLesson(int idLesson) {
-		Lesson lesson = lessonRepository.getLesson(idLesson);
-		lesson.setAuthor(userService.getUser(lesson.getIdUser()));
-		lesson.setLanguage(langService.getLanguage(lesson.getIdLanguage()));
+		Lesson lesson = null;
+		
+		if(idLesson>0){
+			lesson = lessonRepository.getLesson(idLesson);
+			
+			if(lesson!=null){
+				lesson.setAuthor(userService.getUser(lesson.getIdUser()));
+				lesson.setLanguage(langService.getLanguage(lesson.getIdLanguage()));
+			}
+		}
 		return lesson;
 	}
 

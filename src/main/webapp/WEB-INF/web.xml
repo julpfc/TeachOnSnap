@@ -7,24 +7,27 @@
 	<listener>  
 		<listener-class>com.julvez.pfc.teachonsnap.listener.TeachOnSnapServletContextListener</listener-class>
 	</listener>
-	<servlet>
-		<description>
-  	</description>
-		<display-name>HomeController</display-name>
-		<servlet-name>HomeController</servlet-name>
-		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.HomeController</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>HomeController</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
+	<error-page>		
+		<location>/error</location>
+	</error-page>	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>/resources/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<description>
-  	</description>
+  		</description>
+		<display-name>ErrorController</display-name>
+		<servlet-name>ErrorController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.ErrorController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ErrorController</servlet-name>
+		<url-pattern>/error/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
 		<display-name>TagController</display-name>
 		<servlet-name>TagController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.pager.TagController</servlet-class>
@@ -160,5 +163,16 @@
 	<servlet-mapping>
 		<servlet-name>FileUploadController</servlet-name>
 		<url-pattern>/upload/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  	</description>
+		<display-name>HomeController</display-name>
+		<servlet-name>HomeController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.HomeController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HomeController</servlet-name>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 </web-app>

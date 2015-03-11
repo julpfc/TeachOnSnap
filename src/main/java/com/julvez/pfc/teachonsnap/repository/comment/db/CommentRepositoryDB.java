@@ -4,24 +4,32 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.comment.Comment;
 import com.julvez.pfc.teachonsnap.repository.comment.CommentRepository;
 
 public class CommentRepositoryDB implements CommentRepository {
 
 	private DBManager dbm = DBManagerFactory.getDBManager();
+	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
-	public List<Integer> getCommentIDs(int idLesson) {
+	public List<Integer> getCommentIDs(int idLesson, int firstResult) {
 		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_COMMENT_GET_COMMENTIDS", null, idLesson);
+		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_COMMENT_GET_COMMENTIDS", null, idLesson, firstResult);
 						
 		return ids;
 	}
 
 	@Override
 	public Comment getComment(int idComment) {
-		return (Comment) dbm.getQueryResultUnique("SQL_COMMENT_GET_COMMENT", Comment.class, idComment);
+		Comment comment = (Comment) dbm.getQueryResultUnique("SQL_COMMENT_GET_COMMENT", Comment.class, idComment);
+		
+		if(comment!=null){
+			comment.setBody(stringManager .convertToHTMLParagraph(comment.getBody()));
+		}
+		return comment;
 	}
 
 	@Override
@@ -67,6 +75,16 @@ public class CommentRepositoryDB implements CommentRepository {
 
 	private void saveCommentEditDate(Object session, int idComment) {
 		dbm.updateQuery_NoCommit(session, "SQL_COMMENT_SAVE_DATEEDIT", idComment);		
+	}
+
+	@Override
+	public void blockComment(int idComment, int idAdmin, String reason) {
+		dbm.updateQuery("SQL_COMMENT_ADD_BANNED", idComment, idAdmin, reason, idAdmin, reason);		
+	}
+
+	@Override
+	public void unblockComment(int idComment) {
+		dbm.updateQuery("SQL_COMMENT_REMOVE_BANNED", idComment);		
 	}
 
 }

@@ -18,6 +18,8 @@ import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
+import com.julvez.pfc.teachonsnap.service.user.UserService;
+import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 
 
 /**
@@ -27,6 +29,8 @@ public abstract class CommonController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected LangService langService = LangServiceFactory.getService();
+	protected UserService userService = UserServiceFactory.getService();
+
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
 		
@@ -44,17 +48,26 @@ public abstract class CommonController extends HttpServlet {
 		//TODO Revisar si lo ponemos en más sitios
 		request.setCharacterEncoding("UTF-8");
 		
-		//TODO Revisar si es mejor sacarlo del Locale que del Accept a pelo
-		//	System.out.println(request.getLocale().getLanguage());
-		String acceptLang = requestManager .getAcceptLanguage(request);
+		String acceptLang = requestManager.getRequestLanguage(request);
+		
+		//TODO revisar todos los métodos control interno de errores
+		
 		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
 		String paramLang = requestManager.getParamChangeLanguage(request);
+		
 		User user = requestManager.getSessionUser(request);
 		
 		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,user);
-		// TODO Actualizar usuario BBDD/Cache/Session
 		requestManager.setUserSessionLanguage(request,userLang);
 		
+		if(user!=null && user.getLanguage().getId() != userLang.getId()){
+			User modUser = userService.saveUserLanguage(user, userLang);
+			if(modUser!=null){
+				user = modUser;
+				requestManager.setUserSession(request, user);
+			}
+		}
+
 		String host = properties.getProperty(PropertyName.TEACHONSNAP_HOST);
 		
 		request.setAttribute(Attribute.LANGUAGE_USERLANGUAGE.toString(), userLang);
@@ -78,6 +91,7 @@ public abstract class CommonController extends HttpServlet {
 				case ERR_NONE:
 					break;
 				default:
+					//TODO No estaría actualizado el switch, mandar a error
 					break;
 				
 			}
@@ -85,8 +99,9 @@ public abstract class CommonController extends HttpServlet {
 			requestManager.setLastPage(request);
 			
 			//TODO Loguear la página en la que estamos	  
-			System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########");
-		    processController(request, response);
+			System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+
+			processController(request, response);
 		}
 	}
 

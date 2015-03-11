@@ -30,6 +30,8 @@ public class LangServiceImpl implements LangService {
 	public Language getUserSessionLanguage(String acceptLang,
 			short sessionIdLang, String paramLang, User sessionUser) {
 		
+		// IdiomaCambio > IdiomaUsuarioSession > IdiomaSessionAnonimo > IdiomaAcceptRequest > IdiomaPorDefecto
+		
 		Language userSessionLanguage = null;
 		
 		if(sessionUser!=null){
@@ -49,8 +51,9 @@ public class LangServiceImpl implements LangService {
 			}
 			else if(!userSessionLanguage.getLanguage().equalsIgnoreCase(paramLang)){
 				Language param = getLanguage(paramLang);
-				if(param!=null)
-					userSessionLanguage = param;				
+				if(param!=null){
+					userSessionLanguage = param;
+				}
 			}
 		}
 		

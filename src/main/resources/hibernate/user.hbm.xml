@@ -19,5 +19,10 @@
 	    SELECT password = PASSWORD(?)
 	    FROM tuser	    
 	    WHERE idUser=?
-	</sql-query>	
+	</sql-query>
+	<sql-query name="SQL_USER_SAVE_LANGUAGE">
+	    UPDATE tuser
+	    SET idLanguage = ?	    
+	    WHERE idUser=?
+	</sql-query>		
 </hibernate-mapping>

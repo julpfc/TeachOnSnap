@@ -19,6 +19,7 @@ public class Comment {
 	private Date date;
 	private int idParentComment;
 	private boolean edited;
+	private boolean banned;
 	
 	private String body;
 	
@@ -78,6 +79,12 @@ public class Comment {
 		return "Comment [id=" + id + ", idUser=" + idUser + ", date=" + date
 				+ ", idParentComment=" + idParentComment + ", edited=" + edited
 				+ ", body=" + body + ", user=" + user + "]";
+	}
+	public boolean isBanned() {
+		return banned;
+	}
+	public void setBanned(boolean banned) {
+		this.banned = banned;
 	}
 	
 }
