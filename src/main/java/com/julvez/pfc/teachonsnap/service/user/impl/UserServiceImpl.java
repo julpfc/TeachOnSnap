@@ -38,7 +38,8 @@ public class UserServiceImpl implements UserService {
 	public boolean validatePassword(User user, String password) {
 		boolean valid = false;
 		if(user!=null && password!=null){
-			valid = userRepository.isValidPassword(user.getId(),password);
+			int validation = userRepository.isValidPassword(user.getId(),password);
+			valid = validation>0;
 		}
 		return valid;
 	}

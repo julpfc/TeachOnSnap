@@ -25,8 +25,8 @@ public class UserRepositoryDBCache implements UserRepository {
 	}
 
 	@Override
-	public boolean isValidPassword(int idUser, String password) {
-		return (boolean)cache.executeImplCached(repoDB, idUser,password);
+	public int isValidPassword(int idUser, String password) {
+		return (int)cache.executeImplCached(repoDB, idUser,password);
 	}
 
 	@Override

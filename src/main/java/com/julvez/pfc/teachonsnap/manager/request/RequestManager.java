@@ -24,30 +24,33 @@ public interface RequestManager {
 	public void setErrorSession(HttpServletRequest request, ErrorType error);
 	public void setLastPage(HttpServletRequest request);
 
+	public String getRequestLanguage(HttpServletRequest request);
+
+	public String[] getControllerParams(HttpServletRequest request);
+
 	public String getParamChangeLanguage(HttpServletRequest request);
-	public String getParamComment(HttpServletRequest request);
+
 	public boolean getParamLogout(HttpServletRequest request);
 	public String getParamLoginEmail(HttpServletRequest request);
 	public String getParamLoginPassword(HttpServletRequest request);
+	
 	public Lesson getParamNewLesson(Map<String, String[]> parameterMap);
 	public List<String> getParamNewTags(Map<String, String[]> parameterMap);
 	public List<String> getParamNewSources(Map<String, String[]> parameterMap);
 	public List<String> getParamNewMoreInfos(Map<String, String[]> parameterMap);
 
-	public String[] getControllerParams(HttpServletRequest request);
+	public String getParamComment(HttpServletRequest request);
+	public int getParamCommentID(HttpServletRequest request);
+	public boolean getParamEditComment(HttpServletRequest request);
+	public String getParamBanComment(HttpServletRequest request);
+
+	public String getParamPublishLessonTest(HttpServletRequest request);
+
+	public int getAttributeErrorStatusCode(HttpServletRequest request);
+	public Throwable getAttributeErrorException(HttpServletRequest request);
+
 	
 	public List<FileMetadata> getUploadFiles(HttpServletRequest request);
 	public FileMetadata getSubmittedFile(HttpServletRequest request);
-
-	public int getParamCommentID(HttpServletRequest request);
-
-	public boolean getParamEditComment(HttpServletRequest request);
-
-	public String getParamBanComment(HttpServletRequest request);
-
-	public int getAttributeErrorStatusCode(HttpServletRequest request);
-
-	public Throwable getAttributeErrorException(HttpServletRequest request);
-	public String getRequestLanguage(HttpServletRequest request);
 	
 }

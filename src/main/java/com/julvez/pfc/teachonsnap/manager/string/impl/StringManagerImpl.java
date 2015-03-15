@@ -49,7 +49,7 @@ public class StringManagerImpl implements StringManager {
 
 	
 	@Override
-	public  String getKey(Object...objects){
+	public String getKey(Object...objects){
 		String format = new String(new char[objects.length])
         .replace("\0", "[%s]");
 		return String.format(format, objects);
@@ -95,12 +95,10 @@ public class StringManagerImpl implements StringManager {
 			sb.append("<p>").append(string.replaceAll("\\r\\n|\\r|\\n", "</p><p>")).append("</p>");
 			int lastP = sb.lastIndexOf("<p></p>");
 			
-			System.out.println("[" + sb + "] l="+lastP);
 			if(lastP>0){
 				sb.delete(lastP,lastP+7);
 			}
 			ret = sb.toString();
-			System.out.println(ret);
 		}
 		return ret;
 	}

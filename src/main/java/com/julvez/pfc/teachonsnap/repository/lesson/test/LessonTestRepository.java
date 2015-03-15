@@ -18,4 +18,10 @@ public interface LessonTestRepository {
 
 	public Answer getAnswer(int idAnswer);
 
+	public int getLessonTestID(int idLesson);
+
+	public void publish(int idLessonTest, int idLesson);
+
+	public void unpublish(int idLessonTest, int idLesson);
+
 }

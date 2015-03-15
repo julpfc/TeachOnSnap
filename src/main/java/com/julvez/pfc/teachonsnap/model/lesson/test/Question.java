@@ -67,7 +67,9 @@ public class Question {
 		this.answers = answers;
 	}
 	
-	
+	public String getEditURL(){
+		return "/test/question/"+id;
+	}
 	
 	
 }

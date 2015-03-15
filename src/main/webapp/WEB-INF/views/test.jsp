@@ -69,7 +69,7 @@
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
-        		<c:if test="${lesson.idLessonTest>0 && empty userTest}">
+        		<c:if test="${lesson.testAvailable && empty userTest}">
 						<div class="sidebar">
 							<h4><fmt:message key="lesson.test.heading" bundle="${testBundle}"/></h4>
 							 <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-check"></span>
@@ -100,7 +100,7 @@
     								<span class="sr-only">${percentage}%</span>
   								</div>
 							</div>
-							<a href="${lesson.testURL}"><button class="btn btn-default" type="button"><fmt:message key="lesson.test.retry" bundle="${testBundle}"/></button></a>							
+							<a href="${test.URL}"><button class="btn btn-default" type="button"><fmt:message key="lesson.test.retry" bundle="${testBundle}"/></button></a>							
 						</div>
 				</c:if>				
 

@@ -8,7 +8,7 @@ public interface UserRepository {
 
 	public int getIdUserFromEmail(String email);
 
-	public boolean isValidPassword(int idUser, String password);
+	public int isValidPassword(int idUser, String password);
 
 	public void saveUserLanguage(int idUser, short idLanguage);
 

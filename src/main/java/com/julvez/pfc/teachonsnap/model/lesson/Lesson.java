@@ -21,9 +21,9 @@ public class Lesson {
 	private short idLanguage;
 	private Date date;
 	private String text;
-	private String URIname;
-	private int idLessonTest;
+	private String URIname;	
 	private int idLessonMedia;	
+	private boolean testAvailable;
 
 	@Transient
 	private User author;
@@ -35,9 +35,9 @@ public class Lesson {
 	public String toString() {
 		return "Lesson [id=" + id + ", title=" + title + ", idUser=" + idUser
 				+ ", idLanguage=" + idLanguage + ", date=" + date + ", text="
-				+ text + ", URIname=" + URIname + ", idLessonTest="
-				+ idLessonTest + ", idLessonMedia=" + idLessonMedia + ", author=" 
-				+ author + ", language="+ language + "]";
+				+ text + ", URIname=" + URIname + ", idLessonMedia="
+				+ idLessonMedia + ", testAvailable=" + testAvailable
+				+ ", author=" + author + ", language=" + language + "]";
 	}
 
 	public String getText() {
@@ -99,18 +99,10 @@ public class Lesson {
 		return "/lesson/comment/"+URIname;
 	}
 	
-	public String getTestURL() {
-		return idLessonTest>0?("/test/"+URIname):"#";
-	}
-	
-	public String getEditTestURL() {
-		return idLessonTest>0?("/test/edit/"+URIname):getNewTestURL();
-	}
-	
 	public String getNewTestURL() {
-		return idLessonTest<=0?("/test/new/"+URIname):getEditTestURL();
+		return "/test/new/"+id;
 	}
-
+	
 	public User getAuthor() {
 		return author;
 	}
@@ -127,14 +119,6 @@ public class Lesson {
 		this.language = language;
 	}
 
-	public int getIdLessonTest() {
-		return idLessonTest;
-	}
-
-	public void setIdLessonTest(int idLessonTest) {
-		this.idLessonTest = idLessonTest;
-	}
-
 	public int getIdLessonMedia() {
 		return idLessonMedia;
 	}
@@ -143,5 +127,11 @@ public class Lesson {
 		this.idLessonMedia = idLessonMedia;
 	}
 	
-	
+	public boolean isTestAvailable() {
+		return testAvailable;
+	}
+
+	public void setTestAvailable(boolean testAvailable) {
+		this.testAvailable = testAvailable;
+	}	
 }

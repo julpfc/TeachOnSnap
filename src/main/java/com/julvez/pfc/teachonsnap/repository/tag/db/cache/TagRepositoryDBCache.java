@@ -51,6 +51,7 @@ public class TagRepositoryDBCache implements TagRepository {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
 				new String[]{"getLessonTagIDs"}, idLesson, tagIDs);
 		
+		//TODO Recuperar los tags y elimnar sólo esas cachés
 		cache.clearCache("getLessonIDsFromTag");
 		cache.clearCache("getCloudTags");			
 	}

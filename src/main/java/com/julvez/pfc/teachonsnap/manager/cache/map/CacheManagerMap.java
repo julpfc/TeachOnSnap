@@ -1,8 +1,10 @@
 package com.julvez.pfc.teachonsnap.manager.cache.map;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
@@ -37,7 +39,15 @@ public class CacheManagerMap implements CacheManager {
 				try{
 					Method m = impl.getClass().getMethod(methodName, paramClasses);
 					result = m.invoke(impl,params);
-					cache.put(stringManager.getKey(params), result);
+					
+					if(isPrimitiveClass(result.getClass())){
+						if(isPrimitiveValidResult(result)){
+							cache.put(stringManager.getKey(params), result);
+						}
+					}
+					else{
+						cache.put(stringManager.getKey(params), result);
+					}
 				}
 				catch(Throwable t){
 					t.printStackTrace();
@@ -46,6 +56,34 @@ public class CacheManagerMap implements CacheManager {
 		}
 		 
 		return result;
+	}
+
+
+	private boolean isPrimitiveValidResult(Object result) {
+		Class<?> clazz = result.getClass();
+		
+		boolean valid = false;
+		
+		if(isPrimitiveClass(clazz)){
+			if(clazz.equals(Boolean.class))
+				valid = true;
+			else if(clazz.equals(Integer.class))
+				valid = (int)result>=0;				
+			else if(clazz.equals(Short.class))
+				valid = (short)result>=0;
+			else if(clazz.equals(Long.class))
+				valid = (long)result>=0;
+			else if(clazz.equals(Character.class))
+				valid = (char)result>=0;
+			else if(clazz.equals(Byte.class))
+				valid = (byte)result>=0;
+			else if(clazz.equals(Double.class))
+				valid = (double)result>=0;
+			else if(clazz.equals(Float.class))
+				valid = (float)result>=0;
+			
+		}
+		return valid;
 	}
 
 
@@ -133,8 +171,21 @@ public class CacheManagerMap implements CacheManager {
 					Map<String, Object> cache = getCache(cacheName);
 				
 					synchronized (cache) {
-						cache.remove(cacheKeys[i]);
-						System.out.println("CacheEliminada: "+cacheName+"["+cacheKeys[i]+"]");
+						Object obj = cache.remove(cacheKeys[i]);
+						
+						if(obj!=null) {
+							System.out.println("CacheEliminada: "+cacheName+"["+cacheKeys[i]+"]");
+						}
+						else{
+							List<String> keys = new ArrayList<String>(cache.keySet());
+							
+							for(String key:keys){
+								if(key.startsWith(cacheKeys[i])){
+									cache.remove(key);
+									System.out.println("Cache2Eliminada: "+cacheName+"["+key+"]");
+								}
+							}
+						}
 					}
 					i++;
 				}

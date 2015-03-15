@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Question;
@@ -14,6 +16,7 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 
 	private LessonTestRepositoryDB repoDB = new LessonTestRepositoryDB();
 	private CacheManager cache = CacheManagerFactory.getCacheManager();
+	private StringManager stringManager = StringManagerFactory.getManager();
 
 	@Override
 	public LessonTest getLessonTest(int idLessonTest) {
@@ -40,6 +43,23 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 	@Override
 	public Answer getAnswer(int idAnswer) {
 		return (Answer)cache.executeImplCached(repoDB, idAnswer);
+	}
+
+	@Override
+	public int getLessonTestID(int idLesson) {
+		return (int)cache.executeImplCached(repoDB, idLesson);
+	}
+
+	@Override
+	public void publish(int idLessonTest, int idLesson) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLessonTest), stringManager.getKey(idLesson)}, 
+				new String[]{"getLessonTest", "getLesson"}, idLessonTest, idLesson);
+	}
+
+	@Override
+	public void unpublish(int idLessonTest, int idLesson) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLessonTest), stringManager.getKey(idLesson)}, 
+				new String[]{"getLessonTest", "getLesson"}, idLessonTest, idLesson);		
 	}
 
 }

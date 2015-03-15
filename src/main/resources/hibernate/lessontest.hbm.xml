@@ -3,29 +3,43 @@
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
 	<sql-query name="SQL_LESSONTEST_GET_TEST">
-		SELECT idLessonTest,idlesson,numQuestions,numAnswers,multiplechoice
-	    FROM tlessontest    
-	    WHERE idLessonTest = ?
+		SELECT idLessonTest,idlesson,numQuestions,numAnswers,multiplechoice,IFNULL(td.idlessontest,0)>0 as draft
+	    FROM tlessontest
+	    LEFT JOIN tlessontestdraft td USING (idlessontest)
+	    WHERE idLessonTest = ?;
 	</sql-query>
+	<sql-query name="SQL_LESSONTEST_GET_LESSONTESTID_FROM_LESSONID">
+		SELECT idLessonTest
+	    FROM tlessontest	    
+	    WHERE idLesson = ?;
+	</sql-query>	
 	<sql-query name="SQL_LESSONTEST_GET_QUESTION">
 		SELECT idQuestion,idLessonTest,text,priority
 	    FROM tquestion    
-	    WHERE idQuestion = ?
+	    WHERE idQuestion = ?;
 	</sql-query>	
 	<sql-query name="SQL_LESSONTEST_GET_QUESTIONIDS_FROM_IDLESSONTEST">
 	    SELECT idQuestion
 	    FROM tquestion
 	    WHERE idLessonTest = ?
-	    ORDER BY priority
+	    ORDER BY priority;
 	</sql-query>
 	<sql-query name="SQL_LESSONTEST_GET_ANSWERIDS_FROM_IDQUESTION">
 	    SELECT idAnswer
 	    FROM tanswer
-	    WHERE idQuestion = ?	    
+	    WHERE idQuestion = ?;	    
 	</sql-query>
 	<sql-query name="SQL_LESSONTEST_GET_ANSWER">
 	    SELECT idAnswer,idQuestion,text,correct,reason
 	    FROM tanswer
-	    WHERE idAnswer = ?	    
+	    WHERE idAnswer = ?;	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_ADD_PUBLISHED">
+	    DELETE FROM tlessontestdraft
+	    WHERE idlessontest = ?;
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_REMOVE_PUBLISHED">
+	    INSERT IGNORE tlessontestdraft(idlessontest)
+	    VALUES (?);	    	    
 	</sql-query>				
 </hibernate-mapping>

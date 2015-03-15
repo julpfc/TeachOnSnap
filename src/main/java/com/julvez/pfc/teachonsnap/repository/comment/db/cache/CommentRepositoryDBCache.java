@@ -29,11 +29,8 @@ public class CommentRepositoryDBCache implements CommentRepository {
 
 	@Override
 	public int createComment(int idLesson, int idUser, String commentBody) {
-		int id = (int)cache.updateImplCached(repoDB, null, null, idLesson, idUser, commentBody);
-		if(id>0){
-			cache.clearCache("getCommentIDs");
-		}
-		return id;
+		return (int)cache.updateImplCached(repoDB,new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getCommentIDs"}, idLesson, idUser, commentBody);
 	}
 
 	@Override

@@ -9,12 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.link.Link;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.model.tag.Tag;
+import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
+import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.link.LinkService;
 import com.julvez.pfc.teachonsnap.service.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
@@ -29,35 +35,65 @@ public class EditLessonController extends CommonController {
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private TagService tagService = TagServiceFactory.getService();
 	private LinkService linkService = LinkServiceFactory.getService();
+	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
+
+	private StringManager stringManager = StringManagerFactory.getManager();
 
 	@Override
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		String lessonID = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
 		
-		int id = Integer.parseInt(lessonID);
+		String[] params = requestManager.getControllerParams(request);
 		
-		Lesson lesson = lessonService.getLesson(id);
-		List<Tag> tags = tagService.getLessonTags(lesson.getId());
-		List<Lesson> linkedLessons = lessonService.getLinkedLessons(lesson.getId());
-		List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
-		List<Link> sourceLinks = linkService.getSourceLinks(lesson.getId());
-		List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
-		
-		request.setAttribute(Attribute.LESSON.toString(), lesson);
-		request.setAttribute(Attribute.LIST_MEDIAFILE_LESSONFILES.toString(), medias);
-		request.setAttribute(Attribute.LIST_TAG_LESSONTAGS.toString(), tags);
-		request.setAttribute(Attribute.LIST_LESSON_LINKEDLESSONS.toString(), linkedLessons);
-		request.setAttribute(Attribute.LIST_LINK_MOREINFO.toString(), moreInfoLinks);
-		request.setAttribute(Attribute.LIST_LINK_SOURCES.toString(), sourceLinks);
+		if(params!=null && params.length>0 && stringManager.isNumeric(params[0])){
 			
-		//TODO Editar Linked lesson?
-		//TODO Editar tests
+			int idLesson = Integer.parseInt(params[0]);
+			
+			Lesson lesson = lessonService.getLesson(idLesson);
+			
+			if(lesson!= null){
+				
+				User user = requestManager.getSessionUser(request);
+				
+				if(user.isAdmin() || (user.isAuthor() && user.getId() == lesson.getIdUser())){
+					
+					//TODO POST data
+					
+					List<Tag> tags = tagService.getLessonTags(lesson.getId());
+					List<Lesson> linkedLessons = lessonService.getLinkedLessons(lesson.getId());
+					List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
+					List<Link> sourceLinks = linkService.getSourceLinks(lesson.getId());
+					List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
+					
+					LessonTest test = lessonTestService.getLessonTest(lesson);
+
+					
+					request.setAttribute(Attribute.LESSON.toString(), lesson);
+					request.setAttribute(Attribute.LIST_MEDIAFILE_LESSONFILES.toString(), medias);
+					request.setAttribute(Attribute.LIST_TAG_LESSONTAGS.toString(), tags);
+					request.setAttribute(Attribute.LIST_LESSON_LINKEDLESSONS.toString(), linkedLessons);
+					request.setAttribute(Attribute.LIST_LINK_MOREINFO.toString(), moreInfoLinks);
+					request.setAttribute(Attribute.LIST_LINK_SOURCES.toString(), sourceLinks);
+					request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+					
+					//TODO Editar Linked lesson?
+					
+					request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
+				}
+				else{
+					response.sendError(HttpServletResponse.SC_FORBIDDEN);
+				}
+			}
+			else {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			}			
+		}
+		else{
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		}
 		
-	    request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
 	}
 
 	@Override

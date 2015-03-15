@@ -13,6 +13,7 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.comment.Comment;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.link.Link;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.model.tag.Tag;
@@ -20,6 +21,8 @@ import com.julvez.pfc.teachonsnap.service.comment.CommentService;
 import com.julvez.pfc.teachonsnap.service.comment.CommentServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
+import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.link.LinkService;
 import com.julvez.pfc.teachonsnap.service.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
@@ -41,6 +44,8 @@ public class LessonController extends CommonController {
 	private CommentService commentService = CommentServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
+
+	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -64,6 +69,11 @@ public class LessonController extends CommonController {
 				List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
 				List<Link> sourceLinks = linkService.getSourceLinks(lesson.getId());
 				List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
+				
+				if(lesson.isTestAvailable()){
+					LessonTest test = lessonTestService.getLessonTest(lesson);
+					request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+				}
 				
 				if(params.length > 1 && stringManager.isNumeric(params[1])){
 					pageResult = Integer.parseInt(params[1]);

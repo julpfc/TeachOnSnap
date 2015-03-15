@@ -5,6 +5,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.editLesson" var="editLessonBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
  
 <!DOCTYPE html>
@@ -12,13 +13,14 @@
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/editLesson.css"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/css/lesson.css"/>"/>
 <title>TeachOnSnap - ${lesson.title}</title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>
 	<div class="content container-fluid">	
 		<div class="row">
-			<form role="form">
+			<form role="form"> 
 				<div class="col-sm-7">
 					<div class="form-group">
 						<label for="inputLessonTitle"><fmt:message key="lesson.form.title" bundle="${editLessonBundle}"/></label>
@@ -200,31 +202,77 @@
 					
 		        </div><!-- col -->
 	
-	        	<div class="col-sm-4 col-sm-offset-1">	        		
+	        	<div class="col-sm-5">	        		
 	        		<div class="sidebar">
 						<h4><fmt:message key="lesson.command.heading" bundle="${lessonBundle}"/></h4>
 						<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
 						 <fmt:message key="lesson.form.save" bundle="${editLessonBundle}"/></button>
-						 
-						 <c:if test="${lesson.idLessonTest>0}">
-						<div class="sidebar">
-							<h4><fmt:message key="lesson.test.heading" bundle="${lessonBundle}"/></h4>
-							<a href="${lesson.editTestURL}"><button class="btn btn-default" type="button">
-							 	<span class="glyphicon glyphicon-edit"></span>
-							 	 Edit test</button>
-						 	</a>
-						</div>
-						</c:if>
-						<c:if test="${lesson.idLessonTest<=0}">
-						<div class="sidebar">
-							<h4><fmt:message key="lesson.test.heading" bundle="${lessonBundle}"/></h4>
-							<a href="${lesson.editTestURL}"><button class="btn btn-default" type="button">
-							 	<span class="glyphicon glyphicon-edit"></span>
-							 	 New test</button>
-						 	</a>
-						</div>
-						</c:if>
-					</div>			
+					</div>
+					<!-- Test Panel -->
+					<div class="sidebar">
+						<div class="panel panel-default">
+				    		<div class="panel-heading">
+				    			 <c:choose>
+								 	<c:when test="${not empty test}">
+									 	<span><fmt:message key="lesson.test.heading" bundle="${testBundle}"/></span>				    			
+				    					<a href="${test.editURL}">
+				    						<button class="btn btn-default btn-xs pull-right" type="button">
+												<span class="glyphicon glyphicon-edit"></span>								
+												 <fmt:message key="lesson.test.edit" bundle="${testBundle}"/>
+											</button>
+										</a>										 	
+									</c:when>
+									<c:otherwise>
+										<span><fmt:message key="lesson.test.heading" bundle="${testBundle}"/></span>				    			
+				    					<a href="${lesson.newTestURL}">
+				    						<button class="btn btn-default btn-xs pull-right" type="button">
+												<span class="glyphicon glyphicon-edit"></span>
+										 		 <fmt:message key="lesson.test.new" bundle="${testBundle}"/>
+											</button>
+										</a>
+									</c:otherwise>
+								 </c:choose>		    		
+				    		</div>
+			    			<div class="panel-body">
+			    				<c:choose>								
+									<c:when test="${not empty test}">
+										<c:if test="${test.multipleChoice}">
+											<h5><span class="glyphicon glyphicon-exclamation-sign"></span>
+	     									 <fmt:message key="lesson.test.multiplechoice" bundle="${testBundle}"/>
+	     									</h5>	     							
+	     								</c:if>
+										<h5><span class="label label-info">${test.numAnswers}</span> <fmt:message key="lesson.test.numAnswers" bundle="${testBundle}"/></h5>																	
+										<h5><span class="label label-info">${test.numQuestions}</span> <fmt:message key="lesson.test.numQuestions" bundle="${testBundle}"/></h5>
+									</c:when>
+									<c:otherwise><h5><fmt:message key="lesson.test.notest" bundle="${testBundle}"/></h5></c:otherwise>
+								</c:choose>
+							</div>
+							<c:if test="${not empty test}">
+								<div class="panel-footer">										     								    			
+									 <c:choose>
+									 	<c:when test="${test.draft}">
+									 		<fmt:message key="lesson.test.unpublished" bundle="${testBundle}"/>
+									 		<a href="${test.editURL}?publishTest=true">
+							    				<button class="btn btn-default btn-xs pull-right" type="button">
+									 			<span class="glyphicon glyphicon-edit"></span>
+									 			 <fmt:message key="lesson.test.publish" bundle="${testBundle}"/>
+									 			 </button>
+											</a>
+									 	</c:when>
+									 	<c:otherwise>
+									 		<fmt:message key="lesson.test.published" bundle="${testBundle}"/>
+							    			<a href="${test.editURL}?publishTest=false">
+							    				<button class="btn btn-default btn-xs pull-right" type="button">											
+										 		<span class="glyphicon glyphicon-edit"></span>
+												 <fmt:message key="lesson.test.unpublish" bundle="${testBundle}"/>			 	
+												</button>
+											</a>
+									 	</c:otherwise>
+									 </c:choose>										 	
+	     						</div>
+	     					</c:if>
+				    	</div>					
+					</div><!-- Test Panel -->							
 	        	</div><!-- sidebar -->
 	        </form>
 		</div><!-- /.row -->

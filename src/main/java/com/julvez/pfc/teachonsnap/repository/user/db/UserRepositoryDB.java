@@ -27,11 +27,11 @@ public class UserRepositoryDB implements UserRepository {
 	}
 
 	@Override
-	public boolean isValidPassword(int idUser, String password) {
-		boolean isValid = false;
+	public int isValidPassword(int idUser, String password) {
+		int isValid = -1;
 		Object obj = dbm.getQueryResultUnique("SQL_USER_GET_ISVALIDPASSWORD", null, password,idUser);
 		if(obj!=null)
-			isValid = stringManager.isTrue(obj.toString());
+			isValid = Integer.parseInt(obj.toString());
 		return isValid;
 	}
 

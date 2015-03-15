@@ -47,15 +47,13 @@ public class LessonRepositoryDBCache implements LessonRepository {
 
 	@Override
 	public int createLesson(Lesson newLesson) {		
-		int id =(int)cache.updateImplCached(repoDB, null, null, newLesson);
+		int id =(int)cache.updateImplCached(repoDB, 
+				new String[]{stringManager.getKey(newLesson.getAuthor().getURIName())}, 
+				new String[]{"getLessonIDsFromAuthor"}, newLesson);
 		
 		if(id>0){
 			cache.clearCache("getLastLessonIDs");
 			cache.clearCache("getAuthorCloudTags");
-
-			//TODO Idealmente sólo nos cargaríamos la caché de ese autor (URIname que no tenemos)
-			//getLessonIDsFromAuthor(String author,int firstResult)			
-			cache.clearCache("getLessonIDsFromAuthor");
 		}
 		
 		return id;

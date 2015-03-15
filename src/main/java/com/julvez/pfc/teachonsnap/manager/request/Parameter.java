@@ -25,7 +25,10 @@ public enum Parameter {
 	LESSON_COMMENT("comment"), 
 	LESSON_COMMENTID("idComment"), 
 	LESSON_COMMENT_EDIT("editComment"), 
-	LESSON_COMMENT_BAN("banComment");
+	LESSON_COMMENT_BAN("banComment"),
+	
+	//Tests
+	LESSON_TEST_PUBLISH("publishTest");
 
 		 		
 	private final String realName;

@@ -342,6 +342,11 @@ public class RequestManagerImpl implements RequestManager {
 		}
 		return lang;
 	}
+
+	@Override
+	public String getParamPublishLessonTest(HttpServletRequest request) {
+		return getParam(request,Parameter.LESSON_TEST_PUBLISH);
+	}
 	
 
 }

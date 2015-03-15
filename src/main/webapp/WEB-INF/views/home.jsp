@@ -45,7 +45,7 @@
 	            			<c:if test="${lesson.idLessonMedia>0}">
 								<span class="glyphicon glyphicon-facetime-video"></span> video
 							</c:if>
-							<c:if test="${lesson.idLessonTest>0}">
+							<c:if test="${lesson.testAvailable}">
 								<span class="glyphicon glyphicon-edit"></span> test
 							</c:if>
 						</p>            		

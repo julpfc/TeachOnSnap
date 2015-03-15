@@ -44,6 +44,27 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 		return (Answer) dbm.getQueryResultUnique("SQL_LESSONTEST_GET_ANSWER", Answer.class, idAnswer);
 	}
 
+	@Override
+	public int getLessonTestID(int idLesson) {
+		int id = -1;
+		Object obj = dbm.getQueryResultUnique("SQL_LESSONTEST_GET_LESSONTESTID_FROM_LESSONID", null, idLesson);
+		if(obj!=null)
+			id = Integer.parseInt(obj.toString());
+		return id; 
+	}
+
+	@Override
+	public void publish(int idLessonTest, int idLesson) {
+		dbm.updateQuery("SQL_LESSONTEST_ADD_PUBLISHED", idLessonTest);
+		
+	}
+
+	@Override
+	public void unpublish(int idLessonTest, int idLesson) {
+		dbm.updateQuery("SQL_LESSONTEST_REMOVE_PUBLISHED", idLessonTest);
+		
+	}
+
 
 
 }

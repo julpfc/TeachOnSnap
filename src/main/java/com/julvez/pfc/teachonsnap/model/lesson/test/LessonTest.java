@@ -17,9 +17,12 @@ public class LessonTest {
 	short numQuestions;
 	short numAnswers;
 	boolean multipleChoice;
+	boolean draft;
+	
 	
 	@Transient
 	List<Question> questions;
+
 
 
 	@Override
@@ -27,7 +30,7 @@ public class LessonTest {
 		return "LessonTest [id=" + id + ", idLesson=" + idLesson
 				+ ", numQuestions=" + numQuestions + ", numAnswers="
 				+ numAnswers + ", multipleChoice=" + multipleChoice
-				+ ", questions=" + questions + "]";
+				+ ", draft=" + draft + ", questions=" + questions + "]";
 	}
 
 	public int getId() {
@@ -76,9 +79,23 @@ public class LessonTest {
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}	
+
+	public boolean isDraft() {
+		return draft;
+	}
+
+	public void setDraft(boolean draft) {
+		this.draft = draft;
+	}
+
+	public String getURL() {
+		return "/test/"+id;
 	}
 	
-	
-	
-	
+	public String getEditURL() {
+		return "/test/edit/"+id;
+	}
+
+
 }

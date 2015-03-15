@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
 <!DOCTYPE html>
@@ -66,12 +67,12 @@
 						 	</a>
 						</div>
 				</c:if>
-        		<c:if test="${lesson.idLessonTest>0}">
+        		<c:if test="${not empty test}">
 						<div class="sidebar">
-							<h4><fmt:message key="lesson.test.heading" bundle="${lessonBundle}"/></h4>
-							<a href="${lesson.testURL}"><button class="btn btn-success" type="button">
+							<h4><fmt:message key="lesson.test.heading" bundle="${testBundle}"/></h4>
+							<a href="${test.URL}"><button class="btn btn-success" type="button">
 							 	<span class="glyphicon glyphicon-edit"></span>
-							 	 <fmt:message key="lesson.test.start" bundle="${lessonBundle}"/></button>
+							 	 <fmt:message key="lesson.test.start" bundle="${testBundle}"/></button>
 						 	</a>
 						</div>
 				</c:if>
@@ -169,7 +170,7 @@
 											<c:otherwise>
 												| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.block.reason" bundle="${lessonBundle}"/> <span class=\'comment-cancel\'> (<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>)</span>','false','<fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/>');"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></a>
 											</c:otherwise>
-										</c:choose>									
+										</c:choose>							
 									</c:if>
 								</div><!-- .comment-meta .commentmetadata -->								
 							</article>												
