@@ -13,38 +13,27 @@ public class TagRepositoryDB implements TagRepository {
 	private DBManager dbm = DBManagerFactory.getDBManager();
 	@Override
 	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
-		
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_TAG_GET_LESSONIDS_FROM_TAG", null, tag,firstResult);
-						
-		return ids; 
+		return dbm.getQueryResultList("SQL_TAG_GET_LESSONIDS_FROM_TAG", Integer.class, tag,firstResult);
 	}
 
 	@Override
 	public List<Integer> getLessonTagIDs(int idLesson) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_TAG_GET_LESSONTAGIDS", null, idLesson);
-						
-		return ids;
+		return dbm.getQueryResultList("SQL_TAG_GET_LESSONTAGIDS", Integer.class, idLesson);
 	}
 	
 	@Override
 	public Tag getTag(int idTag) {
-		return (Tag) dbm.getQueryResultUnique("SQL_TAG_GET_TAG", Tag.class, idTag);
+		return dbm.getQueryResultUnique("SQL_TAG_GET_TAG", Tag.class, idTag);
 	}
 	
 	@Override
 	public List<Object[]> getCloudTags() {
-		@SuppressWarnings("unchecked")
-		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_TAG", null, new Object[0]);
-		return ids;
+		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_TAG", Object[].class, new Object[0]);		
 	}
 
 	@Override
 	public List<Object[]> getAuthorCloudTags() {
-		@SuppressWarnings("unchecked")
-		List<Object[]> ids =  (List<Object[]>) dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_AUTHOR", null, new Object[0]);
-		return ids;
+		return dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_AUTHOR", Object[].class, new Object[0]);		
 	}
 	
 	@Override
@@ -57,9 +46,9 @@ public class TagRepositoryDB implements TagRepository {
 	@Override
 	public int getTagID(String tag) {
 		int id = -1;
-		Object obj = dbm.getQueryResultUnique("SQL_TAG_GET_TAGID", null, tag);
+		Integer obj = dbm.getQueryResultUnique("SQL_TAG_GET_TAGID", Integer.class, tag);
 		if(obj!=null)
-			id = Integer.parseInt(obj.toString());
+			id = obj;
 		return id; 	
 	}
 

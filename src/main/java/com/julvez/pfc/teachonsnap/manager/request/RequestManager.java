@@ -52,5 +52,7 @@ public interface RequestManager {
 	
 	public List<FileMetadata> getUploadFiles(HttpServletRequest request);
 	public FileMetadata getSubmittedFile(HttpServletRequest request);
+	public String getParamJSON(HttpServletRequest request);
+	public String getParamExport(HttpServletRequest request);
 	
 }

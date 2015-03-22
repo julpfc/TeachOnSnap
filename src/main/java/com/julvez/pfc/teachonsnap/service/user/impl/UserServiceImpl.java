@@ -12,9 +12,10 @@ import com.julvez.pfc.teachonsnap.service.user.UserService;
 
 public class UserServiceImpl implements UserService {
 
-	UserRepository userRepository = UserRepositoryFactory.getRepository();
-	LangService langService = LangServiceFactory.getService(); 
-	StringManager stringManager = StringManagerFactory.getManager();
+	private UserRepository userRepository = UserRepositoryFactory.getRepository();
+	private LangService langService = LangServiceFactory.getService(); 
+
+	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	public User getUser(int idUser) {
@@ -57,5 +58,6 @@ public class UserServiceImpl implements UserService {
 		
 		return retUser;
 	}
+
 
 }

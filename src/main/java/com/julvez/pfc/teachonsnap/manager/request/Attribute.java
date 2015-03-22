@@ -20,6 +20,7 @@ public enum Attribute {
 	//Lesson test
 	USERLESSONTEST_ANSWERS("userTest"),
 	LESSONTEST_QUESTIONS("test"),
+	QUESTION("question"),
 
 	//Cloud tags
 	LIST_CLOUDTAG_AUTHOR("authorCloudTags"),

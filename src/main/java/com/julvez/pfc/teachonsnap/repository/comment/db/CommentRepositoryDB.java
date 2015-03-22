@@ -16,15 +16,12 @@ public class CommentRepositoryDB implements CommentRepository {
 	
 	@Override
 	public List<Integer> getCommentIDs(int idLesson, int firstResult) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_COMMENT_GET_COMMENTIDS", null, idLesson, firstResult);
-						
-		return ids;
+		return dbm.getQueryResultList("SQL_COMMENT_GET_COMMENTIDS", Integer.class, idLesson, firstResult);
 	}
 
 	@Override
 	public Comment getComment(int idComment) {
-		Comment comment = (Comment) dbm.getQueryResultUnique("SQL_COMMENT_GET_COMMENT", Comment.class, idComment);
+		Comment comment = dbm.getQueryResultUnique("SQL_COMMENT_GET_COMMENT", Comment.class, idComment);
 		
 		if(comment!=null){
 			comment.setBody(stringManager .convertToHTMLParagraph(comment.getBody()));

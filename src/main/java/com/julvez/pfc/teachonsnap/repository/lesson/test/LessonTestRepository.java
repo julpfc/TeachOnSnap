@@ -24,4 +24,9 @@ public interface LessonTestRepository {
 
 	public void unpublish(int idLessonTest, int idLesson);
 
+	public void saveQuestion(int idQuestion, String text, byte priority, int idLessonTest);
+
+	public void saveAnswer(int idAnswer, String text, boolean correct, 
+			String reason, int idQuestion, int idLessonTest);
+
 }

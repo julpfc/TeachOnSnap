@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.manager.db.hibernate;
 
+import java.lang.annotation.Annotation;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -54,7 +55,7 @@ public class DBManagerHibernate implements DBManager{
 		
 		SQLQuery query;
 		
-		if(entityClass != null)
+		if(entityClass!= null && isEntity(entityClass))
 			query = sess.createSQLQuery(sess.getNamedQuery(queryName).getQueryString())
 				.addEntity(entityClass);
 		else
@@ -66,6 +67,7 @@ public class DBManagerHibernate implements DBManager{
 		
 		for (Object queryParam : queryParams) {
 			query.setParameter(i++, queryParam);
+			//TODO el log falla si se mete una cadena con un ?
 			queryLog = queryLog.replaceFirst("\\?", queryParam.toString());
 		}
 		
@@ -76,9 +78,9 @@ public class DBManagerHibernate implements DBManager{
 	
 	
 	@Override
-	public List<?> getQueryResultList(String queryName, Class<?> entityClass,
+	public <T> List<T> getQueryResultList(String queryName, Class<T> entityClass,
 			Object... queryParams) {
-		List<?> list = null;
+		List<T> list = null;
 		
 		try{
 			Session sess = beginTransaction();
@@ -94,11 +96,12 @@ public class DBManagerHibernate implements DBManager{
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<?> getQueryResultList_NoCommit(Object session, String queryName, Class<?> entityClass,
+	public <T> List<T> getQueryResultList_NoCommit(Object session, String queryName, Class<T> entityClass,
 			Object... queryParams) {
 		
-		List<?> resultados = new ArrayList<>();
+		List<T> resultados = new ArrayList<>();
 		Session sess = (Session)session;
 		
 		try{
@@ -115,9 +118,9 @@ public class DBManagerHibernate implements DBManager{
 	}
 
 	@Override
-	public Object getQueryResultUnique(String queryName,
-			Class<?> entityClass, Object... queryParams) {
-		Object result = null;
+	public <T> T getQueryResultUnique(String queryName,
+			Class<T> entityClass, Object... queryParams) {
+		T result = null;
 		
 		try{
 			Session sess = beginTransaction();
@@ -133,15 +136,16 @@ public class DBManagerHibernate implements DBManager{
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public Object getQueryResultUnique_NoCommit(Object session, String queryName,
-			Class<?> entityClass, Object... queryParams) {
-		Object resultado;
+	public <T> T getQueryResultUnique_NoCommit(Object session, String queryName,
+			Class<T> entityClass, Object... queryParams) {
+		T resultado;
 		Session sess = (Session)session;
 		
 		try{
 			SQLQuery query = getQuery(sess, queryName, entityClass, queryParams);
-			resultado = query.uniqueResult();
+			resultado = (T)query.uniqueResult();
 		
 		} catch (HibernateException e) {
 			System.out.println(e);
@@ -228,5 +232,19 @@ public class DBManagerHibernate implements DBManager{
 				sess.getTransaction().rollback();
 			}
 		}		
+	}
+	
+	private boolean isEntity(Class<?> clazz){
+		boolean isEntity= false;
+		Annotation[] annotations = clazz.getAnnotations();
+		
+		for(Annotation annotation:annotations){
+			if(javax.persistence.Entity.class.getCanonicalName().equals(annotation.annotationType().getCanonicalName())){
+				isEntity = true;
+				break;
+			}			
+		}
+		
+		return isEntity;
 	}
 }

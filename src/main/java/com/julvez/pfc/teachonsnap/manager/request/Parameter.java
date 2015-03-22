@@ -5,6 +5,8 @@ public enum Parameter {
 	//Common
 	CHANGE_LANGUAGE("changeLang"),
 	LOGOUT("logout"),
+	JSON("json"),
+	EXPORT("export"),
 	
 	//Login
 	LOGIN_EMAIL("email"),

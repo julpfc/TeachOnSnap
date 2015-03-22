@@ -20,18 +20,17 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 	private FileManager fileManager = FileManagerFactory.getManager();
 	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<MediaFile> getLessonMedias(int idLessonMedia) {
-		return (List<MediaFile>)dbm.getQueryResultList("SQL_MEDIA_GET_MEDIAFILES", MediaFile.class, idLessonMedia);
+		return dbm.getQueryResultList("SQL_MEDIA_GET_MEDIAFILES", MediaFile.class, idLessonMedia);
 	}
 
 	@Override
 	public short getMimeTypeID(MediaType mediaType, String fileType) {
 		short id = -1;
-		Object obj = dbm.getQueryResultUnique("SQL_MEDIA_GET_MIMETYPEID", null, mediaType.ordinal(),fileType);
+		Short obj = dbm.getQueryResultUnique("SQL_MEDIA_GET_MIMETYPEID", Short.class, mediaType.ordinal(),fileType);
 		if(obj!=null)
-			id = Short.parseShort(obj.toString());
+			id = obj;
 		return id; 		
 	}
 
@@ -99,7 +98,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 
 	@Override
 	public MediaFileRepositoryPath getMediaFileRepositoryPath(short idMediaRepository) {
-		return (MediaFileRepositoryPath)dbm.getQueryResultUnique("SQL_MEDIA_GET_MEDIAREPOSITORY", MediaFileRepositoryPath.class, idMediaRepository);
+		return dbm.getQueryResultUnique("SQL_MEDIA_GET_MEDIAREPOSITORY", MediaFileRepositoryPath.class, idMediaRepository);
 	}
 
 }

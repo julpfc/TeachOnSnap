@@ -52,14 +52,34 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 
 	@Override
 	public void publish(int idLessonTest, int idLesson) {
-		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLessonTest), stringManager.getKey(idLesson)}, 
-				new String[]{"getLessonTest", "getLesson"}, idLessonTest, idLesson);
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLessonTest), 
+				stringManager.getKey(idLesson)}, new String[]{"getLessonTest", "getLesson"}, 
+				idLessonTest, idLesson);
 	}
 
 	@Override
 	public void unpublish(int idLessonTest, int idLesson) {
-		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLessonTest), stringManager.getKey(idLesson)}, 
-				new String[]{"getLessonTest", "getLesson"}, idLessonTest, idLesson);		
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLessonTest), 
+				stringManager.getKey(idLesson)}, new String[]{"getLessonTest", "getLesson"},
+				idLessonTest, idLesson);		
+	}
+
+	@Override
+	public void saveQuestion(int idQuestion, String text, byte priority, int idLessonTest) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idQuestion), 
+				stringManager.getKey(idLessonTest)}, new String[]{"getQuestion", "getLessonTest"},
+				idQuestion, text, priority, idLessonTest);
+		
+	}
+
+	@Override
+	public void saveAnswer(int idAnswer, String text, boolean correct,
+			String reason, int idQuestion, int idLessonTest) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idQuestion), 
+				stringManager.getKey(idLessonTest), stringManager.getKey(idAnswer)}, 
+				new String[]{"getQuestion", "getLessonTest", "getAnswer"}, 
+				idAnswer, text, correct, reason, idQuestion, idLessonTest);
+		
 	}
 
 }

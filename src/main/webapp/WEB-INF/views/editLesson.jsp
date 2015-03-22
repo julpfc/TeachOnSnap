@@ -145,7 +145,7 @@
 				    	</div>
 			    	</div>
 		          	
-		          		<div class="panel panel-default">
+		          	<div class="panel panel-default">
 			    		<div class="panel-heading"><fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/></div>
 		    			<div class="panel-body">
 	    					<table class="table table-striped" id="sources">

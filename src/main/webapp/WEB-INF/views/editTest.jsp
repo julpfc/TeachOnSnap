@@ -28,22 +28,12 @@
 						<c:forEach items="${test.questions}" var="question">	
 							<div class="panel panel-default question">
   								<div class="panel-heading">
+  									<a href="#"><span class="glyphicon glyphicon-chevron-up"></span></a>
+  									<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a>
   								  	<span>
   										${question.text}
 	  									<a class="pull-right" href="${question.editURL}">Editar</a>
   									</span>						
-  							<!-- 		<span id="spanq-${question.id}">
-  										${question.text}
-	  									<a class="pull-right" onclick="return showEditQuestion(${question.id},true);">Editar</a>
-  									</span>
-  									<div id="divq-${question.id}" class="input-group hidden">
-										<input type="text" class="form-control" placeholder="${question.text}">
-								      	<span class="input-group-btn">
-								        	<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-								        	<button class="btn btn-default" type="button" onclick="return showEditQuestion(${question.id},false);"><span class="glyphicon glyphicon-remove"></span></button>
-								      	</span>
-								    </div>
-								    --><!-- /input-group -->
   								</div>
 								<ul class="list-group">
   									<c:forEach items="${question.answers}" var="answer">

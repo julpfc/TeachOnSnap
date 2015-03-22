@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.julvez.pfc.teachonsnap.manager.json.JSONViews;
+
 @Entity
 public class Answer {
 	
@@ -11,8 +14,11 @@ public class Answer {
 	@Column (name="idAnswer")
 	int id;
 	int idQuestion;
+	@JsonView(JSONViews.Simple.class)
 	String text;
+	@JsonView(JSONViews.Simple.class)
 	boolean correct;
+	@JsonView(JSONViews.Simple.class)
 	String reason;
 
 	@Override
@@ -60,8 +66,46 @@ public class Answer {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (correct ? 1231 : 1237);
+		result = prime * result + id;
+		result = prime * result + idQuestion;
+		result = prime * result + ((reason == null) ? 0 : reason.hashCode());
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Answer other = (Answer) obj;
+		if (correct != other.correct)
+			return false;
+		if (id != other.id)
+			return false;
+		if (idQuestion != other.idQuestion)
+			return false;
+		if (reason == null) {
+			if (other.reason != null)
+				return false;
+		} else if (!reason.equals(other.reason))
+			return false;
+		if (text == null) {
+			if (other.text != null)
+				return false;
+		} else if (!text.equals(other.text))
+			return false;
+		return true;
+	}
 	
 	
 }

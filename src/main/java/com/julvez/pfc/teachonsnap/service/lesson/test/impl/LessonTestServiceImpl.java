@@ -41,7 +41,7 @@ public class LessonTestServiceImpl implements LessonTestService {
 					List<Question> questions = new ArrayList<Question>();
 							
 					for(int questionID:questionIDs){
-						Question question = lessonTestRepository.getQuestion(questionID);
+						Question question = getQuestion(questionID);
 						List<Integer> answerIDs = lessonTestRepository.getQuestionAnswerIDs(questionID);
 						List<Answer> answers = new ArrayList<Answer>();
 						for(int answerID:answerIDs){
@@ -75,6 +75,35 @@ public class LessonTestServiceImpl implements LessonTestService {
 			lessonTestRepository.unpublish(idLessonTest, test.getIdLesson());			
 		}		
 		
+	}
+
+	@Override
+	public Question getQuestion(int idQuestion) {
+		Question q = null;
+		if(idQuestion>0){
+			q = lessonTestRepository.getQuestion(idQuestion);
+		}
+		return q;
+	}
+
+	@Override
+	public void saveQuestion(Question question) {
+		if(question != null && question.getId()>0){
+			lessonTestRepository.saveQuestion(question.getId(), question.getText(),
+					question.getPriority(), question.getIdLessonTest());
+			for(Answer answer:question.getAnswers()){
+				saveAnswer(answer);
+			}
+		}		
+	}
+
+	@Override
+	public void saveAnswer(Answer answer) {
+		if(answer!=null && answer.getId() >0){
+			lessonTestRepository.saveAnswer(answer.getId(), answer.getText(), 
+					answer.isCorrect(), answer.getReason(), answer.getIdQuestion(),
+					getQuestion(answer.getIdQuestion()).getIdLessonTest());
+		}		
 	}
 
 

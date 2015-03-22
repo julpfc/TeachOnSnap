@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface DBManager {
 		
-	public List<?> getQueryResultList(String queryName,Class<?> entityClass,Object... queryParams);
+	public <T> List<T> getQueryResultList(String queryName,Class<T> entityClass,Object... queryParams);
 	
-	public Object getQueryResultUnique(String queryName,Class<?> entityClass,Object... queryParams);
+	public <T> T getQueryResultUnique(String queryName,Class<T> entityClass,Object... queryParams);
 	
 	public long updateQuery(String queryName,Object... queryParams);
 	
@@ -14,9 +14,9 @@ public interface DBManager {
 	
 	public void endTransaction(boolean commit,Object session);
 	
-	public List<?> getQueryResultList_NoCommit(Object session, String queryName,Class<?> entityClass,Object... queryParams);
+	public <T> List<T> getQueryResultList_NoCommit(Object session, String queryName,Class<T> entityClass,Object... queryParams);
 	
-	public Object getQueryResultUnique_NoCommit(Object session, String queryName,Class<?> entityClass,Object... queryParams);
+	public <T> T getQueryResultUnique_NoCommit(Object session, String queryName,Class<T> entityClass,Object... queryParams);
 	
 	public long updateQuery_NoCommit(Object session, String queryName,Object... queryParams);
 

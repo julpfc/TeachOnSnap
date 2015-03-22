@@ -61,6 +61,17 @@
 	<servlet>
 		<description>
   		</description>
+		<display-name>QuestionController</display-name>
+		<servlet-name>QuestionController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.QuestionController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QuestionController</servlet-name>
+		<url-pattern>/test/question/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<description>
+  		</description>
 		<display-name>LessonTestController</display-name>
 		<servlet-name>LessonTestController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.LessonTestController</servlet-class>
@@ -80,7 +91,7 @@
 		<servlet-name>EditLessonTestController</servlet-name>
 		<url-pattern>/test/edit/*</url-pattern>
 	</servlet-mapping>
-		<servlet>
+	<servlet>
 		<description>
   		</description>
 		<display-name>NewLessonTestController</display-name>

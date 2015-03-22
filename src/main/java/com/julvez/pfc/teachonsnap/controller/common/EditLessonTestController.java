@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -65,21 +64,11 @@ public class EditLessonTestController extends CommonController {
 							if(request.getMethod().equals("POST")){
 							}			
 							
-						      response.setContentType("application/json");
-						      response.setCharacterEncoding("UTF-8");
-						 	 
-						        // 3. Convert List<FileMetadata> into JSON format
-						        ObjectMapper mapper = new ObjectMapper();
-						 
-						        // 4. Send resutl to client
-						        mapper.writeValue(response.getOutputStream(), test);
-							
-							/*
 							request.setAttribute(Attribute.LESSON.toString(), lesson);
 							request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
 									
 							request.getRequestDispatcher("/WEB-INF/views/editTest.jsp").forward(request, response);
-							*/	 
+								 
 						}
 					
 					}

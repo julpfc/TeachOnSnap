@@ -41,5 +41,15 @@
 	<sql-query name="SQL_LESSONTEST_REMOVE_PUBLISHED">
 	    INSERT IGNORE tlessontestdraft(idlessontest)
 	    VALUES (?);	    	    
-	</sql-query>				
+	</sql-query>	
+	<sql-query name="SQL_LESSONTEST_SAVE_QUESTION">
+	    UPDATE tquestion
+	    SET text = ?, priority = ?
+	    WHERE idQuestion = ?;	    	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_SAVE_ANSWER">
+	    UPDATE tanswer
+	    SET text = ?, correct = ?, reason = ?
+	    WHERE idAnswer = ?;	    	    
+	</sql-query>
 </hibernate-mapping>

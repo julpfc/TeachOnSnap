@@ -347,6 +347,16 @@ public class RequestManagerImpl implements RequestManager {
 	public String getParamPublishLessonTest(HttpServletRequest request) {
 		return getParam(request,Parameter.LESSON_TEST_PUBLISH);
 	}
+
+	@Override
+	public String getParamJSON(HttpServletRequest request) {
+		return getParam(request,Parameter.JSON);
+	}
+
+	@Override
+	public String getParamExport(HttpServletRequest request) {
+		return getParam(request, Parameter.EXPORT);
+	}
 	
 
 }

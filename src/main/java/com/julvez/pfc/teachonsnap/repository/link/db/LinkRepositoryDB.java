@@ -14,31 +14,25 @@ public class LinkRepositoryDB implements LinkRepository {
 	
 	@Override
 	public List<Integer> getMoreInfoLinkIDs(int idLesson) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LINK_GET_MOREINFOLINKIDS", null, idLesson);
-						
-		return ids;
+		return dbm.getQueryResultList("SQL_LINK_GET_MOREINFOLINKIDS", Integer.class, idLesson);
 	}
 	
 	@Override
 	public List<Integer> getSourceLinkIDs(int idLesson) {
-		@SuppressWarnings("unchecked")
-		List<Integer> ids =  (List<Integer>) dbm.getQueryResultList("SQL_LINK_GET_SOURCELINKIDS", null, idLesson);
-						
-		return ids;
+		return dbm.getQueryResultList("SQL_LINK_GET_SOURCELINKIDS", Integer.class, idLesson);
 	}
 
 	@Override
 	public Link getLink(int idLink) {
-		return (Link) dbm.getQueryResultUnique("SQL_LINK_GET_LINK", Link.class, idLink);
+		return dbm.getQueryResultUnique("SQL_LINK_GET_LINK", Link.class, idLink);
 	}
 	
 	@Override
 	public int getLinkID(String link) {
 		int id = -1;
-		Object obj = dbm.getQueryResultUnique("SQL_LINK_GET_LINKID", null, link);
+		Integer obj = dbm.getQueryResultUnique("SQL_LINK_GET_LINKID", Integer.class, link);
 		if(obj!=null)
-			id = Integer.parseInt(obj.toString());
+			id = obj;
 		return id;
 	}
 

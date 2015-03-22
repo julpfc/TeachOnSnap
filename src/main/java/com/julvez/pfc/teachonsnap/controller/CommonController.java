@@ -18,6 +18,8 @@ import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
+import com.julvez.pfc.teachonsnap.service.role.RoleService;
+import com.julvez.pfc.teachonsnap.service.role.RoleServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 
@@ -30,7 +32,8 @@ public abstract class CommonController extends HttpServlet {
 	
 	protected LangService langService = LangServiceFactory.getService();
 	protected UserService userService = UserServiceFactory.getService();
-
+	protected RoleService roleService = RoleServiceFactory.getService();
+	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
 		
@@ -116,3 +119,4 @@ public abstract class CommonController extends HttpServlet {
 	
 	protected abstract boolean isPrivateZone();
 }
+

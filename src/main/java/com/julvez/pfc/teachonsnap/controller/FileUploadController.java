@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
+import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.media.MediaType;
@@ -28,10 +29,10 @@ public class FileUploadController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private RequestManager requestManager = RequestManagerFactory.getManager();
+	private JSONManager jsonManager = JSONManagerFactory.getManager();
 	
 	private UploadService uploadService = UploadServiceFactory.getService();
 	
-//	private static List<FileMetadata> files = new LinkedList<FileMetadata>();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -87,22 +88,20 @@ public class FileUploadController extends HttpServlet {
          else if (request.getParameter("l")!=null){
         	 response.setContentType("application/json");
         	 
-             // 3. Convert List<FileMetadata> into JSON format
-             ObjectMapper mapper = new ObjectMapper();
-      
-             // 4. Send resutl to client
-             mapper.writeValue(response.getOutputStream(), uploadService.getTemporaryFiles(user,contentType));
+        	 String outJSON = jsonManager.object2JSON(uploadService.getTemporaryFiles(user,contentType));
+
+        	 response.getOutputStream().write(outJSON.getBytes("UTF-8"));
+             
+             
          }
          else if (request.getParameter("r")!=null){
         	 String index = request.getParameter("r");
         	 uploadService.removeTemporaryFile(user,contentType,Integer.parseInt(index));
         	 response.setContentType("application/json");
-        	 
-             // 3. Convert List<FileMetadata> into JSON format
-             ObjectMapper mapper = new ObjectMapper();
-      
-             // 4. Send resutl to client
-             mapper.writeValue(response.getOutputStream(), uploadService.getTemporaryFiles(user,contentType));
+        	
+        	 String outJSON = jsonManager.object2JSON(uploadService.getTemporaryFiles(user,contentType));
+
+        	 response.getOutputStream().write(outJSON.getBytes("UTF-8"));
          }
     		
     	}
@@ -132,11 +131,9 @@ public class FileUploadController extends HttpServlet {
 	        // 2. Set response type to json
 	        response.setContentType("application/json");
 	 
-	        // 3. Convert List<FileMetadata> into JSON format
-	        ObjectMapper mapper = new ObjectMapper();
-	 
-	        // 4. Send resutl to client
-	        mapper.writeValue(response.getOutputStream(), files);
+	        String outJSON = jsonManager.object2JSON(files);
+
+	        response.getOutputStream().write(outJSON.getBytes("UTF-8"));
     	}
 	}
 	
