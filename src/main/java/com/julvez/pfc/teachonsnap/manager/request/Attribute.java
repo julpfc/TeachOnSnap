@@ -7,6 +7,9 @@ public enum Attribute {
 	USER("user"),
 	STRING_HOST("host"),
 	STRING_LOGINERROR("loginError"),
+	STRING_ERRORMESSAGEKEY("errorMessageKey"), 
+	STRING_ERRORTYPE("errorType"),
+	LIST_PAGE_STACK("pageStack"),
 
 	//Lesson
 	LESSON("lesson"),

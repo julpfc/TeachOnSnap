@@ -13,6 +13,7 @@ public class NewLessonTestController extends CommonController {
 	private static final long serialVersionUID = 7608540908435958036L;
 	
 //	private LessonService lessonService = LessonServiceFactory.getService();
+//	private PageService pageService = PageServiceFactory.getService();
 	
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -77,6 +78,10 @@ public class NewLessonTestController extends CommonController {
 			response.sendRedirect("/test/edit/");
 		}
 		else{
+			
+		//	List<Page> pageStack = pageService.getNewLessonTestPageStack(lesson);
+		//	request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
+			
 			request.getRequestDispatcher("/WEB-INF/views/newTest.jsp").forward(request, response);
 		}
 	}

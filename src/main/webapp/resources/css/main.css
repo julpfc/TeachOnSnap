@@ -4,7 +4,8 @@
     width: 970px;
   }
 }
- 
+
+
 html, body {
 background-color: #eee;
 }
@@ -41,6 +42,34 @@ h1, h2{
 	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
 	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
+/* Subnav*/
+.subnav{
+	min-height: 20px;
+	text-align: justify;
+}
+
+.subnav > li > a{
+	padding-top: 0px;
+	padding-bottom: 0px;
+	display: inline;	
+}
+
+@media (max-width: 768px) {
+	.subnav > li > a{
+		padding-left: 5px;
+		padding-right: 5px;	
+  	}
+}
+
+.subnav > li + li::before {
+	content:"\\";
+	color: #9D9D9D;
+}
+.subnav > li {
+    float: left;
+}
+
+
 
 /* Navbar*/
 
@@ -125,7 +154,7 @@ button.close{
 	padding-top: 5px;
 }
 
-.modal-header{	
+#login .modal-header{	
     text-align: left;
     text-indent: 40px;
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
@@ -202,7 +231,7 @@ button.close{
 .form-signin a{
 	color: #563D7C;	
 }
-.modal-footer{
+#login .modal-footer{
 	border-top: 0px;
 	padding-top: 0px;
 	padding-right: 0px;	
@@ -220,3 +249,15 @@ button.close{
 	background-color: #563D7C;
 }
 
+/*Alert*/
+#alert .modal-footer{
+	text-align: center;
+	border-top: none;
+	padding-top: 0px;
+}
+
+
+.alertMessage{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}

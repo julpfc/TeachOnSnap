@@ -15,6 +15,7 @@ import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.link.Link;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
+import com.julvez.pfc.teachonsnap.model.page.Page;
 import com.julvez.pfc.teachonsnap.model.tag.Tag;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
@@ -25,6 +26,8 @@ import com.julvez.pfc.teachonsnap.service.link.LinkService;
 import com.julvez.pfc.teachonsnap.service.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileServiceFactory;
+import com.julvez.pfc.teachonsnap.service.page.PageService;
+import com.julvez.pfc.teachonsnap.service.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.service.tag.TagService;
 import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
 
@@ -36,8 +39,8 @@ public class EditLessonController extends CommonController {
 	private TagService tagService = TagServiceFactory.getService();
 	private LinkService linkService = LinkServiceFactory.getService();
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
-
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
+	private PageService pageService = PageServiceFactory.getService();
 
 	private StringManager stringManager = StringManagerFactory.getManager();
 
@@ -69,7 +72,9 @@ public class EditLessonController extends CommonController {
 					
 					LessonTest test = lessonTestService.getLessonTest(lesson);
 
-					
+					List<Page> pageStack = pageService.getEditLessonPageStack(lesson);
+					request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
+									
 					request.setAttribute(Attribute.LESSON.toString(), lesson);
 					request.setAttribute(Attribute.LIST_MEDIAFILE_LESSONFILES.toString(), medias);
 					request.setAttribute(Attribute.LIST_TAG_LESSONTAGS.toString(), tags);
@@ -77,6 +82,7 @@ public class EditLessonController extends CommonController {
 					request.setAttribute(Attribute.LIST_LINK_MOREINFO.toString(), moreInfoLinks);
 					request.setAttribute(Attribute.LIST_LINK_SOURCES.toString(), sourceLinks);
 					request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+					
 					
 					//TODO Editar Linked lesson?
 					

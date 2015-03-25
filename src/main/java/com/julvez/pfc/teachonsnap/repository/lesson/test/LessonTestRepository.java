@@ -29,4 +29,8 @@ public interface LessonTestRepository {
 	public void saveAnswer(int idAnswer, String text, boolean correct, 
 			String reason, int idQuestion, int idLessonTest);
 
+	public int createQuestion(Question question);
+
+	public void addLessonTestNumQuestions(int idLessonTest);
+
 }

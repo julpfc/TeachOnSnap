@@ -19,6 +19,8 @@ import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.SessionAttribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
+import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
@@ -103,18 +105,18 @@ public class RequestManagerImpl implements RequestManager {
 	}
 
 	@Override
-	public void setErrorSession(HttpServletRequest request, ErrorType error) {
+	public void setErrorSession(HttpServletRequest request, ErrorBean error) {
 		if(error!=null){
 			request.getSession(true).setAttribute(SessionAttribute.ERROR.toString(), error);			
 		}			
 	}
 
 	@Override
-	public ErrorType getErrorSession(HttpServletRequest request) {
+	public ErrorBean getErrorSession(HttpServletRequest request) {
 		Object obj = request.getSession(true).getAttribute(SessionAttribute.ERROR.toString());
 		if(obj!=null)
-			return (ErrorType)obj;
-		else return ErrorType.ERR_NONE;
+			return (ErrorBean)obj;
+		else return new ErrorBean(ErrorType.ERR_NONE,ErrorMessageKey.NONE);
 	}
 
 	@Override
@@ -357,6 +359,6 @@ public class RequestManagerImpl implements RequestManager {
 	public String getParamExport(HttpServletRequest request) {
 		return getParam(request, Parameter.EXPORT);
 	}
-	
+
 
 }

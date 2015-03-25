@@ -13,6 +13,8 @@ import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
+import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
@@ -80,25 +82,31 @@ public abstract class CommonController extends HttpServlet {
 		
 		// Si es zona restringida pedimos login
 		if(user==null && isPrivateZone()){
-			requestManager.setErrorSession(request, ErrorType.ERR_LOGIN);
+			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_LOGIN, ErrorMessageKey.NONE));
 			String lastPage = "/";
 			response.sendRedirect(lastPage);
 		}
 		else{
-			ErrorType errorType = requestManager.getErrorSession(request);
+			ErrorBean error = requestManager.getErrorSession(request);
 			
-			switch(errorType){
+			switch(error.getType()){
 				case ERR_LOGIN:
 					request.setAttribute(Attribute.STRING_LOGINERROR.toString(), "loginError");
 					break;
 				case ERR_NONE:
+					if(error.getMessageKey()!=null){
+						request.setAttribute(Attribute.STRING_ERRORMESSAGEKEY.toString(), error.getMessageKey());
+					}
 					break;
 				default:
-					//TODO No estaría actualizado el switch, mandar a error
+					if(error.getMessageKey()!=null){
+						request.setAttribute(Attribute.STRING_ERRORMESSAGEKEY.toString(), error.getMessageKey());
+					}
+					request.setAttribute(Attribute.STRING_ERRORTYPE.toString(), error.getType().toString());
 					break;
 				
 			}
-			requestManager.setErrorSession(request, ErrorType.ERR_NONE);
+			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.NONE));
 			requestManager.setLastPage(request);
 			
 			//TODO Loguear la página en la que estamos	  

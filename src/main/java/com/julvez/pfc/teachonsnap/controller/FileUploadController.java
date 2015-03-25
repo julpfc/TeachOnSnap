@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.request.Header;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.media.MediaType;
@@ -68,7 +69,7 @@ public class FileUploadController extends HttpServlet {
 	                 response.setContentType(tempFile.getFileType());
 	 
 	                 // 4. Set header Content-disposition
-	                 response.setHeader("Content-disposition", "attachment; filename=\""+tempFile.getFileName()+"\"");
+	                 response.setHeader(Header.CONTENT_DISPOSITION.toString(), "attachment; filename=\""+tempFile.getFileName()+"\"");
 	 
 	                 // 5. Copy file inputstream to response outputstream
 	                InputStream input = tempFile.getContent();

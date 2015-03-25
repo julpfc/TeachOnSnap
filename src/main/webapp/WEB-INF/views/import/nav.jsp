@@ -73,4 +73,26 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<c:if test="${not empty pageStack}">
+	<nav class="navbar subnav navbar-default" role="navigation">
+	  <div class="container-fluid col-sm-8 col-sm-offset-2">
+	      <ul class="nav subnav navbar-nav">
+	      	<c:forEach items="${pageStack}" var="page" varStatus="loop">
+	      		<c:choose>
+	      			<c:when test="${loop.last}">
+	      				<li><a><fmt:message key="${page.name}"/></a></li>
+	      			</c:when>
+	      			<c:otherwise>
+	      				<li><a href="${page.link}"><fmt:message key="${page.name}"/></a></li>
+	      			</c:otherwise>
+	      		</c:choose>	        	
+	        </c:forEach>	  		       
+	      </ul>
+	   </div>
+	</nav>
+</c:if>
+<c:if test="${not empty errorMessageKey}">
+	<c:import url="./import/alert.jsp"/>
+	
+</c:if>
 <c:import url="./import/login.jsp"/>

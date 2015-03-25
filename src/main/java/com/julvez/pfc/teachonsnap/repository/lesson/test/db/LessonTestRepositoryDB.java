@@ -71,6 +71,42 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 		dbm.updateQuery("SQL_LESSONTEST_SAVE_ANSWER", text, correct, reason, idAnswer);		
 	}
 
+	@Override
+	public int createQuestion(Question question) {
+		int idQuestion = -1;
+		
+		Object session = dbm.beginTransaction();
+		
+		idQuestion = (int)dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_CREATE_QUESTION", question.getIdLessonTest(),
+				question.getPriority(), question.getText());
+		
+		if(idQuestion>0){
+			question.setId(idQuestion);
+			
+			for(Answer answer:question.getAnswers()){
+				int idAnswer = (int)dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_CREATE_ANSWER", idQuestion, 
+						answer.getReason(), answer.getText(), answer.isCorrect());
+				if(idAnswer >0){
+					answer.setId(idAnswer);
+					answer.setIdQuestion(idQuestion);
+				}
+				else{
+					idQuestion = -1;
+					break;
+				}
+				
+			}			
+		}
+		dbm.endTransaction(idQuestion>0, session);
+		
+		return idQuestion;
+	}
+
+	@Override
+	public void addLessonTestNumQuestions(int idLessonTest) {
+		dbm.updateQuery("SQL_LESSONTEST_ADD_NUM_QUESTIONS", idLessonTest);
+	}
+
 
 
 }

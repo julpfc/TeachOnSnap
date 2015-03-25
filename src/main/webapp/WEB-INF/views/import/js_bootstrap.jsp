@@ -12,3 +12,6 @@
     <c:if test="${not empty loginError}">
     	<script src="/resources/js/login.js"></script>
     </c:if>
+    <c:if test="${not empty errorMessageKey}">
+    	<script src="/resources/js/alert.js"></script>
+    </c:if>

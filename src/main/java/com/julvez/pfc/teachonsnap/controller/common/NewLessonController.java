@@ -33,6 +33,7 @@ public class NewLessonController extends CommonController {
 	private TagService tagService = TagServiceFactory.getService();
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
 	private UploadService uploadService = UploadServiceFactory.getService();
+
 	
 	@Override
 	protected void processController(HttpServletRequest request,

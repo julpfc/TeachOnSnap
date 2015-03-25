@@ -75,7 +75,7 @@ public class Question {
 	}
 	
 	public String getEditURL(){
-		return "/test/question/"+id;
+		return "/test/question/"+idLessonTest+"/"+id;
 	}
 
 	@Override

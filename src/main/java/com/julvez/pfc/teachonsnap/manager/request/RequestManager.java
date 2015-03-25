@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.julvez.pfc.teachonsnap.model.error.ErrorType;
+import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
@@ -16,12 +16,12 @@ public interface RequestManager {
 
 	public short getSessionIdLanguage(HttpServletRequest request);
 	public User getSessionUser(HttpServletRequest request);
-	public ErrorType getErrorSession(HttpServletRequest request);
+	public ErrorBean getErrorSession(HttpServletRequest request);
 	public String getLastPage(HttpServletRequest request);
 
 	public void setUserSessionLanguage(HttpServletRequest request, Language userLang);
 	public void setUserSession(HttpServletRequest request, User user);
-	public void setErrorSession(HttpServletRequest request, ErrorType error);
+	public void setErrorSession(HttpServletRequest request, ErrorBean error);
 	public void setLastPage(HttpServletRequest request);
 
 	public String getRequestLanguage(HttpServletRequest request);
@@ -53,6 +53,6 @@ public interface RequestManager {
 	public List<FileMetadata> getUploadFiles(HttpServletRequest request);
 	public FileMetadata getSubmittedFile(HttpServletRequest request);
 	public String getParamJSON(HttpServletRequest request);
-	public String getParamExport(HttpServletRequest request);
+	public String getParamExport(HttpServletRequest request);	
 	
 }

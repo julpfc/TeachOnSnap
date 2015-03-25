@@ -14,9 +14,9 @@
 </head>
 <body>
 	<c:import url="./import/nav.jsp"/>	
-	<div class="content container-fluid">
+	<div class="content container-fluid">		
 		<div class="row">
- 			<form id="questionForm" action="${question.editURL}" method="POST">
+ 			<form id="questionForm" action="${not empty question?question.editURL:test.newQuestionURL}" method="POST">
 				<div class="panel panel-default question">
 					<div class="panel-heading">
 					 	<!-- 	<span id="spanq-${question.id}">
@@ -32,12 +32,14 @@
 						    </div>
 						     -->
 					<!-- /input-group -->
-						<input type="text" name="text" class="form-control" placeholder="<fmt:message key="lesson.test.question.text" bundle="${testBundle}"/>" value="${question.text}" required="required"/>
-						<input name="id" type="text" hidden="true" value="${question.id}"/>
-						<input name="idLessonTest" type="text" hidden="true" value="${question.idLessonTest}"/>
-						<input name="priority" type="text" hidden="true" value="${question.priority}"/>
+						<input type="text" name="text" class="form-control" placeholder="<fmt:message key="lesson.test.question.text" bundle="${testBundle}"/>" value="${question.text}" required="required" maxlength="10"/>
+						<c:if test="${not empty question}">
+							<input name="idLessonTest" type="text" hidden="true" value="${test.id}"/>
+							<input name="id" type="text" hidden="true" value="${question.id}"/>
+							<input name="priority" type="text" hidden="true" value="${question.priority}"/>
+						</c:if>
 					</div>
-								
+					 			
 					<div class="panel-body">
   	     				<c:if test="${test.multipleChoice}">
     						<p><span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -60,7 +62,7 @@
 										<td class="col-xs-6">
 											<input name="answers[${loop.index}].id" type="text" hidden="true" value="${answer.id}"/>
 											<input name="answers[${loop.index}].idQuestion" type="text" hidden="true" value="${question.id}"/>
- 												<input type="text" name="answers[${loop.index}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" value="${answer.text}" required="required"/>
+											<input type="text" name="answers[${loop.index}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" value="${answer.text}" required="required"/>
  										</td>
  										<td class="col-xs-6">
   											<div class="input-group">
@@ -72,16 +74,57 @@
  										</td>	    									
  									</tr>
 								</c:forEach>
+								<c:if test="${empty question}">
+									<c:forEach begin="0" end="${test.numAnswers - 1}" var="i">
+										<tr>
+											<td class="col-xs-6">												
+ 												<input type="text" name="answers[${i}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" required="required"/>
+	 										</td>
+	 										<td class="col-xs-6">
+	  											<div class="input-group">
+											    	<span class="input-group-addon">
+														<input name="answers[${i}].correct" type="${test.multipleChoice?'checkbox':'radio'}" value="true" />
+											      	</span>
+											      	<input type="text" name="answers[${i}].reason" class="form-control" placeholder="<fmt:message key="lesson.test.answer.reason" bundle="${testBundle}"/>" required="required"/>
+											    </div>
+	 										</td>	    									
+	 									</tr>
+									</c:forEach>
+								</c:if>
 							</tbody>								
 						</table>									
 						<input id="json" type="text" hidden="true" value=""/>
 					</div>
 					<div class="panel-footer">
-						<p class="help-block"><a href="${question.editURL}?export=JSON"><button type="button" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span>
-								 <fmt:message key="lesson.test.question.export" bundle="${testBundle}"/></button>
-						 	</a>
-						 	<fmt:message key="lesson.test.question.export.tip" bundle="${testBundle}"/>
-    				 	</p>
+						<c:choose>
+							<c:when test="${not empty question}">
+								<p class="help-block"><a href="${question.editURL}?export=JSON"><button type="button" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span>
+										 <fmt:message key="lesson.test.question.export" bundle="${testBundle}"/></button>
+								 	</a>
+								 	<fmt:message key="lesson.test.question.export.tip" bundle="${testBundle}"/>
+		    				 	</p>
+							</c:when>
+							<c:otherwise>
+								<p class="help-block">
+									<a data-toggle="collapse" href="#collapseImportJSON" aria-expanded="false" aria-controls="collapseImportJSON">
+										<button type="button" class="btn btn-primary btn-xs pull-right">
+											<span class="glyphicon glyphicon-open-file"></span>
+											 <fmt:message key="lesson.test.question.import" bundle="${testBundle}"/>
+										</button>
+								 	</a>
+								 	<fmt:message key="lesson.test.question.import.tip" bundle="${testBundle}"/>
+		    				 	</p>		    				
+								<div class="collapse" id="collapseImportJSON">	  					
+		  							<div class="form-group well">			   					
+						    			<p><textarea id="JSONarea" class="form-control" placeholder="<fmt:message key="lesson.test.question.import.placeholder" bundle="${testBundle}"/>" rows="6"></textarea></p>				    	
+		  								<p><button class="btn btn-primary form-control" type="button" onclick="return importJSON();">
+		  									<span class="glyphicon glyphicon-open-file"></span>
+											 <fmt:message key="lesson.test.question.import" bundle="${testBundle}"/>
+										</button></p>
+		  							</div>		  							
+	  							</div>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</form>

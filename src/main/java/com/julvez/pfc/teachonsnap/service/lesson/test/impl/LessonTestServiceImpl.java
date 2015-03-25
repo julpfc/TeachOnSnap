@@ -41,14 +41,7 @@ public class LessonTestServiceImpl implements LessonTestService {
 					List<Question> questions = new ArrayList<Question>();
 							
 					for(int questionID:questionIDs){
-						Question question = getQuestion(questionID);
-						List<Integer> answerIDs = lessonTestRepository.getQuestionAnswerIDs(questionID);
-						List<Answer> answers = new ArrayList<Answer>();
-						for(int answerID:answerIDs){
-							Answer answer = lessonTestRepository.getAnswer(answerID);
-							answers.add(answer);
-						}
-						question.setAnswers(answers);
+						Question question = getQuestion(questionID);						
 						questions.add(question);			
 					}
 					test.setQuestions(questions);
@@ -82,6 +75,14 @@ public class LessonTestServiceImpl implements LessonTestService {
 		Question q = null;
 		if(idQuestion>0){
 			q = lessonTestRepository.getQuestion(idQuestion);
+			
+			List<Integer> answerIDs = lessonTestRepository.getQuestionAnswerIDs(idQuestion);
+			List<Answer> answers = new ArrayList<Answer>();
+			for(int answerID:answerIDs){
+				Answer answer = lessonTestRepository.getAnswer(answerID);
+				answers.add(answer);
+			}
+			q.setAnswers(answers);
 		}
 		return q;
 	}
@@ -104,6 +105,22 @@ public class LessonTestServiceImpl implements LessonTestService {
 					answer.isCorrect(), answer.getReason(), answer.getIdQuestion(),
 					getQuestion(answer.getIdQuestion()).getIdLessonTest());
 		}		
+	}
+
+	@Override
+	public Question createQuestion(Question question) {
+		if(question!=null && question.isFullFilled()){
+			int idQuestion = lessonTestRepository.createQuestion(question);
+			
+			if(idQuestion>0){
+				lessonTestRepository.addLessonTestNumQuestions(question.getIdLessonTest());
+				question = getQuestion(idQuestion);
+			}
+			else{
+				question = null;
+			}			
+		}		
+		return question;
 	}
 
 

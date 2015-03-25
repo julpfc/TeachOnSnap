@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
+import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
@@ -69,10 +71,10 @@ public class LoginController extends HttpServlet {
 		}
 			
 		if(loginError){
-			requestManager.setErrorSession(request, ErrorType.ERR_LOGIN);			
+			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_LOGIN, ErrorMessageKey.NONE));			
 		}
 		else{
-			requestManager.setErrorSession(request, ErrorType.ERR_NONE);
+			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.NONE));
 		}	
 		
 		// GOTO LastPage

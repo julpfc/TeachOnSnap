@@ -57,7 +57,12 @@
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
-				
+				<div class="sidebar">
+					<a href="${test.newQuestionURL}"><button class="btn btn-default" type="button">
+					 	Nueva pregunta
+					 	 <span class="glyphicon glyphicon-edit"></span></button>
+				 	</a>
+				</div>
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

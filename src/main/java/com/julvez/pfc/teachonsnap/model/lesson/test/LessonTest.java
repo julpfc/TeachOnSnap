@@ -97,5 +97,8 @@ public class LessonTest {
 		return "/test/edit/"+id;
 	}
 
+	public String getNewQuestionURL() {
+		return "/test/question/"+id;
+	}
 
 }

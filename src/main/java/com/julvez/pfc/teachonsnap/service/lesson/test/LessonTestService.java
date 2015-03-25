@@ -20,6 +20,8 @@ public interface LessonTestService {
 
 	public void saveQuestion(Question question);
 
-	public void saveAnswer(Answer answer);	
+	public void saveAnswer(Answer answer);
+
+	public Question createQuestion(Question question);	
 	
 }

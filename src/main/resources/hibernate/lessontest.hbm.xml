@@ -52,4 +52,17 @@
 	    SET text = ?, correct = ?, reason = ?
 	    WHERE idAnswer = ?;	    	    
 	</sql-query>
+	<sql-query name="SQL_LESSONTEST_CREATE_QUESTION">
+	    INSERT INTO tquestion (idlessontest, priority, text)
+	    VALUES (?,?,?);	    	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_CREATE_ANSWER">
+	    INSERT INTO tanswer (idQuestion, reason, text, correct)
+	    VALUES (?,?,?,?);	    	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_ADD_NUM_QUESTIONS">
+	    UPDATE tlessontest
+	    SET numQuestions = numQuestions+1
+	    WHERE idLessontest=?;	    	    
+	</sql-query>	
 </hibernate-mapping>

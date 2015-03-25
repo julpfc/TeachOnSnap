@@ -82,4 +82,18 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 		
 	}
 
+	@Override
+	public int createQuestion(Question question) {
+		return (int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(question.getIdLessonTest()),
+				stringManager.getKey(question.getIdLessonTest())}, new String[]{"getLessonTestQuestionIDs","getLessonTest"},
+				question);
+	}
+
+	@Override
+	public void addLessonTestNumQuestions(int idLessonTest) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLessonTest),
+				stringManager.getKey(idLessonTest)}, new String[]{"getLessonTestQuestionIDs","getLessonTest"},
+				idLessonTest);
+	}
+
 }

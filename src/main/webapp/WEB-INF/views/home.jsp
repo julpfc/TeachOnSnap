@@ -15,8 +15,8 @@
 </head>
 <body>
  	<c:import url="./import/nav.jsp"/>
-      <div class="content container-fluid">
-		<div class="home">
+      <div class="content container-fluid">      	
+		<div class="home">		
 			<div class="container-fluid"> 
 		        <div class="col-sm-8">
 		        	<h1>TeachOnSnap</h1>
