@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
+import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.comment.CommentService;
@@ -22,7 +25,7 @@ public class CommentController extends CommonController {
 
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private CommentService commentService = CommentServiceFactory.getService();
-
+	
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
@@ -42,21 +45,44 @@ public class CommentController extends CommonController {
 				String commentBody = requestManager.getParamComment(request);
 				boolean isEditing = requestManager.getParamEditComment(request);
 				
-				if(lesson!=null && commentBody != null){
+				if(commentBody != null){
 					if(isEditing){
 						commentService.saveCommentBody(commentID, user.getId(), commentBody);
+						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_SAVED));
 					}
 					else if(isBanned==null){
 						commentService.createComment(lesson.getId(), user.getId(), commentBody, commentID);
+						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_CREATED));
 					}
 					else if(stringManager.isTrue(isBanned)){
 						commentService.blockComment(commentID, user, commentBody);
+						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_BLOCKED));
 					}
-				}			
+					else{
+						//isEditing=false, isBanned=false
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+					}
+				}
+				else{
+					//No es correcto llamar sin body
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+				}
 			}
 			else{
-				if(isBanned!= null && !stringManager.isTrue(isBanned)){
-					commentService.unblockComment(commentID, user);
+				//GET
+				if(isBanned!= null){
+					if(!stringManager.isTrue(isBanned)){
+						commentService.unblockComment(commentID, user);
+						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_UNBLOCKED));
+					}
+					else{
+						//No es correcto llamar para banear por GET
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+					}
+				}
+				else{
+					//No se debería llamar a este controlador sin parámetro
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				}
 			}
 			
@@ -64,7 +90,7 @@ public class CommentController extends CommonController {
 		}
 		else{
 			//La URI no era válida/No existe lección asociada
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
 	}
 

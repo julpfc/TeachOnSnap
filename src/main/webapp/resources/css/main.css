@@ -62,7 +62,7 @@ h1, h2{
 }
 
 .subnav > li + li::before {
-	content:"\\";
+	content:">";
 	color: #9D9D9D;
 }
 .subnav > li {

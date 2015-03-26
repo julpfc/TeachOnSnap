@@ -19,34 +19,48 @@
 	<div class="content container-fluid">
 		<div class="row">
 			<div class="col-sm-7">
-				<div>
-	     			<div class="lesson-test">
-	     				<c:if test="${test.multipleChoice}">
-	     					<p><span class="glyphicon glyphicon-exclamation-sign"></span>
-	     					 <fmt:message key="lesson.test.multiplechoice" bundle="${testBundle}"/></p>
-	     				</c:if>
-						<c:forEach items="${test.questions}" var="question">	
-							<div class="panel panel-default question">
-  								<div class="panel-heading">
-  									<a href="#"><span class="glyphicon glyphicon-chevron-up"></span></a>
-  									<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a>
-  								  	<span>
-  										${question.text}
-	  									<a class="pull-right" href="${question.editURL}">Editar</a>
-  									</span>						
-  								</div>
-								<ul class="list-group">
-  									<c:forEach items="${question.answers}" var="answer">
-  										<li class="list-group-item answer${answer.correct?' list-group-item-success':''}">    										    										
-    										${answer.text}
-	    									<!-- <ul><li class="list-group-item">${answer.reason}</li></ul>
-	    									 -->	    									
-    									</li>
-									</c:forEach>								
-								</ul>																	     			
-							</div>
-						</c:forEach>	     			
-					</div>
+     			<div class="lesson-test">	     				
+					<c:forEach items="${test.questions}" var="question">	
+						<div class="panel-group" role="tablist">
+   							<div class="panel panel-default">
+     								<div class="panel-heading" role="tab" id="collapseQuestionHeading${question.id}" data-toggle="collapse" data-target="#collapseQuestion${question.id}">
+									<a class="collapsed" href="#collapseQuestion${question.id}" aria-expanded="false" aria-controls="collapseQuestion${question.id}">
+           								${question.text}
+         								</a>
+								</div>
+								<div style="height: 0px;" aria-expanded="false" id="collapseQuestion${question.id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseQuestionHeading${question.id}">
+       								<ul class="list-group">
+	        							<c:forEach items="${question.answers}" var="answer">
+	  										<li class="list-group-item answer${answer.correct?' list-group-item-success':''}">    										    										
+	    										${answer.text}			    										    									
+	    									</li>
+										</c:forEach>	
+							        </ul>
+							       	<div class="panel-footer">
+							       		&nbsp;
+										<a href="#">
+						    				<button class="btn btn-default btn-xs pull-left" type="button">
+								 			<span class="glyphicon glyphicon-move"></span>
+								 			 <fmt:message key="lesson.test.question.move" bundle="${testBundle}"/>
+								 			 </button>
+										</a>										
+										<a href="#">
+						    				<button class="btn btn-danger btn-xs pull-right" type="button">
+								 			<span class="glyphicon glyphicon-remove"></span>
+								 			 <fmt:message key="lesson.test.question.delete" bundle="${testBundle}"/>
+								 			 </button>
+										</a>
+							       		<a href="${question.editURL}">
+						    				<button class="btn btn-primary btn-xs pull-right" type="button">
+								 			<span class="glyphicon glyphicon-edit"></span>
+								 			 <fmt:message key="lesson.test.question.edit" bundle="${testBundle}"/>
+								 			 </button>
+										</a>
+ 										</div>
+     								</div>
+   							</div>
+ 						</div>							
+					</c:forEach>	     			
 				</div>
 				<nav>
 					<ul class="pager">
@@ -58,10 +72,48 @@
 
         	<div class="col-sm-4 col-sm-offset-1">
 				<div class="sidebar">
-					<a href="${test.newQuestionURL}"><button class="btn btn-default" type="button">
-					 	Nueva pregunta
-					 	 <span class="glyphicon glyphicon-edit"></span></button>
-				 	</a>
+					<div class="panel panel-default">
+				    	<div class="panel-heading">
+				    	 	<c:choose>
+								<c:when test="${test.draft}">
+									<span class="label label-warning"><fmt:message key="lesson.test.unpublished" bundle="${testBundle}"/></span>
+									<a href="${test.editURL}?publishTest=true">
+							    		<button class="btn btn-success btn-xs pull-right" type="button">
+											<span class="glyphicon glyphicon-eye-open"></span>
+										 	 <fmt:message key="lesson.test.publish" bundle="${testBundle}"/>
+								 		</button>
+									</a>
+								</c:when>
+								<c:otherwise>
+									<span class="label label-success"><fmt:message key="lesson.test.published" bundle="${testBundle}"/></span>
+							    		<a href="${test.editURL}?publishTest=false">
+							    			<button class="btn btn-warning btn-xs pull-right" type="button">											
+										 		<span class="glyphicon glyphicon-eye-close"></span>
+												 <fmt:message key="lesson.test.unpublish" bundle="${testBundle}"/>			 	
+											</button>
+										</a>
+								</c:otherwise>
+							</c:choose>	    			
+				    	</div>
+			    		<div class="panel-body">
+			    			<c:if test="${test.multipleChoice}">
+								<h5><span class="glyphicon glyphicon-exclamation-sign"></span>
+	     							 <fmt:message key="lesson.test.multiplechoice" bundle="${testBundle}"/>
+	     						</h5>	     							
+	     					</c:if>
+							<h5><span class="label label-info">${test.numAnswers}</span> <fmt:message key="lesson.test.numAnswers" bundle="${testBundle}"/></h5>																	
+							<h5><span class="label label-info">${test.numQuestions}</span> <fmt:message key="lesson.test.numQuestions" bundle="${testBundle}"/></h5>
+						</div>
+						<div class="panel-footer">							
+			    	 		<a href="${test.newQuestionURL}">
+			    	 			&nbsp;
+			    	 			<button class="btn btn-primary btn-xs pull-right" type="button">
+				 	 				<span class="glyphicon glyphicon-plus-sign"></span>
+				 					 <fmt:message key="lesson.test.question.new" bundle="${testBundle}"/>			 
+				 	 			</button>
+			 				</a>									 	
+	     				</div>		
+					</div><!-- Test Panel -->
 				</div>
         	</div><!-- sidebar -->
 		</div><!-- /.row -->

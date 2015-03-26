@@ -128,7 +128,7 @@
 					<div class="collapse${not empty comments?'':' in'}" id="collapseNewComment">
 	  					<form role="form" action="${lesson.commentURL}" method="post">
 	  						<div class="form-group well">    					
-					    		<p><textarea name="comment" class="form-control" rows="4"></textarea></p>				    	
+					    		<p><textarea name="comment" class="form-control" rows="4" maxlength="65535"></textarea></p>				    	
 	  							<p><button class="btn btn-primary form-control" type="submit"><span class="glyphicon glyphicon-send"></span>
 								 <fmt:message key="lesson.comment.new.submit" bundle="${lessonBundle}"/></button></p>
 	  						</div>

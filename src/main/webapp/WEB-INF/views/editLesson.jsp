@@ -251,19 +251,19 @@
 								<div class="panel-footer">										     								    			
 									 <c:choose>
 									 	<c:when test="${test.draft}">
-									 		<fmt:message key="lesson.test.unpublished" bundle="${testBundle}"/>
+									 		<span class="label label-warning"><fmt:message key="lesson.test.unpublished" bundle="${testBundle}"/></span>
 									 		<a href="${test.editURL}?publishTest=true">
-							    				<button class="btn btn-default btn-xs pull-right" type="button">
-									 			<span class="glyphicon glyphicon-edit"></span>
+							    				<button class="btn btn-success btn-xs pull-right" type="button">
+									 			<span class="glyphicon glyphicon-eye-open"></span>
 									 			 <fmt:message key="lesson.test.publish" bundle="${testBundle}"/>
 									 			 </button>
 											</a>
 									 	</c:when>
 									 	<c:otherwise>
-									 		<fmt:message key="lesson.test.published" bundle="${testBundle}"/>
+									 		<span class="label label-success"><fmt:message key="lesson.test.published" bundle="${testBundle}"/></span>
 							    			<a href="${test.editURL}?publishTest=false">
-							    				<button class="btn btn-default btn-xs pull-right" type="button">											
-										 		<span class="glyphicon glyphicon-edit"></span>
+							    				<button class="btn btn-warning btn-xs pull-right" type="button">											
+										 		<span class="glyphicon glyphicon-eye-close"></span>
 												 <fmt:message key="lesson.test.unpublish" bundle="${testBundle}"/>			 	
 												</button>
 											</a>

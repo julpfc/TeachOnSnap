@@ -92,8 +92,8 @@ public class QuestionController extends CommonController {
 											if(question.isEditedVersion(jQuestion)){
 												if(jQuestion.isFullFilled()){
 													lessonTestService.saveQuestion(jQuestion);
+													requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_SAVED));
 													response.sendRedirect(test.getEditURL());
-													//TODO Abrir popup o notificación de que se ha guardado correctamente en ambos casos
 												}
 												else{
 													//No están todos los campos completos - Fallo validación JS
@@ -168,11 +168,13 @@ public class QuestionController extends CommonController {
 										Question question = lessonTestService.createQuestion(jQuestion);
 										
 										if(question != null){
+											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_CREATED));
 											response.sendRedirect(test.getEditURL());
-											//TODO Abrir popup o notificación de que se ha guardado correctamente en ambos casos
 										}
 										else{
-											//TODO error
+											//No se pudo crear la pregunta
+											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
+											response.sendRedirect(test.getNewQuestionURL());
 										}
 									}
 									else{

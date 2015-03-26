@@ -10,7 +10,16 @@
 <html> 
 <head>	
 	<c:import url="./import/head_bootstrap.jsp"/>
-	<title>TeachOnSnap - <fmt:message key="lesson.test.question.edit" bundle="${testBundle}"/></title>
+	<title>TeachOnSnap - 
+		<c:choose>
+			<c:when test="${not empty question}">
+				<fmt:message key="lesson.test.question.edit" bundle="${testBundle}"/>
+			</c:when>
+			<c:otherwise>
+				<fmt:message key="lesson.test.question.new" bundle="${testBundle}"/>
+			</c:otherwise>
+		</c:choose>
+	</title>
 </head>
 <body>
 	<c:import url="./import/nav.jsp"/>	
@@ -32,7 +41,7 @@
 						    </div>
 						     -->
 					<!-- /input-group -->
-						<input type="text" name="text" class="form-control" placeholder="<fmt:message key="lesson.test.question.text" bundle="${testBundle}"/>" value="${question.text}" required="required" maxlength="10"/>
+						<input type="text" name="text" class="form-control" placeholder="<fmt:message key="lesson.test.question.text" bundle="${testBundle}"/>" value="${question.text}" required="required" maxlength="140"/>
 						<c:if test="${not empty question}">
 							<input name="idLessonTest" type="text" hidden="true" value="${test.id}"/>
 							<input name="id" type="text" hidden="true" value="${question.id}"/>
@@ -62,14 +71,14 @@
 										<td class="col-xs-6">
 											<input name="answers[${loop.index}].id" type="text" hidden="true" value="${answer.id}"/>
 											<input name="answers[${loop.index}].idQuestion" type="text" hidden="true" value="${question.id}"/>
-											<input type="text" name="answers[${loop.index}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" value="${answer.text}" required="required"/>
+											<input type="text" name="answers[${loop.index}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" value="${answer.text}" required="required" maxlength="140"/>
  										</td>
  										<td class="col-xs-6">
   											<div class="input-group">
 										    	<span class="input-group-addon">
 													<input name="answers[${loop.index}].correct" type="${test.multipleChoice?'checkbox':'radio'}" ${answer.correct?'checked="checked"':''} value="true" />
 										      	</span>
-										      	<input type="text" name="answers[${loop.index}].reason" class="form-control" placeholder="<fmt:message key="lesson.test.answer.reason" bundle="${testBundle}"/>" value="${answer.reason}" required="required"/>
+										      	<input type="text" name="answers[${loop.index}].reason" class="form-control" placeholder="<fmt:message key="lesson.test.answer.reason" bundle="${testBundle}"/>" value="${answer.reason}" required="required" maxlength="140"/>
 										    </div>
  										</td>	    									
  									</tr>
@@ -78,14 +87,14 @@
 									<c:forEach begin="0" end="${test.numAnswers - 1}" var="i">
 										<tr>
 											<td class="col-xs-6">												
- 												<input type="text" name="answers[${i}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" required="required"/>
+ 												<input type="text" name="answers[${i}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" required="required" maxlength="140"/>
 	 										</td>
 	 										<td class="col-xs-6">
 	  											<div class="input-group">
 											    	<span class="input-group-addon">
 														<input name="answers[${i}].correct" type="${test.multipleChoice?'checkbox':'radio'}" value="true" />
 											      	</span>
-											      	<input type="text" name="answers[${i}].reason" class="form-control" placeholder="<fmt:message key="lesson.test.answer.reason" bundle="${testBundle}"/>" required="required"/>
+											      	<input type="text" name="answers[${i}].reason" class="form-control" placeholder="<fmt:message key="lesson.test.answer.reason" bundle="${testBundle}"/>" required="required" maxlength="140"/>
 											    </div>
 	 										</td>	    									
 	 									</tr>

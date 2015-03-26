@@ -68,7 +68,8 @@ public class DBManagerHibernate implements DBManager{
 		for (Object queryParam : queryParams) {
 			query.setParameter(i++, queryParam);
 			//TODO el log falla si se mete una cadena con un ?
-			queryLog = queryLog.replaceFirst("\\?", queryParam.toString());
+			if(!queryParam.toString().contains("?"))
+				queryLog = queryLog.replaceFirst("\\?", queryParam.toString());
 		}
 		
 		System.out.println("QueryLog: "+ queryLog);
