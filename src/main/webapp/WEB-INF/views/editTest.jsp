@@ -20,8 +20,8 @@
 		<div class="row">
 			<div class="col-sm-7">
      			<div class="lesson-test">	     				
-					<c:forEach items="${test.questions}" var="question">	
-						<div class="panel-group" role="tablist">
+					<c:forEach items="${test.questions}" var="question" varStatus="loop">
+						<div id="panel${loop.index}" class="panel-group" role="tablist">
    							<div class="panel panel-default">
      								<div class="panel-heading" role="tab" id="collapseQuestionHeading${question.id}" data-toggle="collapse" data-target="#collapseQuestion${question.id}">
 									<a class="collapsed" href="#collapseQuestion${question.id}" aria-expanded="false" aria-controls="collapseQuestion${question.id}">
@@ -38,10 +38,32 @@
 							        </ul>
 							       	<div class="panel-footer">
 							       		&nbsp;
-										<a href="#">
+										<a id="moveButton${question.id}" onclick="showMoveControls(${question.id});">
 						    				<button class="btn btn-default btn-xs pull-left" type="button">
-								 			<span class="glyphicon glyphicon-move"></span>
-								 			 <fmt:message key="lesson.test.question.move" bundle="${testBundle}"/>
+									 			<span class="glyphicon glyphicon-move"></span>
+									 			 <fmt:message key="lesson.test.question.move" bundle="${testBundle}"/>
+								 			 </button>
+										</a>
+										<a id="upButton${question.id}" onclick="moveUp(${question.id},${loop.index});" class="hidden">
+						    				<button class="btn btn-success btn-xs pull-left cursor" type="button">
+									 			<span class="glyphicon glyphicon-chevron-up"></span>
+								 			 </button>
+										</a>
+										<a id="downButton${question.id}" onclick="moveDown(${question.id},${loop.index},${test.numQuestions});" class="hidden">
+						    				<button class="btn btn-danger btn-xs pull-left" type="button">
+									 			<span class="glyphicon glyphicon-chevron-down"></span>
+								 			 </button>
+										</a>										
+										<a id="saveButton${question.id}" onclick="showMoveControls(${question.id});" class="hidden">
+						    				<button class="btn btn-primary btn-xs pull-left cursor" type="button">
+									 			<span class="glyphicon glyphicon-save"></span>
+									 			 <fmt:message key="lesson.test.question.move.save" bundle="${testBundle}"/>
+								 			 </button>
+										</a>
+										<a id="cancelButton${question.id}" onclick="hideMoveControls(${question.id},${loop.index});" class="hidden">
+						    				<button class="btn btn-default btn-xs pull-left" type="button">
+									 			<span class="glyphicon glyphicon-ban-circle"></span>
+									 			 <fmt:message key="pager.cancel"/>
 								 			 </button>
 										</a>										
 										<a href="#">
@@ -103,6 +125,12 @@
 	     					</c:if>
 							<h5><span class="label label-info">${test.numAnswers}</span> <fmt:message key="lesson.test.numAnswers" bundle="${testBundle}"/></h5>																	
 							<h5><span class="label label-info">${test.numQuestions}</span> <fmt:message key="lesson.test.numQuestions" bundle="${testBundle}"/></h5>
+							<a href="#">
+			    				<button class="btn btn-danger btn-xs pull-right" type="button">
+					 			<span class="glyphicon glyphicon-remove"></span>
+					 			 <fmt:message key="lesson.test.delete" bundle="${testBundle}"/>
+					 			 </button>
+							</a>
 						</div>
 						<div class="panel-footer">							
 			    	 		<a href="${test.newQuestionURL}">
