@@ -11,20 +11,37 @@
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/editTest.css"/>"/>
-<title>TeachOnSnap - ${lesson.title} - EditTest</title>
+<title>TeachOnSnap - ${lesson.title} - <fmt:message key="lesson.test.edit" bundle="${testBundle}"/></title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>
+<c:import url="./import/confirm.jsp"/>
 	<form action="" method="post">
 	<div class="content container-fluid">
 		<div class="row">
 			<div class="col-sm-7">
-     			<div class="lesson-test">	     				
+     			<div class="lesson-test">
+     				<c:if test="${empty test.questions}">
+     					<div class="panel panel-default">
+				    		<div class="panel-heading">
+     							<fmt:message key="lesson.test.question.noquestions" bundle="${testBundle}"/>
+     						</div>
+     						<div class="panel-body">
+     							<a href="${test.newQuestionURL}">				    	 			
+				    	 			<button class="btn btn-primary pull-right" type="button">
+					 	 				<span class="glyphicon glyphicon-plus-sign"></span>
+					 					 <fmt:message key="lesson.test.question.new" bundle="${testBundle}"/>			 
+					 	 			</button>
+				 				</a>
+     						</div>     						
+     					</div>
+     				</c:if>	     				
 					<c:forEach items="${test.questions}" var="question" varStatus="loop">
 						<div id="panel${loop.index}" class="panel-group" role="tablist">
    							<div class="panel panel-default">
      								<div class="panel-heading" role="tab" id="collapseQuestionHeading${question.id}" data-toggle="collapse" data-target="#collapseQuestion${question.id}">
-									<a class="collapsed" href="#collapseQuestion${question.id}" aria-expanded="false" aria-controls="collapseQuestion${question.id}">
+     								<span class="label label-default">${loop.index+1}</span>
+									<a class="collapsed" onclick="#collapseQuestion${question.id}" aria-expanded="false" aria-controls="collapseQuestion${question.id}">
            								${question.text}
          								</a>
 								</div>
@@ -54,7 +71,7 @@
 									 			<span class="glyphicon glyphicon-chevron-down"></span>
 								 			 </button>
 										</a>										
-										<a id="saveButton${question.id}" onclick="showMoveControls(${question.id});" class="hidden">
+										<a id="saveButton${question.id}" onclick="window.location.href='${test.editURL}?idQuestion=${question.id}&questionPriority='+currentPosition(${question.id},${loop.index});" class="hidden">
 						    				<button class="btn btn-primary btn-xs pull-left cursor" type="button">
 									 			<span class="glyphicon glyphicon-save"></span>
 									 			 <fmt:message key="lesson.test.question.move.save" bundle="${testBundle}"/>
@@ -66,7 +83,7 @@
 									 			 <fmt:message key="pager.cancel"/>
 								 			 </button>
 										</a>										
-										<a href="#">
+										<a onclick="confirm('${test.editURL}?delQuestion=${question.id}','lesson.test.question.delete.confirm');">
 						    				<button class="btn btn-danger btn-xs pull-right" type="button">
 								 			<span class="glyphicon glyphicon-remove"></span>
 								 			 <fmt:message key="lesson.test.question.delete" bundle="${testBundle}"/>
@@ -99,7 +116,7 @@
 				    	 	<c:choose>
 								<c:when test="${test.draft}">
 									<span class="label label-warning"><fmt:message key="lesson.test.unpublished" bundle="${testBundle}"/></span>
-									<a href="${test.editURL}?publishTest=true">
+									<a onclick="confirm('${test.editURL}?publishTest=true','lesson.test.publish.confirm');">
 							    		<button class="btn btn-success btn-xs pull-right" type="button">
 											<span class="glyphicon glyphicon-eye-open"></span>
 										 	 <fmt:message key="lesson.test.publish" bundle="${testBundle}"/>
@@ -108,7 +125,7 @@
 								</c:when>
 								<c:otherwise>
 									<span class="label label-success"><fmt:message key="lesson.test.published" bundle="${testBundle}"/></span>
-							    		<a href="${test.editURL}?publishTest=false">
+							    		<a onclick="confirm('${test.editURL}?publishTest=false','lesson.test.unpublish.confirm');">
 							    			<button class="btn btn-warning btn-xs pull-right" type="button">											
 										 		<span class="glyphicon glyphicon-eye-close"></span>
 												 <fmt:message key="lesson.test.unpublish" bundle="${testBundle}"/>			 	
@@ -125,7 +142,7 @@
 	     					</c:if>
 							<h5><span class="label label-info">${test.numAnswers}</span> <fmt:message key="lesson.test.numAnswers" bundle="${testBundle}"/></h5>																	
 							<h5><span class="label label-info">${test.numQuestions}</span> <fmt:message key="lesson.test.numQuestions" bundle="${testBundle}"/></h5>
-							<a href="#">
+							<a onclick="confirm('${test.editURL}?delTest=true','lesson.test.delete.confirm');">
 			    				<button class="btn btn-danger btn-xs pull-right" type="button">
 					 			<span class="glyphicon glyphicon-remove"></span>
 					 			 <fmt:message key="lesson.test.delete" bundle="${testBundle}"/>
@@ -133,8 +150,8 @@
 							</a>
 						</div>
 						<div class="panel-footer">							
+		    	 			&nbsp;
 			    	 		<a href="${test.newQuestionURL}">
-			    	 			&nbsp;
 			    	 			<button class="btn btn-primary btn-xs pull-right" type="button">
 				 	 				<span class="glyphicon glyphicon-plus-sign"></span>
 				 					 <fmt:message key="lesson.test.question.new" bundle="${testBundle}"/>			 
@@ -142,6 +159,20 @@
 			 				</a>									 	
 	     				</div>		
 					</div><!-- Test Panel -->
+					<c:if test="${test.numQuestions>0}">
+						<div class="panel panel-default">
+				    		<div class="panel-heading">
+				    			<p class="help-block">
+								 	<fmt:message key="lesson.test.export.tip" bundle="${testBundle}"/>
+		    				 	</p>	    			
+				    		</div>			    	
+				    		<div class="panel-footer">
+				    			&nbsp;<a href="${test.editURL}?export=JSON"><button type="button" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span>
+										 <fmt:message key="lesson.test.export" bundle="${testBundle}"/></button>
+								</a>								
+				    		</div>			
+						</div><!-- Export Panel -->
+					</c:if>
 				</div>
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
@@ -149,7 +180,17 @@
 	</form>	
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>	
+	<script type="text/javascript">
+		<!--	    
+		var msg = {};
+		msg['lesson.test.question.delete.confirm'] = 	"<fmt:message key="lesson.test.question.delete.confirm" bundle="${testBundle}"/>";
+		msg['lesson.test.delete.confirm'] = 			"<fmt:message key="lesson.test.delete.confirm" bundle="${testBundle}"/>";
+		msg['lesson.test.publish.confirm'] = 			"<fmt:message key="lesson.test.publish.confirm" bundle="${testBundle}"/>";
+		msg['lesson.test.unpublish.confirm'] = 			"<fmt:message key="lesson.test.unpublish.confirm" bundle="${testBundle}"/>";		 
+		//-->
+	</script>
 	<script src="/resources/js/editTest.js"></script>
+	<script src="/resources/js/confirm.js"></script>
 	
 </body>
 </html>

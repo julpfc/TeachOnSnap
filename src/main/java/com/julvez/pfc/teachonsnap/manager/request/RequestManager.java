@@ -34,6 +34,9 @@ public interface RequestManager {
 	public String getParamLoginEmail(HttpServletRequest request);
 	public String getParamLoginPassword(HttpServletRequest request);
 	
+	public String getParamJSON(HttpServletRequest request);
+	public String getParamExport(HttpServletRequest request);
+
 	public Lesson getParamNewLesson(Map<String, String[]> parameterMap);
 	public List<String> getParamNewTags(Map<String, String[]> parameterMap);
 	public List<String> getParamNewSources(Map<String, String[]> parameterMap);
@@ -45,14 +48,17 @@ public interface RequestManager {
 	public String getParamBanComment(HttpServletRequest request);
 
 	public String getParamPublishLessonTest(HttpServletRequest request);
+	public String getParamDeleteTest(HttpServletRequest request);
+	public int getParamDeleteQuestionID(HttpServletRequest request);	
+	public int getParamQuestionPriority(HttpServletRequest request);
+	public int getParamQuestionID(HttpServletRequest request);
+	public String getParamMultiplechoiceTest(HttpServletRequest request);
+	public int getParamNumAnswersTest(HttpServletRequest request);
 
 	public int getAttributeErrorStatusCode(HttpServletRequest request);
 	public Throwable getAttributeErrorException(HttpServletRequest request);
-
 	
 	public List<FileMetadata> getUploadFiles(HttpServletRequest request);
 	public FileMetadata getSubmittedFile(HttpServletRequest request);
-	public String getParamJSON(HttpServletRequest request);
-	public String getParamExport(HttpServletRequest request);	
 	
 }

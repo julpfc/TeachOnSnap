@@ -7,20 +7,29 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.julvez.pfc.teachonsnap.manager.json.JSONViews;
+
 @Entity
+@JsonIgnoreProperties({"editURL","URL","newQuestionURL"})
 public class LessonTest {
 	
 	@Id
 	@Column (name="idLessonTest")
 	int id;
 	int idLesson;
+	@JsonView(JSONViews.Simple.class)
 	short numQuestions;
+	@JsonView(JSONViews.Simple.class)
 	short numAnswers;
+	@JsonView(JSONViews.Simple.class)
 	boolean multipleChoice;
 	boolean draft;
 	
 	
 	@Transient
+	@JsonView(JSONViews.Simple.class)
 	List<Question> questions;
 
 

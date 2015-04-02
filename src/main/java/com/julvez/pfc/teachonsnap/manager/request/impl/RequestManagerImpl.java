@@ -360,5 +360,55 @@ public class RequestManagerImpl implements RequestManager {
 		return getParam(request, Parameter.EXPORT);
 	}
 
+	@Override
+	public int getParamDeleteQuestionID(HttpServletRequest request) {
+		int questionID = -1;
+		String param = getParam(request, Parameter.QUESTIONID_DELETE);
+		if(stringManager.isNumeric(param)){
+			questionID = Integer.parseInt(param);			
+		}
+		return questionID;
+	}
+
+	@Override
+	public String getParamDeleteTest(HttpServletRequest request) {
+		return getParam(request, Parameter.LESSON_TEST_DELETE);
+	}
+
+	@Override
+	public int getParamQuestionPriority(HttpServletRequest request) {
+		int priority = -1;
+		String param = getParam(request, Parameter.QUESTION_PRIORITY);
+		if(stringManager.isNumeric(param)){
+			priority = Integer.parseInt(param);			
+		}
+		return priority;
+	}
+
+	@Override
+	public int getParamQuestionID(HttpServletRequest request) {
+		int questionID = -1;
+		String param = getParam(request, Parameter.QUESTIONID);
+		if(stringManager.isNumeric(param)){
+			questionID = Integer.parseInt(param);			
+		}
+		return questionID;
+	}
+
+	@Override
+	public String getParamMultiplechoiceTest(HttpServletRequest request) {
+		return getParam(request, Parameter.LESSON_TEST_MULTIPLECHOICE);
+	}
+
+	@Override
+	public int getParamNumAnswersTest(HttpServletRequest request) {
+		int numAnswers = -1;
+		String param = getParam(request, Parameter.LESSON_TEST_NUMANSWERS);
+		if(stringManager.isNumeric(param)){
+			numAnswers = Integer.parseInt(param);			
+		}
+		return numAnswers;
+	}
+
 
 }

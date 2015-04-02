@@ -48,7 +48,7 @@ public class CommentRepositoryDB implements CommentRepository {
 	}
 
 	private int createComment(Object session, int idLesson, int idUser) {
-		return (int)dbm.updateQuery_NoCommit(session, "SQL_COMMENT_CREATE_COMMENT", idLesson, idUser);
+		return (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_COMMENT_CREATE_COMMENT", idLesson, idUser);
 	}
 	
 	

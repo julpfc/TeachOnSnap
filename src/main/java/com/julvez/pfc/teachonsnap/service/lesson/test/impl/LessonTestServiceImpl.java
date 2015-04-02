@@ -7,7 +7,6 @@ import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Question;
-import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.repository.lesson.test.LessonTestRepository;
 import com.julvez.pfc.teachonsnap.repository.lesson.test.LessonTestRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
@@ -52,19 +51,19 @@ public class LessonTestServiceImpl implements LessonTestService {
 	}
 
 	@Override
-	public void publish(int idLessonTest, User user) {
+	public void publish(int idLessonTest) {
 		LessonTest test = getLessonTest(idLessonTest);
 						
-		if(test!=null && test.isDraft() && user!=null && (user.isAdmin() || user.isAuthor())){
+		if(test!=null && test.isDraft()){
 			lessonTestRepository.publish(idLessonTest, test.getIdLesson());			
 		}		
 	}
 
 	@Override
-	public void unpublish(int idLessonTest, User user) {
+	public void unpublish(int idLessonTest) {
 		LessonTest test = getLessonTest(idLessonTest);
 		
-		if(test!=null && !test.isDraft() && user!=null && (user.isAdmin() || user.isAuthor())){
+		if(test!=null && !test.isDraft()){
 			lessonTestRepository.unpublish(idLessonTest, test.getIdLesson());			
 		}		
 		
@@ -76,13 +75,15 @@ public class LessonTestServiceImpl implements LessonTestService {
 		if(idQuestion>0){
 			q = lessonTestRepository.getQuestion(idQuestion);
 			
-			List<Integer> answerIDs = lessonTestRepository.getQuestionAnswerIDs(idQuestion);
-			List<Answer> answers = new ArrayList<Answer>();
-			for(int answerID:answerIDs){
-				Answer answer = lessonTestRepository.getAnswer(answerID);
-				answers.add(answer);
+			if(q!=null){
+				List<Integer> answerIDs = lessonTestRepository.getQuestionAnswerIDs(idQuestion);
+				List<Answer> answers = new ArrayList<Answer>();
+				for(int answerID:answerIDs){
+					Answer answer = lessonTestRepository.getAnswer(answerID);
+					answers.add(answer);
+				}
+				q.setAnswers(answers);
 			}
-			q.setAnswers(answers);
 		}
 		return q;
 	}
@@ -108,19 +109,131 @@ public class LessonTestServiceImpl implements LessonTestService {
 	}
 
 	@Override
-	public Question createQuestion(Question question) {
+	public LessonTest createQuestion(Question question) {
+		LessonTest test = null;
+		
 		if(question!=null && question.isFullFilled()){
 			int idQuestion = lessonTestRepository.createQuestion(question);
 			
 			if(idQuestion>0){
-				lessonTestRepository.addLessonTestNumQuestions(question.getIdLessonTest());
 				question = getQuestion(idQuestion);
+				test = getLessonTest(question.getIdLessonTest());		
 			}
 			else{
-				question = null;
+				test = null;
 			}			
 		}		
-		return question;
+		return test;
+	}
+
+	@Override
+	public boolean removeQuestion(Question question) {
+		boolean removed = false;
+		
+		if(question!=null){
+			int idLessonTest = question.getIdLessonTest();
+			
+			LessonTest test = getLessonTest(idLessonTest);
+			
+			if(test!=null){
+				lessonTestRepository.removeQuestion(test,question);
+				
+				question = getQuestion(question.getId());			
+			
+				if(question==null){
+					removed = true;	
+					
+					test = getLessonTest(idLessonTest);
+					if(test.getNumQuestions()==0){
+						unpublish(idLessonTest);
+					}
+				}
+			}
+		}
+		return removed;
+	}
+
+	@Override
+	public boolean removeLessonTest(LessonTest test) {
+		boolean removed = false;
+		
+		if(test!=null){
+			if(test.isDraft()){
+				publish(test.getId());
+			}
+			lessonTestRepository.removeLessonTest(test);
+					
+			test = getLessonTest(test.getId());			
+				
+			if(test==null){
+				removed = true;					
+			}			
+		}
+		return removed;
+	}
+
+	@Override
+	public boolean moveQuestion(Question question, int newPriority) {
+		boolean moved = false;
+					
+		if(question!=null && newPriority>=0){
+			
+			if(question.getPriority()!=newPriority){
+				
+				LessonTest test = getLessonTest(question.getIdLessonTest());
+				
+				if(test!=null){
+					
+					for(Question q:test.getQuestions()){
+						if(q.getId()!=question.getId()){
+							if(q.getPriority()>question.getPriority() && q.getPriority()<=newPriority){
+								q.setPriority((byte)(q.getPriority()-1));
+								saveQuestion(q);
+							}
+							else if(q.getPriority()>=newPriority && q.getPriority()<question.getPriority()){
+								q.setPriority((byte)(q.getPriority()+1));							
+								saveQuestion(q);
+							}						
+						}
+						else{
+							q.setPriority((byte)newPriority);
+							saveQuestion(q);
+						}
+					}
+					
+					question = getQuestion(question.getId());
+						
+					if(question!=null && question.getPriority()==newPriority){
+						moved = true;					
+					}
+				}
+			}
+			else{
+				moved = true;
+			}
+		}
+		return moved;
+	}
+
+	@Override
+	public LessonTest createLessonTest(Lesson lesson, boolean multipleChoice, int numAnswers) {
+		LessonTest test = null;
+		
+		if(lesson!=null && numAnswers>1 && numAnswers<10){
+			test = getLessonTest(lesson);
+			
+			if(test == null){
+				int idLessonTest = lessonTestRepository.createLessonTest(lesson.getId(),multipleChoice, numAnswers);
+				
+				if(idLessonTest>0){
+					test = getLessonTest(idLessonTest);							
+				}
+				else{
+					test = null;
+				}			
+			}
+		}		
+		return test;	
 	}
 
 

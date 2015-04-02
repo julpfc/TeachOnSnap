@@ -108,7 +108,7 @@
 						<c:choose>
 							<c:when test="${not empty question}">
 								<p class="help-block"><a href="${question.editURL}?export=JSON"><button type="button" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span>
-										 <fmt:message key="lesson.test.question.export" bundle="${testBundle}"/></button>
+										 <fmt:message key="lesson.test.export" bundle="${testBundle}"/></button>
 								 	</a>
 								 	<fmt:message key="lesson.test.question.export.tip" bundle="${testBundle}"/>
 		    				 	</p>

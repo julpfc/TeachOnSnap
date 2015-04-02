@@ -64,5 +64,26 @@
 	    UPDATE tlessontest
 	    SET numQuestions = numQuestions+1
 	    WHERE idLessontest=?;	    	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_DEC_NUM_QUESTIONS">
+	    UPDATE tlessontest
+	    SET numQuestions = numQuestions-1
+	    WHERE idLessontest=?;	    	    
+	</sql-query>	
+	<sql-query name="SQL_LESSONTEST_REMOVE_QUESTION">
+	    DELETE FROM tquestion
+	    WHERE idQuestion=?;	    	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_REMOVE_ANSWERS">
+	    DELETE FROM tanswer
+	    WHERE idQuestion=?;	    	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_REMOVE_LESSONTEST">
+	    DELETE FROM tlessontest
+	    WHERE idLessonTest=?;	    	    
+	</sql-query>
+	<sql-query name="SQL_LESSONTEST_CREATE">
+	    INSERT INTO tlessontest (idLesson, multiplechoice, numAnswers, numQuestions)
+	    VALUES (?,?,?,0);	    	    
 	</sql-query>	
 </hibernate-mapping>

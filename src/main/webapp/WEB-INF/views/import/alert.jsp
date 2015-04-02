@@ -9,7 +9,7 @@
     	<div class="modal-content">
 	      	<div class="modal-footer">
 	      		<c:if test="${not empty errorMessageKey}">
-	      		<h3>	      			
+	      		<h4>	      			
 	      			<c:choose>
 	      				<c:when test="${not empty errorType}">
 	      					<span class="label label-warning"><fmt:message key="alert.heading.error" bundle="${alertBundle}"/></span>
@@ -18,7 +18,7 @@
 	      					<span class="label label-info"><fmt:message key="alert.heading.info" bundle="${alertBundle}"/></span>
 	      				</c:otherwise>
 	      			</c:choose>
-	      		</h3>
+	      		</h4>
 				<p class="alertMessage">
   					 <fmt:message key="${errorMessageKey}" bundle="${alertBundle}"/>
 			  	 </p>

@@ -30,7 +30,13 @@ public enum Parameter {
 	LESSON_COMMENT_BAN("banComment"),
 	
 	//Tests
-	LESSON_TEST_PUBLISH("publishTest");
+	LESSON_TEST_PUBLISH("publishTest"), 
+	LESSON_TEST_DELETE("delTest"), 
+	LESSON_TEST_NUMANSWERS("numAnswers"), 
+	LESSON_TEST_MULTIPLECHOICE("multipleChoice"),
+	QUESTIONID_DELETE("delQuestion"), 
+	QUESTIONID("idQuestion"), 
+	QUESTION_PRIORITY("questionPriority");
 
 		 		
 	private final String realName;

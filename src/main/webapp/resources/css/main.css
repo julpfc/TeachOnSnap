@@ -250,14 +250,17 @@ button.close{
 }
 
 /*Alert*/
-#alert .modal-footer{
+#alert .modal-footer, #confirm .modal-footer{
 	text-align: center;
 	border-top: none;
 	padding-top: 0px;
 }
 
+.modal-footer h4{
+	margin-top: 22px;
+}
 
-.alertMessage{
+.alertMessage, .confirmMessage{
 	padding-top: 10px;
 	padding-bottom: 10px;
 }

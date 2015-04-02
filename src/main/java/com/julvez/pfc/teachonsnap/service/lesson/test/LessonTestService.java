@@ -4,7 +4,6 @@ import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Question;
-import com.julvez.pfc.teachonsnap.model.user.User;
 
 public interface LessonTestService {
 
@@ -12,9 +11,9 @@ public interface LessonTestService {
 
 	public LessonTest getLessonTest(int idLessonTest);
 
-	public void publish(int idLessonTest, User user);
+	public void publish(int idLessonTest);
 
-	public void unpublish(int idLessonTest, User user);
+	public void unpublish(int idLessonTest);
 
 	public Question getQuestion(int idQuestion);
 
@@ -22,6 +21,14 @@ public interface LessonTestService {
 
 	public void saveAnswer(Answer answer);
 
-	public Question createQuestion(Question question);	
+	public LessonTest createQuestion(Question question);
+
+	public boolean removeQuestion(Question question);
+
+	public boolean removeLessonTest(LessonTest test);
+
+	public boolean moveQuestion(Question question, int newPriority);
+
+	public LessonTest createLessonTest(Lesson lesson, boolean multipleChoice, int numAnswers);	
 	
 }

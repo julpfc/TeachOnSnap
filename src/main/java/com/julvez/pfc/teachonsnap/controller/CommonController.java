@@ -107,12 +107,14 @@ public abstract class CommonController extends HttpServlet {
 				
 			}
 			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.NONE));
-			requestManager.setLastPage(request);
 			
 			//TODO Loguear la página en la que estamos	  
 			System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 
 			processController(request, response);
+			
+			//Guardamos la página después d eprocesarla para tener acceso a la página anterior
+			requestManager.setLastPage(request);
 		}
 	}
 

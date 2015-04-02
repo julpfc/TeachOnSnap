@@ -31,6 +31,10 @@ public interface LessonTestRepository {
 
 	public int createQuestion(Question question);
 
-	public void addLessonTestNumQuestions(int idLessonTest);
+	public void removeQuestion(LessonTest test, Question question);
+
+	public void removeLessonTest(LessonTest test);
+
+	public int createLessonTest(int idLesson, boolean multipleChoice, int numAnswers);
 
 }

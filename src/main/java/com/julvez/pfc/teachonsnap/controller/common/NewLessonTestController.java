@@ -1,89 +1,116 @@
 package com.julvez.pfc.teachonsnap.controller.common;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.manager.request.Attribute;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
+import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.model.error.ErrorType;
+import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
+import com.julvez.pfc.teachonsnap.model.page.Page;
+import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
+import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
+import com.julvez.pfc.teachonsnap.service.page.PageService;
+import com.julvez.pfc.teachonsnap.service.page.PageServiceFactory;
 
 public class NewLessonTestController extends CommonController {
 
-	private static final long serialVersionUID = 7608540908435958036L;
-	
-//	private LessonService lessonService = LessonServiceFactory.getService();
-//	private PageService pageService = PageServiceFactory.getService();
+	private static final long serialVersionUID = 4029476444876195321L;
+
+	private LessonService lessonService = LessonServiceFactory.getService();
+	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
+	private PageService pageService = PageServiceFactory.getService();
+
+	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
+		String[] params = requestManager.getControllerParams(request);
 		
-//		User user = requestManager.getSessionUser(request);
-		
-		if(request.getMethod().equals("POST")){
+		if(params!=null && params.length>0 && stringManager.isNumeric(params[0])){
 			
-	/*		Lesson newLesson = requestManager.getParamNewLesson(request.getParameterMap());
-
-			if(newLesson!=null){
-				newLesson.setIdUser(user.getId());
-				newLesson = lessonService.createLesson(newLesson);
-				
-				if(newLesson!=null){				
-					FileMetadata file = requestManager.getSubmittedFile(request);
+			int idLesson = Integer.parseInt(params[0]);
+			
+			Lesson lesson = lessonService.getLesson(idLesson);
+			
+			if(lesson!=null){				
+				User user = requestManager.getSessionUser(request);
 					
-					if(file!=null){						
-						MediaFile mediaFile = mediaFileService.saveMediaFile(newLesson,file);
-						if(mediaFile==null){
-							//TODO error, habia fichero pero no hemos podido guardarlo
+				if(roleService.isAllowedForLesson(user, lesson.getId())){
+					if(request.getMethod().equals("POST")){
+						String multipleChoice = requestManager.getParamMultiplechoiceTest(request);
+						int numAnswers = requestManager.getParamNumAnswersTest(request);
+						
+						if(multipleChoice!=null){
+							if(numAnswers>1 && numAnswers<10){
+								LessonTest test = lessonTestService.getLessonTest(lesson);
+								
+								if(test == null){
+
+									test = lessonTestService.createLessonTest(lesson,stringManager.isTrue(multipleChoice),numAnswers);
+									
+									if(test!=null){
+										requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.TEST_CREATED));
+										response.sendRedirect(test.getEditURL());
+									}
+									else{
+										requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
+										response.sendRedirect(lesson.getNewTestURL());
+									}
+									
+								}
+								else{
+									requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_SAVE_DUPLICATE, ErrorMessageKey.SAVE_DUPLICATE_ERROR_TEST));
+									response.sendRedirect(lesson.getEditURL());
+								}
+							}
+							else{
+								requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.INVALID_INPUT_ERROR_TEST));
+								response.sendRedirect(lesson.getNewTestURL());
+							}	
 						}
-					}					
-					
-					List<String> tags = requestManager.getParamNewTags(request.getParameterMap());
-
-					if(tags!=null){
-						newLesson = lessonService.addLessonTags(newLesson, tags);
+						else{
+							response.sendRedirect(lesson.getEditURL());
+						}
 					}
+					else{
+						List<Page> pageStack = pageService.getNewLessonTestPageStack(lesson);
 					
-					List<String> sources = requestManager.getParamNewSources(request.getParameterMap());
-
-					if(sources!=null){
-						newLesson = lessonService.addLessonSources(newLesson, sources);
-					}
-										
-					List<String> moreInfo = requestManager.getParamNewMoreInfos(request.getParameterMap());
-
-					if(moreInfo!=null){
-						newLesson = lessonService.addLessonMoreInfo(newLesson, moreInfo);
-					}
-					
-					
+						request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
+						
+						request.setAttribute(Attribute.LESSON.toString(), lesson);
+								
+						request.getRequestDispatcher("/WEB-INF/views/newTest.jsp").forward(request, response);
+					}				
 				}
 				else{
-					//TODO error no se pudo crear la lesson				
-				}
+					//No puedes crear un test para esta lección
+					response.sendError(HttpServletResponse.SC_FORBIDDEN);
+				}						
 			}
 			else{
-				//TODO Error no se recuperaron params para el lesson
+				//No se encontró la lección
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
-			
-			
-			//TODO SI todo es correcto cargarse los temporales que no hemos usado
-			uploadService.removeTemporaryFiles(user);
-			
-			//TODO Mandar el mail bien, sistema de notificaciones en un servicio apra los seguimientos etc
-			MailManagerFactory.getManager().send(user.getEmail(), "Lesson " + newLesson.getId() + " creada", newLesson.toString());
-			response.sendRedirect(newLesson.getEditURL());
-		*/
-			response.sendRedirect("/test/edit/");
 		}
 		else{
-			
-		//	List<Page> pageStack = pageService.getNewLessonTestPageStack(lesson);
-		//	request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
-			
-			request.getRequestDispatcher("/WEB-INF/views/newTest.jsp").forward(request, response);
-		}
+			//Parámetros inválidos
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		}			
 	}
 
 	@Override

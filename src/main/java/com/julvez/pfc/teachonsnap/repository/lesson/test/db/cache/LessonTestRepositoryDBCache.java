@@ -67,7 +67,8 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 	@Override
 	public void saveQuestion(int idQuestion, String text, byte priority, int idLessonTest) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idQuestion), 
-				stringManager.getKey(idLessonTest)}, new String[]{"getQuestion", "getLessonTest"},
+				stringManager.getKey(idLessonTest),stringManager.getKey(idLessonTest)}, 
+				new String[]{"getQuestion", "getLessonTest","getLessonTestQuestionIDs"},
 				idQuestion, text, priority, idLessonTest);
 		
 	}
@@ -90,10 +91,25 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 	}
 
 	@Override
-	public void addLessonTestNumQuestions(int idLessonTest) {
-		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLessonTest),
-				stringManager.getKey(idLessonTest)}, new String[]{"getLessonTestQuestionIDs","getLessonTest"},
-				idLessonTest);
+	public void removeQuestion(LessonTest test, Question question) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(question.getIdLessonTest()),
+				stringManager.getKey(question.getIdLessonTest()), stringManager.getKey(question.getId())}, 
+				new String[]{"getLessonTestQuestionIDs","getLessonTest","getQuestion"},	test, question);		
 	}
+
+	@Override
+	public void removeLessonTest(LessonTest test) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(test.getId()), 
+				stringManager.getKey(test.getIdLesson())}, new String[]{"getLessonTest", "getLesson"}, 
+				test);
+	}
+
+	@Override
+	public int createLessonTest(int idLesson, boolean multipleChoice, int numAnswers) {
+		return (int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)},
+				new String[]{"getLesson"}, idLesson, multipleChoice, numAnswers);
+	}
+
+	
 
 }

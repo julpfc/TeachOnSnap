@@ -130,10 +130,10 @@ public class QuestionController extends CommonController {
 									response.getOutputStream().write(outJSON.getBytes("UTF-8"));									
 								}
 								else{
-									
+															
 									List<Page> pageStack = pageService.getEditQuestionPageStack(lesson, test, question);
 									request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
-
+	
 									
 									request.setAttribute(Attribute.QUESTION.toString(), question);
 									request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
@@ -165,13 +165,14 @@ public class QuestionController extends CommonController {
 									if(jQuestion.isFullFilled() && jQuestion.getAnswers().size() == test.getNumAnswers()){
 										jQuestion.setIdLessonTest(test.getId());
 										jQuestion.setPriority((byte)test.getNumQuestions());
-										Question question = lessonTestService.createQuestion(jQuestion);
+										test = lessonTestService.createQuestion(jQuestion);
 										
-										if(question != null){
+										if(test != null){
 											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_CREATED));
 											response.sendRedirect(test.getEditURL());
 										}
 										else{
+											test = lessonTestService.getLessonTest(idLessonTest);
 											//No se pudo crear la pregunta
 											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
 											response.sendRedirect(test.getNewQuestionURL());

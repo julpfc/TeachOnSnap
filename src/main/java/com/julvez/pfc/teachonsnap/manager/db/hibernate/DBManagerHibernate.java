@@ -177,42 +177,40 @@ public class DBManagerHibernate implements DBManager{
 	}
 
 	@Override
-	public long updateQuery(String queryName, Object... queryParams) {
-		long result = -1;
+	public int updateQuery(String queryName, Object... queryParams) {
+		int affectedRows = -1;
 		
 		try{
 			Session sess = beginTransaction();
 			
-			result = updateQuery_NoCommit(sess,queryName,queryParams);
+			affectedRows = updateQuery_NoCommit(sess,queryName,queryParams);
 			
-			endTransaction(true, sess);
+			endTransaction(affectedRows>-1, sess);
 		}
 		catch (HibernateException e) {
 				System.out.println(e);
-				result = -1;
+				affectedRows = -1;
 		}			
-		return result;
+		return affectedRows;
 	}
 	
 	@Override
-	public long updateQuery_NoCommit(Object session, String queryName, Object... queryParams) {
-		long lastInsertID=-1;
+	public int updateQuery_NoCommit(Object session, String queryName, Object... queryParams) {
+		
+		int affectedRows = -1;
 		Session sess = (Session)session;
+		
 		try{
 			SQLQuery query = getQuery(sess, queryName, null, queryParams);
-					
-			query.executeUpdate();
 			
-			query = sess.createSQLQuery(LAST_INSERT_ID);
-			
-			lastInsertID = ((BigInteger)query.uniqueResult()).longValue();
+			affectedRows = query.executeUpdate();
 			
 		} catch (HibernateException e) {
 			System.out.println(e);		
-			lastInsertID = -1;
+			affectedRows = -1;
 		}		
-		System.out.println("QueryLog: -> "+ lastInsertID);
-		return lastInsertID;
+		System.out.println("QueryLog: Rows-> "+ affectedRows);
+		return affectedRows;
 	}
 
 	@Override
@@ -247,5 +245,66 @@ public class DBManagerHibernate implements DBManager{
 		}
 		
 		return isEntity;
+	}
+
+
+	@Override
+	public long insertQueryAndGetLastInserID(String queryName, Object... queryParams) {
+		
+		long lastInsertID = -1;
+				
+		try{
+			Session sess = beginTransaction();
+			
+			lastInsertID = insertQueryAndGetLastInserID_NoCommit(sess, queryName, queryParams);			
+			
+			endTransaction(lastInsertID>-1, sess);
+		}
+		catch (HibernateException e) {
+				System.out.println(e);
+				lastInsertID = -1;
+		}			
+		return lastInsertID;
+	}
+
+	
+	private long getLastInsertID(Object session) {
+		long lastInsertID=-1;
+		
+		Session sess = (Session)session;
+		
+		try{
+			SQLQuery query = sess.createSQLQuery(LAST_INSERT_ID);
+			
+			lastInsertID = ((BigInteger)query.uniqueResult()).longValue();			
+		} catch (HibernateException e) {
+			System.out.println(e);		
+			lastInsertID = -1;
+		}		
+		return lastInsertID;
+	}
+
+	@Override
+	public long insertQueryAndGetLastInserID_NoCommit(Object session,
+			String queryName, Object... queryParams) {
+		long lastInsertID = -1;
+		
+		Session sess = (Session)session;
+		
+		try{
+			int affectedRows = updateQuery_NoCommit(sess,queryName,queryParams);
+			
+			if(affectedRows>0){
+				lastInsertID = getLastInsertID(sess);
+			}
+			else if(affectedRows==0){
+				lastInsertID = 0;
+			}
+		}
+		catch (HibernateException e) {
+				System.out.println(e);
+				lastInsertID = -1;
+		}			
+		return lastInsertID;
 	}
 }

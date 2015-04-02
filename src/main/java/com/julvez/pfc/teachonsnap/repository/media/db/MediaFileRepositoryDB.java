@@ -87,13 +87,12 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 
 	private int createMediaFile(Object session, int idLessonMedia,
 			short idMediaRepository, short idMediaMimeType, String fileName) {
-	
-		return (int)dbm.updateQuery_NoCommit(session,"SQL_MEDIA_CREATE_MEDIAFILE", idLessonMedia,
+		return (int)dbm.insertQueryAndGetLastInserID_NoCommit(session,"SQL_MEDIA_CREATE_MEDIAFILE", idLessonMedia,
 				idMediaRepository, idMediaMimeType, fileName);
 	}
 
 	private int createLessonMedia(Object session, int idLesson){
-		return (int)dbm.updateQuery_NoCommit(session,"SQL_MEDIA_CREATE_LESSONMEDIA", idLesson);
+		return (int)dbm.insertQueryAndGetLastInserID_NoCommit(session,"SQL_MEDIA_CREATE_LESSONMEDIA", idLesson);
 	}
 
 	@Override
