@@ -233,20 +233,17 @@
 									</c:otherwise>
 								 </c:choose>		    		
 				    		</div>
-			    			<div class="panel-body">
-			    				<c:choose>								
-									<c:when test="${not empty test}">
-										<c:if test="${test.multipleChoice}">
-											<h5><span class="glyphicon glyphicon-exclamation-sign"></span>
-	     									 <fmt:message key="lesson.test.multiplechoice" bundle="${testBundle}"/>
-	     									</h5>	     							
-	     								</c:if>
-										<h5><span class="label label-info">${test.numAnswers}</span> <fmt:message key="lesson.test.numAnswers" bundle="${testBundle}"/></h5>																	
-										<h5><span class="label label-info">${test.numQuestions}</span> <fmt:message key="lesson.test.numQuestions" bundle="${testBundle}"/></h5>
-									</c:when>
-									<c:otherwise><h5><fmt:message key="lesson.test.notest" bundle="${testBundle}"/></h5></c:otherwise>
-								</c:choose>
-							</div>
+			    			<c:if test="${not empty test}">
+			    				<div class="panel-body">
+									<c:if test="${test.multipleChoice}">
+										<h5><span class="glyphicon glyphicon-exclamation-sign"></span>
+	     								 <fmt:message key="lesson.test.multiplechoice" bundle="${testBundle}"/>
+	     								</h5>	     							
+	     							</c:if>
+									<h5><span class="label label-info">${test.numAnswers}</span> <fmt:message key="lesson.test.numAnswers" bundle="${testBundle}"/></h5>																	
+									<h5><span class="label label-info">${test.numQuestions}</span> <fmt:message key="lesson.test.numQuestions" bundle="${testBundle}"/></h5>
+								</div>
+							</c:if>
 							<c:if test="${not empty test}">
 								<div class="panel-footer">										     								    			
 									 <c:choose>

@@ -13,6 +13,7 @@ import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.service.link.LinkService;
@@ -39,7 +40,9 @@ public class NewLessonController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		User user = requestManager.getSessionUser(request);
+		User user = null;
+		Visit visit = requestManager.getSessionVisit(request);
+		if(visit!=null) user = visit.getUser();
 		
 		if(request.getMethod().equals("POST")){
 			

@@ -22,11 +22,11 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
-import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.media.MediaType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.upload.UploadService;
 import com.julvez.pfc.teachonsnap.service.upload.UploadServiceFactory;
 
@@ -36,29 +36,8 @@ public class RequestManagerImpl implements RequestManager {
 	private UploadService uploadService = UploadServiceFactory.getService();
 	
 	@Override
-	public short getSessionIdLanguage(HttpServletRequest request) {
-		short id = -1;
-		Short idlang = (Short)request.getSession(true).getAttribute(SessionAttribute.IDLANGUAGE.toString());
-		if(idlang!=null) id=idlang.shortValue();
-		return id;
-	}
-
-	@Override
-	public User getSessionUser(HttpServletRequest request) {
-		return (User)request.getSession(true).getAttribute(SessionAttribute.USER.toString());
-	}
-
-	@Override
-	public void setUserSessionLanguage(HttpServletRequest request,
-			Language userLang) {
-		
-		if(userLang!=null){
-			short sessionIdLang = getSessionIdLanguage(request);
-			
-			if(sessionIdLang != userLang.getId()){
-				request.getSession(true).setAttribute(SessionAttribute.IDLANGUAGE.toString(), userLang.getId());
-			}
-		}		
+	public Visit getSessionVisit(HttpServletRequest request) {
+		return (Visit)request.getSession(true).getAttribute(SessionAttribute.VISIT.toString());
 	}
 
 	@Override
@@ -100,8 +79,8 @@ public class RequestManagerImpl implements RequestManager {
 	}
 
 	@Override
-	public void setUserSession(HttpServletRequest request, User user) {
-		request.getSession(true).setAttribute(SessionAttribute.USER.toString(), user);
+	public void setVisitSession(HttpServletRequest request, Visit visit) {
+		request.getSession(true).setAttribute(SessionAttribute.VISIT.toString(), visit);
 	}
 
 	@Override
@@ -229,7 +208,11 @@ public class RequestManagerImpl implements RequestManager {
 	@Override
 	public FileMetadata getSubmittedFile(HttpServletRequest request) {
 		FileMetadata file = null;
-		User user = getSessionUser(request);
+		User user = null;
+		Visit visit = getSessionVisit(request);
+		
+		if(visit!=null) user=visit.getUser();		
+		
 		String attach = getParam(request, Parameter.LESSON_NEW_FILE_ATTACH);
 		
 		if(user!=null && !stringManager.isEmpty(attach)){
@@ -408,6 +391,17 @@ public class RequestManagerImpl implements RequestManager {
 			numAnswers = Integer.parseInt(param);			
 		}
 		return numAnswers;
+	}
+
+	@Override
+	public String getIP(HttpServletRequest request) {
+		String ip = request.getRemoteAddr();
+//TODO Limpieza de IP
+		if(stringManager.isEmpty(ip)){
+			ip = null;
+		}
+		
+		return ip;
 	}
 
 

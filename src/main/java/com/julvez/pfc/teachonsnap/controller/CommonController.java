@@ -18,12 +18,15 @@ import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.service.role.RoleService;
 import com.julvez.pfc.teachonsnap.service.role.RoleServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
+import com.julvez.pfc.teachonsnap.service.visit.VisitService;
+import com.julvez.pfc.teachonsnap.service.visit.VisitServiceFactory;
 
 
 /**
@@ -35,9 +38,11 @@ public abstract class CommonController extends HttpServlet {
 	protected LangService langService = LangServiceFactory.getService();
 	protected UserService userService = UserServiceFactory.getService();
 	protected RoleService roleService = RoleServiceFactory.getService();
+	protected VisitService visitService = VisitServiceFactory.getService();
 	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
+
 		
     /**
      * @see HttpServlet#HttpServlet()
@@ -56,23 +61,31 @@ public abstract class CommonController extends HttpServlet {
 		String acceptLang = requestManager.getRequestLanguage(request);
 		
 		//TODO revisar todos los métodos control interno de errores
+		Visit visit = requestManager.getSessionVisit(request);
+
+		if(visit == null){
+			visit = visitService.createVisit(requestManager.getIP(request));
+			requestManager.setVisitSession(request, visit);
+			//TODO si no soporta cookies nos va a fundir a visitas			
+		}
 		
-		short sessionIdLang = requestManager.getSessionIdLanguage(request);				
 		String paramLang = requestManager.getParamChangeLanguage(request);
 		
-		User user = requestManager.getSessionUser(request);
 		
-		Language userLang = langService.getUserSessionLanguage(acceptLang,sessionIdLang,paramLang,user);
-		requestManager.setUserSessionLanguage(request,userLang);
+		Language userLang = langService.getUserSessionLanguage(acceptLang,visit,paramLang);
+		visit.setIdLanguage(userLang.getId());
+		requestManager.setVisitSession(request, visit);
+
+		User user = visit.getUser();				
 		
 		if(user!=null && user.getLanguage().getId() != userLang.getId()){
 			User modUser = userService.saveUserLanguage(user, userLang);
-			if(modUser!=null){
-				user = modUser;
-				requestManager.setUserSession(request, user);
+			if(modUser!=null){				
+				visit.setUser(modUser);
+				requestManager.setVisitSession(request, visit);
 			}
 		}
-
+		
 		String host = properties.getProperty(PropertyName.TEACHONSNAP_HOST);
 		
 		request.setAttribute(Attribute.LANGUAGE_USERLANGUAGE.toString(), userLang);

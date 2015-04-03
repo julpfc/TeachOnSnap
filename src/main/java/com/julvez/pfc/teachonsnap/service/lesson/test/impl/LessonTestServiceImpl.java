@@ -29,7 +29,7 @@ public class LessonTestServiceImpl implements LessonTestService {
 	@Override
 	public LessonTest getLessonTest(int idLessonTest) {
 		LessonTest test = null;
-		//TODO acabar control de errores
+
 		if(idLessonTest>0){		
 			test = lessonTestRepository.getLessonTest(idLessonTest);
 
@@ -183,14 +183,15 @@ public class LessonTestServiceImpl implements LessonTestService {
 				LessonTest test = getLessonTest(question.getIdLessonTest());
 				
 				if(test!=null){
+					byte priority = question.getPriority();
 					
 					for(Question q:test.getQuestions()){
 						if(q.getId()!=question.getId()){
-							if(q.getPriority()>question.getPriority() && q.getPriority()<=newPriority){
+							if(q.getPriority()>priority && q.getPriority()<=newPriority){
 								q.setPriority((byte)(q.getPriority()-1));
 								saveQuestion(q);
 							}
-							else if(q.getPriority()>=newPriority && q.getPriority()<question.getPriority()){
+							else if(q.getPriority()>=newPriority && q.getPriority()<priority){
 								q.setPriority((byte)(q.getPriority()+1));							
 								saveQuestion(q);
 							}						

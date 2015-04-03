@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class VideoRecordController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-
+//TODO Si no hay session -> 403
     /**
      * @see HttpServlet#HttpServlet()
      */

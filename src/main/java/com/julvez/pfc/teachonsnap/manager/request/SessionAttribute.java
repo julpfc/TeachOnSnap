@@ -3,7 +3,7 @@ package com.julvez.pfc.teachonsnap.manager.request;
 public enum SessionAttribute {
 	
 	IDLANGUAGE("idLanguage"),
-	USER("user"),
+	VISIT("visit"),
 	ERROR("error"),
 	LAST_PAGE("lastPage");
 

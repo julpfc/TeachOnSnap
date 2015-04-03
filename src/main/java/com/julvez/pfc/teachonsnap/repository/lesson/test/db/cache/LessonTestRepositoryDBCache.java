@@ -100,8 +100,8 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 	@Override
 	public void removeLessonTest(LessonTest test) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(test.getId()), 
-				stringManager.getKey(test.getIdLesson())}, new String[]{"getLessonTest", "getLesson"}, 
-				test);
+				stringManager.getKey(test.getIdLesson()),stringManager.getKey(test.getIdLesson())},
+				new String[]{"getLessonTest", "getLesson","getLessonTestID"}, test);
 	}
 
 	@Override

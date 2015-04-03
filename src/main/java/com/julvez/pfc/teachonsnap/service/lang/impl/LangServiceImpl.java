@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.service.lang.impl;
 
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.repository.lang.LangRepository;
 import com.julvez.pfc.teachonsnap.repository.lang.LangRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
@@ -27,12 +28,18 @@ public class LangServiceImpl implements LangService {
 	}
 
 	@Override
-	public Language getUserSessionLanguage(String acceptLang,
-			short sessionIdLang, String paramLang, User sessionUser) {
+	public Language getUserSessionLanguage(String acceptLang, Visit visit, String paramLang) {
 		
 		// IdiomaCambio > IdiomaUsuarioSession > IdiomaSessionAnonimo > IdiomaAcceptRequest > IdiomaPorDefecto
 		
 		Language userSessionLanguage = null;
+		User sessionUser = null;
+		short sessionIdLang = -1;
+		
+		if(visit!=null){
+			sessionUser = visit.getUser();
+			sessionIdLang = visit.getIdLanguage();
+		}
 		
 		if(sessionUser!=null){
 			userSessionLanguage = sessionUser.getLanguage();

@@ -6,25 +6,23 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
-import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
-import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 
 
 public interface RequestManager {
 
-	public short getSessionIdLanguage(HttpServletRequest request);
-	public User getSessionUser(HttpServletRequest request);
+	public Visit getSessionVisit(HttpServletRequest request);
 	public ErrorBean getErrorSession(HttpServletRequest request);
 	public String getLastPage(HttpServletRequest request);
 
-	public void setUserSessionLanguage(HttpServletRequest request, Language userLang);
-	public void setUserSession(HttpServletRequest request, User user);
+	public void setVisitSession(HttpServletRequest request, Visit visit);
 	public void setErrorSession(HttpServletRequest request, ErrorBean error);
 	public void setLastPage(HttpServletRequest request);
 
 	public String getRequestLanguage(HttpServletRequest request);
+	public String getIP(HttpServletRequest request);
 
 	public String[] getControllerParams(HttpServletRequest request);
 

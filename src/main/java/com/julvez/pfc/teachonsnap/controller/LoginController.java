@@ -13,8 +13,11 @@ import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
+import com.julvez.pfc.teachonsnap.service.visit.VisitService;
+import com.julvez.pfc.teachonsnap.service.visit.VisitServiceFactory;
 
 
 /**
@@ -24,7 +27,8 @@ public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private RequestManager requestManager = RequestManagerFactory.getManager();
-	private UserService userService = UserServiceFactory.getService();	
+	private UserService userService = UserServiceFactory.getService();
+	private VisitService visitService = VisitServiceFactory.getService();
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -38,7 +42,10 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		User user = requestManager.getSessionUser(request);
+		User user = null;
+		Visit visit = requestManager.getSessionVisit(request);
+		
+		if(visit!=null) user = visit.getUser();
 		
 		boolean loginError = true;
 		
@@ -53,7 +60,12 @@ public class LoginController extends HttpServlet {
 				if(password!=null){
 					if(userService.validatePassword(user, password)){
 						//Login OK
-						requestManager.setUserSession(request, user);
+						if(visit == null){
+							visit = visitService.createVisit(requestManager.getIP(request));							
+						}
+						visit.setUser(user);
+						visit = visitService.saveUser(visit);
+						requestManager.setVisitSession(request, visit);
 						loginError = false;
 					}					
 				}				
@@ -66,7 +78,8 @@ public class LoginController extends HttpServlet {
 			
 			boolean logOut = requestManager.getParamLogout(request);
 			if(logOut){
-				requestManager.setUserSession(request, null);				
+				visit.setUser(null);
+				requestManager.setVisitSession(request, visit);				
 			}
 		}
 			

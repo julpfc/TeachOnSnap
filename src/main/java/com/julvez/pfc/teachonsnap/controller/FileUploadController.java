@@ -19,6 +19,7 @@ import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.media.MediaType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.upload.UploadService;
 import com.julvez.pfc.teachonsnap.service.upload.UploadServiceFactory;
 
@@ -44,7 +45,9 @@ public class FileUploadController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
     	
-    	User user = requestManager.getSessionUser(request);
+		User user = null;
+		Visit visit = requestManager.getSessionVisit(request);
+		if(visit!=null) user = visit.getUser();
     	
     	if(user == null){
     		//No hay session
@@ -112,7 +115,9 @@ public class FileUploadController extends HttpServlet {
 	 */    
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		User user = requestManager.getSessionUser(request);
+		User user = null;
+		Visit visit = requestManager.getSessionVisit(request);
+		if(visit!=null) user = visit.getUser();
     	
     	if(user == null){
     		//No hay session

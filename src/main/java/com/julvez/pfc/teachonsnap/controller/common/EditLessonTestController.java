@@ -22,6 +22,7 @@ import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Question;
 import com.julvez.pfc.teachonsnap.model.page.Page;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
@@ -54,7 +55,9 @@ public class EditLessonTestController extends CommonController {
 			
 			if(test!=null){
 				Lesson lesson = lessonService.getLesson(test.getIdLesson());
-				User user = requestManager.getSessionUser(request);
+				User user = null;
+				Visit visit = requestManager.getSessionVisit(request);
+				if(visit!=null) user = visit.getUser();
 					
 				if(roleService.isAllowedForLesson(user, test.getIdLesson())){
 					String publish = requestManager.getParamPublishLessonTest(request);

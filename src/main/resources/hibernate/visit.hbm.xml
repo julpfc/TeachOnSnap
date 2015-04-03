@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+	<sql-query name="SQL_VISIT_CREATE">
+	    INSERT INTO tvisit(ip,`date`)
+	    VALUES (IFNULL(INET_ATON(?),0),NOW());       
+	</sql-query>	
+	<sql-query name="SQL_VISIT_SAVE_USER">
+	    INSERT IGNORE INTO tvisituser(idVisit,idUser)
+	    VALUES (?,?);       
+	</sql-query>					
+</hibernate-mapping>

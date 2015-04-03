@@ -14,6 +14,7 @@ import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.user.User;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.comment.CommentService;
 import com.julvez.pfc.teachonsnap.service.comment.CommentServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
@@ -39,7 +40,9 @@ public class CommentController extends CommonController {
 		if(lesson != null){
 			int commentID = requestManager.getParamCommentID(request);
 			String isBanned = requestManager.getParamBanComment(request);
-			User user = requestManager.getSessionUser(request);
+			User user = null;
+			Visit visit = requestManager.getSessionVisit(request);
+			if(visit!=null) user = visit.getUser();
 			
 			if(request.getMethod().equals("POST")){			
 				String commentBody = requestManager.getParamComment(request);
