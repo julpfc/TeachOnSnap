@@ -20,6 +20,13 @@
 		<div>
        		<h2 class="lesson-title">${lesson.title}</h2>       		 	
 			<p class="lesson-meta">
+				<c:if test="${lesson.author.id == user.id || user.admin}">
+					<span class="lesson-edit"><a href="${lesson.editURL}"><button class="btn btn-default btn-xs" type="button">
+						<fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/>
+						 <span class="glyphicon glyphicon-edit"></span></button>
+						</a>
+					</span>			
+				</c:if>
 				<c:if test="${userLang.id != lesson.language.id}">
      				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
      			</c:if>	            			 
@@ -57,24 +64,61 @@
 				</nav>	
 	        </div><!-- col -->
 
-        	<div class="col-sm-4 col-sm-offset-1">
-        		<c:if test="${lesson.author.id == user.id}">
-						<div class="sidebar">
-							<h4><fmt:message key="lesson.command.heading" bundle="${lessonBundle}"/></h4>
-							<a href="${lesson.editURL}"><button class="btn btn-default" type="button">
-							 	<fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/>
-							 	 <span class="glyphicon glyphicon-edit"></span></button>
-						 	</a>
-						</div>
-				</c:if>
+        	<div class="col-sm-4 col-sm-offset-1">        		
         		<c:if test="${not empty test}">
-						<div class="sidebar">
-							<h4><fmt:message key="lesson.test.heading" bundle="${testBundle}"/></h4>
-							<a href="${test.URL}"><button class="btn btn-success" type="button">
+					<div class="sidebar">
+						<div class="panel panel-default">
+			        		<div class="panel-heading"><fmt:message key="lesson.test.heading" bundle="${testBundle}"/>
+			        			<a href="${test.URL}"><button class="btn btn-success btn-xs pull-right" type="button">
 							 	<span class="glyphicon glyphicon-edit"></span>
 							 	 <fmt:message key="lesson.test.start" bundle="${testBundle}"/></button>
 						 	</a>
-						</div>
+			        		</div>
+			    			<div class="panel-body">
+				    			<table class="table">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th><fmt:message key="lesson.test.highscores.name" bundle="${testBundle}"/></th>
+											<th><fmt:message key="lesson.test.highscores.points" bundle="${testBundle}"/></th>										
+										</tr>
+									</thead>
+									<tbody>
+					    				<c:forEach items="${testRanks}" var="testRank" varStatus="loop">
+					    					<tr>
+					    						<td>
+					    							<c:choose>
+					    								<c:when test="${testRank.user.id == user.id}">
+					    									<label class="label label-info">${loop.index+1}</label>
+						    							</c:when>
+						    							<c:otherwise>
+						    								${loop.index+1}
+						    							</c:otherwise> 
+					    							</c:choose>
+					    						</td>
+					    						<td>${testRank.user.fullName}</td>
+					    						<td>${testRank.points} (${testRank.attempts})</td>
+					    					</tr>
+					    				</c:forEach>
+			    					</tbody>
+			    				</table>
+			    			</div>
+			    			<c:if test="${not empty user}">
+				    			<div class="panel-footer">
+				    				<label class="label label-info"><fmt:message key="lesson.test.highscores.yourbest" bundle="${testBundle}"/>:</label> ${userTestRank.points} 
+				    				<c:choose>
+				    					<c:when test="${empty userTestRank}">
+				    						<fmt:message key="lesson.test.highscores.norecords" bundle="${testBundle}"/>
+				    					</c:when>
+				    					<c:otherwise>
+				    						(${userTestRank.attempts} <fmt:message key="lesson.test.highscores.attempts" bundle="${testBundle}"/>)
+				    					</c:otherwise>
+				    				
+				    				</c:choose>
+			    			</div>
+			    			</c:if>
+			    		</div>
+					</div>
 				</c:if>
 	          	<c:if test="${not empty linkedLessons}">
 		          	<div class="sidebar"> 	

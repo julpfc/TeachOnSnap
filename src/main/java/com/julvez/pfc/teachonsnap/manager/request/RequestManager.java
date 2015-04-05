@@ -20,6 +20,7 @@ public interface RequestManager {
 	public void setVisitSession(HttpServletRequest request, Visit visit);
 	public void setErrorSession(HttpServletRequest request, ErrorBean error);
 	public void setLastPage(HttpServletRequest request);
+	public void setAttributeErrorBean(HttpServletRequest request, ErrorBean error);
 
 	public String getRequestLanguage(HttpServletRequest request);
 	public String getIP(HttpServletRequest request);

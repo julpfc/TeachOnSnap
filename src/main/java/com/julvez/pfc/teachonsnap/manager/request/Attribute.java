@@ -24,6 +24,8 @@ public enum Attribute {
 	USERLESSONTEST_ANSWERS("userTest"),
 	LESSONTEST_QUESTIONS("test"),
 	QUESTION("question"),
+	USERTESTRANK("userTestRank"),
+	LIST_USERTESTRANKS("testRanks"),
 
 	//Cloud tags
 	LIST_CLOUDTAG_AUTHOR("authorCloudTags"),

@@ -11,7 +11,7 @@
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/test.css"/>"/>
-<title>TeachOnSnap - ${lesson.title} - Test</title>
+<title>TeachOnSnap - ${lesson.title} - <fmt:message key="lesson.test.heading" bundle="${testBundle}"/></title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>
@@ -70,40 +70,94 @@
 
         	<div class="col-sm-4 col-sm-offset-1">
         		<c:if test="${lesson.testAvailable && empty userTest}">
-						<div class="sidebar">
-							<h4><fmt:message key="lesson.test.heading" bundle="${testBundle}"/></h4>
-							 <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-check"></span>
-							  <fmt:message key="lesson.test.validate" bundle="${testBundle}"/></button>
-						</div>
+					<div class="sidebar">							
+        				<div class="panel panel-default">
+				    		<div class="panel-heading">
+				    			<fmt:message key="lesson.test.heading" bundle="${testBundle}"/>
+				    			<button class="btn btn-success btn-xs pull-right" type="submit"><span class="glyphicon glyphicon-check"></span>
+						  			<fmt:message key="lesson.test.validate" bundle="${testBundle}"/></button>
+				    		</div>
+				    		<div class="panel-footer">
+				    			<p class="help-block">
+								 	<fmt:message key="lesson.test.validate.tip" bundle="${testBundle}"/>
+		    				 	</p>	    			
+				    		</div>			
+						</div><!-- Export Panel -->						 
+					</div>
 				</c:if>
 				<c:if test="${not empty userTest}">
-						<div class="sidebar">							
-							<fmt:formatNumber maxFractionDigits="0" value="${100 * userTest.numOKs/test.numQuestions}" var="percentage"/>
-							<h2>								
-								<c:if test="${percentage<40}">
-									<fmt:message key="lesson.test.result.verypoor" bundle="${testBundle}"/>
-	 							</c:if>
-								<c:if test="${percentage>=40 && percentage<60}">
-									<fmt:message key="lesson.test.result.poor" bundle="${testBundle}"/>
-								</c:if>
-								<c:if test="${percentage>=60 && percentage<85}">
-									<fmt:message key="lesson.test.result.good" bundle="${testBundle}"/>
-								</c:if>
-								<c:if test="${percentage>=85}">
-									<fmt:message key="lesson.test.result.nice" bundle="${testBundle}"/>
-								</c:if>								
-								: ${percentage} %
-							</h2>
-							<div class="progress">
-  								<div class="progress-bar ${percentage<40?'progress-bar-danger':(percentage<60?'progress-bar-warning':(percentage<85?'progress-bar-info':'progress-bar-success'))}" 
-  									role="progressbar" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" style="width: ${percentage}%">
-    								<span class="sr-only">${percentage}%</span>
-  								</div>
+					<div class="sidebar">							
+						<fmt:formatNumber maxFractionDigits="0" value="${100 * userTest.numOKs/test.numQuestions}" var="percentage"/>
+						<h2>								
+							<c:if test="${percentage<40}">
+								<fmt:message key="lesson.test.result.verypoor" bundle="${testBundle}"/>
+ 							</c:if>
+							<c:if test="${percentage>=40 && percentage<60}">
+								<fmt:message key="lesson.test.result.poor" bundle="${testBundle}"/>
+							</c:if>
+							<c:if test="${percentage>=60 && percentage<85}">
+								<fmt:message key="lesson.test.result.good" bundle="${testBundle}"/>
+							</c:if>
+							<c:if test="${percentage>=85}">
+								<fmt:message key="lesson.test.result.nice" bundle="${testBundle}"/>
+							</c:if>								
+							: ${percentage} %
+						</h2>
+						<div class="progress">
+							<div class="progress-bar ${percentage<40?'progress-bar-danger':(percentage<60?'progress-bar-warning':(percentage<85?'progress-bar-info':'progress-bar-success'))}" 
+								role="progressbar" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100" style="width: ${percentage}%">
+   								<span class="sr-only">${percentage}%</span>
 							</div>
-							<a href="${test.URL}"><button class="btn btn-default" type="button"><fmt:message key="lesson.test.retry" bundle="${testBundle}"/></button></a>							
 						</div>
-				</c:if>				
-
+						<a href="${test.URL}"><button class="btn btn-default" type="button"><fmt:message key="lesson.test.retry" bundle="${testBundle}"/></button></a>							
+					</div>
+					<div class="sidebar">
+						<div class="panel panel-default">
+			        		<div class="panel-heading"><fmt:message key="lesson.test.highscores" bundle="${testBundle}"/></div>
+			    			<div class="panel-body">
+				    			<table class="table">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th><fmt:message key="lesson.test.highscores.name" bundle="${testBundle}"/></th>
+											<th><fmt:message key="lesson.test.highscores.points" bundle="${testBundle}"/></th>										
+										</tr>
+									</thead>
+									<tbody>
+					    				<c:forEach items="${testRanks}" var="testRank" varStatus="loop">
+					    					<tr>
+					    						<td>
+					    							<c:choose>
+					    								<c:when test="${testRank.user.id == user.id}">
+					    									<label class="label label-info">${loop.index+1}</label>
+						    							</c:when>
+						    							<c:otherwise>
+						    								${loop.index+1}
+						    							</c:otherwise> 
+					    							</c:choose>
+					    						</td>
+					    						<td>${testRank.user.fullName}</td>
+					    						<td>${testRank.points} (${testRank.attempts})</td>
+					    					</tr>
+					    				</c:forEach>
+			    					</tbody>
+			    				</table>
+			    			</div>
+			    			<div class="panel-footer">
+			    				<label class="label label-info"><fmt:message key="lesson.test.highscores.yourbest" bundle="${testBundle}"/>:</label> ${userTestRank.points} 
+			    				<c:choose>
+			    					<c:when test="${empty userTestRank}">
+			    						<fmt:message key="lesson.test.highscores.norecords" bundle="${testBundle}"/>
+			    					</c:when>
+			    					<c:otherwise>
+			    						(${userTestRank.attempts} <fmt:message key="lesson.test.highscores.attempts" bundle="${testBundle}"/>)
+			    					</c:otherwise>
+			    				
+			    				</c:choose>
+			    			</div>
+			    		</div>
+					</div>			
+				</c:if>	
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

@@ -17,6 +17,8 @@ import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.link.Link;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.model.tag.Tag;
+import com.julvez.pfc.teachonsnap.model.visit.UserTestRank;
+import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.comment.CommentService;
 import com.julvez.pfc.teachonsnap.service.comment.CommentServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
@@ -40,12 +42,11 @@ public class LessonController extends CommonController {
 	private TagService tagService = TagServiceFactory.getService();
 	private LinkService linkService = LinkServiceFactory.getService();
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
-
 	private CommentService commentService = CommentServiceFactory.getService();
+	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
 
-	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -64,6 +65,14 @@ public class LessonController extends CommonController {
 				int pageResult = 0;
 				boolean hasNextPage = false;
 				
+				Visit visit = requestManager.getSessionVisit(request);
+				
+				if(!visit.isViewedLesson(lesson.getId())){
+					visit = visitService.saveLesson(visit, lesson);
+				}
+				
+				//TODO actualizar session con visit?
+				
 				List<Tag> tags = tagService.getLessonTags(lesson.getId());
 				List<Lesson> linkedLessons = lessonService.getLinkedLessons(lesson.getId());
 				List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
@@ -73,6 +82,13 @@ public class LessonController extends CommonController {
 				if(lesson.isTestAvailable()){
 					LessonTest test = lessonTestService.getLessonTest(lesson);
 					request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+					
+					if(visit.getUser()!=null){
+						UserTestRank testRank = visitService.getUserTestRank(test.getId(), visit.getUser().getId());			
+						request.setAttribute(Attribute.USERTESTRANK.toString(), testRank);
+					}
+					List<UserTestRank> testRanks = visitService.getTestRanks(test.getId());
+					request.setAttribute(Attribute.LIST_USERTESTRANKS.toString(), testRanks);
 				}
 				
 				if(params.length > 1 && stringManager.isNumeric(params[1])){
@@ -97,6 +113,7 @@ public class LessonController extends CommonController {
 						prevPage = prevPage + "/" + (pageResult-MAX_COMMENTS_PAGE);
 					}
 				}
+				
 				request.setAttribute(Attribute.LESSON.toString(), lesson);
 				request.setAttribute(Attribute.LIST_MEDIAFILE_LESSONFILES.toString(), medias);
 				request.setAttribute(Attribute.LIST_TAG_LESSONTAGS.toString(), tags);

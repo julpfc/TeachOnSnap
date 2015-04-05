@@ -18,4 +18,6 @@ public interface CacheManager {
 	public Object updateImplCached(Object impl, String[] cacheKeys, String[] cacheNames, Object... params);
 
 	public void clearCache(String cacheName);
+	
+	public void incCacheValue(String cacheName, String cacheKey);
 }

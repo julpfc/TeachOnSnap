@@ -2,6 +2,10 @@
 	margin-bottom: 20px;  
 }
 
+.lesson-meta > .lesson-edit{
+	padding-right: 10px;  
+}
+
 .sidebar{
 	padding-bottom: 10px;
 }

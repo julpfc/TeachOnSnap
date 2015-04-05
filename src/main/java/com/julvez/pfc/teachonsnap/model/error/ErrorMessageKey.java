@@ -19,6 +19,7 @@ public enum ErrorMessageKey {
 	QUESTION_SAVED("question.saved"), 
 	QUESTION_CREATED("question.created"), 
 	QUESTION_REMOVED("question.removed"), 
+	USERTEST_SAVED("usertest.saved"), 
 	
 	//Lesson
 	COMMENT_UNBLOCKED("comment.unblocked"),

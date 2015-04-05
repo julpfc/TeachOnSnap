@@ -212,6 +212,51 @@ public class CacheManagerMap implements CacheManager {
 		}
 	}
 
+	private Object incObjectValue(Object result) {
+		if(result!=null){
+			Class<?> clazz = result.getClass();
+			
+			if(isPrimitiveClass(clazz)){
+				if(clazz.equals(Integer.class))
+					return (int)result+1;				
+				else if(clazz.equals(Short.class))
+					return (short)result+1;
+				else if(clazz.equals(Long.class))
+					return (long)result+1;
+				else if(clazz.equals(Byte.class))
+					return (byte)result+1;
+				else if(clazz.equals(Double.class))
+					return (double)result+1;
+				else if(clazz.equals(Float.class))
+					return (float)result+1;
+				
+			}
+		}
+		return result;
+	}
+
+	
+
+	@Override
+	public void incCacheValue(String cacheName, String cacheKey) {
+		if(!stringManager.isEmpty(cacheName) && !stringManager.isEmpty(cacheKey)){			
+			Map<String, Object> cache = getCache(cacheName);
+			Object value = cache.get(cacheKey);
+			
+			if(value != null){
+				synchronized (cache) {
+					value = cache.get(cacheKey);				
+					
+					value = incObjectValue(value);
+	
+					cache.put(cacheKey, value);
+				}
+			}
+			System.out.println("CacheValueInc: "+cacheName+"["+cacheKey+"]++="+value);
+		}
+		
+	}
+
 	//TODO Investigar lo de los clones en la caché
 	/*
 

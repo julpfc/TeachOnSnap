@@ -404,5 +404,28 @@ public class RequestManagerImpl implements RequestManager {
 		return ip;
 	}
 
+	@Override
+	public void setAttributeErrorBean(HttpServletRequest request, ErrorBean error) {
+		if(error!=null){
+		
+			switch(error.getType()){
+				case ERR_LOGIN:
+					request.setAttribute(Attribute.STRING_LOGINERROR.toString(), "loginError");
+					break;
+				case ERR_NONE:
+					if(error.getMessageKey()!=null){
+						request.setAttribute(Attribute.STRING_ERRORMESSAGEKEY.toString(), error.getMessageKey());
+					}
+					break;
+				default:
+					if(error.getMessageKey()!=null){
+						request.setAttribute(Attribute.STRING_ERRORMESSAGEKEY.toString(), error.getMessageKey());
+					}
+					request.setAttribute(Attribute.STRING_ERRORTYPE.toString(), error.getType().toString());
+					break;				
+			}
+		}
+	}
+
 
 }

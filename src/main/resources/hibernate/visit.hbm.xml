@@ -9,5 +9,49 @@
 	<sql-query name="SQL_VISIT_SAVE_USER">
 	    INSERT IGNORE INTO tvisituser(idVisit,idUser)
 	    VALUES (?,?);       
-	</sql-query>					
+	</sql-query>
+	<sql-query name="SQL_VISIT_SAVE_LESSON">
+	    INSERT IGNORE INTO tvisitlesson(idVisit,idLesson)
+	    VALUES (?,?);       
+	</sql-query>
+	<sql-query name="SQL_VISIT_GET_LESSON_VIEWS_COUNT">
+	    SELECT COUNT(idVisit) as lessonViews
+	    FROM tvisitlesson
+	    WHERE idLesson = ?
+	    GROUP BY idLesson;       
+	</sql-query>
+	<sql-query name="SQL_VISIT_GET_USERTEST_COUNT">
+	    SELECT COUNT(idVisitUserTest) as attempts
+	    FROM tvisitusertest
+	    JOIN tvisituser USING (idVisitUser)
+	    WHERE idLessonTest = ? AND idUser = ?
+	    GROUP BY idLessonTest, idUser;       
+	</sql-query>	
+	<sql-query name="SQL_VISIT_SAVE_USERTEST">
+	    INSERT INTO tvisitusertest(idVisitUser, idLessonTest, points, `date`)
+	    VALUES (?,?,?,NOW());       
+	</sql-query>
+	<sql-query name="SQL_VISIT_SAVE_USERTEST_KO">
+	    INSERT IGNORE INTO tvisitusertestkos(idVisitUserTest, idQuestion)
+	    VALUES (?,?);       
+	</sql-query>
+	<sql-query name="SQL_VISIT_SAVE_USERTESTRANK">
+	    INSERT INTO tvisitusertestrank(idLessonTest, idUser, idVisitUserTest, attempts)
+	    VALUES (?,?,?,?)
+	    ON DUPLICATE KEY UPDATE idVisitUserTest = ?, attempts = ?;   
+	</sql-query>
+	<sql-query name="SQL_VISIT_GET_USERTESTRANK">
+	    SELECT idLessonTest, idUser, idVisitUserTest, attempts, points, `date`
+	    FROM tvisitusertestrank
+	    JOIN tvisitusertest USING (idvisitusertest, idLessonTest)
+	    WHERE idLessonTest = ? AND idUser = ?;   
+	</sql-query>
+	<sql-query name="SQL_VISIT_GET_USERIDS_TESTRANK">
+	    SELECT idUser
+	    FROM tvisitusertestrank
+	    JOIN tvisitusertest USING (idvisitusertest, idLessonTest)
+	    WHERE idLessonTest = ?
+	    ORDER BY points DESC,attempts ASC,`date` DESC
+	    LIMIT 5;   
+	</sql-query>
 </hibernate-mapping>

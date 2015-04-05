@@ -102,23 +102,8 @@ public abstract class CommonController extends HttpServlet {
 		else{
 			ErrorBean error = requestManager.getErrorSession(request);
 			
-			switch(error.getType()){
-				case ERR_LOGIN:
-					request.setAttribute(Attribute.STRING_LOGINERROR.toString(), "loginError");
-					break;
-				case ERR_NONE:
-					if(error.getMessageKey()!=null){
-						request.setAttribute(Attribute.STRING_ERRORMESSAGEKEY.toString(), error.getMessageKey());
-					}
-					break;
-				default:
-					if(error.getMessageKey()!=null){
-						request.setAttribute(Attribute.STRING_ERRORMESSAGEKEY.toString(), error.getMessageKey());
-					}
-					request.setAttribute(Attribute.STRING_ERRORTYPE.toString(), error.getType().toString());
-					break;
-				
-			}
+			requestManager.setAttributeErrorBean(request, error);
+						
 			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.NONE));
 			
 			//TODO Loguear la página en la que estamos	  

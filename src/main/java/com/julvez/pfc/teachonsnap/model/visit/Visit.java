@@ -1,20 +1,26 @@
 package com.julvez.pfc.teachonsnap.model.visit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.julvez.pfc.teachonsnap.model.user.User;
 
 public class Visit {
 
 	private int id;
-	private int idUser;
+	private int idVisitUser;
 	private short idLanguage;
 	
 	private User user;
 	
+	private List<Integer> viewedLessons;
+	
 	public Visit(int idVisit) {
 		this.id = idVisit;
-		this.idUser = -1;
+		this.idVisitUser= -1;
 		this.idLanguage = -1;
 		this.user = null;
+		viewedLessons = new ArrayList<Integer>();
 	}
 
 	public int getId() {
@@ -25,23 +31,12 @@ public class Visit {
 		this.id = id;
 	}
 
-	public int getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
-	}
-
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
-		this.user = user;
-		if(user!=null){
-			idUser = user.getId();
-		}			
+		this.user = user;					
 	}
 
 	public short getIdLanguage() {
@@ -52,11 +47,28 @@ public class Visit {
 		this.idLanguage = idLanguage;
 	}
 
+	public boolean isViewedLesson(int idLesson){
+		return viewedLessons.contains(idLesson);
+	}
+	
+	public void addViewedLesson(int idLesson){
+		viewedLessons.add(idLesson);
+	}
+
+	public int getIdVisitUser() {
+		return idVisitUser;
+	}
+
+	public void setIdVisitUser(int idVisitUser) {
+		this.idVisitUser = idVisitUser;
+	}
+
 	@Override
 	public String toString() {
-		return "Visit [id=" + id + ", idLanguage=" + idLanguage + ", user="
-				+ user + "]";
-	}
+		return "Visit [id=" + id + ", idVisitUser=" + idVisitUser
+				+ ", idLanguage=" + idLanguage + ", user=" + user
+				+ ", viewedLessons=" + viewedLessons + "]";
+	}	
 	
 	
 }

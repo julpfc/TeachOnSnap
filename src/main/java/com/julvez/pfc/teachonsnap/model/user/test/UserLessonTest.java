@@ -45,10 +45,13 @@ public class UserLessonTest {
 	public boolean isMultipleChoice() {
 		return test.isMultipleChoice();
 	}
-	
-	
-	
-	
-	
+
+	public int getIdLessonTest() {
+		return test.getId();
+	}
+
+	public int getPoints() {
+		return (100 * getNumOKs()/getNumQuestions());
+	}	
 	
 }

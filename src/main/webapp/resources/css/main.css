@@ -5,6 +5,10 @@
   }
 }
 
+/* Manita en los enlaces sin href*/
+a{
+	cursor: pointer;
+}
 
 html, body {
 background-color: #eee;
