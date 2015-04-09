@@ -16,7 +16,7 @@ public class UserTestRank {
 	private int idLessonTest;
 	@Id
 	private int idUser;	
-	private int idVisitUserTest;
+	private int idVisitTest;
 	private int attempts;
 	private int points;
 	private Date date;
@@ -36,11 +36,11 @@ public class UserTestRank {
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
-	public int getIdVisitUserTest() {
-		return idVisitUserTest;
+	public int getIdVisitTest() {
+		return idVisitTest;
 	}
-	public void setIdVisitUserTest(int idVisitUserTest) {
-		this.idVisitUserTest = idVisitUserTest;
+	public void setIdVisitTest(int idVisitTest) {
+		this.idVisitTest = idVisitTest;
 	}
 	public int getAttempts() {
 		return attempts;
@@ -70,7 +70,7 @@ public class UserTestRank {
 	@Override
 	public String toString() {
 		return "UserTestRank [idLessonTest=" + idLessonTest + ", idUser="
-				+ idUser + ", idVisitUserTest=" + idVisitUserTest
+				+ idUser + ", idVisitTest=" + idVisitTest
 				+ ", attempts=" + attempts + ", points=" + points + ", date="
 				+ date + "]";
 	}

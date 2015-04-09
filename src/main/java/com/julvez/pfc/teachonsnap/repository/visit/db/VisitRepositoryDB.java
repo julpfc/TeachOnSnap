@@ -21,8 +21,8 @@ public class VisitRepositoryDB implements VisitRepository {
 	}
 
 	@Override
-	public int saveUser(int idVisit, int idUser) {
-		return (int)dbm.insertQueryAndGetLastInserID("SQL_VISIT_SAVE_USER", idVisit, idUser);
+	public boolean saveUser(int idVisit, int idUser) {
+		return dbm.updateQuery("SQL_VISIT_SAVE_USER", idVisit, idUser)>=0;
 	}
 
 	@Override
@@ -42,14 +42,14 @@ public class VisitRepositoryDB implements VisitRepository {
 		
 		Object session = dbm.beginTransaction();
 		
-		long idVisitUserTest = dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_VISIT_SAVE_USERTEST", 
-				visit.getIdVisitUser(), userTest.getIdLessonTest(), userTest.getPoints());
+		long idVisitTest = dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_VISIT_SAVE_USERTEST", 
+				visit.getId(), userTest.getIdLessonTest(), userTest.getPoints());
 		
-		if(idVisitUserTest>0){
+		if(idVisitTest>0){
 			for(UserQuestion question:userTest.getQuestions()){
 				if(!question.isOK()){
 					affectedRows = dbm.updateQuery_NoCommit(session, "SQL_VISIT_SAVE_USERTEST_KO",
-							idVisitUserTest, question.getId());
+							idVisitTest, question.getId());
 					if(affectedRows == -1) break;					
 				}
 			}
@@ -60,8 +60,8 @@ public class VisitRepositoryDB implements VisitRepository {
 				
 				if(attempts>=0){
 					affectedRows = dbm.updateQuery_NoCommit(session, "SQL_VISIT_SAVE_USERTESTRANK",
-							userTest.getIdLessonTest(), visit.getUser().getId(), idVisitUserTest,
-							attempts, idVisitUserTest, attempts);
+							userTest.getIdLessonTest(), visit.getUser().getId(), idVisitTest,
+							attempts, idVisitTest, attempts);
 					
 					saved = affectedRows>0;
 				}				

@@ -24,8 +24,8 @@ public class VisitRepositoryDBCache implements VisitRepository {
 	}
 
 	@Override
-	public int saveUser(int idVisit, int idUser) {
-		return (int)cache.updateImplCached(repoDB, null, null, idVisit, idUser);
+	public boolean saveUser(int idVisit, int idUser) {
+		return (boolean)cache.updateImplCached(repoDB, null, null, idVisit, idUser);
 	}
 
 	@Override

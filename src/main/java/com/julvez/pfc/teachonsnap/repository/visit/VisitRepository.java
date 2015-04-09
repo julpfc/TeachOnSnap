@@ -10,7 +10,7 @@ public interface VisitRepository {
 
 	public int createVisit(String ip);
 
-	public int saveUser(int idVisit, int idUser);
+	public boolean saveUser(int idVisit, int idUser);
 
 	public boolean saveLesson(int idVisit, int idLesson);
 

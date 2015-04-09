@@ -8,7 +8,6 @@ import com.julvez.pfc.teachonsnap.model.user.User;
 public class Visit {
 
 	private int id;
-	private int idVisitUser;
 	private short idLanguage;
 	
 	private User user;
@@ -17,7 +16,6 @@ public class Visit {
 	
 	public Visit(int idVisit) {
 		this.id = idVisit;
-		this.idVisitUser= -1;
 		this.idLanguage = -1;
 		this.user = null;
 		viewedLessons = new ArrayList<Integer>();
@@ -55,20 +53,11 @@ public class Visit {
 		viewedLessons.add(idLesson);
 	}
 
-	public int getIdVisitUser() {
-		return idVisitUser;
-	}
-
-	public void setIdVisitUser(int idVisitUser) {
-		this.idVisitUser = idVisitUser;
-	}
 
 	@Override
 	public String toString() {
-		return "Visit [id=" + id + ", idVisitUser=" + idVisitUser
-				+ ", idLanguage=" + idLanguage + ", user=" + user
-				+ ", viewedLessons=" + viewedLessons + "]";
+		return "Visit [id=" + id + ", idLanguage=" + idLanguage 
+				+ ", user=" + user	+ ", viewedLessons=" + viewedLessons + "]";
 	}	
-	
-	
+		
 }

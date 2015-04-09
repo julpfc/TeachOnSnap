@@ -21,35 +21,35 @@
 	    GROUP BY idLesson;       
 	</sql-query>
 	<sql-query name="SQL_VISIT_GET_USERTEST_COUNT">
-	    SELECT COUNT(idVisitUserTest) as attempts
-	    FROM tvisitusertest
-	    JOIN tvisituser USING (idVisitUser)
+	    SELECT COUNT(idVisitTest) as attempts
+	    FROM tvisittest
+	    JOIN tvisituser USING (idVisit)
 	    WHERE idLessonTest = ? AND idUser = ?
 	    GROUP BY idLessonTest, idUser;       
 	</sql-query>	
 	<sql-query name="SQL_VISIT_SAVE_USERTEST">
-	    INSERT INTO tvisitusertest(idVisitUser, idLessonTest, points, `date`)
+	    INSERT INTO tvisittest(idVisit, idLessonTest, points, `date`)
 	    VALUES (?,?,?,NOW());       
 	</sql-query>
 	<sql-query name="SQL_VISIT_SAVE_USERTEST_KO">
-	    INSERT IGNORE INTO tvisitusertestkos(idVisitUserTest, idQuestion)
+	    INSERT IGNORE INTO tvisittestkos(idVisitTest, idQuestion)
 	    VALUES (?,?);       
 	</sql-query>
 	<sql-query name="SQL_VISIT_SAVE_USERTESTRANK">
-	    INSERT INTO tvisitusertestrank(idLessonTest, idUser, idVisitUserTest, attempts)
+	    INSERT INTO tvisittestrank(idLessonTest, idUser, idVisitTest, attempts)
 	    VALUES (?,?,?,?)
-	    ON DUPLICATE KEY UPDATE idVisitUserTest = ?, attempts = ?;   
+	    ON DUPLICATE KEY UPDATE idVisitTest = ?, attempts = ?;   
 	</sql-query>
 	<sql-query name="SQL_VISIT_GET_USERTESTRANK">
-	    SELECT idLessonTest, idUser, idVisitUserTest, attempts, points, `date`
-	    FROM tvisitusertestrank
-	    JOIN tvisitusertest USING (idvisitusertest, idLessonTest)
+	    SELECT idLessonTest, idUser, idVisitTest, attempts, points, `date`
+	    FROM tvisittestrank
+	    JOIN tvisittest USING (idvisittest, idLessonTest)
 	    WHERE idLessonTest = ? AND idUser = ?;   
 	</sql-query>
 	<sql-query name="SQL_VISIT_GET_USERIDS_TESTRANK">
 	    SELECT idUser
-	    FROM tvisitusertestrank
-	    JOIN tvisitusertest USING (idvisitusertest, idLessonTest)
+	    FROM tvisittestrank
+	    JOIN tvisittest USING (idvisittest, idLessonTest)
 	    WHERE idLessonTest = ?
 	    ORDER BY points DESC,attempts ASC,`date` DESC
 	    LIMIT 5;   

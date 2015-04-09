@@ -40,11 +40,10 @@ public class VisitServiceImpl implements VisitService {
 	}
 
 	@Override
-	public Visit saveUser(Visit visit) {
-		if(visit!=null && visit.getUser()!=null && visit.getIdVisitUser()<=0){
-			int idVisitUser = visitRepository.saveUser(visit.getId(), visit.getUser().getId());
-			if(idVisitUser>0){
-				visit.setIdVisitUser(idVisitUser);
+	public Visit saveUser(Visit visit, User user) {
+		if(visit!=null && visit.getUser()==null && user!=null){
+			if(visitRepository.saveUser(visit.getId(), user.getId())){
+				visit.setUser(user);
 			}else{
 				visit = null;
 			}			

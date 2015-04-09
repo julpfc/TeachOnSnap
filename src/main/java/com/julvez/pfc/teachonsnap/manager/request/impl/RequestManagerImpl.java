@@ -396,7 +396,6 @@ public class RequestManagerImpl implements RequestManager {
 	@Override
 	public String getIP(HttpServletRequest request) {
 		String ip = request.getRemoteAddr();
-//TODO Limpieza de IP
 		if(stringManager.isEmpty(ip)){
 			ip = null;
 		}
