@@ -63,7 +63,7 @@
 		            		<li><a href="${user.URL}"><fmt:message key="nav.menu.user.lessons"/></a></li>
 		            		<li class="divider"></li>
 		            	</c:if>
-		            	<li><a href="#"><fmt:message key="nav.menu.user.preferences"/></a></li>                
+		            	<li><a href="/preferences/"><fmt:message key="nav.menu.user.preferences"/></a></li>                
 					</ul>
 		        </li>
         		<li><a href="/login/?logout=1"><fmt:message key="nav.menu.logout"/> <span class="glyphicon glyphicon-log-out"></span></a></li>

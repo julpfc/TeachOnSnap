@@ -49,6 +49,17 @@
 	</servlet-mapping>
 	<servlet>
 		<description>
+  		</description>
+		<display-name>UserPreferencesController</display-name>
+		<servlet-name>UserPreferencesController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.UserPreferencesController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserPreferencesController</servlet-name>
+		<url-pattern>/preferences/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
   	</description> 
 		<display-name>AuthorController</display-name>
 		<servlet-name>AuthorController</servlet-name>

@@ -62,8 +62,14 @@ public class LoginController extends HttpServlet {
 						//Login OK
 						if(visit == null){
 							visit = visitService.createVisit(requestManager.getIP(request));							
-						}						
+						}
+						
 						visit = visitService.saveUser(visit,user);
+						
+						if(visit == null){
+							visit = visitService.createVisit(requestManager.getIP(request));
+							visit = visitService.saveUser(visit,user);
+						}
 						requestManager.setVisitSession(request, visit);
 						loginError = false;
 					}					

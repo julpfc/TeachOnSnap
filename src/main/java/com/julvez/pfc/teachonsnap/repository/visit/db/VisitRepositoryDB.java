@@ -22,7 +22,7 @@ public class VisitRepositoryDB implements VisitRepository {
 
 	@Override
 	public boolean saveUser(int idVisit, int idUser) {
-		return dbm.updateQuery("SQL_VISIT_SAVE_USER", idVisit, idUser)>=0;
+		return dbm.updateQuery("SQL_VISIT_SAVE_USER", idVisit, idUser)>0;
 	}
 
 	@Override
