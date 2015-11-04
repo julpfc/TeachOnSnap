@@ -2,8 +2,11 @@ package com.julvez.pfc.teachonsnap.repository.comment.db;
 
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.controller.pager.PagerPropertyName;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.comment.Comment;
@@ -13,10 +16,12 @@ public class CommentRepositoryDB implements CommentRepository {
 
 	private DBManager dbm = DBManagerFactory.getDBManager();
 	private StringManager stringManager = StringManagerFactory.getManager();
+	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
 	@Override
 	public List<Integer> getCommentIDs(int idLesson, int firstResult) {
-		return dbm.getQueryResultList("SQL_COMMENT_GET_COMMENTIDS", Integer.class, idLesson, firstResult);
+		int maxResults = properties.getNumericProperty(PagerPropertyName.MAX_PAGE_COMMENTS);
+		return dbm.getQueryResultList("SQL_COMMENT_GET_COMMENTIDS", Integer.class, idLesson, firstResult, maxResults + 1);
 	}
 
 	@Override

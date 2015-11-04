@@ -23,7 +23,9 @@ public class MailManagerJavaMail implements MailManager {
 	private PropertyManager propertyManager = PropertyManagerFactory.getManager();
 	
 	@Override
-	public void send(String address, String subject, String body) {
+	public boolean send(String address, String subject, String body) {
+		
+		boolean success = true;
 
 		Properties props = new Properties();
 		props.put(JAVAMAIL_SMTP_HOST,propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_HOST));
@@ -59,7 +61,9 @@ public class MailManagerJavaMail implements MailManager {
 		} 
 		catch (Throwable t) {
 			t.printStackTrace();
+			success = false;
 		}
+		return success;
 	}
 
 }

@@ -12,5 +12,13 @@ public interface UserService {
 	public boolean validatePassword(User user, String password);
 
 	public User saveUserLanguage(User user, Language language);
+
+	public User saveFirstName(User user, String firstname);
+
+	public User saveLastName(User user, String lastname);
+
+	public void savePassword(User user, String newPassword);
+
+	public boolean sendPasswordRemind(User user);
 	
 }

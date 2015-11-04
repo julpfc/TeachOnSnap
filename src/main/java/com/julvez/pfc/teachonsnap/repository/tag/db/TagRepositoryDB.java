@@ -3,17 +3,23 @@ package com.julvez.pfc.teachonsnap.repository.tag.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.controller.pager.PagerPropertyName;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.model.tag.Tag;
 import com.julvez.pfc.teachonsnap.repository.tag.TagRepository;
 
 public class TagRepositoryDB implements TagRepository {
 
 	private DBManager dbm = DBManagerFactory.getDBManager();
+	private PropertyManager properties = PropertyManagerFactory.getManager();
+	
 	@Override
 	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
-		return dbm.getQueryResultList("SQL_TAG_GET_LESSONIDS_FROM_TAG", Integer.class, tag,firstResult);
+		int maxResults = properties.getNumericProperty(PagerPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_TAG_GET_LESSONIDS_FROM_TAG", Integer.class, tag,firstResult, maxResults + 1);
 	}
 
 	@Override
@@ -28,12 +34,14 @@ public class TagRepositoryDB implements TagRepository {
 	
 	@Override
 	public List<Object[]> getCloudTags() {
-		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_TAG", Object[].class, new Object[0]);		
+		int limit = properties.getNumericProperty(TagRepositoryPropertyName.LIMIT_CLOUDTAG);		
+		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_TAG", Object[].class, limit);		
 	}
 
 	@Override
 	public List<Object[]> getAuthorCloudTags() {
-		return dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_AUTHOR", Object[].class, new Object[0]);		
+		int limit = properties.getNumericProperty(TagRepositoryPropertyName.LIMIT_CLOUDTAG);
+		return dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_AUTHOR", Object[].class, limit);		
 	}
 	
 	@Override

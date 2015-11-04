@@ -2,8 +2,11 @@ package com.julvez.pfc.teachonsnap.repository.lesson.db;
 
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.controller.pager.PagerPropertyName;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 
@@ -11,6 +14,7 @@ import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
 public class LessonRepositoryDB implements LessonRepository {
 
 	private DBManager dbm = DBManagerFactory.getDBManager();
+	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
 	@Override
 	public Lesson getLesson(int idLesson) {
@@ -35,12 +39,14 @@ public class LessonRepositoryDB implements LessonRepository {
 
 	@Override
 	public List<Integer> getLastLessonIDs(int firstResult) {
-		return dbm.getQueryResultList("SQL_LESSON_GET_LASTLESSONIDS", Integer.class, firstResult);
+		int maxResults = properties.getNumericProperty(PagerPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_LESSON_GET_LASTLESSONIDS", Integer.class, firstResult, maxResults + 1);
 	}
 
 	@Override
 	public List<Integer> getLessonIDsFromAuthor(String author,int firstResult) {
-		return dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR", Integer.class, author,firstResult);						
+		int maxResults = properties.getNumericProperty(PagerPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR", Integer.class, author,firstResult, maxResults + 1);						
 	}
 
 	@Override

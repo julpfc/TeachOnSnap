@@ -21,7 +21,7 @@
 		<servlet-name>ErrorController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.ErrorController</servlet-class>
 	</servlet>
-	<servlet-mapping>
+	<servlet-mapping> 
 		<servlet-name>ErrorController</servlet-name>
 		<url-pattern>/error/*</url-pattern>
 	</servlet-mapping>

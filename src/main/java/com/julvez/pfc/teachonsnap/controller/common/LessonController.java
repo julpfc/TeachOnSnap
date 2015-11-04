@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.controller.pager.PagerPropertyName;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
@@ -36,8 +39,6 @@ public class LessonController extends CommonController {
 
 	private static final long serialVersionUID = 7608540908435958036L;
 
-	protected static final int MAX_COMMENTS_PAGE = 50;
-	
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private TagService tagService = TagServiceFactory.getService();
 	private LinkService linkService = LinkServiceFactory.getService();
@@ -46,7 +47,9 @@ public class LessonController extends CommonController {
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
+	private PropertyManager properties = PropertyManagerFactory.getManager();
 
+	protected final int MAX_COMMENTS_PAGE = properties.getNumericProperty(PagerPropertyName.MAX_PAGE_COMMENTS);
 
 	@Override
 	protected void processController(HttpServletRequest request,

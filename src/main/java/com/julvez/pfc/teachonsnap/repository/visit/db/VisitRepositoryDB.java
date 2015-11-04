@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.model.user.test.UserLessonTest;
 import com.julvez.pfc.teachonsnap.model.user.test.UserQuestion;
 import com.julvez.pfc.teachonsnap.model.visit.UserTestRank;
@@ -14,6 +16,7 @@ import com.julvez.pfc.teachonsnap.repository.visit.VisitRepository;
 public class VisitRepositoryDB implements VisitRepository {
 
 	private DBManager dbm = DBManagerFactory.getDBManager();
+	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
 	@Override
 	public int createVisit(String ip) {
@@ -95,7 +98,9 @@ public class VisitRepositoryDB implements VisitRepository {
 
 	@Override
 	public List<Short> getUserIDsTestRank(int idLessonTest) {
-		return dbm.getQueryResultList("SQL_VISIT_GET_USERIDS_TESTRANK", Short.class, idLessonTest);
+		int limit = properties.getNumericProperty(VisitRepositoryPropertyName.LIMIT_USER_RANKING);
+		
+		return dbm.getQueryResultList("SQL_VISIT_GET_USERIDS_TESTRANK", Short.class, idLessonTest, limit);
 	}
 
 	

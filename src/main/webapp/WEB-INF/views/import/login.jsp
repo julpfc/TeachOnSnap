@@ -37,12 +37,26 @@
       					</label>
     				</div>	      		
 		    	</div>
-      			<a class="" href="#"><fmt:message key="login.form.forgotpass" bundle="${loginBundle}"/></a>      		
+      			<a data-toggle="collapse" href="#collapseForgotPass" aria-expanded="false" aria-controls="collapseForgotPass"><fmt:message key="login.form.forgotpass" bundle="${loginBundle}"/></a>
+      			     		
 	      		<div class="modal-footer">	  
 	        		<button class="btn btn-primary" type="submit"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></button>
 	      		</div>
+      			
 		  	</form>	      	
+		  	<form action="https://${host}/login/" method="post" class="form-signin" role="form" id="loginForm" >
+	    		<div class="collapse" id="collapseForgotPass">
+					<div class="well">
+						<label for="inputEmailRemind" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>
+		    			<input type="email" name="emailRemind" id="inputEmailRemind" class="form-control" required="required" placeholder="<fmt:message key="login.form.email" bundle="${loginBundle}"/>">
+		    			<div>
+	  						<button class="btn btn-primary form-control" type="submit"><fmt:message key="login.form.forgotpass.remind" bundle="${loginBundle}"/> <span class="glyphicon glyphicon-envelope"></span></button>
+	  					</div>
+					</div>
+				</div> 
+			</form>
    		</div>
 	</div>
     	
 </div> <!-- /container -->
+<script src="/resources/js/login.js"></script>

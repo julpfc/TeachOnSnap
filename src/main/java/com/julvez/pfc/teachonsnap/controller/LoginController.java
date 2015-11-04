@@ -48,6 +48,9 @@ public class LoginController extends HttpServlet {
 		if(visit!=null) user = visit.getUser();
 		
 		boolean loginError = true;
+		boolean emailRemind = false;
+		
+		String lastPage = requestManager.getLastPage(request);
 		
 		// Si no tiene sesión iniciada en la app
 		if(user == null){
@@ -76,6 +79,30 @@ public class LoginController extends HttpServlet {
 				}				
 				
 			}
+			else{
+				email = requestManager.getParamLoginEmailRemind(request);
+				
+				if(email != null){
+					emailRemind = true;
+					loginError = false;
+					
+					user = userService.getUserFromEmail(email);
+					
+					if(user != null){
+						boolean sent = userService.sendPasswordRemind(user);
+						
+						if(sent){
+							requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_REMIND_SENT));
+						}
+						else{
+							requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.PASSWORD_REMIND_SEND_ERROR));
+						}							
+					}
+					else {
+						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.PASSWORD_REMIND_EMAIL_ERROR));
+					}
+				}
+			}
 		}
 		else{
 			// Ya estaba logueado
@@ -84,19 +111,20 @@ public class LoginController extends HttpServlet {
 			boolean logOut = requestManager.getParamLogout(request);
 			if(logOut){
 				visit.setUser(null);
-				requestManager.setVisitSession(request, visit);				
+				requestManager.setVisitSession(request, visit);	
+				lastPage = "/";
 			}
 		}
 			
 		if(loginError){
 			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_LOGIN, ErrorMessageKey.NONE));			
 		}
-		else{
+		else if(!emailRemind){
 			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.NONE));
 		}	
 		
 		// GOTO LastPage
-		String lastPage = requestManager.getLastPage(request);
+		
 		if(lastPage==null) lastPage = "/";
 		response.sendRedirect(lastPage);
 	}

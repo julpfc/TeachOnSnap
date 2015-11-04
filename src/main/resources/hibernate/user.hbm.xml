@@ -24,5 +24,20 @@
 	    UPDATE tuser
 	    SET idLanguage = ?	    
 	    WHERE idUser=?
-	</sql-query>		
+	</sql-query>
+	<sql-query name="SQL_USER_SAVE_FIRSTNAME">
+	    UPDATE tuser
+	    SET firstName = ?	    
+	    WHERE idUser=?
+	</sql-query>	
+	<sql-query name="SQL_USER_SAVE_LASTNAME">
+	    UPDATE tuser
+	    SET lastName = ?	    
+	    WHERE idUser=?
+	</sql-query>	
+	<sql-query name="SQL_USER_SAVE_PASSWORD">
+	    UPDATE tuser
+	    SET password = PASSWORD(?)	    
+	    WHERE idUser=?
+	</sql-query>			
 </hibernate-mapping>

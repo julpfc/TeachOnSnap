@@ -74,6 +74,12 @@ public class RequestManagerImpl implements RequestManager {
 	}
 
 	@Override
+	public String getParamLoginEmailRemind(HttpServletRequest request) {
+		return getParam(request,Parameter.LOGIN_EMAIL_REMIND);
+	}
+
+	
+	@Override
 	public String getParamLoginPassword(HttpServletRequest request) {		
 		return getParam(request,Parameter.LOGIN_PASSWORD);
 	}
@@ -425,6 +431,25 @@ public class RequestManagerImpl implements RequestManager {
 			}
 		}
 	}
+
+	@Override
+	public String getParamOldPassword(HttpServletRequest request) {
+		return getParam(request,Parameter.OLD_PASSWORD);
+	}
+
+	@Override
+	public String getParamNewPassword(HttpServletRequest request) {
+		return getParam(request,Parameter.NEW_PASSWORD);
+	}
+
+	@Override
+	public String getParamfirstName(HttpServletRequest request) {
+		return getParam(request,Parameter.FIRST_NAME);	}
+
+	@Override
+	public String getParamlastName(HttpServletRequest request) {
+		return getParam(request,Parameter.LAST_NAME);	}
+
 
 
 }

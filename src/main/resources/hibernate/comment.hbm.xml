@@ -11,7 +11,7 @@
 			WHERE idlesson=?
 			ORDER BY idParent,idComment
     	) as t
-    LIMIT ?,51;
+    LIMIT ?,?;
 	</sql-query>	
 	<sql-query name="SQL_COMMENT_GET_COMMENT">
 		SELECT 	tc.idComment,idUser,COALESCE(tcbn.date, dateEdit, tc.date) as 'date', 

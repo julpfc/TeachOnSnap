@@ -7,6 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.controller.pager.PagerPropertyName;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
@@ -21,12 +24,13 @@ public abstract class PagerController extends CommonController {
 
 	private static final long serialVersionUID = 1428850419073596728L;
 
-	protected static final int MAX_RESULTS_PAGE = 10;
-	
 	protected LessonService lessonService = LessonServiceFactory.getService();
 	protected TagService tagService = TagServiceFactory.getService();
 	protected StringManager stringManager = StringManagerFactory.getManager();
+	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
+	protected final int MAX_RESULTS_PAGE = properties.getNumericProperty(PagerPropertyName.MAX_PAGE_RESULTS);
+
 	@Override
 	protected boolean isPrivateZone() {		
 		return false;

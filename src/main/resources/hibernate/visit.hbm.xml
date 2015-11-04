@@ -52,6 +52,6 @@
 	    JOIN tvisittest USING (idvisittest, idLessonTest)
 	    WHERE idLessonTest = ?
 	    ORDER BY points DESC,attempts ASC,`date` DESC
-	    LIMIT 5;   
+	    LIMIT ?;   
 	</sql-query>
 </hibernate-mapping>

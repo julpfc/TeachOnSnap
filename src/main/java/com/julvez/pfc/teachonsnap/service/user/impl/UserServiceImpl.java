@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.service.user.impl;
 
+import com.julvez.pfc.teachonsnap.manager.mail.MailManager;
+import com.julvez.pfc.teachonsnap.manager.mail.MailManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
@@ -16,6 +18,8 @@ public class UserServiceImpl implements UserService {
 	private LangService langService = LangServiceFactory.getService(); 
 
 	private StringManager stringManager = StringManagerFactory.getManager();
+	private MailManager mailManager = MailManagerFactory.getManager();
+	
 	
 	@Override
 	public User getUser(int idUser) {
@@ -57,6 +61,46 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return retUser;
+	}
+
+	@Override
+	public User saveFirstName(User user, String firstname) {
+		User retUser = null;
+		
+		if(user != null && !stringManager.isEmpty(firstname)){
+			userRepository.saveFirstName(user.getId(), firstname);
+			user.setFirstName(firstname);
+			retUser = user;
+		}
+		
+		return retUser;
+	}
+
+	@Override
+	public User saveLastName(User user, String lastname) {
+		User retUser = null;
+		
+		if(user != null && !stringManager.isEmpty(lastname)){
+			userRepository.saveLastName(user.getId(), lastname);
+			user.setLastName(lastname);
+			retUser = user;
+		}
+		
+		return retUser;
+	}
+
+	@Override
+	public void savePassword(User user, String newPassword) {
+			
+		if(user != null && !stringManager.isEmpty(newPassword)){
+			userRepository.savePassword(user.getId(), newPassword);
+		}		
+	}
+
+	@Override
+	public boolean sendPasswordRemind(User user) {
+		//TODO Construir token, URL de vuelta
+		return mailManager.send(user.getEmail(), "Remind", user.toString());
 	}
 
 

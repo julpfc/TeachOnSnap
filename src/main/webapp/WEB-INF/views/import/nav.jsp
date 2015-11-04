@@ -66,6 +66,15 @@
 		            	<li><a href="/preferences/"><fmt:message key="nav.menu.user.preferences"/></a></li>                
 					</ul>
 		        </li>
+		        <li class="dropdown">
+		        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		        		<img alt="${userLang.language}" src="/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
+		       		</a>
+		            <ul class="dropdown-menu" role="menu">            	
+		            	<li><a href="?changeLang=en"><img alt="EN" src="/resources/img/ico/flag_en.jpg"/> English EN</a></li>
+		            	<li><a href="?changeLang=es"><img alt="ES" src="/resources/img/ico/flag_es.jpg"/> Español ES</a></li>
+					</ul>
+		        </li>
         		<li><a href="/login/?logout=1"><fmt:message key="nav.menu.logout"/> <span class="glyphicon glyphicon-log-out"></span></a></li>
         	</c:otherwise>
         </c:choose>

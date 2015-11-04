@@ -19,7 +19,7 @@
 	    JOIN tuserauthor USING(iduser)
 	    WHERE tuserauthor.URIName = ?
 	    ORDER BY idLesson DESC
-	    LIMIT ?,11
+	    LIMIT ?,?
 	</sql-query>	
 	<sql-query name="SQL_LESSON_GET_LESSONID_FROM_URI">
 	    SELECT idLesson
@@ -36,7 +36,7 @@
 	    SELECT idLesson
 	    FROM tlesson
 	    ORDER BY idLesson DESC	    
-	    LIMIT ?,11
+	    LIMIT ?,?
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONMEDIAS">
 	    SELECT idMediaFile,idLessonMedia,idMediaRepository,filename,mimetype,mediaType

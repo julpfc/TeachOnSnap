@@ -84,8 +84,10 @@ public class VisitServiceImpl implements VisitService {
 		
 		if(idLessonTest>0 && idUser>0){
 			testRank = visitRepository.getUserTestRank(idLessonTest, idUser);
-			User user = userService.getUser(idUser);
-			testRank.setUser(user);
+			if(testRank != null){
+				User user = userService.getUser(idUser);
+				testRank.setUser(user);
+			}
 		}
 		return testRank;
 	}

@@ -8,7 +8,7 @@
 	    JOIN ttag USING(idTag)
 	    WHERE tag = ?
 	    ORDER BY idLesson DESC
-	    LIMIT ?,11
+	    LIMIT ?,?
 	</sql-query>
 	<sql-query name="SQL_TAG_GET_LESSONTAGIDS">
 	    SELECT idTag
@@ -26,7 +26,7 @@
 			FROM tlessontag
 			GROUP BY idtag
 			ORDER BY weight DESC
-			LIMIT 50
+			LIMIT ?
 		) AS t
 		JOIN ttag USING (idtag)
 		ORDER BY tag;
@@ -37,7 +37,7 @@
 			FROM tlesson
 			GROUP BY idUser
 			ORDER BY weight DESC
-			LIMIT 50
+			LIMIT ?
 		) AS t
 		JOIN tuser USING (iduser)
 		ORDER BY lastname;

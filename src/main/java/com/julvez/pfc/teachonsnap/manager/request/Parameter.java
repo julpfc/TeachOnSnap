@@ -11,6 +11,7 @@ public enum Parameter {
 	//Login
 	LOGIN_EMAIL("email"),
 	LOGIN_PASSWORD("password"),
+	LOGIN_EMAIL_REMIND("emailRemind"),
 	
 	//New/Edit Lesson
 	LESSON_NEW_TITLE("title"),
@@ -36,7 +37,13 @@ public enum Parameter {
 	LESSON_TEST_MULTIPLECHOICE("multipleChoice"),
 	QUESTIONID_DELETE("delQuestion"), 
 	QUESTIONID("idQuestion"), 
-	QUESTION_PRIORITY("questionPriority");
+	QUESTION_PRIORITY("questionPriority"), 
+	
+	//Preferences
+	OLD_PASSWORD("pwo"), 
+	NEW_PASSWORD("pwn"), 
+	FIRST_NAME("firstname"), 
+	LAST_NAME("lastname");
 
 		 		
 	private final String realName;

@@ -36,17 +36,13 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 
 	@Override
 	public short getDefaultRepositoryID() {
-		short id = 1;
-		String prop = properties.getProperty(MediaFileRepositoryPropertyName.MEDIAFILE_DEFAULT_REPOSITORY);
+		int id = properties.getNumericProperty(MediaFileRepositoryPropertyName.MEDIAFILE_DEFAULT_REPOSITORY);
 		
-		try{
-			id = Short.parseShort(prop);
-		}
-		catch(Throwable t){
-			t.printStackTrace();
+		if(id == -1){
+			id=1;
 		}
 		
-		return id; 
+		return (short)id; 
 	}
 
 	@Override

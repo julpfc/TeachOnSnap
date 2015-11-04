@@ -32,6 +32,7 @@ public interface RequestManager {
 	public boolean getParamLogout(HttpServletRequest request);
 	public String getParamLoginEmail(HttpServletRequest request);
 	public String getParamLoginPassword(HttpServletRequest request);
+	public String getParamLoginEmailRemind(HttpServletRequest request);
 	
 	public String getParamJSON(HttpServletRequest request);
 	public String getParamExport(HttpServletRequest request);
@@ -53,6 +54,11 @@ public interface RequestManager {
 	public int getParamQuestionID(HttpServletRequest request);
 	public String getParamMultiplechoiceTest(HttpServletRequest request);
 	public int getParamNumAnswersTest(HttpServletRequest request);
+
+	public String getParamfirstName(HttpServletRequest request);
+	public String getParamlastName(HttpServletRequest request);
+	public String getParamOldPassword(HttpServletRequest request);
+	public String getParamNewPassword(HttpServletRequest request);
 
 	public int getAttributeErrorStatusCode(HttpServletRequest request);
 	public Throwable getAttributeErrorException(HttpServletRequest request);

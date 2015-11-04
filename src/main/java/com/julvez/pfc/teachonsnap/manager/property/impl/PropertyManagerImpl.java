@@ -44,5 +44,20 @@ public class PropertyManagerImpl implements PropertyManager {
 			}
 		}		
 	}
+
+	@Override
+	public int getNumericProperty(Enum<?> propertyName) {
+		int ret = -1;
+		String prop = getProperty(propertyName);
+		
+		try{
+			ret = Integer.parseInt(prop);
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+		}
+		
+		return ret; 
+	}
 	
 }

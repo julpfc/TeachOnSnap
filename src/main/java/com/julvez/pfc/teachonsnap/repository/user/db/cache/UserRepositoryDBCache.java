@@ -36,4 +36,22 @@ public class UserRepositoryDBCache implements UserRepository {
 		
 	}
 
+	@Override
+	public void saveFirstName(int idUser, String firstname) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
+				new String[]{"getUser"}, idUser, firstname);		
+	}
+
+	@Override
+	public void saveLastName(int idUser, String lastname) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
+				new String[]{"getUser"}, idUser, lastname);		
+	}
+
+	@Override
+	public void savePassword(int idUser, String newPassword) {
+		cache.updateImplCached(repoDB, null, null, idUser, newPassword);
+		cache.clearCache("isValidPassword");
+	}
+
 }

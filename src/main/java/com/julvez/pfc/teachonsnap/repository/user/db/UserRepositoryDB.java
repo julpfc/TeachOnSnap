@@ -40,4 +40,19 @@ public class UserRepositoryDB implements UserRepository {
 		dbm.updateQuery("SQL_USER_SAVE_LANGUAGE", idLanguage, idUser);		
 	}
 
+	@Override
+	public void saveFirstName(int idUser, String firstname) {
+		dbm.updateQuery("SQL_USER_SAVE_FIRSTNAME", firstname, idUser);		
+	}
+
+	@Override
+	public void saveLastName(int idUser, String lastname) {
+		dbm.updateQuery("SQL_USER_SAVE_LASTNAME", lastname, idUser);		
+	}
+
+	@Override
+	public void savePassword(int idUser, String newPassword) {
+		dbm.updateQuery("SQL_USER_SAVE_PASSWORD", newPassword, idUser);		
+	}
+
 }

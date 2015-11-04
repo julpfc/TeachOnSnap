@@ -87,7 +87,7 @@
 				</c:if>
 				<c:if test="${not empty userTest}">
 					<div class="sidebar">							
-						<fmt:formatNumber maxFractionDigits="0" value="${100 * userTest.numOKs/test.numQuestions}" var="percentage"/>
+						<fmt:formatNumber maxFractionDigits="0" value="${100 * userTest.numOKs/test.numQuestions}" var="percentage"/> 
 						<h2>								
 							<c:if test="${percentage<40}">
 								<fmt:message key="lesson.test.result.verypoor" bundle="${testBundle}"/>

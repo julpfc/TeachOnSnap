@@ -25,7 +25,17 @@ public enum ErrorMessageKey {
 	COMMENT_UNBLOCKED("comment.unblocked"),
 	COMMENT_BLOCKED("comment.blocked"),
 	COMMENT_SAVED("comment.saved"),
-	COMMENT_CREATED("comment.created");
+	COMMENT_CREATED("comment.created"),
+	
+	//Preferences
+	USERNAME_SAVED("username.saved"), 
+	WRONG_CURRENT_PASSWORD("wrong.current.password.error.prefs"), 
+	PASSWORD_CHANGED("password.changed"), 
+	
+	//Login password remind
+	PASSWORD_REMIND_SENT("password.remind.sent"), 
+	PASSWORD_REMIND_SEND_ERROR("password.remind.send.error"), 
+	PASSWORD_REMIND_EMAIL_ERROR("password.remind.email.error");
 		 		
 	private final String key;
  

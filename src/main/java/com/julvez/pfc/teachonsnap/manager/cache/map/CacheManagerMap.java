@@ -40,13 +40,15 @@ public class CacheManagerMap implements CacheManager {
 					Method m = impl.getClass().getMethod(methodName, paramClasses);
 					result = m.invoke(impl,params);
 					
-					if(isPrimitiveClass(result.getClass())){
-						if(isPrimitiveValidResult(result)){
+					if(result != null){
+						if(isPrimitiveClass(result.getClass())){
+							if(isPrimitiveValidResult(result)){
+								cache.put(stringManager.getKey(params), result);
+							}
+						}
+						else{
 							cache.put(stringManager.getKey(params), result);
 						}
-					}
-					else{
-						cache.put(stringManager.getKey(params), result);
 					}
 				}
 				catch(Throwable t){

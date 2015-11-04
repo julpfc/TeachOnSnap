@@ -74,6 +74,7 @@
 							 	 <fmt:message key="lesson.test.start" bundle="${testBundle}"/></button>
 						 	</a>
 			        		</div>
+			        		<c:if test="${not empty testRanks}">
 			    			<div class="panel-body">
 				    			<table class="table">
 									<thead>
@@ -103,6 +104,7 @@
 			    					</tbody>
 			    				</table>
 			    			</div>
+			    			</c:if>
 			    			<c:if test="${not empty user}">
 				    			<div class="panel-footer">
 				    				<label class="label label-info"><fmt:message key="lesson.test.highscores.yourbest" bundle="${testBundle}"/>:</label> ${userTestRank.points} 
