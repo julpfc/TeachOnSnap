@@ -18,4 +18,10 @@ public interface UserRepository {
 
 	public void savePassword(int idUser, String newPassword);
 
+	public void savePasswordTemporaryToken(int idUser, String token);
+
+	public int getIdUserFromPasswordTemporaryToken(String token);
+
+	public void deletePasswordTemporaryToken(int idUser);
+
 }

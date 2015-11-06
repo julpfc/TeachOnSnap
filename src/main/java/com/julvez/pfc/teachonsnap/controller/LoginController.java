@@ -14,6 +14,8 @@ import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
+import com.julvez.pfc.teachonsnap.service.request.RequestService;
+import com.julvez.pfc.teachonsnap.service.request.RequestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.service.visit.VisitService;
@@ -26,10 +28,11 @@ import com.julvez.pfc.teachonsnap.service.visit.VisitServiceFactory;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	private RequestManager requestManager = RequestManagerFactory.getManager();
 	private UserService userService = UserServiceFactory.getService();
 	private VisitService visitService = VisitServiceFactory.getService();
+	private RequestService requestService = RequestServiceFactory.getService();
 	
+	private RequestManager requestManager = RequestManagerFactory.getManager();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -81,7 +84,8 @@ public class LoginController extends HttpServlet {
 			}
 			else{
 				email = requestManager.getParamLoginEmailRemind(request);
-				
+
+				// Si olvidó su contraseña ...
 				if(email != null){
 					emailRemind = true;
 					loginError = false;
@@ -112,7 +116,7 @@ public class LoginController extends HttpServlet {
 			if(logOut){
 				visit.setUser(null);
 				requestManager.setVisitSession(request, visit);	
-				lastPage = "/";
+				lastPage = requestService.getHomeURL();
 			}
 		}
 			
@@ -125,7 +129,7 @@ public class LoginController extends HttpServlet {
 		
 		// GOTO LastPage
 		
-		if(lastPage==null) lastPage = "/";
+		if(lastPage==null) lastPage = requestService.getHomeURL();
 		response.sendRedirect(lastPage);
 	}
 

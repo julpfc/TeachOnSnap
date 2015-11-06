@@ -40,4 +40,20 @@
 	    SET password = PASSWORD(?)	    
 	    WHERE idUser=?
 	</sql-query>			
+	<sql-query name="SQL_USER_SAVE_TMP_TOKEN">
+	    INSERT INTO tusertmptoken(idUser, token)
+	    VALUES (?,?)
+	    ON DUPLICATE KEY UPDATE token = ?;   
+	</sql-query>
+	<sql-query name="SQL_USER_GET_IDUSER_FROM_TMP_TOKEN">
+	    SELECT idUser
+	    FROM tusertmptoken	    
+	    WHERE token=?
+	</sql-query>	
+	<sql-query name="SQL_USER_DELETE_TMP_TOKEN">
+	    DELETE
+	    FROM tusertmptoken	    
+	    WHERE idUser=?
+	</sql-query>	
+	
 </hibernate-mapping>

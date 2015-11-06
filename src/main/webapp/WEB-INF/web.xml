@@ -147,6 +147,16 @@
 	</servlet-mapping>
 	<servlet>
 		<description></description>
+		<display-name>ChangePWController</display-name>
+		<servlet-name>ChangePWController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.ChangePWController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangePWController</servlet-name>
+		<url-pattern>/changepw/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
 		<display-name>EditLessonController</display-name>
 		<servlet-name>EditLessonController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.EditLessonController</servlet-class>

@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
@@ -21,6 +18,8 @@ import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
+import com.julvez.pfc.teachonsnap.service.request.RequestService;
+import com.julvez.pfc.teachonsnap.service.request.RequestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.role.RoleService;
 import com.julvez.pfc.teachonsnap.service.role.RoleServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
@@ -39,10 +38,10 @@ public abstract class CommonController extends HttpServlet {
 	protected UserService userService = UserServiceFactory.getService();
 	protected RoleService roleService = RoleServiceFactory.getService();
 	protected VisitService visitService = VisitServiceFactory.getService();
+	protected RequestService requestService = RequestServiceFactory.getService();
 	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
-	protected PropertyManager properties = PropertyManagerFactory.getManager();
-
+	
 		
     /**
      * @see HttpServlet#HttpServlet()
@@ -86,7 +85,7 @@ public abstract class CommonController extends HttpServlet {
 			}
 		}
 		
-		String host = properties.getProperty(PropertyName.TEACHONSNAP_HOST);
+		String host = requestService.getHost();
 		
 		request.setAttribute(Attribute.LANGUAGE_USERLANGUAGE.toString(), userLang);
 		request.setAttribute(Attribute.USER.toString(), user);
@@ -96,7 +95,7 @@ public abstract class CommonController extends HttpServlet {
 		// Si es zona restringida pedimos login
 		if(user==null && isPrivateZone()){
 			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_LOGIN, ErrorMessageKey.NONE));
-			String lastPage = "/";
+			String lastPage = requestService.getHomeURL();
 			response.sendRedirect(lastPage);
 		}
 		else{

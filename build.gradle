@@ -20,6 +20,7 @@ dependencies {
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.2.2'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.2.2' 	
 	compile group: 'javax.mail', name: 'mail', version: '1.4.7'
+	compile group: 'joda-time', name: 'joda-time', version: '2.5'
 	
 	//include in compile only, excluded in the war
 	providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'

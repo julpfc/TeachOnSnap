@@ -54,4 +54,21 @@ public class UserRepositoryDBCache implements UserRepository {
 		cache.clearCache("isValidPassword");
 	}
 
+	@Override
+	public void savePasswordTemporaryToken(int idUser, String token) {
+		cache.updateImplCached(repoDB, null, null, idUser, token);
+		cache.clearCache("getIdUserFromPasswordTemporaryToken");
+	}
+
+	@Override
+	public int getIdUserFromPasswordTemporaryToken(String token) {
+		return (int)cache.executeImplCached(repoDB, token);
+	}
+
+	@Override
+	public void deletePasswordTemporaryToken(int idUser) {
+		cache.updateImplCached(repoDB, null, null, idUser);
+		cache.clearCache("getIdUserFromPasswordTemporaryToken");		
+	}
+
 }

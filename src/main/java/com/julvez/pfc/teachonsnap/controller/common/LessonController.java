@@ -134,9 +134,8 @@ public class LessonController extends CommonController {
 			}
 		}
 		else{
-			//TODO sin lessonURI -> Mandar a error 404 o 400
+			//Sin lessonURI -> Mandar a error 404
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-			//throw new ServletException("Hola soy una excepción de prueba");
 		}
 				
 	}

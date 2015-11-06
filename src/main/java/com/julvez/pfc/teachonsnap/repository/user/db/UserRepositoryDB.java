@@ -55,4 +55,25 @@ public class UserRepositoryDB implements UserRepository {
 		dbm.updateQuery("SQL_USER_SAVE_PASSWORD", newPassword, idUser);		
 	}
 
+	@Override
+	public void savePasswordTemporaryToken(int idUser, String token) {
+		dbm.updateQuery("SQL_USER_SAVE_TMP_TOKEN", idUser, token, token);
+		
+	}
+
+	@Override
+	public int getIdUserFromPasswordTemporaryToken(String token) {
+		int id = -1;
+		Object obj = dbm.getQueryResultUnique("SQL_USER_GET_IDUSER_FROM_TMP_TOKEN", null, token);
+		if(obj!=null)
+			id = Integer.parseInt(obj.toString());
+		return id;
+	}
+
+	@Override
+	public void deletePasswordTemporaryToken(int idUser) {
+		dbm.updateQuery("SQL_USER_DELETE_TMP_TOKEN", idUser);
+		
+	}
+
 }

@@ -1,7 +1,8 @@
 package com.julvez.pfc.teachonsnap.service.user.impl;
 
-import com.julvez.pfc.teachonsnap.manager.mail.MailManager;
-import com.julvez.pfc.teachonsnap.manager.mail.MailManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.date.DateManager;
+import com.julvez.pfc.teachonsnap.manager.date.DateManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.request.ControllerURI;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
@@ -10,16 +11,27 @@ import com.julvez.pfc.teachonsnap.repository.user.UserRepository;
 import com.julvez.pfc.teachonsnap.repository.user.UserRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
+import com.julvez.pfc.teachonsnap.service.notify.NotifyService;
+import com.julvez.pfc.teachonsnap.service.notify.NotifyServiceFactory;
+import com.julvez.pfc.teachonsnap.service.request.RequestService;
+import com.julvez.pfc.teachonsnap.service.request.RequestServiceFactory;
+import com.julvez.pfc.teachonsnap.service.text.TextService;
+import com.julvez.pfc.teachonsnap.service.text.TextServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
+import com.julvez.pfc.teachonsnap.service.user.UserTextKey;
 
 public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository = UserRepositoryFactory.getRepository();
-	private LangService langService = LangServiceFactory.getService(); 
-
-	private StringManager stringManager = StringManagerFactory.getManager();
-	private MailManager mailManager = MailManagerFactory.getManager();
 	
+	private LangService langService = LangServiceFactory.getService(); 
+	private RequestService requestService = RequestServiceFactory.getService();
+	private NotifyService notifyService = NotifyServiceFactory.getService();
+	private TextService textService = TextServiceFactory.getService();
+	
+	private StringManager stringManager = StringManagerFactory.getManager();
+	private DateManager dateManager = DateManagerFactory.getManager();
+		
 	
 	@Override
 	public User getUser(int idUser) {
@@ -99,9 +111,57 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean sendPasswordRemind(User user) {
-		//TODO Construir token, URL de vuelta
-		return mailManager.send(user.getEmail(), "Remind", user.toString());
+		boolean success = false;
+		
+		if(user != null){
+			String token = savePasswordTemporaryToken(user); 
+						
+			String url = requestService.getAbsoluteURL(ControllerURI.CHANGE_PASSWORD + token);
+			
+			String subject = textService.getLocalizedText(user.getLanguage(),UserTextKey.CHANGE_PASSWORD_SUBJECT);
+			String message = textService.getLocalizedText(user.getLanguage(),UserTextKey.CHANGE_PASSWORD_SUBJECT_MESSAGE, url);
+			
+			success = notifyService.info(user, subject, message, url);
+		}
+		
+		return success;
 	}
 
+	@Override
+	public String savePasswordTemporaryToken(User user) {
+		String token = null;
+		
+		if(user != null){
+			token = generatePasswordTemporaryToken(user);
+		
+			userRepository.savePasswordTemporaryToken(user.getId(), token);
+		}
+		
+		return token;		
+	}
+
+	private String generatePasswordTemporaryToken(User user) {
+		return stringManager.generateMD5(user.toString() + dateManager.getCurrentDate());
+	}
+
+	@Override
+	public User getUserFromPasswordTemporaryToken(String token) {
+		User user = null;
+		int idUser = userRepository.getIdUserFromPasswordTemporaryToken(token);
+		if (idUser>0){
+			user = getUser(idUser);
+		}
+		return user;
+	}
+
+	@Override
+	public void deletePasswordTemporaryToken(User user) {
+		if(user != null){
+			userRepository.deletePasswordTemporaryToken(user.getId());
+		}
+		
+	}
+
+	
 
 }

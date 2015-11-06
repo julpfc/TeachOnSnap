@@ -20,5 +20,11 @@ public interface UserService {
 	public void savePassword(User user, String newPassword);
 
 	public boolean sendPasswordRemind(User user);
+
+	public String savePasswordTemporaryToken(User user);
+
+	public User getUserFromPasswordTemporaryToken(String token);
+
+	public void deletePasswordTemporaryToken(User user);
 	
 }
