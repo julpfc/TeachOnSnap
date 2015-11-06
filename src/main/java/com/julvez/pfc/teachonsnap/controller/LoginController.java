@@ -70,11 +70,10 @@ public class LoginController extends HttpServlet {
 							visit = visitService.createVisit(requestManager.getIP(request));							
 						}
 						
-						visit = visitService.saveUser(visit,user);
+						Visit visitu = visitService.saveUser(visit,user);
 						
-						if(visit == null){
-							visit = visitService.createVisit(requestManager.getIP(request));
-							visit = visitService.saveUser(visit,user);
+						if(visitu != null){							
+							visit = visitu;
 						}
 						requestManager.setVisitSession(request, visit);
 						loginError = false;

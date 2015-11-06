@@ -7,5 +7,7 @@ public interface PropertyManager {
 	public String getProperty(Enum<?> propertyName);
 	
 	public int getNumericProperty(Enum<?> propertyName);
+
+	public boolean getBooleanProperty(Enum<?> propertyName);
 	
 }

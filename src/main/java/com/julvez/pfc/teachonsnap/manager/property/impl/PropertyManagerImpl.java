@@ -4,12 +4,16 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
 public class PropertyManagerImpl implements PropertyManager {
 	
+	private StringManager stringManager = StringManagerFactory.getManager();
+
 	private Properties properties;
 	private Integer lock = new Integer(0);
-
+	
 	@Override
 	public String getProperty(Enum<?> propertyName) {
 		String property = null;
@@ -58,6 +62,17 @@ public class PropertyManagerImpl implements PropertyManager {
 		}
 		
 		return ret; 
+	}
+
+	@Override
+	public boolean getBooleanProperty(Enum<?> propertyName) {
+		boolean ret = false;
+		
+		String prop = getProperty(propertyName);
+		
+		ret = stringManager.isTrue(prop);
+		
+		return ret;
 	}
 	
 }

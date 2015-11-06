@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
@@ -41,6 +44,7 @@ public abstract class CommonController extends HttpServlet {
 	protected RequestService requestService = RequestServiceFactory.getService();
 	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
+	protected PropertyManager properties = PropertyManagerFactory.getManager();
 	
 		
     /**
@@ -62,26 +66,31 @@ public abstract class CommonController extends HttpServlet {
 		//TODO revisar todos los métodos control interno de errores
 		Visit visit = requestManager.getSessionVisit(request);
 
-		if(visit == null){
-			visit = visitService.createVisit(requestManager.getIP(request));
-			requestManager.setVisitSession(request, visit);
-			//TODO si no soporta cookies nos va a fundir a visitas			
+		if(visit == null){			
+			if(properties.getBooleanProperty(PropertyName.ENABLE_ANON_VISIT_COUNTER)){
+				visit = visitService.createVisit(requestManager.getIP(request));
+				requestManager.setVisitSession(request, visit);						
+			}
 		}
 		
 		String paramLang = requestManager.getParamChangeLanguage(request);
-		
-		
 		Language userLang = langService.getUserSessionLanguage(acceptLang,visit,paramLang);
-		visit.setIdLanguage(userLang.getId());
-		requestManager.setVisitSession(request, visit);
-
-		User user = visit.getUser();				
 		
-		if(user!=null && user.getLanguage().getId() != userLang.getId()){
-			User modUser = userService.saveUserLanguage(user, userLang);
-			if(modUser!=null){				
-				visit.setUser(modUser);
-				requestManager.setVisitSession(request, visit);
+		User user = null;
+		
+		if(visit != null){
+		
+			visit.setIdLanguage(userLang.getId());
+			requestManager.setVisitSession(request, visit);
+
+			user = visit.getUser();				
+		
+			if(user!=null && user.getLanguage().getId() != userLang.getId()){
+				User modUser = userService.saveUserLanguage(user, userLang);
+				if(modUser!=null){				
+					visit.setUser(modUser);
+					requestManager.setVisitSession(request, visit);
+				}
 			}
 		}
 		
