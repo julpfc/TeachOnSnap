@@ -57,4 +57,3 @@
 	</div>
     	
 </div> <!-- /container -->
-<script src="/resources/js/login.js"></script>

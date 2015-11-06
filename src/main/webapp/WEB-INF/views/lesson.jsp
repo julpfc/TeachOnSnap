@@ -195,26 +195,33 @@
 								<div class="comment-content">${comment.body}</div>
 								<div class="comment-meta">
 									<time datetime="${comment.date}">
-									<c:choose>
-										<c:when test="${comment.banned}">
-											<span class="glyphicon glyphicon-ban-circle"></span> <fmt:message key="lesson.comment.banned" bundle="${lessonBundle}"/> | 
-										</c:when>
-										<c:otherwise>
-											<c:if test="${comment.edited}"><span class="glyphicon glyphicon-edit"></span> <fmt:message key="lesson.comment.edited" bundle="${lessonBundle}"/> | </c:if>
-										</c:otherwise>
-									</c:choose>
+										<c:choose>
+											<c:when test="${comment.banned}">
+												<span class="glyphicon glyphicon-ban-circle"></span> <fmt:message key="lesson.comment.banned" bundle="${lessonBundle}"/> | 
+											</c:when>
+											<c:otherwise>
+												<c:if test="${comment.edited}"><span class="glyphicon glyphicon-edit"></span> <fmt:message key="lesson.comment.edited" bundle="${lessonBundle}"/> | </c:if>
+											</c:otherwise>
+										</c:choose>
 									<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${comment.date}"/></time>
-									| <a onclick="return moveCommentForm(${comment.id},'<fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/> <span class=\'comment-cancel\'> (<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>)</span>');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>
+
+									<c:set var="replyText"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/>${comment.id>0?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${comment.id>0?' )</span>':''}</c:set>
+									| <a onclick="return moveCommentForm('${comment.id}','${replyText}');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>
+	 
 									<c:if test="${user.id == comment.user.id}">
-									| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/> <span class=\'comment-cancel\'> (<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>)</span>','true');"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/></a>
+										<c:set var="editText"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/>${comment.id>0?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${comment.id>0?' )</span>':''}</c:set>
+										| <a onclick="return moveCommentForm('${comment.id}','${editText}','true');"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/></a>
 									</c:if>	
 									<c:if test="${user.admin}">
+										<c:set var="blockReasonText"><fmt:message key="lesson.comment.block.reason" bundle="${lessonBundle}"/>${user.admin?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${user.admin?' )</span>':''}</c:set>
+										<c:set var="blockText"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></c:set>
 										<c:choose>
 											<c:when test="${comment.banned}">
 												| <a href="${lesson.commentURL}?idComment=${comment.id}&banComment=false"><fmt:message key="lesson.comment.unblock" bundle="${lessonBundle}"/></a> 
 											</c:when>
 											<c:otherwise>
-												| <a onclick="return moveCommentForm('${comment.id}','<fmt:message key="lesson.comment.block.reason" bundle="${lessonBundle}"/> <span class=\'comment-cancel\'> (<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>)</span>','false','<fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/>');"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></a>
+											 	| <a onclick="return moveCommentForm('${comment.id}','${blockReasonText}','false','${blockText}');"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></a>
+												
 											</c:otherwise>
 										</c:choose>							
 									</c:if>

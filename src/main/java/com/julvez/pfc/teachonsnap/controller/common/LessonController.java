@@ -70,7 +70,7 @@ public class LessonController extends CommonController {
 				
 				Visit visit = requestManager.getSessionVisit(request);
 				
-				if(!visit.isViewedLesson(lesson.getId())){
+				if(visit != null && !visit.isViewedLesson(lesson.getId())){
 					visit = visitService.saveLesson(visit, lesson);
 				}
 				
