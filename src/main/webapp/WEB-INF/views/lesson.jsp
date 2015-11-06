@@ -218,7 +218,7 @@
 											</c:otherwise>
 										</c:choose>							
 									</c:if>
-								</div><!-- .comment-meta .commentmetadata -->								
+								</div><!-- .comment-meta .commentmetadata -->	 							
 							</article>												
 						</c:forEach>
 						<nav>
