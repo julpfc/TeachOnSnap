@@ -30,8 +30,11 @@
 	        		<label for="inputEmail" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>
 			    	<input type="email" name="email" id="inputEmail" class="form-control" placeholder="<fmt:message key="login.form.email" bundle="${loginBundle}"/>" required autofocus>
 			    	<label for="inputPassword" class="sr-only"><fmt:message key="login.form.password" bundle="${loginBundle}"/></label>
-			    	<input type="password" name="password" id="inputPassword" class="form-control" placeholder="<fmt:message key="login.form.password" bundle="${loginBundle}"/>" required>			    		      		
-		    	</div>
+			    	<input type="password" name="password" id="inputPassword" class="form-control" placeholder="<fmt:message key="login.form.password" bundle="${loginBundle}"/>" required>			    	 
+			    	<c:if test="${pageContext.request.scheme eq 'http'}">			    	
+			    		<a href="https://${host}/preferences"><span class="glyphicon glyphicon-lock"></span> <fmt:message key="login.form.securelogin" bundle="${loginBundle}"/></a>
+			   		</c:if>
+		    	</div> 
       			<a data-toggle="collapse" href="#collapseForgotPass" aria-expanded="false" aria-controls="collapseForgotPass"><fmt:message key="login.form.forgotpass" bundle="${loginBundle}"/></a>
       			     		
 	      		<div class="modal-footer">	  
