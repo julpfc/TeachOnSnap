@@ -6,11 +6,11 @@ import java.util.List;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepository;
-import com.julvez.pfc.teachonsnap.repository.lesson.LessonRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.service.lesson.repository.LessonRepository;
+import com.julvez.pfc.teachonsnap.service.lesson.repository.LessonRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 

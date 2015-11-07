@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.model.comment.Comment;
 import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.repository.comment.CommentRepository;
-import com.julvez.pfc.teachonsnap.repository.comment.CommentRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.comment.CommentService;
+import com.julvez.pfc.teachonsnap.service.comment.repository.CommentRepository;
+import com.julvez.pfc.teachonsnap.service.comment.repository.CommentRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 

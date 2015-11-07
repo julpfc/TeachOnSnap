@@ -6,9 +6,9 @@ import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.model.media.MediaFileRepositoryPath;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
-import com.julvez.pfc.teachonsnap.repository.media.MediaFileRepository;
-import com.julvez.pfc.teachonsnap.repository.media.MediaFileRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
+import com.julvez.pfc.teachonsnap.service.media.repository.MediaFileRepository;
+import com.julvez.pfc.teachonsnap.service.media.repository.MediaFileRepositoryFactory;
 
 public class MediaFileServiceImpl implements MediaFileService {
 

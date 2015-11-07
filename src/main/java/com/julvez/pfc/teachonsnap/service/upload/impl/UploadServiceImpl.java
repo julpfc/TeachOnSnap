@@ -5,9 +5,9 @@ import java.util.List;
 import com.julvez.pfc.teachonsnap.model.media.MediaType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.repository.upload.UploadRepository;
-import com.julvez.pfc.teachonsnap.repository.upload.UploadRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.upload.UploadService;
+import com.julvez.pfc.teachonsnap.service.upload.repository.UploadRepository;
+import com.julvez.pfc.teachonsnap.service.upload.repository.UploadRepositoryFactory;
 
 public class UploadServiceImpl implements UploadService {
 	

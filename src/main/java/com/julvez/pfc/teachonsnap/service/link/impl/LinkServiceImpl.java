@@ -8,11 +8,11 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.link.Link;
-import com.julvez.pfc.teachonsnap.repository.link.LinkRepository;
-import com.julvez.pfc.teachonsnap.repository.link.LinkRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.service.link.LinkService;
+import com.julvez.pfc.teachonsnap.service.link.repository.LinkRepository;
+import com.julvez.pfc.teachonsnap.service.link.repository.LinkRepositoryFactory;
 
 public class LinkServiceImpl implements LinkService {
 

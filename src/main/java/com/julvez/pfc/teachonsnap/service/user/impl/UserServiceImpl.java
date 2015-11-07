@@ -7,8 +7,6 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
 import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.repository.user.UserRepository;
-import com.julvez.pfc.teachonsnap.repository.user.UserRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.service.notify.NotifyService;
@@ -19,6 +17,8 @@ import com.julvez.pfc.teachonsnap.service.text.TextService;
 import com.julvez.pfc.teachonsnap.service.text.TextServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserTextKey;
+import com.julvez.pfc.teachonsnap.service.user.repository.UserRepository;
+import com.julvez.pfc.teachonsnap.service.user.repository.UserRepositoryFactory;
 
 public class UserServiceImpl implements UserService {
 

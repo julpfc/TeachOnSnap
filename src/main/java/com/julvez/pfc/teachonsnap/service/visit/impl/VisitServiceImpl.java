@@ -8,11 +8,11 @@ import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.model.user.test.UserLessonTest;
 import com.julvez.pfc.teachonsnap.model.visit.UserTestRank;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
-import com.julvez.pfc.teachonsnap.repository.visit.VisitRepository;
-import com.julvez.pfc.teachonsnap.repository.visit.VisitRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.service.visit.VisitService;
+import com.julvez.pfc.teachonsnap.service.visit.repository.VisitRepository;
+import com.julvez.pfc.teachonsnap.service.visit.repository.VisitRepositoryFactory;
 
 public class VisitServiceImpl implements VisitService {
 

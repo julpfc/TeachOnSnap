@@ -9,11 +9,11 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.tag.CloudTag;
 import com.julvez.pfc.teachonsnap.model.tag.Tag;
-import com.julvez.pfc.teachonsnap.repository.tag.TagRepository;
-import com.julvez.pfc.teachonsnap.repository.tag.TagRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.service.tag.TagService;
+import com.julvez.pfc.teachonsnap.service.tag.repository.TagRepository;
+import com.julvez.pfc.teachonsnap.service.tag.repository.TagRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 
