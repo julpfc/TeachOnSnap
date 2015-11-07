@@ -20,10 +20,10 @@ import com.julvez.pfc.teachonsnap.lesson.test.LessonTestService;
 import com.julvez.pfc.teachonsnap.lesson.test.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
+import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 
 public class LessonTestController extends CommonController {
 

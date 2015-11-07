@@ -14,8 +14,8 @@ import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class UserPreferencesController extends CommonController {
 

@@ -1,18 +1,18 @@
-package com.julvez.pfc.teachonsnap.visit.repository;
+package com.julvez.pfc.teachonsnap.stats.repository;
 
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
+import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 
-public class VisitRepositoryDBCache implements VisitRepository {
+public class StatsRepositoryDBCache implements StatsRepository {
 
-	private VisitRepositoryDB repoDB = new VisitRepositoryDB();
+	private StatsRepositoryDB repoDB = new StatsRepositoryDB();
 	private CacheManager cache = CacheManagerFactory.getCacheManager();
 	private StringManager stringManager = StringManagerFactory.getManager(); 
 

@@ -1,24 +1,24 @@
-package com.julvez.pfc.teachonsnap.visit.impl;
+package com.julvez.pfc.teachonsnap.stats.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.StatsService;
+import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.stats.repository.StatsRepository;
+import com.julvez.pfc.teachonsnap.stats.repository.StatsRepositoryFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.VisitService;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
-import com.julvez.pfc.teachonsnap.visit.repository.VisitRepository;
-import com.julvez.pfc.teachonsnap.visit.repository.VisitRepositoryFactory;
 
-public class VisitServiceImpl implements VisitService {
+public class StatsServiceImpl implements StatsService {
 
 	private static final String IP_NULL = "0.0.0.0";
 	
-	private VisitRepository visitRepository = VisitRepositoryFactory.getRepository();
+	private StatsRepository visitRepository = StatsRepositoryFactory.getRepository();
 	
 	private UserService userService = UserServiceFactory.getService();
 

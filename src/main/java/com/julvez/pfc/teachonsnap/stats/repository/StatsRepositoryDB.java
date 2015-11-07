@@ -1,19 +1,19 @@
-package com.julvez.pfc.teachonsnap.visit.repository;
+package com.julvez.pfc.teachonsnap.stats.repository;
 
 import java.math.BigInteger;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserQuestion;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
-import com.julvez.pfc.teachonsnap.visit.model.VisitPropertyName;
+import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.stats.model.StatsPropertyName;
 
-public class VisitRepositoryDB implements VisitRepository {
+public class StatsRepositoryDB implements StatsRepository {
 
 	private DBManager dbm = DBManagerFactory.getDBManager();
 	private PropertyManager properties = PropertyManagerFactory.getManager();
@@ -98,7 +98,7 @@ public class VisitRepositoryDB implements VisitRepository {
 
 	@Override
 	public List<Short> getUserIDsTestRank(int idLessonTest) {
-		int limit = properties.getNumericProperty(VisitPropertyName.LIMIT_USER_RANKING);
+		int limit = properties.getNumericProperty(StatsPropertyName.LIMIT_USER_RANKING);
 		
 		return dbm.getQueryResultList("SQL_VISIT_GET_USERIDS_TESTRANK", Short.class, idLessonTest, limit);
 	}

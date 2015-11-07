@@ -18,8 +18,8 @@ import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class CommentController extends CommonController {
 

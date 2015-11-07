@@ -1,12 +1,12 @@
-package com.julvez.pfc.teachonsnap.visit.repository;
+package com.julvez.pfc.teachonsnap.stats.repository;
 
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserTestRank;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
+import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 
-public interface VisitRepository {
+public interface StatsRepository {
 
 	public int createVisit(String ip);
 

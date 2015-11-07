@@ -14,14 +14,14 @@ import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.stats.StatsService;
+import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.url.URLService;
 import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.VisitService;
-import com.julvez.pfc.teachonsnap.visit.VisitServiceFactory;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 
 /**
@@ -31,7 +31,7 @@ public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private UserService userService = UserServiceFactory.getService();
-	private VisitService visitService = VisitServiceFactory.getService();
+	private StatsService visitService = StatsServiceFactory.getService();
 	private URLService requestService = URLServiceFactory.getService();
 	
 	private RequestManager requestManager = RequestManagerFactory.getManager();

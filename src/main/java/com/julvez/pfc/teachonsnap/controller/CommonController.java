@@ -20,15 +20,15 @@ import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.stats.StatsService;
+import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.stats.model.StatsPropertyName;
 import com.julvez.pfc.teachonsnap.url.URLService;
 import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.VisitService;
-import com.julvez.pfc.teachonsnap.visit.VisitServiceFactory;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
-import com.julvez.pfc.teachonsnap.visit.model.VisitPropertyName;
 
 
 /**
@@ -39,7 +39,7 @@ public abstract class CommonController extends HttpServlet {
 	
 	protected LangService langService = LangServiceFactory.getService();
 	protected UserService userService = UserServiceFactory.getService();	
-	protected VisitService visitService = VisitServiceFactory.getService();
+	protected StatsService visitService = StatsServiceFactory.getService();
 	protected URLService requestService = URLServiceFactory.getService();
 	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
@@ -66,7 +66,7 @@ public abstract class CommonController extends HttpServlet {
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 
 		if(visit == null){			
-			if(properties.getBooleanProperty(VisitPropertyName.ENABLE_ANON_VISIT_COUNTER)){
+			if(properties.getBooleanProperty(StatsPropertyName.ENABLE_ANON_VISIT_COUNTER)){
 				visit = visitService.createVisit(requestManager.getIP(request));
 				requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);						
 			}

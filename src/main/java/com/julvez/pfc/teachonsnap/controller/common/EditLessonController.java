@@ -27,11 +27,11 @@ import com.julvez.pfc.teachonsnap.media.model.MediaFile;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class EditLessonController extends CommonController {
 

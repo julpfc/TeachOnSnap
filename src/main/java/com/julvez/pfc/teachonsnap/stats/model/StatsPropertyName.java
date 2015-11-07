@@ -1,6 +1,6 @@
-package com.julvez.pfc.teachonsnap.visit.model;
+package com.julvez.pfc.teachonsnap.stats.model;
 
-public enum VisitPropertyName {
+public enum StatsPropertyName {
 
 	LIMIT_USER_RANKING("visit.repository.limit.userrank"),
 	ENABLE_ANON_VISIT_COUNTER("enable.anon.visit.counter");
@@ -8,7 +8,7 @@ public enum VisitPropertyName {
 	 		
 	private final String realName;
  
-	private VisitPropertyName(String property) {
+	private StatsPropertyName(String property) {
 		realName = property;
 	}
 

@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.visit.model;
+package com.julvez.pfc.teachonsnap.stats.model;
 
 import java.util.ArrayList;
 import java.util.List;

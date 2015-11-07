@@ -20,7 +20,6 @@ import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.LessonTestService;
 import com.julvez.pfc.teachonsnap.lesson.test.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.link.LinkService;
 import com.julvez.pfc.teachonsnap.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.link.model.Link;
@@ -31,10 +30,11 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
+import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class LessonController extends CommonController {
 

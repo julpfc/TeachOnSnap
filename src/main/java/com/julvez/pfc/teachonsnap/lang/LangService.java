@@ -1,7 +1,7 @@
 package com.julvez.pfc.teachonsnap.lang;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 
 public interface LangService {
 

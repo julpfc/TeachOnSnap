@@ -4,8 +4,8 @@ import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lang.repository.LangRepository;
 import com.julvez.pfc.teachonsnap.lang.repository.LangRepositoryFactory;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class LangServiceImpl implements LangService {
 

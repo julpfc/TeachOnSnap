@@ -22,13 +22,13 @@ import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
 import com.julvez.pfc.teachonsnap.media.model.MediaType;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.upload.UploadService;
 import com.julvez.pfc.teachonsnap.upload.UploadServiceFactory;
 import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class NewLessonController extends CommonController {
 

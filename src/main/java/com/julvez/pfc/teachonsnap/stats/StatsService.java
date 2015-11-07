@@ -1,14 +1,14 @@
-package com.julvez.pfc.teachonsnap.visit;
+package com.julvez.pfc.teachonsnap.stats;
 
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
-public interface VisitService {
+public interface StatsService {
 
 	public Visit createVisit(String ip);
 
