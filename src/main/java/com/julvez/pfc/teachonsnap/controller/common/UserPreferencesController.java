@@ -29,7 +29,7 @@ public class UserPreferencesController extends CommonController {
 		
 		String prevPage = requestManager.getSessionAttribute(request, SessionAttribute.LAST_PAGE);
 		
-		request.setAttribute(Attribute.STRING_PREVPAGE.toString(), prevPage);
+		requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
 		
 		if(request.getMethod().equals("POST")){
 			

@@ -85,14 +85,14 @@ public class LessonController extends CommonController {
 				
 				if(lesson.isTestAvailable()){
 					LessonTest test = lessonTestService.getLessonTest(lesson);
-					request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+					requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 					
 					if(visit!= null && visit.getUser()!=null){
 						UserTestRank testRank = visitService.getUserTestRank(test.getId(), visit.getUser().getId());			
-						request.setAttribute(Attribute.USERTESTRANK.toString(), testRank);
+						requestManager.setAttribute(request, Attribute.USERTESTRANK, testRank);
 					}
 					List<UserTestRank> testRanks = visitService.getTestRanks(test.getId());
-					request.setAttribute(Attribute.LIST_USERTESTRANKS.toString(), testRanks);
+					requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
 				}
 				
 				if(params.length > 1 && stringManager.isNumeric(params[1])){
@@ -118,15 +118,15 @@ public class LessonController extends CommonController {
 					}
 				}
 				
-				request.setAttribute(Attribute.LESSON.toString(), lesson);
-				request.setAttribute(Attribute.LIST_MEDIAFILE_LESSONFILES.toString(), medias);
-				request.setAttribute(Attribute.LIST_TAG_LESSONTAGS.toString(), tags);
-				request.setAttribute(Attribute.LIST_LESSON_LINKEDLESSONS.toString(), linkedLessons);
-				request.setAttribute(Attribute.LIST_LINK_MOREINFO.toString(), moreInfoLinks);
-				request.setAttribute(Attribute.LIST_LINK_SOURCES.toString(), sourceLinks);
-				request.setAttribute(Attribute.LIST_COMMENTS.toString(), comments);
-				request.setAttribute(Attribute.STRING_NEXTPAGE.toString(), nextPage);
-				request.setAttribute(Attribute.STRING_PREVPAGE.toString(), prevPage);
+				requestManager.setAttribute(request, Attribute.LESSON, lesson);
+				requestManager.setAttribute(request, Attribute.LIST_MEDIAFILE_LESSONFILES, medias);
+				requestManager.setAttribute(request, Attribute.LIST_TAG_LESSONTAGS, tags);
+				requestManager.setAttribute(request, Attribute.LIST_LESSON_LINKEDLESSONS, linkedLessons);
+				requestManager.setAttribute(request, Attribute.LIST_LINK_MOREINFO, moreInfoLinks);
+				requestManager.setAttribute(request, Attribute.LIST_LINK_SOURCES, sourceLinks);
+				requestManager.setAttribute(request, Attribute.LIST_COMMENTS, comments);
+				requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
+				requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
 
 				request.getRequestDispatcher("/WEB-INF/views/lesson.jsp").forward(request, response);
 			}

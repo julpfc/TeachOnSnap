@@ -5,15 +5,17 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
-import com.julvez.pfc.teachonsnap.manager.request.impl.domain.Header;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
 public class RequestManagerImpl implements RequestManager {
 
+	private static final String HTTP_HEADER_CONTENT_DISPOSITION = "content-disposition";
+	
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
@@ -80,7 +82,7 @@ public class RequestManagerImpl implements RequestManager {
 	@Override
 	public String getPartFilename(Part part) {
 		String filename = null;
-	        for (String cd : part.getHeader(Header.CONTENT_DISPOSITION.toString()).split(";")) {
+	        for (String cd : part.getHeader(HTTP_HEADER_CONTENT_DISPOSITION).split(";")) {
 	            if (cd.trim().startsWith("filename")) {
 	                filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
 	                filename = filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
@@ -143,6 +145,13 @@ public class RequestManagerImpl implements RequestManager {
 		if(attribute != null && attrib != null){
 			request.setAttribute(attribute.toString(), attrib);
 		}
+	}
+
+	@Override
+	public void setFileMetadataHeaders(HttpServletResponse response, String contentType, String fileName) {
+		response.setContentType(contentType);
+		response.setCharacterEncoding("UTF-8");
+		response.setHeader(HTTP_HEADER_CONTENT_DISPOSITION, "attachment; filename=\""+fileName+"\"");		
 	}
 
 }

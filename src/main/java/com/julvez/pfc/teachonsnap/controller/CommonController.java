@@ -98,9 +98,9 @@ public abstract class CommonController extends HttpServlet {
 		
 		String host = requestService.getHost();
 		
-		request.setAttribute(Attribute.LANGUAGE_USERLANGUAGE.toString(), userLang);
-		request.setAttribute(Attribute.USER.toString(), user);
-		request.setAttribute(Attribute.STRING_HOST.toString(), host);
+		requestManager.setAttribute(request, Attribute.LANGUAGE_USERLANGUAGE, userLang);
+		requestManager.setAttribute(request, Attribute.USER, user);
+		requestManager.setAttribute(request, Attribute.STRING_HOST, host);
 		
 		
 		// Si es zona restringida pedimos login

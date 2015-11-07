@@ -61,16 +61,16 @@ public class LessonTestController extends CommonController {
 					setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
 				}
 				
-				request.setAttribute(Attribute.USERLESSONTEST_ANSWERS.toString(), userTest);
+				requestManager.setAttribute(request, Attribute.USERLESSONTEST_ANSWERS, userTest);
 			}			
 			
 			UserTestRank testRank = visitService.getUserTestRank(test.getId(), visit.getUser().getId());			
 			List<UserTestRank> testRanks = visitService.getTestRanks(test.getId());
 			
-			request.setAttribute(Attribute.USERTESTRANK.toString(), testRank);
-			request.setAttribute(Attribute.LIST_USERTESTRANKS.toString(), testRanks);
-			request.setAttribute(Attribute.LESSON.toString(), lesson);
-			request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+			requestManager.setAttribute(request, Attribute.USERTESTRANK, testRank);
+			requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
+			requestManager.setAttribute(request, Attribute.LESSON, lesson);
+			requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 					
 		    request.getRequestDispatcher("/WEB-INF/views/test.jsp").forward(request, response);
 		}

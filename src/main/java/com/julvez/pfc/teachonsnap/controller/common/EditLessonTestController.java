@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.request.impl.domain.Header;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
@@ -152,19 +151,18 @@ public class EditLessonTestController extends CommonController {
 									String export = requestManager.getParameter(request, Parameter.EXPORT);
 									
 									if(export != null){
-										response.setContentType("application/json");
-										response.setCharacterEncoding("UTF-8");
-										response.setHeader(Header.CONTENT_DISPOSITION.toString(), "attachment; filename=\"test_"+test.getId()+".json\"");						 	 
+										requestManager.setFileMetadataHeaders(response, "application/json", "test_"+test.getId()+".json\"");
+																 	 
 										String outJSON = jsonManager.object2SimpleJSON(test);
 										
 										response.getOutputStream().write(outJSON.getBytes("UTF-8"));									
 									}
 									else{
 										List<Page> pageStack = pageService.getEditLessonTestPageStack(lesson, test);
-										request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
+										requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 										
-										request.setAttribute(Attribute.LESSON.toString(), lesson);
-										request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+										requestManager.setAttribute(request, Attribute.LESSON, lesson);
+										requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 												
 										request.getRequestDispatcher("/WEB-INF/views/editTest.jsp").forward(request, response);
 									}

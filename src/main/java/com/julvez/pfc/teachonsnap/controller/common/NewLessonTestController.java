@@ -94,9 +94,9 @@ public class NewLessonTestController extends CommonController {
 					else{
 						List<Page> pageStack = pageService.getNewLessonTestPageStack(lesson);
 					
-						request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
+						requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 						
-						request.setAttribute(Attribute.LESSON.toString(), lesson);
+						requestManager.setAttribute(request, Attribute.LESSON, lesson);
 								
 						request.getRequestDispatcher("/WEB-INF/views/newTest.jsp").forward(request, response);
 					}				

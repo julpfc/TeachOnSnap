@@ -77,15 +77,15 @@ public class EditLessonController extends CommonController {
 					LessonTest test = lessonTestService.getLessonTest(lesson);
 
 					List<Page> pageStack = pageService.getEditLessonPageStack(lesson);
-					request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
+					requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 									
-					request.setAttribute(Attribute.LESSON.toString(), lesson);
-					request.setAttribute(Attribute.LIST_MEDIAFILE_LESSONFILES.toString(), medias);
-					request.setAttribute(Attribute.LIST_TAG_LESSONTAGS.toString(), tags);
-					request.setAttribute(Attribute.LIST_LESSON_LINKEDLESSONS.toString(), linkedLessons);
-					request.setAttribute(Attribute.LIST_LINK_MOREINFO.toString(), moreInfoLinks);
-					request.setAttribute(Attribute.LIST_LINK_SOURCES.toString(), sourceLinks);
-					request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+					requestManager.setAttribute(request, Attribute.LESSON, lesson);
+					requestManager.setAttribute(request, Attribute.LIST_MEDIAFILE_LESSONFILES, medias);
+					requestManager.setAttribute(request, Attribute.LIST_TAG_LESSONTAGS, tags);
+					requestManager.setAttribute(request, Attribute.LIST_LESSON_LINKEDLESSONS, linkedLessons);
+					requestManager.setAttribute(request, Attribute.LIST_LINK_MOREINFO, moreInfoLinks);
+					requestManager.setAttribute(request, Attribute.LIST_LINK_SOURCES, sourceLinks);
+					requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 					
 					
 					//TODO Editar Linked lesson?

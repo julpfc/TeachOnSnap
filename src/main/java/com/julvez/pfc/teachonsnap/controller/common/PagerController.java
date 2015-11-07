@@ -88,23 +88,23 @@ public abstract class PagerController extends CommonController {
 				prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);
 			}
 		}
-		request.setAttribute(Attribute.STRING_NEXTPAGE.toString(), nextPage);
-		request.setAttribute(Attribute.STRING_PREVPAGE.toString(), prevPage);
+		requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
+		requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
 		
 		
 		List<CloudTag> cloudTags = tagService.getCloudTags();
 		List<CloudTag> authorCloudTags = tagService.getAuthorCloudTags();
-		request.setAttribute(Attribute.LIST_CLOUDTAG_AUTHOR.toString(), authorCloudTags);
-		request.setAttribute(Attribute.LIST_CLOUDTAG.toString(), cloudTags);
+		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_AUTHOR, authorCloudTags);
+		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG, cloudTags);
 
-		request.setAttribute(Attribute.LIST_LESSON.toString(), lessons);
+		requestManager.setAttribute(request, Attribute.LIST_LESSON, lessons);
 		
-		request.setAttribute(Attribute.STRING_SEARCHTYPE.toString(),request.getServletPath().substring(1));
+		requestManager.setAttribute(request, Attribute.STRING_SEARCHTYPE,request.getServletPath().substring(1));
 		
 		String searchKeyword = getSearchKeyword(searchURI,lessons);
 		
 		if(!stringManager.isEmpty(searchKeyword)){
-			request.setAttribute(Attribute.STRING_SEARCHKEYWORD.toString(), searchKeyword);
+			requestManager.setAttribute(request, Attribute.STRING_SEARCHKEYWORD, searchKeyword);
 		}
 	    
 	    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);

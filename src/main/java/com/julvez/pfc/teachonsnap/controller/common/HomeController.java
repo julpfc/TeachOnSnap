@@ -39,16 +39,16 @@ public class HomeController extends CommonController {
 			
 			String nextPage = ControllerURI.LESSONS_BY_LAST.toString() + MAX_RESULTS_PAGE;
 			
-			request.setAttribute(Attribute.STRING_NEXTPAGE.toString(), nextPage);
+			requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
 		}
 		
 		List<CloudTag> cloudTags = tagService.getCloudTags();
 		
 		List<CloudTag> authorCloudTags = tagService.getAuthorCloudTags();
-		request.setAttribute(Attribute.LIST_CLOUDTAG_AUTHOR.toString(), authorCloudTags);
+		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_AUTHOR, authorCloudTags);
 		
-		request.setAttribute(Attribute.LIST_LESSON.toString(), lastLessons);
-		request.setAttribute(Attribute.LIST_CLOUDTAG.toString(), cloudTags);
+		requestManager.setAttribute(request, Attribute.LIST_LESSON, lastLessons);
+		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG, cloudTags);
 		
 		request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);	 
 

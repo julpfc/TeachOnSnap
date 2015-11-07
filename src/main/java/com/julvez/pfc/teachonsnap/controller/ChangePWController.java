@@ -60,9 +60,9 @@ public class ChangePWController extends HttpServlet {
 				
 				String host = requestService.getHost();
 		
-				request.setAttribute(Attribute.LANGUAGE_USERLANGUAGE.toString(), user.getLanguage());
-				request.setAttribute(Attribute.USER.toString(), user);
-				request.setAttribute(Attribute.STRING_HOST.toString(), host);
+				requestManager.setAttribute(request, Attribute.LANGUAGE_USERLANGUAGE, user.getLanguage());
+				requestManager.setAttribute(request, Attribute.USER, user);
+				requestManager.setAttribute(request, Attribute.STRING_HOST, host);
 				
 				//TODO Loguear la página en la que estamos	  
 				System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());

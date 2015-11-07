@@ -3,6 +3,7 @@ package com.julvez.pfc.teachonsnap.manager.request;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 
@@ -29,5 +30,7 @@ public interface RequestManager {
 	public void setAttribute(HttpServletRequest request, Enum<?> attribute, Object attrib);
 	
 	public String getPartFilename(Part part);
+	
+	public void setFileMetadataHeaders(HttpServletResponse response, String contentType, String fileName);
 	
 }

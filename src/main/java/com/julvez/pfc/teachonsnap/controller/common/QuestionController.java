@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.request.impl.domain.Header;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
@@ -126,9 +125,7 @@ public class QuestionController extends CommonController {
 								String export = requestManager.getParameter(request, Parameter.EXPORT);
 								
 								if(export != null){
-									response.setContentType("application/json");
-									response.setCharacterEncoding("UTF-8");
-									response.setHeader(Header.CONTENT_DISPOSITION.toString(), "attachment; filename=\"question_"+question.getId()+".json\"");						 	 
+									requestManager.setFileMetadataHeaders(response, "application/json", "question_"+question.getId()+".json");															 	 
 									String outJSON = jsonManager.object2SimpleJSON(question);
 									
 									response.getOutputStream().write(outJSON.getBytes("UTF-8"));									
@@ -136,11 +133,11 @@ public class QuestionController extends CommonController {
 								else{
 															
 									List<Page> pageStack = pageService.getEditQuestionPageStack(lesson, test, question);
-									request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
+									requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 	
 									
-									request.setAttribute(Attribute.QUESTION.toString(), question);
-									request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
+									requestManager.setAttribute(request, Attribute.QUESTION, question);
+									requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 											
 									request.getRequestDispatcher("/WEB-INF/views/question.jsp").forward(request, response);
 								}
@@ -199,9 +196,9 @@ public class QuestionController extends CommonController {
 						}
 						else{
 							List<Page> pageStack = pageService.getNewQuestionPageStack(lesson, test);
-							request.setAttribute(Attribute.LIST_PAGE_STACK.toString(), pageStack);
+							requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 							
-							request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);							
+							requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);							
 							request.getRequestDispatcher("/WEB-INF/views/question.jsp").forward(request, response);
 						}
 						
