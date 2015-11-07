@@ -8,24 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.controller.model.Attribute;
+import com.julvez.pfc.teachonsnap.controller.model.Parameter;
+import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
+import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.error.model.ErrorType;
+import com.julvez.pfc.teachonsnap.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.lesson.test.LessonTestService;
+import com.julvez.pfc.teachonsnap.lesson.test.LessonTestServiceFactory;
+import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
-import com.julvez.pfc.teachonsnap.model.error.ErrorType;
-import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
-import com.julvez.pfc.teachonsnap.model.page.Page;
-import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.model.visit.Visit;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
-import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
-import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
-import com.julvez.pfc.teachonsnap.service.page.PageService;
-import com.julvez.pfc.teachonsnap.service.page.PageServiceFactory;
-import com.julvez.pfc.teachonsnap.service.url.Attribute;
-import com.julvez.pfc.teachonsnap.service.url.Parameter;
-import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
+import com.julvez.pfc.teachonsnap.page.PageService;
+import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
+import com.julvez.pfc.teachonsnap.page.model.Page;
+import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class NewLessonTestController extends CommonController {
 
@@ -54,7 +54,7 @@ public class NewLessonTestController extends CommonController {
 				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				if(visit!=null) user = visit.getUser();
 					
-				if(roleService.isAllowedForLesson(user, lesson.getId())){
+				if(userService.isAllowedForLesson(user, lesson.getId())){
 					if(request.getMethod().equals("POST")){
 						String multipleChoice = requestManager.getParameter(request, Parameter.LESSON_TEST_MULTIPLECHOICE);
 						int numAnswers = requestManager.getNumericParameter(request, Parameter.LESSON_TEST_NUMANSWERS);

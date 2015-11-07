@@ -14,18 +14,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.julvez.pfc.teachonsnap.controller.model.Parameter;
+import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
-import com.julvez.pfc.teachonsnap.model.media.MediaType;
-import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
-import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.model.visit.Visit;
-import com.julvez.pfc.teachonsnap.service.upload.UploadService;
-import com.julvez.pfc.teachonsnap.service.upload.UploadServiceFactory;
-import com.julvez.pfc.teachonsnap.service.url.Parameter;
-import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
+import com.julvez.pfc.teachonsnap.media.model.MediaType;
+import com.julvez.pfc.teachonsnap.upload.UploadService;
+import com.julvez.pfc.teachonsnap.upload.UploadServiceFactory;
+import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
+import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 /**
  * Servlet implementation class FileUploadController

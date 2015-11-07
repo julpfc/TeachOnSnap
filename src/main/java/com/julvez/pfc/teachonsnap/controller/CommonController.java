@@ -7,30 +7,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.controller.model.Attribute;
+import com.julvez.pfc.teachonsnap.controller.model.Parameter;
+import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
+import com.julvez.pfc.teachonsnap.error.model.ErrorBean;
+import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.error.model.ErrorType;
+import com.julvez.pfc.teachonsnap.lang.LangService;
+import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
+import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
-import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
-import com.julvez.pfc.teachonsnap.model.error.ErrorType;
-import com.julvez.pfc.teachonsnap.model.lang.Language;
-import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.model.visit.Visit;
-import com.julvez.pfc.teachonsnap.service.lang.LangService;
-import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
-import com.julvez.pfc.teachonsnap.service.role.RoleService;
-import com.julvez.pfc.teachonsnap.service.role.RoleServiceFactory;
-import com.julvez.pfc.teachonsnap.service.url.Attribute;
-import com.julvez.pfc.teachonsnap.service.url.Parameter;
-import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
-import com.julvez.pfc.teachonsnap.service.url.URLService;
-import com.julvez.pfc.teachonsnap.service.url.URLServiceFactory;
-import com.julvez.pfc.teachonsnap.service.user.UserService;
-import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
-import com.julvez.pfc.teachonsnap.service.visit.VisitService;
-import com.julvez.pfc.teachonsnap.service.visit.VisitServiceFactory;
-import com.julvez.pfc.teachonsnap.service.visit.repository.VisitRepositoryPropertyName;
+import com.julvez.pfc.teachonsnap.url.URLService;
+import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
+import com.julvez.pfc.teachonsnap.user.UserService;
+import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
+import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.visit.VisitService;
+import com.julvez.pfc.teachonsnap.visit.VisitServiceFactory;
+import com.julvez.pfc.teachonsnap.visit.model.Visit;
+import com.julvez.pfc.teachonsnap.visit.model.VisitPropertyName;
 
 
 /**
@@ -40,8 +38,7 @@ public abstract class CommonController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected LangService langService = LangServiceFactory.getService();
-	protected UserService userService = UserServiceFactory.getService();
-	protected RoleService roleService = RoleServiceFactory.getService();
+	protected UserService userService = UserServiceFactory.getService();	
 	protected VisitService visitService = VisitServiceFactory.getService();
 	protected URLService requestService = URLServiceFactory.getService();
 	
@@ -69,7 +66,7 @@ public abstract class CommonController extends HttpServlet {
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 
 		if(visit == null){			
-			if(properties.getBooleanProperty(VisitRepositoryPropertyName.ENABLE_ANON_VISIT_COUNTER)){
+			if(properties.getBooleanProperty(VisitPropertyName.ENABLE_ANON_VISIT_COUNTER)){
 				visit = visitService.createVisit(requestManager.getIP(request));
 				requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);						
 			}

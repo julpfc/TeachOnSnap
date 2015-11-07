@@ -3,7 +3,7 @@ package com.julvez.pfc.teachonsnap.controller.common.pager;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.controller.common.PagerController;
-import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 
 public class AuthorController extends PagerController {
 

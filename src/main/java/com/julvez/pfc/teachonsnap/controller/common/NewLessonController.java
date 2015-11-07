@@ -8,27 +8,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.controller.model.Parameter;
+import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
+import com.julvez.pfc.teachonsnap.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.link.LinkService;
+import com.julvez.pfc.teachonsnap.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.manager.mail.MailManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.media.MediaFile;
-import com.julvez.pfc.teachonsnap.model.media.MediaType;
-import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
-import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.model.visit.Visit;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
-import com.julvez.pfc.teachonsnap.service.link.LinkService;
-import com.julvez.pfc.teachonsnap.service.link.LinkServiceFactory;
-import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
-import com.julvez.pfc.teachonsnap.service.media.MediaFileServiceFactory;
-import com.julvez.pfc.teachonsnap.service.tag.TagService;
-import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
-import com.julvez.pfc.teachonsnap.service.upload.UploadService;
-import com.julvez.pfc.teachonsnap.service.upload.UploadServiceFactory;
-import com.julvez.pfc.teachonsnap.service.url.Parameter;
-import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
+import com.julvez.pfc.teachonsnap.media.MediaFileService;
+import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
+import com.julvez.pfc.teachonsnap.media.model.MediaFile;
+import com.julvez.pfc.teachonsnap.media.model.MediaType;
+import com.julvez.pfc.teachonsnap.tag.TagService;
+import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
+import com.julvez.pfc.teachonsnap.upload.UploadService;
+import com.julvez.pfc.teachonsnap.upload.UploadServiceFactory;
+import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
+import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class NewLessonController extends CommonController {
 

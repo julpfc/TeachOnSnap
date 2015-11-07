@@ -6,20 +6,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.comment.CommentService;
+import com.julvez.pfc.teachonsnap.comment.CommentServiceFactory;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.controller.model.Parameter;
+import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
+import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.error.model.ErrorType;
+import com.julvez.pfc.teachonsnap.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
-import com.julvez.pfc.teachonsnap.model.error.ErrorType;
-import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.model.visit.Visit;
-import com.julvez.pfc.teachonsnap.service.comment.CommentService;
-import com.julvez.pfc.teachonsnap.service.comment.CommentServiceFactory;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
-import com.julvez.pfc.teachonsnap.service.url.Parameter;
-import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
+import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class CommentController extends CommonController {
 

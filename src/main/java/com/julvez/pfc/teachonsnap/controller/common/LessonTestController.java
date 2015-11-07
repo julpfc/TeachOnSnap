@@ -8,22 +8,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.controller.model.Attribute;
+import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
+import com.julvez.pfc.teachonsnap.error.model.ErrorBean;
+import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.error.model.ErrorType;
+import com.julvez.pfc.teachonsnap.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.lesson.test.LessonTestService;
+import com.julvez.pfc.teachonsnap.lesson.test.LessonTestServiceFactory;
+import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
+import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.lesson.test.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
-import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
-import com.julvez.pfc.teachonsnap.model.error.ErrorType;
-import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
-import com.julvez.pfc.teachonsnap.model.user.test.UserLessonTest;
-import com.julvez.pfc.teachonsnap.model.visit.UserTestRank;
-import com.julvez.pfc.teachonsnap.model.visit.Visit;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
-import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
-import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
-import com.julvez.pfc.teachonsnap.service.url.Attribute;
-import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
+import com.julvez.pfc.teachonsnap.visit.model.Visit;
 
 public class LessonTestController extends CommonController {
 

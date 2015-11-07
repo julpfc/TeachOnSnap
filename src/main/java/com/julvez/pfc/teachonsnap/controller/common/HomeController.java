@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
-import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
-import com.julvez.pfc.teachonsnap.model.tag.CloudTag;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
-import com.julvez.pfc.teachonsnap.service.lesson.LessonPropertyName;
-import com.julvez.pfc.teachonsnap.service.tag.TagService;
-import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
-import com.julvez.pfc.teachonsnap.service.url.Attribute;
-import com.julvez.pfc.teachonsnap.service.url.ControllerURI;
+import com.julvez.pfc.teachonsnap.controller.model.Attribute;
+import com.julvez.pfc.teachonsnap.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;
+import com.julvez.pfc.teachonsnap.tag.TagService;
+import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
+import com.julvez.pfc.teachonsnap.tag.model.CloudTag;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 
 public class HomeController extends CommonController {
 

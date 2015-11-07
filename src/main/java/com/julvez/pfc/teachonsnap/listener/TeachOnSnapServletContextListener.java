@@ -4,7 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
-import com.julvez.pfc.teachonsnap.service.upload.repository.UploadRepositoryFactory;
+import com.julvez.pfc.teachonsnap.upload.repository.UploadRepositoryFactory;
 
 public class TeachOnSnapServletContextListener implements
 		ServletContextListener {
