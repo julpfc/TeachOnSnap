@@ -86,7 +86,7 @@ public class LessonController extends CommonController {
 					LessonTest test = lessonTestService.getLessonTest(lesson);
 					request.setAttribute(Attribute.LESSONTEST_QUESTIONS.toString(), test);
 					
-					if(visit.getUser()!=null){
+					if(visit!= null && visit.getUser()!=null){
 						UserTestRank testRank = visitService.getUserTestRank(test.getId(), visit.getUser().getId());			
 						request.setAttribute(Attribute.USERTESTRANK.toString(), testRank);
 					}

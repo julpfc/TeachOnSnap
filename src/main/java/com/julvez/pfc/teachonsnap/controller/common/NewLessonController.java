@@ -50,6 +50,7 @@ public class NewLessonController extends CommonController {
 
 			if(newLesson!=null){
 				newLesson.setIdUser(user.getId());
+				newLesson.setAuthor(user);
 				newLesson = lessonService.createLesson(newLesson);
 				
 				if(newLesson!=null){				

@@ -28,7 +28,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 	@Override
 	public short getMimeTypeID(MediaType mediaType, String fileType) {
 		short id = -1;
-		Short obj = dbm.getQueryResultUnique("SQL_MEDIA_GET_MIMETYPEID", Short.class, mediaType.ordinal(),fileType);
+		Byte obj = dbm.getQueryResultUnique("SQL_MEDIA_GET_MIMETYPEID", Byte.class, mediaType.ordinal(),fileType);
 		if(obj!=null)
 			id = obj;
 		return id; 		
