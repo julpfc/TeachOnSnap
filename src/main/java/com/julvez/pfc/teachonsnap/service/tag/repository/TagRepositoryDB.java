@@ -7,8 +7,8 @@ import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.model.tag.Tag;
+import com.julvez.pfc.teachonsnap.service.lesson.LessonPropertyName;
 
 public class TagRepositoryDB implements TagRepository {
 
@@ -17,7 +17,7 @@ public class TagRepositoryDB implements TagRepository {
 	
 	@Override
 	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
-		int maxResults = properties.getNumericProperty(PropertyName.MAX_PAGE_RESULTS);
+		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_TAG_GET_LESSONIDS_FROM_TAG", Integer.class, tag,firstResult, maxResults + 1);
 	}
 

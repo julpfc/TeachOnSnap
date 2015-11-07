@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
@@ -31,6 +30,7 @@ import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.service.visit.VisitService;
 import com.julvez.pfc.teachonsnap.service.visit.VisitServiceFactory;
+import com.julvez.pfc.teachonsnap.service.visit.repository.VisitRepositoryPropertyName;
 
 
 /**
@@ -69,7 +69,7 @@ public abstract class CommonController extends HttpServlet {
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 
 		if(visit == null){			
-			if(properties.getBooleanProperty(PropertyName.ENABLE_ANON_VISIT_COUNTER)){
+			if(properties.getBooleanProperty(VisitRepositoryPropertyName.ENABLE_ANON_VISIT_COUNTER)){
 				visit = visitService.createVisit(requestManager.getIP(request));
 				requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);						
 			}

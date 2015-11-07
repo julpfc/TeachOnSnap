@@ -6,8 +6,8 @@ import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
+import com.julvez.pfc.teachonsnap.service.lesson.LessonPropertyName;
 
 
 public class LessonRepositoryDB implements LessonRepository {
@@ -38,13 +38,13 @@ public class LessonRepositoryDB implements LessonRepository {
 
 	@Override
 	public List<Integer> getLastLessonIDs(int firstResult) {
-		int maxResults = properties.getNumericProperty(PropertyName.MAX_PAGE_RESULTS);
+		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_LESSON_GET_LASTLESSONIDS", Integer.class, firstResult, maxResults + 1);
 	}
 
 	@Override
 	public List<Integer> getLessonIDsFromAuthor(String author,int firstResult) {
-		int maxResults = properties.getNumericProperty(PropertyName.MAX_PAGE_RESULTS);
+		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR", Integer.class, author,firstResult, maxResults + 1);						
 	}
 

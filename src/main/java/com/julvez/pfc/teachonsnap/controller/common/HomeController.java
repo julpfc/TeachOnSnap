@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.tag.CloudTag;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.lesson.LessonPropertyName;
 import com.julvez.pfc.teachonsnap.service.tag.TagService;
 import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.service.url.Attribute;
@@ -25,7 +25,7 @@ public class HomeController extends CommonController {
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private TagService tagService = TagServiceFactory.getService();
 
-	private final int MAX_RESULTS_PAGE = properties.getNumericProperty(PropertyName.MAX_PAGE_RESULTS);
+	private final int MAX_RESULTS_PAGE = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 	
 	@Override
 	protected void processController(HttpServletRequest request,

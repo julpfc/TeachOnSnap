@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.comment.Comment;
@@ -21,6 +20,7 @@ import com.julvez.pfc.teachonsnap.model.media.MediaFile;
 import com.julvez.pfc.teachonsnap.model.tag.Tag;
 import com.julvez.pfc.teachonsnap.model.visit.UserTestRank;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
+import com.julvez.pfc.teachonsnap.service.comment.CommentPropertyName;
 import com.julvez.pfc.teachonsnap.service.comment.CommentService;
 import com.julvez.pfc.teachonsnap.service.comment.CommentServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
@@ -50,7 +50,7 @@ public class LessonController extends CommonController {
 	private StringManager stringManager = StringManagerFactory.getManager();
 	private PropertyManager properties = PropertyManagerFactory.getManager();
 
-	protected final int MAX_COMMENTS_PAGE = properties.getNumericProperty(PropertyName.MAX_PAGE_COMMENTS);
+	protected final int MAX_COMMENTS_PAGE = properties.getNumericProperty(CommentPropertyName.MAX_PAGE_COMMENTS);
 
 	@Override
 	protected void processController(HttpServletRequest request,
