@@ -8,10 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
@@ -25,6 +23,9 @@ import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
 import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.page.PageService;
 import com.julvez.pfc.teachonsnap.service.page.PageServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class NewLessonTestController extends CommonController {
 
@@ -40,7 +41,7 @@ public class NewLessonTestController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		if(params!=null && params.length>0 && stringManager.isNumeric(params[0])){
 			
@@ -50,13 +51,13 @@ public class NewLessonTestController extends CommonController {
 			
 			if(lesson!=null){				
 				User user = null;
-				Visit visit = requestManager.getSessionVisit(request);
+				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				if(visit!=null) user = visit.getUser();
 					
 				if(roleService.isAllowedForLesson(user, lesson.getId())){
 					if(request.getMethod().equals("POST")){
-						String multipleChoice = requestManager.getParamMultiplechoiceTest(request);
-						int numAnswers = requestManager.getParamNumAnswersTest(request);
+						String multipleChoice = requestManager.getParameter(request, Parameter.LESSON_TEST_MULTIPLECHOICE);
+						int numAnswers = requestManager.getNumericParameter(request, Parameter.LESSON_TEST_NUMANSWERS);
 						
 						if(multipleChoice!=null){
 							if(numAnswers>1 && numAnswers<10){
@@ -67,22 +68,22 @@ public class NewLessonTestController extends CommonController {
 									test = lessonTestService.createLessonTest(lesson,stringManager.isTrue(multipleChoice),numAnswers);
 									
 									if(test!=null){
-										requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.TEST_CREATED));
+										setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.TEST_CREATED);
 										response.sendRedirect(test.getEditURL());
 									}
 									else{
-										requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
+										setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
 										response.sendRedirect(lesson.getNewTestURL());
 									}
 									
 								}
 								else{
-									requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_SAVE_DUPLICATE, ErrorMessageKey.SAVE_DUPLICATE_ERROR_TEST));
+									setErrorSession(request, ErrorType.ERR_SAVE_DUPLICATE, ErrorMessageKey.SAVE_DUPLICATE_ERROR_TEST);
 									response.sendRedirect(lesson.getEditURL());
 								}
 							}
 							else{
-								requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.INVALID_INPUT_ERROR_TEST));
+								setErrorSession(request, ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.INVALID_INPUT_ERROR_TEST);
 								response.sendRedirect(lesson.getNewTestURL());
 							}	
 						}

@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.mail.MailManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.media.MediaFile;
+import com.julvez.pfc.teachonsnap.model.media.MediaType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
@@ -24,6 +27,8 @@ import com.julvez.pfc.teachonsnap.service.tag.TagService;
 import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.service.upload.UploadService;
 import com.julvez.pfc.teachonsnap.service.upload.UploadServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class NewLessonController extends CommonController {
 
@@ -35,18 +40,19 @@ public class NewLessonController extends CommonController {
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
 	private UploadService uploadService = UploadServiceFactory.getService();
 
+	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		User user = null;
-		Visit visit = requestManager.getSessionVisit(request);
+		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 		if(visit!=null) user = visit.getUser();
 		
 		if(request.getMethod().equals("POST")){
 			
-			Lesson newLesson = requestManager.getParamNewLesson(request.getParameterMap());
+			Lesson newLesson = getNewLesson(request);
 
 			if(newLesson!=null){
 				newLesson.setIdUser(user.getId());
@@ -54,7 +60,7 @@ public class NewLessonController extends CommonController {
 				newLesson = lessonService.createLesson(newLesson);
 				
 				if(newLesson!=null){				
-					FileMetadata file = requestManager.getSubmittedFile(request);
+					FileMetadata file = getSubmittedFile(request);
 					
 					if(file!=null){						
 						MediaFile mediaFile = mediaFileService.saveMediaFile(newLesson,file);
@@ -63,19 +69,19 @@ public class NewLessonController extends CommonController {
 						}
 					}					
 					
-					List<String> tags = requestManager.getParamNewTags(request.getParameterMap());
+					List<String> tags = requestManager.getParameterList(request, Parameter.LESSON_NEW_TAGS);
 
 					if(tags!=null){
 						newLesson = tagService.addLessonTags(newLesson, tags);
 					}
 					
-					List<String> sources = requestManager.getParamNewSources(request.getParameterMap());
+					List<String> sources = requestManager.getParameterList(request, Parameter.LESSON_NEW_SOURCES);
 
 					if(sources!=null){
 						newLesson = linkService.addLessonSources(newLesson, sources);
 					}
 										
-					List<String> moreInfo = requestManager.getParamNewMoreInfos(request.getParameterMap());
+					List<String> moreInfo = requestManager.getParameterList(request, Parameter.LESSON_NEW_MOREINFOS);
 
 					if(moreInfo!=null){
 						newLesson = linkService.addLessonMoreInfo(newLesson, moreInfo);
@@ -107,6 +113,67 @@ public class NewLessonController extends CommonController {
 	@Override
 	protected boolean isPrivateZone() {
 		return true;
+	}
+	
+	
+	private Lesson getNewLesson(HttpServletRequest request) {
+		Lesson lesson = null;
+		
+		String title = requestManager.getParameter(request, Parameter.LESSON_NEW_TITLE);
+		
+		if(!stringManager.isEmpty(title)){
+			short idLanguage = (short)requestManager.getNumericParameter(request, Parameter.LESSON_NEW_LANGUAGE);
+			
+			if(idLanguage>0){
+				lesson = new Lesson();
+				lesson.setTitle(title);
+				lesson.setIdLanguage(idLanguage);					
+
+				String text = requestManager.getParameter(request, Parameter.LESSON_NEW_TEXT);
+				
+				if(!stringManager.isEmpty(title)){
+					lesson.setText(text);						
+				}
+			} 
+		}
+		
+		return lesson;
+	}
+	
+	private FileMetadata getSubmittedFile(HttpServletRequest request) {
+		FileMetadata file = null;
+		User user = null;
+		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
+		
+		if(visit!=null) user=visit.getUser();		
+		
+		String attach = requestManager.getParameter(request, Parameter.LESSON_NEW_FILE_ATTACH);
+		
+		if(user!=null && !stringManager.isEmpty(attach)){
+			MediaType mediaType = MediaType.valueOf(attach.toUpperCase());
+			String index = null;
+			
+			if(mediaType!=null){
+				switch (mediaType) {
+				case VIDEO:
+					index =  requestManager.getParameter(request, Parameter.LESSON_NEW_VIDEO_INDEX);
+					break;
+				case AUDIO:
+					index =  requestManager.getParameter(request, Parameter.LESSON_NEW_AUDIO_INDEX);
+					break;
+				}
+				
+				if(stringManager.isNumeric(index)){
+					int mediaIndex = Integer.parseInt(index);
+										
+					if(mediaIndex>=0){
+						file = uploadService.getTemporaryFile(user, mediaType , mediaIndex);
+					}
+				}
+			}
+		}		
+		
+		return file;
 	}
 
 }

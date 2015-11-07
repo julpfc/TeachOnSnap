@@ -1,9 +1,10 @@
-package com.julvez.pfc.teachonsnap.service.role;
+package com.julvez.pfc.teachonsnap.service.role.impl;
 
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.role.RoleService;
 
 public class RoleServiceImpl implements RoleService {
 

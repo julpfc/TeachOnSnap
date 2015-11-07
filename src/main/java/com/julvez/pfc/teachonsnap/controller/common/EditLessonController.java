@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
@@ -31,6 +30,8 @@ import com.julvez.pfc.teachonsnap.service.page.PageService;
 import com.julvez.pfc.teachonsnap.service.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.service.tag.TagService;
 import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class EditLessonController extends CommonController {
 
@@ -49,7 +50,7 @@ public class EditLessonController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		if(params!=null && params.length>0 && stringManager.isNumeric(params[0])){
 			
@@ -60,7 +61,7 @@ public class EditLessonController extends CommonController {
 			if(lesson!= null){
 				
 				User user = null;
-				Visit visit = requestManager.getSessionVisit(request);
+				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				if(visit!=null) user = visit.getUser();
 				
 				if(user.isAdmin() || (user.isAuthor() && user.getId() == lesson.getIdUser())){

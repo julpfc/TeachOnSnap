@@ -1,8 +1,8 @@
-package com.julvez.pfc.teachonsnap.controller.pager;
+package com.julvez.pfc.teachonsnap.controller.common.pager;
 
 import java.util.List;
 
-import com.julvez.pfc.teachonsnap.controller.PagerController;
+import com.julvez.pfc.teachonsnap.controller.common.PagerController;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 
 public class AuthorController extends PagerController {

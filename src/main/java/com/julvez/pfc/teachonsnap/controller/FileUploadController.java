@@ -3,6 +3,8 @@ package com.julvez.pfc.teachonsnap.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,18 +12,21 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.request.Header;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.request.impl.domain.Header;
 import com.julvez.pfc.teachonsnap.model.media.MediaType;
 import com.julvez.pfc.teachonsnap.model.upload.FileMetadata;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.upload.UploadService;
 import com.julvez.pfc.teachonsnap.service.upload.UploadServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 /**
  * Servlet implementation class FileUploadController
@@ -46,7 +51,7 @@ public class FileUploadController extends HttpServlet {
             throws ServletException, IOException{
     	
 		User user = null;
-		Visit visit = requestManager.getSessionVisit(request);
+		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 		if(visit!=null) user = visit.getUser();
     	
     	if(user == null){
@@ -116,7 +121,7 @@ public class FileUploadController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		User user = null;
-		Visit visit = requestManager.getSessionVisit(request);
+		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 		if(visit!=null) user = visit.getUser();
     	
     	if(user == null){
@@ -127,7 +132,7 @@ public class FileUploadController extends HttpServlet {
     		//TODO Controlar mejor que no venga una '/' detrás o que no sea uno de los tipos definidos (crear una enumeración)
     		MediaType contentType = MediaType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
 
-    		uploadService.addTemporaryFiles(user,contentType,requestManager.getUploadFiles(request));
+    		uploadService.addTemporaryFiles(user,contentType,getUploadFiles(request));
     		
     		List<FileMetadata> files = uploadService.getTemporaryFiles(user,contentType);
 			
@@ -141,6 +146,41 @@ public class FileUploadController extends HttpServlet {
 
 	        response.getOutputStream().write(outJSON.getBytes("UTF-8"));
     	}
+	}
+	
+	private List<FileMetadata> getUploadFiles(HttpServletRequest request) {
+		List<FileMetadata> files = new LinkedList<FileMetadata>();
+		
+	    Collection<Part> parts;
+		try {
+			parts = request.getParts();
+			
+			FileMetadata temp = null;
+			
+			for(Part part:parts){  
+				if(part.getContentType() != null){
+                
+					temp = new FileMetadata();
+					temp.setFileName(requestManager.getPartFilename(part));
+					temp.setFileSize(part.getSize()/1024 +" Kb");
+					temp.setFileType(part.getContentType());
+					temp.setContent(part.getInputStream());
+					temp.setMediaType(MediaType.valueOf(requestManager.getParameter(request, Parameter.LESSON_NEW_FILE_ATTACH).toUpperCase()));
+					
+					System.out.println("Upload.Part: "+temp);
+					files.add(temp);
+				}
+			}
+		 
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		} catch (ServletException e) {
+			
+			e.printStackTrace();
+		}
+	 
+		return files;
 	}
 	
 }

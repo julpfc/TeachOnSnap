@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.manager.request;
+package com.julvez.pfc.teachonsnap.manager.request.impl.domain;
 
 public enum Header {
 	

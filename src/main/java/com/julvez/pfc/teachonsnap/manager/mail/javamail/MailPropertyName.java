@@ -9,7 +9,6 @@ public enum MailPropertyName {
 	JAVAMAIL_AUTH_PASS("manager.mail.javamail.auth.pass"),
 	JAVAMAIL_SENDER("manager.mail.javamail.sender");
 	
-	
 	 		
 	private final String realName;
  

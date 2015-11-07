@@ -10,11 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
-import com.julvez.pfc.teachonsnap.manager.request.Header;
+import com.julvez.pfc.teachonsnap.manager.request.impl.domain.Header;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
@@ -29,6 +27,9 @@ import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
 import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.page.PageService;
 import com.julvez.pfc.teachonsnap.service.page.PageServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class EditLessonTestController extends CommonController {
 
@@ -45,7 +46,7 @@ public class EditLessonTestController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		if(params!=null && params.length>0 && stringManager.isNumeric(params[0])){
 			
@@ -56,32 +57,32 @@ public class EditLessonTestController extends CommonController {
 			if(test!=null){
 				Lesson lesson = lessonService.getLesson(test.getIdLesson());
 				User user = null;
-				Visit visit = requestManager.getSessionVisit(request);
+				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				if(visit!=null) user = visit.getUser();
 					
 				if(roleService.isAllowedForLesson(user, test.getIdLesson())){
-					String publish = requestManager.getParamPublishLessonTest(request);
+					String publish = requestManager.getParameter(request,Parameter.LESSON_TEST_PUBLISH);
 					
 					if(publish!=null){
 						if(stringManager.isTrue(publish)){
 							if(test.getNumQuestions()>0){
 								lessonTestService.publish(test.getId());
-								requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.TEST_PUBLISHED));
+								setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.TEST_PUBLISHED);
 							}
 							else{
-								requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.INVALID_INPUT_ERROR_TEST_PUBLISH));
+								setErrorSession(request, ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.INVALID_INPUT_ERROR_TEST_PUBLISH);
 							}
 						}				
 						else{
 							lessonTestService.unpublish(test.getId());
-							requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.TEST_UNPUBLISHED));
+							setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.TEST_UNPUBLISHED);
 						}
 						
-						response.sendRedirect(requestManager.getLastPage(request));
+						response.sendRedirect(requestManager.getSessionAttribute(request, SessionAttribute.LAST_PAGE));
 					}
 					else {
 						
-						int deleteQuestionID = requestManager.getParamDeleteQuestionID(request);
+						int deleteQuestionID = requestManager.getNumericParameter(request, Parameter.QUESTIONID_DELETE);
 						
 						if(deleteQuestionID>0){							
 							Question question = null;
@@ -94,10 +95,10 @@ public class EditLessonTestController extends CommonController {
 							if(question!=null){
 								if(!lessonTestService.removeQuestion(question)){
 									//No se pudo borrar la pregunta									
-									requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_REMOVE, ErrorMessageKey.REMOVE_ERROR));									
+									setErrorSession(request, ErrorType.ERR_REMOVE, ErrorMessageKey.REMOVE_ERROR);									
 								}
 								else {
-									requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_REMOVED));
+									setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_REMOVED);
 								}
 								response.sendRedirect(test.getEditURL());
 							}
@@ -107,22 +108,22 @@ public class EditLessonTestController extends CommonController {
 							}
 						}
 						else{
-							String deleteTest = requestManager.getParamDeleteTest(request);
+							String deleteTest = requestManager.getParameter(request, Parameter.LESSON_TEST_DELETE);
 							
 							if(deleteTest!=null && stringManager.isTrue(deleteTest)){
 								if(!lessonTestService.removeLessonTest(test)){
 									//No se pudo borrar el test
-									requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_REMOVE, ErrorMessageKey.REMOVE_ERROR));									
+									setErrorSession(request, ErrorType.ERR_REMOVE, ErrorMessageKey.REMOVE_ERROR);									
 									response.sendRedirect(test.getEditURL());							
 								}
 								else {
-									requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.TEST_REMOVED));
+									setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.TEST_REMOVED);
 									response.sendRedirect(lesson.getEditURL());
 								}
 							}
 							else{								
-								int newPriority = requestManager.getParamQuestionPriority(request);
-								int idQuestion = requestManager.getParamQuestionID(request);
+								int newPriority = requestManager.getNumericParameter(request, Parameter.QUESTION_PRIORITY);
+								int idQuestion = requestManager.getNumericParameter(request, Parameter.QUESTIONID);
 								
 								if(newPriority>=0 && idQuestion>0){
 									Question question = null;
@@ -135,10 +136,10 @@ public class EditLessonTestController extends CommonController {
 									if(question!=null){										
 										if(!lessonTestService.moveQuestion(question, newPriority)){
 											//No se pudo mover la pregunta									
-											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));									
+											setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);									
 										}
 										else {
-											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_SAVED));
+											setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_SAVED);
 										}
 										response.sendRedirect(test.getEditURL());
 									}
@@ -148,7 +149,7 @@ public class EditLessonTestController extends CommonController {
 									}
 								}
 								else{
-									String export = requestManager.getParamExport(request);
+									String export = requestManager.getParameter(request, Parameter.EXPORT);
 									
 									if(export != null){
 										response.setContentType("application/json");

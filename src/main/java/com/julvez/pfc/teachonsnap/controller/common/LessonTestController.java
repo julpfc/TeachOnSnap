@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
@@ -23,6 +22,8 @@ import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
 import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class LessonTestController extends CommonController {
 
@@ -37,7 +38,7 @@ public class LessonTestController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		if(params!=null && params.length>0 && stringManager.isNumeric(params[0])){
 			
@@ -46,7 +47,7 @@ public class LessonTestController extends CommonController {
 			LessonTest test = lessonTestService.getLessonTest(idLessonTest);
 			
 			Lesson lesson = lessonService.getLesson(test.getIdLesson());
-			Visit visit = requestManager.getSessionVisit(request);
+			Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 			
 			if(request.getMethod().equals("POST")){
 				UserLessonTest userTest = new UserLessonTest(test, request.getParameterMap());
@@ -54,10 +55,10 @@ public class LessonTestController extends CommonController {
 				boolean saved = visitService.saveUserTest(visit, userTest);
 				
 				if(saved){
-					requestManager.setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USERTEST_SAVED));					
+					setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USERTEST_SAVED));					
 				}
 				else{
-					requestManager.setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
+					setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
 				}
 				
 				request.setAttribute(Attribute.USERLESSONTEST_ANSWERS.toString(), userTest);

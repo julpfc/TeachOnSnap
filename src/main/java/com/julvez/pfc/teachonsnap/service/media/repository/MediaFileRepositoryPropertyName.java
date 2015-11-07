@@ -2,7 +2,7 @@ package com.julvez.pfc.teachonsnap.service.media.repository;
 
 public enum MediaFileRepositoryPropertyName {
 
-	MEDIAFILE_DEFAULT_REPOSITORY("repository.media.db.defaultRepositoryID");
+	MEDIAFILE_DEFAULT_REPOSITORY("media.repository.defaultRepositoryID");
 	
 	 		
 	private final String realName;

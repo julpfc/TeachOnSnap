@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
 
 public class ErrorController extends CommonController {
 
@@ -18,8 +19,8 @@ public class ErrorController extends CommonController {
 		
 		//TODO En este ponerle un try/catch para queen caso de que falle vaya al view
 		
-		int statusCode = requestManager.getAttributeErrorStatusCode(request);
-		Throwable exception = requestManager.getAttributeErrorException(request);
+		int statusCode = (int)requestManager.getAttribute(request, Attribute.INT_ERROR_STATUS_CODE, Object.class);
+		Throwable exception = requestManager.getAttribute(request, Attribute.THROWABLE_ERROR_EXCEPTION, Throwable.class);
 		
 		//TODO Variables a una enum o lista de constantes
 		String textKey = "error.none";

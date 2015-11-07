@@ -2,7 +2,7 @@ package com.julvez.pfc.teachonsnap.service.tag.repository;
 
 public enum TagRepositoryPropertyName {
 
-	LIMIT_CLOUDTAG("repository.tag.db.limit.cloudtag");
+	LIMIT_CLOUDTAG("tag.repository.limit.cloudtag");
 	
 	 		
 	private final String realName;

@@ -14,8 +14,10 @@ import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
-import com.julvez.pfc.teachonsnap.service.request.RequestService;
-import com.julvez.pfc.teachonsnap.service.request.RequestServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
+import com.julvez.pfc.teachonsnap.service.url.URLService;
+import com.julvez.pfc.teachonsnap.service.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.service.visit.VisitService;
@@ -30,7 +32,7 @@ public class LoginController extends HttpServlet {
     
 	private UserService userService = UserServiceFactory.getService();
 	private VisitService visitService = VisitServiceFactory.getService();
-	private RequestService requestService = RequestServiceFactory.getService();
+	private URLService requestService = URLServiceFactory.getService();
 	
 	private RequestManager requestManager = RequestManagerFactory.getManager();
     /**
@@ -46,22 +48,22 @@ public class LoginController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		User user = null;
-		Visit visit = requestManager.getSessionVisit(request);
+		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 		
 		if(visit!=null) user = visit.getUser();
 		
 		boolean loginError = true;
 		boolean emailRemind = false;
 		
-		String lastPage = requestManager.getLastPage(request);
+		String lastPage = requestManager.getSessionAttribute(request, SessionAttribute.LAST_PAGE);
 		
 		// Si no tiene sesión iniciada en la app
 		if(user == null){
-			String email = requestManager.getParamLoginEmail(request);
+			String email = requestManager.getParameter(request,Parameter.LOGIN_EMAIL);
 			
 			if(email!=null){
 				user = userService.getUserFromEmail(email);
-				String password = requestManager.getParamLoginPassword(request);
+				String password = requestManager.getParameter(request,Parameter.LOGIN_PASSWORD);
 			
 				if(password!=null){
 					if(userService.validatePassword(user, password)){
@@ -75,14 +77,14 @@ public class LoginController extends HttpServlet {
 						if(visitu != null){							
 							visit = visitu;
 						}
-						requestManager.setVisitSession(request, visit);
+						requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
 						loginError = false;
 					}					
 				}				
 				
 			}
 			else{
-				email = requestManager.getParamLoginEmailRemind(request);
+				email = requestManager.getParameter(request,Parameter.LOGIN_EMAIL_REMIND);
 
 				// Si olvidó su contraseña ...
 				if(email != null){
@@ -95,14 +97,14 @@ public class LoginController extends HttpServlet {
 						boolean sent = userService.sendPasswordRemind(user);
 						
 						if(sent){
-							requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_REMIND_SENT));
+							requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_REMIND_SENT));
 						}
 						else{
-							requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.PASSWORD_REMIND_SEND_ERROR));
+							requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.PASSWORD_REMIND_SEND_ERROR));
 						}							
 					}
 					else {
-						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.PASSWORD_REMIND_EMAIL_ERROR));
+						requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.PASSWORD_REMIND_EMAIL_ERROR));
 					}
 				}
 			}
@@ -111,19 +113,19 @@ public class LoginController extends HttpServlet {
 			// Ya estaba logueado
 			loginError = false;
 			
-			boolean logOut = requestManager.getParamLogout(request);
+			boolean logOut = requestManager.getBooleanParameter(request,Parameter.LOGOUT);
 			if(logOut){
 				visit.setUser(null);
-				requestManager.setVisitSession(request, visit);	
+				requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);	
 				lastPage = requestService.getHomeURL();
 			}
 		}
 			
 		if(loginError){
-			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_LOGIN, ErrorMessageKey.NONE));			
+			requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_LOGIN, ErrorMessageKey.NONE));			
 		}
 		else if(!emailRemind){
-			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.NONE));
+			requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.NONE));
 		}	
 		
 		// GOTO LastPage

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
@@ -21,10 +20,13 @@ import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
 import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
-import com.julvez.pfc.teachonsnap.service.request.RequestService;
-import com.julvez.pfc.teachonsnap.service.request.RequestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.role.RoleService;
 import com.julvez.pfc.teachonsnap.service.role.RoleServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
+import com.julvez.pfc.teachonsnap.service.url.URLService;
+import com.julvez.pfc.teachonsnap.service.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.service.visit.VisitService;
@@ -41,7 +43,7 @@ public abstract class CommonController extends HttpServlet {
 	protected UserService userService = UserServiceFactory.getService();
 	protected RoleService roleService = RoleServiceFactory.getService();
 	protected VisitService visitService = VisitServiceFactory.getService();
-	protected RequestService requestService = RequestServiceFactory.getService();
+	protected URLService requestService = URLServiceFactory.getService();
 	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
@@ -64,16 +66,16 @@ public abstract class CommonController extends HttpServlet {
 		String acceptLang = requestManager.getRequestLanguage(request);
 		
 		//TODO revisar todos los métodos control interno de errores
-		Visit visit = requestManager.getSessionVisit(request);
+		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 
 		if(visit == null){			
 			if(properties.getBooleanProperty(PropertyName.ENABLE_ANON_VISIT_COUNTER)){
 				visit = visitService.createVisit(requestManager.getIP(request));
-				requestManager.setVisitSession(request, visit);						
+				requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);						
 			}
 		}
 		
-		String paramLang = requestManager.getParamChangeLanguage(request);
+		String paramLang = requestManager.getParameter(request,Parameter.CHANGE_LANGUAGE);
 		Language userLang = langService.getUserSessionLanguage(acceptLang,visit,paramLang);
 		
 		User user = null;
@@ -81,7 +83,7 @@ public abstract class CommonController extends HttpServlet {
 		if(visit != null){
 		
 			visit.setIdLanguage(userLang.getId());
-			requestManager.setVisitSession(request, visit);
+			requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
 
 			user = visit.getUser();				
 		
@@ -89,7 +91,7 @@ public abstract class CommonController extends HttpServlet {
 				User modUser = userService.saveUserLanguage(user, userLang);
 				if(modUser!=null){				
 					visit.setUser(modUser);
-					requestManager.setVisitSession(request, visit);
+					requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
 				}
 			}
 		}
@@ -103,16 +105,16 @@ public abstract class CommonController extends HttpServlet {
 		
 		// Si es zona restringida pedimos login
 		if(user==null && isPrivateZone()){
-			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_LOGIN, ErrorMessageKey.NONE));
+			setErrorSession(request, ErrorType.ERR_LOGIN, ErrorMessageKey.NONE);
 			String lastPage = requestService.getHomeURL();
 			response.sendRedirect(lastPage);
 		}
 		else{
-			ErrorBean error = requestManager.getErrorSession(request);
+			ErrorBean error = getErrorSession(request);
 			
-			requestManager.setAttributeErrorBean(request, error);
+			setAttributeErrorBean(request, error);
 						
-			requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.NONE));
+			setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.NONE);
 			
 			//TODO Loguear la página en la que estamos	  
 			System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
@@ -120,7 +122,7 @@ public abstract class CommonController extends HttpServlet {
 			processController(request, response);
 			
 			//Guardamos la página después d eprocesarla para tener acceso a la página anterior
-			requestManager.setLastPage(request);
+			requestManager.setSessionAttribute(request, SessionAttribute.LAST_PAGE, request.getRequestURI());
 		}
 	}
 
@@ -134,5 +136,44 @@ public abstract class CommonController extends HttpServlet {
 	protected abstract void processController(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 	
 	protected abstract boolean isPrivateZone();
+	
+	
+	
+	private ErrorBean getErrorSession(HttpServletRequest request) {
+		ErrorBean error = requestManager.getSessionAttribute(request, SessionAttribute.ERROR, ErrorBean.class);
+		
+		if(error == null){
+			error = new ErrorBean(ErrorType.ERR_NONE,ErrorMessageKey.NONE);
+		}
+		return error;
+	}
+	
+	
+	protected void setAttributeErrorBean(HttpServletRequest request, ErrorBean error) {
+		if(error!=null){		
+			switch(error.getType()){
+				case ERR_LOGIN:
+					requestManager.setAttribute(request, Attribute.STRING_LOGINERROR, "loginError");
+					break;
+				case ERR_NONE:
+					if(error.getMessageKey()!=null){
+						requestManager.setAttribute(request, Attribute.STRING_ERRORMESSAGEKEY, error.getMessageKey());
+					}
+					break;
+				default:
+					if(error.getMessageKey()!=null){
+						requestManager.setAttribute(request, Attribute.STRING_ERRORMESSAGEKEY, error.getMessageKey());
+					}
+					requestManager.setAttribute(request, Attribute.STRING_ERRORTYPE, error.getType().toString());
+					break;				
+			}
+		}
+	}
+	
+	protected void setErrorSession(HttpServletRequest request, ErrorType type, ErrorMessageKey messageKey){
+		requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(type, messageKey));
+	}
+
+	
 }
 

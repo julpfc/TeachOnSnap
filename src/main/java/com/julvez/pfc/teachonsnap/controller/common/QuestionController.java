@@ -10,11 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
-import com.julvez.pfc.teachonsnap.manager.request.Header;
+import com.julvez.pfc.teachonsnap.manager.request.impl.domain.Header;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
@@ -29,6 +27,9 @@ import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
 import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.page.PageService;
 import com.julvez.pfc.teachonsnap.service.page.PageServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class QuestionController extends CommonController {
 
@@ -46,7 +47,7 @@ public class QuestionController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		if(params!=null && params.length>0 && stringManager.isNumeric(params[0])){
 			
@@ -57,7 +58,7 @@ public class QuestionController extends CommonController {
 			if(test!=null){
 				
 				User user = null;
-				Visit visit = requestManager.getSessionVisit(request);
+				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				if(visit!=null) user = visit.getUser();
 				
 				if(roleService.isAllowedForLesson(user, test.getIdLesson())){
@@ -74,7 +75,7 @@ public class QuestionController extends CommonController {
 					
 							//Guardamos cambios
 							if(request.getMethod().equals("POST")){
-								String json = requestManager.getParamJSON(request);
+								String json = requestManager.getParameter(request,Parameter.JSON);
 									
 								if(json!=null){
 									System.out.println("json="+json);
@@ -87,7 +88,7 @@ public class QuestionController extends CommonController {
 										System.out.println("equals="+question.equals(jQuestion));
 										if(question.equals(jQuestion)){
 											//No ha cambiado nada
-											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES));
+											setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES);
 											response.sendRedirect(test.getEditURL());
 										}
 										else{
@@ -95,7 +96,7 @@ public class QuestionController extends CommonController {
 											if(question.isEditedVersion(jQuestion)){
 												if(jQuestion.isFullFilled()){
 													lessonTestService.saveQuestion(jQuestion);
-													requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_SAVED));
+													setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_SAVED);
 													response.sendRedirect(test.getEditURL());
 												}
 												else{
@@ -122,7 +123,7 @@ public class QuestionController extends CommonController {
 							else{
 								//Es un GET -> Cargamos los datos
 								
-								String export = requestManager.getParamExport(request);
+								String export = requestManager.getParameter(request, Parameter.EXPORT);
 								
 								if(export != null){
 									response.setContentType("application/json");
@@ -154,7 +155,7 @@ public class QuestionController extends CommonController {
 						//No viene idQuestion en la URL, hay que crear una nueva
 						//Guardamos New Question
 						if(request.getMethod().equals("POST")){
-							String json = requestManager.getParamJSON(request);
+							String json = requestManager.getParameter(request, Parameter.JSON);
 							
 							if(json!=null){
 								System.out.println("json="+json);
@@ -171,13 +172,13 @@ public class QuestionController extends CommonController {
 										test = lessonTestService.createQuestion(jQuestion);
 										
 										if(test != null){
-											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_CREATED));
+											setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.QUESTION_CREATED);
 											response.sendRedirect(test.getEditURL());
 										}
 										else{
 											test = lessonTestService.getLessonTest(idLessonTest);
 											//No se pudo crear la pregunta
-											requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
+											setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
 											response.sendRedirect(test.getNewQuestionURL());
 										}
 									}

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
@@ -19,6 +18,8 @@ import com.julvez.pfc.teachonsnap.service.comment.CommentService;
 import com.julvez.pfc.teachonsnap.service.comment.CommentServiceFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class CommentController extends CommonController {
 
@@ -38,28 +39,28 @@ public class CommentController extends CommonController {
 		Lesson lesson = lessonService.getLessonFromURI(lessonURI);
 		
 		if(lesson != null){
-			int commentID = requestManager.getParamCommentID(request);
-			String isBanned = requestManager.getParamBanComment(request);
+			int commentID = requestManager.getNumericParameter(request, Parameter.LESSON_COMMENTID);
+			String isBanned = requestManager.getParameter(request,Parameter.LESSON_COMMENT_BAN);
 			User user = null;
-			Visit visit = requestManager.getSessionVisit(request);
+			Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 			if(visit!=null) user = visit.getUser();
 			
 			if(request.getMethod().equals("POST")){			
-				String commentBody = requestManager.getParamComment(request);
-				boolean isEditing = requestManager.getParamEditComment(request);
+				String commentBody = requestManager.getParameter(request,Parameter.LESSON_COMMENT);
+				boolean isEditing = requestManager.getBooleanParameter(request,Parameter.LESSON_COMMENT_EDIT);
 				
 				if(commentBody != null){
 					if(isEditing){
 						commentService.saveCommentBody(commentID, user.getId(), commentBody);
-						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_SAVED));
+						setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_SAVED);
 					}
 					else if(isBanned==null){
 						commentService.createComment(lesson.getId(), user.getId(), commentBody, commentID);
-						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_CREATED));
+						setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_CREATED);
 					}
 					else if(stringManager.isTrue(isBanned)){
 						commentService.blockComment(commentID, user, commentBody);
-						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_BLOCKED));
+						setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_BLOCKED);
 					}
 					else{
 						//isEditing=false, isBanned=false
@@ -76,7 +77,7 @@ public class CommentController extends CommonController {
 				if(isBanned!= null){
 					if(!stringManager.isTrue(isBanned)){
 						commentService.unblockComment(commentID, user);
-						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_UNBLOCKED));
+						setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_UNBLOCKED);
 					}
 					else{
 						//No es correcto llamar para banear por GET

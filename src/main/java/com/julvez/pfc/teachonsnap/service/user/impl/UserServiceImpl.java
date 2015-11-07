@@ -2,7 +2,6 @@ package com.julvez.pfc.teachonsnap.service.user.impl;
 
 import com.julvez.pfc.teachonsnap.manager.date.DateManager;
 import com.julvez.pfc.teachonsnap.manager.date.DateManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.request.ControllerURI;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lang.Language;
@@ -11,12 +10,13 @@ import com.julvez.pfc.teachonsnap.service.lang.LangService;
 import com.julvez.pfc.teachonsnap.service.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.service.notify.NotifyService;
 import com.julvez.pfc.teachonsnap.service.notify.NotifyServiceFactory;
-import com.julvez.pfc.teachonsnap.service.request.RequestService;
-import com.julvez.pfc.teachonsnap.service.request.RequestServiceFactory;
 import com.julvez.pfc.teachonsnap.service.text.TextService;
 import com.julvez.pfc.teachonsnap.service.text.TextServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.ControllerURI;
+import com.julvez.pfc.teachonsnap.service.url.URLService;
+import com.julvez.pfc.teachonsnap.service.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
-import com.julvez.pfc.teachonsnap.service.user.UserTextKey;
+import com.julvez.pfc.teachonsnap.service.user.UserMessageKey;
 import com.julvez.pfc.teachonsnap.service.user.repository.UserRepository;
 import com.julvez.pfc.teachonsnap.service.user.repository.UserRepositoryFactory;
 
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository = UserRepositoryFactory.getRepository();
 	
 	private LangService langService = LangServiceFactory.getService(); 
-	private RequestService requestService = RequestServiceFactory.getService();
+	private URLService requestService = URLServiceFactory.getService();
 	private NotifyService notifyService = NotifyServiceFactory.getService();
 	private TextService textService = TextServiceFactory.getService();
 	
@@ -118,8 +118,8 @@ public class UserServiceImpl implements UserService {
 						
 			String url = requestService.getAbsoluteURL(ControllerURI.CHANGE_PASSWORD + token);
 			
-			String subject = textService.getLocalizedText(user.getLanguage(),UserTextKey.CHANGE_PASSWORD_SUBJECT);
-			String message = textService.getLocalizedText(user.getLanguage(),UserTextKey.CHANGE_PASSWORD_SUBJECT_MESSAGE, url);
+			String subject = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_SUBJECT);
+			String message = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_SUBJECT_MESSAGE, url);
 			
 			success = notifyService.info(user, subject, message, url);
 		}

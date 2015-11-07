@@ -7,14 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.user.User;
 import com.julvez.pfc.teachonsnap.model.visit.Visit;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class UserPreferencesController extends CommonController {
 
@@ -26,25 +27,25 @@ public class UserPreferencesController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		String prevPage = requestManager.getLastPage(request);
+		String prevPage = requestManager.getSessionAttribute(request, SessionAttribute.LAST_PAGE);
 		
 		request.setAttribute(Attribute.STRING_PREVPAGE.toString(), prevPage);
 		
 		if(request.getMethod().equals("POST")){
 			
-			String firstname = requestManager.getParamfirstName(request);
-			String lastname = requestManager.getParamlastName(request);
-			String oldPassword = requestManager.getParamOldPassword(request);
-			String newPassword = requestManager.getParamNewPassword(request);
+			String firstname = requestManager.getParameter(request,Parameter.FIRST_NAME);
+			String lastname = requestManager.getParameter(request,Parameter.LAST_NAME);
+			String oldPassword = requestManager.getParameter(request,Parameter.OLD_PASSWORD);
+			String newPassword = requestManager.getParameter(request,Parameter.NEW_PASSWORD);
 			
-			Visit visit = requestManager.getSessionVisit(request);
+			Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 			User user = visit.getUser();
 			
 			if(!stringManager.isEmpty(firstname) && !stringManager.isEmpty(lastname)){
 				
 				if(firstname.equals(user.getFirstName()) && lastname.equals(user.getLastName())){
 					//No ha cambiado nada
-					requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES));						
+					setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES);						
 				}
 				else{
 					//Ha cambiado
@@ -54,27 +55,27 @@ public class UserPreferencesController extends CommonController {
 					else{
 						user = userService.saveLastName(user, lastname);
 					}
-					requestManager.setVisitSession(request, visit);
-					requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USERNAME_SAVED));			
+					requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
+					setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.USERNAME_SAVED);			
 				}				
-				response.sendRedirect(requestManager.getLastPage(request));
+				response.sendRedirect(prevPage);
 			}
 			else if(!stringManager.isEmpty(oldPassword) && !stringManager.isEmpty(newPassword)){
 				if(userService.validatePassword(user, oldPassword)){
 					if(newPassword.equals(oldPassword)){
 						//No ha cambiado nada
-						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES));						
+						setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES);						
 					}
 					else{
 						//Ha cambiado
 						userService.savePassword(user, newPassword);
-						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_CHANGED));			
+						setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_CHANGED);			
 					}
 				}
 				else{
-					requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.WRONG_CURRENT_PASSWORD));
+					setErrorSession(request, ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.WRONG_CURRENT_PASSWORD);
 				}
-				response.sendRedirect(requestManager.getLastPage(request));
+				response.sendRedirect(prevPage);
 			}
 			else{
 				//No recibimos los parámetros correctamente

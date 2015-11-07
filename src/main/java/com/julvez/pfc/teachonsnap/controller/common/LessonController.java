@@ -11,7 +11,6 @@ import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.comment.Comment;
@@ -34,6 +33,8 @@ import com.julvez.pfc.teachonsnap.service.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.service.media.MediaFileServiceFactory;
 import com.julvez.pfc.teachonsnap.service.tag.TagService;
 import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
 
 public class LessonController extends CommonController {
 
@@ -55,7 +56,7 @@ public class LessonController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.splitParamsFromControllerURI(request);
 
 		String lessonURI = null;
 		
@@ -68,7 +69,7 @@ public class LessonController extends CommonController {
 				int pageResult = 0;
 				boolean hasNextPage = false;
 				
-				Visit visit = requestManager.getSessionVisit(request);
+				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				
 				if(visit != null && !visit.isViewedLesson(lesson.getId())){
 					visit = visitService.saveLesson(visit, lesson);

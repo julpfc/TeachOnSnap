@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.controller;
+package com.julvez.pfc.teachonsnap.controller.common;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,10 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
@@ -19,6 +19,7 @@ import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.service.tag.TagService;
 import com.julvez.pfc.teachonsnap.service.tag.TagServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
 
 public abstract class PagerController extends CommonController {
 
@@ -40,7 +41,7 @@ public abstract class PagerController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		int pageResult = 0;
 		boolean hasNextPage = false;

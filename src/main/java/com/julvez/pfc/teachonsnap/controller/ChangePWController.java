@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.julvez.pfc.teachonsnap.manager.request.Attribute;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -16,8 +15,11 @@ import com.julvez.pfc.teachonsnap.model.error.ErrorBean;
 import com.julvez.pfc.teachonsnap.model.error.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.model.error.ErrorType;
 import com.julvez.pfc.teachonsnap.model.user.User;
-import com.julvez.pfc.teachonsnap.service.request.RequestService;
-import com.julvez.pfc.teachonsnap.service.request.RequestServiceFactory;
+import com.julvez.pfc.teachonsnap.service.url.Attribute;
+import com.julvez.pfc.teachonsnap.service.url.Parameter;
+import com.julvez.pfc.teachonsnap.service.url.SessionAttribute;
+import com.julvez.pfc.teachonsnap.service.url.URLService;
+import com.julvez.pfc.teachonsnap.service.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.service.user.UserService;
 import com.julvez.pfc.teachonsnap.service.user.UserServiceFactory;
 
@@ -29,7 +31,7 @@ public class ChangePWController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     	
 	private UserService userService = UserServiceFactory.getService();
-	private RequestService requestService = RequestServiceFactory.getService();
+	private URLService requestService = URLServiceFactory.getService();
 		
 	private RequestManager requestManager = RequestManagerFactory.getManager();
 	private StringManager stringManager = StringManagerFactory.getManager();
@@ -47,7 +49,7 @@ public class ChangePWController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		String[] params = requestManager.getControllerParams(request);
+		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		if(params!=null && params.length>0){
 			String token = params[0];
@@ -66,14 +68,14 @@ public class ChangePWController extends HttpServlet {
 				System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 		
 				if(request.getMethod().equals("POST")){
-					String newPassword = requestManager.getParamNewPassword(request);
+					String newPassword = requestManager.getParameter(request,Parameter.NEW_PASSWORD);
 					
 					if(!stringManager.isEmpty(newPassword)){
 						userService.savePassword(user, newPassword);
 						
 						userService.deletePasswordTemporaryToken(user);
 						
-						requestManager.setErrorSession(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_CHANGED));			
+						requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_CHANGED));			
 						
 						response.sendRedirect(requestService.getHomeURL());
 					}

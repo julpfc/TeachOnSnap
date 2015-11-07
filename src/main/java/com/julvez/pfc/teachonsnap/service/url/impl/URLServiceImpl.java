@@ -1,15 +1,18 @@
-package com.julvez.pfc.teachonsnap.service.request.impl;
+package com.julvez.pfc.teachonsnap.service.url.impl;
 
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
-import com.julvez.pfc.teachonsnap.service.request.RequestService;
+import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
+import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.service.url.URLService;
 
-public class RequestServiceImpl implements RequestService {
+public class URLServiceImpl implements URLService {
 
 	private static final String PROTOCOL = "https://";
 	
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
+	protected RequestManager requestManager = RequestManagerFactory.getManager();
 
 	@Override
 	public String getHost() {
@@ -29,6 +32,5 @@ public class RequestServiceImpl implements RequestService {
 		return PROTOCOL +  properties.getProperty(PropertyName.TEACHONSNAP_HOST) + context;
 	}
 	
-
 
 }
