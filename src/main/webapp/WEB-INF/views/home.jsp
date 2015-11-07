@@ -60,8 +60,11 @@
 				</c:forEach>			
 	   
 				<nav><ul class="pager"><li>
-					<a href="/last/10"><span class="glyphicon glyphicon-chevron-left"></span>
-					 <fmt:message key="pager.previous"/></a></li></ul>
+					 <c:if test="${not empty nextPage}">
+						<li><a href="${nextPage}"><span class="glyphicon glyphicon-chevron-left"></span>
+							<fmt:message key="pager.previous"/></a></li>
+					</c:if>
+					</ul>
 				</nav>
 	        </div><!-- col -->
 

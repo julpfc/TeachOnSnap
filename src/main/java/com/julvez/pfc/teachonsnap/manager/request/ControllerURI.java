@@ -2,7 +2,8 @@ package com.julvez.pfc.teachonsnap.manager.request;
 
 public enum ControllerURI {
 
-	CHANGE_PASSWORD("/changepw/");
+	CHANGE_PASSWORD("/changepw/"), 
+	LESSONS_BY_LAST("/last/");
 
 		 		
 	private final String URI;

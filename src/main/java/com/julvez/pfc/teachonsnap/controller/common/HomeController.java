@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyName;
 import com.julvez.pfc.teachonsnap.manager.request.Attribute;
+import com.julvez.pfc.teachonsnap.manager.request.ControllerURI;
 import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.tag.CloudTag;
 import com.julvez.pfc.teachonsnap.service.lesson.LessonService;
@@ -23,6 +25,7 @@ public class HomeController extends CommonController {
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private TagService tagService = TagServiceFactory.getService();
 
+	private final int MAX_RESULTS_PAGE = properties.getNumericProperty(PropertyName.MAX_PAGE_RESULTS);
 	
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -30,7 +33,14 @@ public class HomeController extends CommonController {
 		// TODO TOP de lessons (más vistas, activas)
 		
 		List<Lesson> lastLessons = lessonService.getLastLessons(0);
-		lastLessons.remove(lastLessons.size()-1);
+				
+		if(lastLessons.size()>MAX_RESULTS_PAGE){			
+			lastLessons.remove(MAX_RESULTS_PAGE);		
+			
+			String nextPage = ControllerURI.LESSONS_BY_LAST.toString() + MAX_RESULTS_PAGE;
+			
+			request.setAttribute(Attribute.STRING_NEXTPAGE.toString(), nextPage);
+		}
 		
 		List<CloudTag> cloudTags = tagService.getCloudTags();
 		
