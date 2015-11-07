@@ -1,6 +1,5 @@
 package com.julvez.pfc.teachonsnap.service.lang.repository;
 
-import com.julvez.pfc.teachonsnap.service.lang.repository.db.cache.LangRepositoryDBCache;
 
 public class LangRepositoryFactory {
 

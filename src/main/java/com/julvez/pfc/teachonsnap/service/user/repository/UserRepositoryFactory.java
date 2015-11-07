@@ -1,6 +1,5 @@
 package com.julvez.pfc.teachonsnap.service.user.repository;
 
-import com.julvez.pfc.teachonsnap.service.user.repository.db.cache.UserRepositoryDBCache;
 
 public class UserRepositoryFactory {
 

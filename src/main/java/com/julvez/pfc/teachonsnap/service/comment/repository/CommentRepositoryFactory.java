@@ -1,6 +1,5 @@
 package com.julvez.pfc.teachonsnap.service.comment.repository;
 
-import com.julvez.pfc.teachonsnap.service.comment.repository.db.cache.CommentRepositoryDBCache;
 
 public class CommentRepositoryFactory {
 

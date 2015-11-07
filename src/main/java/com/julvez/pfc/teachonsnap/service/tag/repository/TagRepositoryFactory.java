@@ -1,6 +1,5 @@
 package com.julvez.pfc.teachonsnap.service.tag.repository;
 
-import com.julvez.pfc.teachonsnap.service.tag.repository.db.cache.TagRepositoryDBCache;
 
 
 public class TagRepositoryFactory {

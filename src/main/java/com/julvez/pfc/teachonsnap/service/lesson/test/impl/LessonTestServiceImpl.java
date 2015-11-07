@@ -7,9 +7,9 @@ import com.julvez.pfc.teachonsnap.model.lesson.Lesson;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Answer;
 import com.julvez.pfc.teachonsnap.model.lesson.test.LessonTest;
 import com.julvez.pfc.teachonsnap.model.lesson.test.Question;
-import com.julvez.pfc.teachonsnap.service.lesson.repository.test.LessonTestRepository;
-import com.julvez.pfc.teachonsnap.service.lesson.repository.test.LessonTestRepositoryFactory;
 import com.julvez.pfc.teachonsnap.service.lesson.test.LessonTestService;
+import com.julvez.pfc.teachonsnap.service.lesson.test.repository.LessonTestRepository;
+import com.julvez.pfc.teachonsnap.service.lesson.test.repository.LessonTestRepositoryFactory;
 
 public class LessonTestServiceImpl implements LessonTestService {
 
