@@ -2,12 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setLocale value="${userLang.language}"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 <!DOCTYPE html>
 <html>
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/record.css"/>"/>
-<title>TeachOnSnap - Video RecordRTC</title>
+<title><fmt:message key="app.name"/> - Video RecordRTC</title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>

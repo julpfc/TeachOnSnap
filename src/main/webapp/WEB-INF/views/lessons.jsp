@@ -12,10 +12,10 @@
 	<c:import url="./import/head_bootstrap.jsp"/>
 	<c:choose> 
 		<c:when test="${not empty searchKeyword}">
-			<title>TeachOnSnap - <fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}: ${searchKeyword}</title>
+			<title><fmt:message key="app.name"/> - <fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}: ${searchKeyword}</title>
 		</c:when>
 		<c:otherwise>
-			<title>TeachOnSnap - <fmt:message key="last.ones" bundle="${lessonsBundle}"/></title>
+			<title><fmt:message key="app.name"/> - <fmt:message key="last.ones" bundle="${lessonsBundle}"/></title>
 		</c:otherwise>
 	</c:choose>
 </head>

@@ -10,7 +10,7 @@
 <html> 
 <head>	
 	<c:import url="./import/head_bootstrap.jsp"/>
-	<title>TeachOnSnap - 
+	<title><fmt:message key="app.name"/> - 
 		<c:choose>
 			<c:when test="${not empty question}">
 				<fmt:message key="lesson.test.question.edit" bundle="${testBundle}"/>

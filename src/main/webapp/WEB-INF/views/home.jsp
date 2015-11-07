@@ -11,7 +11,7 @@
 <head>
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/home.css"/>"/>
-<title>TeachOnSnap - <fmt:message key="pager.home"/></title> 
+<title><fmt:message key="app.name"/> - <fmt:message key="pager.home"/></title> 
 </head>
 <body>
  	<c:import url="./import/nav.jsp"/>

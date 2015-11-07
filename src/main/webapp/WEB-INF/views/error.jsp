@@ -12,7 +12,7 @@
 <head>
 <c:import url="./import/head_bootstrap.jsp"/>
 <!-- <link rel="stylesheet" href="<c:url value="/resources/css/error.css"/>"/>  -->
-<title>TeachOnSnap - Error</title>
+<title><fmt:message key="app.name"/> - <fmt:message key="error.none" bundle="${errorBundle}"/></title>
 </head>
 <body>
 	<c:import url="./import/nav.jsp"/>

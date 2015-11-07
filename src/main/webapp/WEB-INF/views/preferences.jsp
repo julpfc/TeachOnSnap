@@ -11,7 +11,7 @@
 <head>	
 	<c:import url="./import/head_bootstrap.jsp"/>
 	<title>
-		TeachOnSnap - <fmt:message key="user.pref.heading" bundle="${prefBundle}"/>			
+		<fmt:message key="app.name"/> - <fmt:message key="user.pref.heading" bundle="${prefBundle}"/>			
 	</title>
 </head>
 <body>

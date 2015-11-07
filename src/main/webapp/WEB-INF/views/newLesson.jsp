@@ -12,7 +12,7 @@
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/editLesson.css"/>"/>
-<title>TeachOnSnap - New lesson</title>
+<title><fmt:message key="app.name"/> - <fmt:message key="lesson.new.heading" bundle="${editLessonBundle}"/></title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>

@@ -11,7 +11,7 @@
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/editTest.css"/>"/>
-<title>TeachOnSnap - ${lesson.title} - <fmt:message key="lesson.test.edit" bundle="${testBundle}"/></title>
+<title><fmt:message key="app.name"/> - ${lesson.title} - <fmt:message key="lesson.test.edit" bundle="${testBundle}"/></title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>
