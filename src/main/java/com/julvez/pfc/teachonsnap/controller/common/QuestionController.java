@@ -59,10 +59,10 @@ public class QuestionController extends CommonController {
 				User user = null;
 				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				if(visit!=null) user = visit.getUser();
+
+				Lesson lesson = lessonService.getLesson(test.getIdLesson());
 				
-				if(userService.isAllowedForLesson(user, test.getIdLesson())){
-					
-					Lesson lesson = lessonService.getLesson(test.getIdLesson());
+				if(userService.isAllowedForLesson(user, lesson)){
 					
 					if(params.length>1 && stringManager.isNumeric(params[1])){
 			

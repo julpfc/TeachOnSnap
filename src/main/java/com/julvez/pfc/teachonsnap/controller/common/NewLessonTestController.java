@@ -54,7 +54,7 @@ public class NewLessonTestController extends CommonController {
 				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				if(visit!=null) user = visit.getUser();
 					
-				if(userService.isAllowedForLesson(user, lesson.getId())){
+				if(userService.isAllowedForLesson(user, lesson)){
 					if(request.getMethod().equals("POST")){
 						String multipleChoice = requestManager.getParameter(request, Parameter.LESSON_TEST_MULTIPLECHOICE);
 						int numAnswers = requestManager.getNumericParameter(request, Parameter.LESSON_TEST_NUMANSWERS);

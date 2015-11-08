@@ -3,8 +3,6 @@ package com.julvez.pfc.teachonsnap.user.impl;
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
-import com.julvez.pfc.teachonsnap.lesson.LessonService;
-import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.manager.date.DateManager;
 import com.julvez.pfc.teachonsnap.manager.date.DateManagerFactory;
@@ -31,7 +29,6 @@ public class UserServiceImpl implements UserService {
 	private URLService requestService = URLServiceFactory.getService();
 	private NotifyService notifyService = NotifyServiceFactory.getService();
 	private TextService textService = TextServiceFactory.getService();
-	private LessonService lessonService = LessonServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
 	private DateManager dateManager = DateManagerFactory.getManager();
@@ -167,12 +164,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isAllowedForLesson(User user, int idLesson) {
+	public boolean isAllowedForLesson(User user, Lesson lesson) {
 		boolean isAllowed = false;
 		
-		if(user!=null && idLesson>0){
-			
-			Lesson lesson = lessonService.getLesson(idLesson);
+		if(user!=null && lesson!=null){			
 			
 			if(lesson != null){
 				if(user.isAdmin() || (user.isAuthor() && user.getId() == lesson.getIdUser())){

@@ -59,7 +59,7 @@ public class EditLessonTestController extends CommonController {
 				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				if(visit!=null) user = visit.getUser();
 					
-				if(userService.isAllowedForLesson(user, test.getIdLesson())){
+				if(userService.isAllowedForLesson(user, lesson)){
 					String publish = requestManager.getParameter(request,Parameter.LESSON_TEST_PUBLISH);
 					
 					if(publish!=null){

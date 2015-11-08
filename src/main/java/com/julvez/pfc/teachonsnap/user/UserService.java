@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.user;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public interface UserService {
@@ -27,6 +28,6 @@ public interface UserService {
 
 	public void deletePasswordTemporaryToken(User user);
 	
-	public boolean isAllowedForLesson(User user, int idLesson);
+	public boolean isAllowedForLesson(User user, Lesson lesson);
 	
 }
