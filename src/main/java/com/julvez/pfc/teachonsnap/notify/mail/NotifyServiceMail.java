@@ -33,6 +33,8 @@ public class NotifyServiceMail implements NotifyService {
 		
 		//TODO Meter HTML plantilla bonica 
 		String mailMessage = message;
+		
+		//TODO COnvertir la URL en absoluta si no viene(URL service), comprobar si null, añadir al mail
 					
 		return mailManager.send(user.getEmail(), mailSubject, mailMessage);
 	}

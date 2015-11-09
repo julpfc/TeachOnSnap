@@ -15,14 +15,14 @@ public class TagRepositoryDBCache implements TagRepository {
 	private CacheManager cache = CacheManagerFactory.getCacheManager();
 	private StringManager stringManager = StringManagerFactory.getManager();
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
 		return (List<Integer>)cache.executeImplCached(repoDB, tag,firstResult);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Integer> getLessonTagIDs(int idLesson) {
 		return (List<Integer>)cache.executeImplCached(repoDB, idLesson);
 	}
@@ -32,14 +32,14 @@ public class TagRepositoryDBCache implements TagRepository {
 		return (Tag)cache.executeImplCached(repoDB, idTag);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Object[]> getCloudTags() {
 		return (List<Object[]>)cache.executeImplCached(repoDB, new Object[0]);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Object[]> getAuthorCloudTags() {
 		return (List<Object[]>)cache.executeImplCached(repoDB, new Object[0]);
 	}
@@ -49,7 +49,6 @@ public class TagRepositoryDBCache implements TagRepository {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
 				new String[]{"getLessonTagIDs"}, idLesson, tagIDs);
 		
-		//TODO Recuperar los tags y elimnar sólo esas cachés
 		cache.clearCache("getLessonIDsFromTag");
 		cache.clearCache("getCloudTags");			
 	}

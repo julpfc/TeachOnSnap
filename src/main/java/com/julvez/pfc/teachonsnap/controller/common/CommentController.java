@@ -10,7 +10,6 @@ import com.julvez.pfc.teachonsnap.comment.CommentService;
 import com.julvez.pfc.teachonsnap.comment.CommentServiceFactory;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Parameter;
-import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
@@ -32,7 +31,7 @@ public class CommentController extends CommonController {
 	
 	@Override
 	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
 		String lessonURI = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
 		
@@ -41,9 +40,6 @@ public class CommentController extends CommonController {
 		if(lesson != null){
 			int commentID = requestManager.getNumericParameter(request, Parameter.LESSON_COMMENTID);
 			String isBanned = requestManager.getParameter(request,Parameter.LESSON_COMMENT_BAN);
-			User user = null;
-			Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
-			if(visit!=null) user = visit.getUser();
 			
 			if(request.getMethod().equals("POST")){			
 				String commentBody = requestManager.getParameter(request,Parameter.LESSON_COMMENT);

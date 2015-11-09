@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.lang.repository;
 
+import java.util.List;
+
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
@@ -29,6 +31,12 @@ public class LangRepositoryDBCache implements LangRepository {
 		if(obj!=null)
 			idLanguage = obj.shortValue();
 		return idLanguage;		
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Byte> getAllLanguages() {		
+		return (List<Byte>)cache.executeImplCached(repoDB, new Object[0]);
 	}
 	 			
 

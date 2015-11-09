@@ -20,4 +20,8 @@ public interface StringManager {
 	public boolean isNumeric(String string);
 
 	public String convertToHTMLParagraph(String string);
+
+	public String decodeURL(String urlEncoded);
+
+	public String escapeHTML(String string);
 }

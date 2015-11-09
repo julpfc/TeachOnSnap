@@ -3,9 +3,14 @@ package com.julvez.pfc.teachonsnap.media.impl;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
 import com.julvez.pfc.teachonsnap.media.model.MediaFileRepositoryPath;
+import com.julvez.pfc.teachonsnap.media.model.MediaPropertyName;
 import com.julvez.pfc.teachonsnap.media.repository.MediaFileRepository;
 import com.julvez.pfc.teachonsnap.media.repository.MediaFileRepositoryFactory;
 import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
@@ -14,6 +19,9 @@ public class MediaFileServiceImpl implements MediaFileService {
 
 	private MediaFileRepository mediaFileRepository = MediaFileRepositoryFactory.getRepository();
 	
+	private PropertyManager properties = PropertyManagerFactory.getManager();
+	private StringManager stringManager = StringManagerFactory.getManager();
+	
 	@Override
 	public List<MediaFile> getLessonMedias(int idLessonMedia) {
 		List<MediaFile> medias = mediaFileRepository.getLessonMedias(idLessonMedia);		
@@ -21,27 +29,24 @@ public class MediaFileServiceImpl implements MediaFileService {
 	}
 
 	@Override
-	public MediaFile saveMediaFile(Lesson lesson, FileMetadata file) {
-		MediaFile mediaFile = null;
+	public int saveMediaFile(Lesson lesson, FileMetadata file) {
+		int idMediaFile = -1;
 
-		//TODO Controlar tamaño del fichero (máximo por properties)
-		if(lesson!=null && file!=null){
-			short idMediaRepository = mediaFileRepository.getDefaultRepositoryID();
-			MediaFileRepositoryPath repoPath = mediaFileRepository.getMediaFileRepositoryPath(idMediaRepository);
-			short idMediaMimeType = mediaFileRepository.getMimeTypeID(file.getMediaType(),file.getFileType());
-			
-			if(idMediaMimeType>0){
-				int idMediaFile = mediaFileRepository.saveMediaFile(lesson.getId(),file, repoPath, idMediaMimeType);
+		int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
+
+		if(lesson!=null && file!=null && stringManager.isNumeric(file.getFileSize())){
+			int fileSize = Integer.parseInt(file.getFileSize());
+			if(fileSize > 0 && fileSize <= maxFileSize){
+				short idMediaRepository = mediaFileRepository.getDefaultRepositoryID();
+				MediaFileRepositoryPath repoPath = mediaFileRepository.getMediaFileRepositoryPath(idMediaRepository);
+				short idMediaMimeType = mediaFileRepository.getMimeTypeID(file.getMediaType(),file.getFileType());
 				
-				if (idMediaFile>0){
-					//TODO Si creamos este método habría que cambiar el de la lista para que fuese de ids
-					mediaFile = new MediaFile(); 
-					//TODO Sin acabar
-							//mediaFileRepository.getMediaFile(idMediaFile);
-				}			
+				if(idMediaMimeType>0){
+					idMediaFile = mediaFileRepository.saveMediaFile(lesson.getId(),file, repoPath, idMediaMimeType);
+				}
 			}
 		}
-		return mediaFile;
+		return idMediaFile;
 	}
 
 }

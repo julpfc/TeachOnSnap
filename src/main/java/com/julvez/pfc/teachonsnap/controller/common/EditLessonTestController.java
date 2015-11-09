@@ -43,7 +43,7 @@ public class EditLessonTestController extends CommonController {
 	
 	@Override
 	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
@@ -55,9 +55,6 @@ public class EditLessonTestController extends CommonController {
 			
 			if(test!=null){
 				Lesson lesson = lessonService.getLesson(test.getIdLesson());
-				User user = null;
-				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
-				if(visit!=null) user = visit.getUser();
 					
 				if(userService.isAllowedForLesson(user, lesson)){
 					String publish = requestManager.getParameter(request,Parameter.LESSON_TEST_PUBLISH);

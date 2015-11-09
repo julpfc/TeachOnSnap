@@ -13,8 +13,8 @@
 	      		</h4>
 				<p id="confirmBody" class="confirmMessage"></p>
 	       		
-	        	<a id="confirmOK"><button class="btn btn-primary btn-sm" type="button"><fmt:message key="confirm.button.ok" bundle="${alertBundle}"/></button></a>	        	
-	        	<button class="btn btn-primary btn-sm" type="button" data-dismiss="modal"><fmt:message key="confirm.button.cancel" bundle="${alertBundle}"/></button>
+	        	<a id="confirmOK"><button id="confirmOKButton" class="btn btn-primary btn-sm" type="button"><fmt:message key="confirm.button.ok" bundle="${alertBundle}"/></button></a>	        	
+	        	<button id="confirmCancel" class="btn btn-primary btn-sm" type="button" data-dismiss="modal"><fmt:message key="confirm.button.cancel" bundle="${alertBundle}"/></button>
 	      	</div>	 
    		</div>
 	</div>

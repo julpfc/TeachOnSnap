@@ -10,7 +10,7 @@ public interface MediaFileService {
 	
 	public List<MediaFile> getLessonMedias(int idLessonMedia);
 
-	public MediaFile saveMediaFile(Lesson lesson, FileMetadata file);
+	public int saveMediaFile(Lesson lesson, FileMetadata file);
 
 		
 	

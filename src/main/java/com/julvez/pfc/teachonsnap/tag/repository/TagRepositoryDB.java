@@ -62,6 +62,6 @@ public class TagRepositoryDB implements TagRepository {
 
 	@Override
 	public int createTag(String tag) {
-		return (int)dbm.updateQuery("SQL_TAG_CREATE_TAG", tag);
+		return (int)dbm.insertQueryAndGetLastInserID("SQL_TAG_CREATE_TAG", tag);
 	}
 }

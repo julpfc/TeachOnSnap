@@ -1,10 +1,13 @@
 package com.julvez.pfc.teachonsnap.manager.string.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -101,5 +104,22 @@ public class StringManagerImpl implements StringManager {
 			ret = sb.toString();
 		}
 		return ret;
+	}
+
+	@Override
+	public String decodeURL(String urlEncoded) {
+		String decoded = null;
+		System.out.println(urlEncoded);		
+		try {
+			decoded = URLDecoder.decode(urlEncoded, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return decoded;
+	}
+
+	@Override
+	public String escapeHTML(String string) {
+		return StringEscapeUtils.escapeHtml4(string);
 	}
 }

@@ -47,14 +47,16 @@ public class LinkServiceImpl implements LinkService {
 	}
 
 	@Override
-	public Lesson addLessonSources(Lesson lesson, List<String> sources) {
+	public void addLessonSources(Lesson lesson, List<String> sources) {
 		ArrayList<Integer> linkIDs = new ArrayList<Integer>();
-		Lesson ret = null;
-		
+	
 		if(lesson!=null && lesson.getId()>0 && sources!=null){
 
 			for(String link:sources){
 				int linkID = 0;
+				if(!link.startsWith("http")){
+					link = "http://" + link;
+				}
 				linkID = linkRepository.getLinkID(link);
 				if(linkID>0){
 					linkIDs.add(linkID);
@@ -71,9 +73,7 @@ public class LinkServiceImpl implements LinkService {
 				linkRepository.addLessonSources(lesson.getId(), linkIDs);
 				lesson = lessonService.getLesson(lesson.getId());
 			}
-			ret = lesson; 
 		}
-		return ret;
 	}
 
 	@Override
@@ -95,13 +95,15 @@ public class LinkServiceImpl implements LinkService {
 	}
 
 	@Override
-	public Lesson addLessonMoreInfo(Lesson lesson, List<String> moreInfos) {
+	public void addLessonMoreInfo(Lesson lesson, List<String> moreInfos) {
 		ArrayList<Integer> linkIDs = new ArrayList<Integer>();
-		Lesson ret = null;
 		
 		if(lesson!=null && lesson.getId()>0 && moreInfos!=null){
 
 			for(String link:moreInfos){
+				if(!link.startsWith("http")){
+					link = "http://" + link;
+				}
 				int linkID = 0;
 				linkID = linkRepository.getLinkID(link);
 				if(linkID>0){
@@ -119,9 +121,7 @@ public class LinkServiceImpl implements LinkService {
 				linkRepository.addLessonMoreInfos(lesson.getId(), linkIDs);
 				lesson = lessonService.getLesson(lesson.getId());
 			}
-			ret = lesson; 
 		}
-		return ret;
 	}
 
 

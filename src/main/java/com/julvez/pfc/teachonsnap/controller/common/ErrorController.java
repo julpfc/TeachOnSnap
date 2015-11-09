@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class ErrorController extends CommonController {
 
@@ -15,7 +17,7 @@ public class ErrorController extends CommonController {
 
 	@Override
 	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
 		//TODO En este ponerle un try/catch para queen caso de que falle vaya al view
 		

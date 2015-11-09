@@ -25,7 +25,7 @@ public class UserPreferencesController extends CommonController {
 
 	@Override
 	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
 		String prevPage = requestManager.getSessionAttribute(request, SessionAttribute.LAST_PAGE);
 		
@@ -37,10 +37,7 @@ public class UserPreferencesController extends CommonController {
 			String lastname = requestManager.getParameter(request,Parameter.LAST_NAME);
 			String oldPassword = requestManager.getParameter(request,Parameter.OLD_PASSWORD);
 			String newPassword = requestManager.getParameter(request,Parameter.NEW_PASSWORD);
-			
-			Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
-			User user = visit.getUser();
-			
+		
 			if(!stringManager.isEmpty(firstname) && !stringManager.isEmpty(lastname)){
 				
 				if(firstname.equals(user.getFirstName()) && lastname.equals(user.getLastName())){

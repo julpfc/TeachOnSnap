@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -74,6 +75,8 @@ public abstract class CommonController extends HttpServlet {
 		
 		String paramLang = requestManager.getParameter(request,Parameter.CHANGE_LANGUAGE);
 		Language userLang = langService.getUserSessionLanguage(acceptLang,visit,paramLang);
+		List<Language> langs = langService.getAllLanguages();
+
 		
 		User user = null;
 		
@@ -95,6 +98,7 @@ public abstract class CommonController extends HttpServlet {
 		
 		String host = requestService.getHost();
 		
+		requestManager.setAttribute(request, Attribute.LIST_LANGUAGES, langs);
 		requestManager.setAttribute(request, Attribute.LANGUAGE_USERLANGUAGE, userLang);
 		requestManager.setAttribute(request, Attribute.USER, user);
 		requestManager.setAttribute(request, Attribute.STRING_HOST, host);
@@ -116,7 +120,7 @@ public abstract class CommonController extends HttpServlet {
 			//TODO Loguear la página en la que estamos	  
 			System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 
-			processController(request, response);
+			processController(request, response, visit, user);
 			
 			//Guardamos la página después d eprocesarla para tener acceso a la página anterior
 			requestManager.setSessionAttribute(request, SessionAttribute.LAST_PAGE, request.getRequestURI());
@@ -130,7 +134,7 @@ public abstract class CommonController extends HttpServlet {
 		doGet(request, response);
 	}
 
-	protected abstract void processController(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+	protected abstract void processController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user) throws ServletException, IOException;
 	
 	protected abstract boolean isPrivateZone();
 	

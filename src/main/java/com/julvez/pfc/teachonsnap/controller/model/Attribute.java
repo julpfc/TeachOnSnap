@@ -4,6 +4,7 @@ public enum Attribute {
 	
 	//Common
 	LANGUAGE_USERLANGUAGE("userLang"),
+	LIST_LANGUAGES("languages"),
 	USER("user"),
 	STRING_HOST("host"),
 	STRING_LOGINERROR("loginError"),

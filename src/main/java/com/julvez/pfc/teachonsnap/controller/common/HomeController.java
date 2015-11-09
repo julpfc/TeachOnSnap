@@ -13,10 +13,12 @@ import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.CloudTag;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class HomeController extends CommonController {
 
@@ -29,7 +31,7 @@ public class HomeController extends CommonController {
 	
 	@Override
 	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		// TODO TOP de lessons (más vistas, activas)
 		
 		List<Lesson> lastLessons = lessonService.getLastLessons(0);

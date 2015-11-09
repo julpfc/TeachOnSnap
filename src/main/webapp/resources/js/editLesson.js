@@ -24,6 +24,11 @@ function reloadUploadedFiles(data,contentType) {
 }
 
 
+$('#lessonForm').on('submit.confirm',function(e){
+    e.preventDefault();
+    confirmSubmit('lesson.save.confirm',$('#lessonForm'));   
+});
+
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	  var newTab = e.target.attributes['aria-controls'].value; // newly activated tab
 	  var inputTab = $('#inputRadioAttach_'+newTab);
@@ -40,6 +45,7 @@ $(document).ready(function() {
 		var tag = newTag.prop('value');
 		
 		if (tag){
+			tag = tag.toLowerCase();
 			tags.append('<span class="label label-default" onclick="this.remove();$(\'#tag_'+CryptoJS.MD5(tag)+'\').remove();">'+tag+'</span> ');
 			formTags.append('<option id="tag_'+CryptoJS.MD5(tag)+'" selected="selected">'+tag+'</option>');
 			newTag.prop('value','');
@@ -55,7 +61,7 @@ $(document).ready(function() {
 		var source = newSource.prop('value');
 		
 		if (source){
-			sources.append('<tr onclick="this.remove();$(\'#sources_'+CryptoJS.MD5(source)+'\').remove();"><td>'+source+'</td></tr>');
+			sources.append('<tr onclick="this.remove();$(\'#sources_'+CryptoJS.MD5(source)+'\').remove();"><td><span class="glyphicon glyphicon-link"></span> '+source+'</td></tr>');
 			formSource.append('<option id="sources_'+CryptoJS.MD5(source)+'" selected="selected">'+source+'</option>');
 			newSource.prop('value','');
 			newSource.focus();
@@ -71,7 +77,7 @@ $(document).ready(function() {
 		var moreInfoURL = newMoreInfo.prop('value');
 		
 		if (moreInfoURL){
-			moreInfo.append('<tr onclick="this.remove();$(\'#more_'+CryptoJS.MD5(moreInfoURL)+'\').remove();"><td>'+moreInfoURL+'</td></tr>');
+			moreInfo.append('<tr onclick="this.remove();$(\'#more_'+CryptoJS.MD5(moreInfoURL)+'\').remove();"><td><span class="glyphicon glyphicon-link"></span> '+moreInfoURL+'</td></tr>');
 			formMoreInfo.append('<option id="more_'+CryptoJS.MD5(moreInfoURL)+'" selected="selected">'+moreInfoURL+'</option>');
 			newMoreInfo.prop('value','');
 			newMoreInfo.focus();

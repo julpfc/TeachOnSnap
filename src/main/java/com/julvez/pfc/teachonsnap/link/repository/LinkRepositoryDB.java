@@ -37,7 +37,7 @@ public class LinkRepositoryDB implements LinkRepository {
 
 	@Override
 	public int createLink(String url, String desc) {
-		return (int)dbm.updateQuery("SQL_LINK_CREATE_LINK", url, desc);
+		return (int)dbm.insertQueryAndGetLastInserID("SQL_LINK_CREATE_LINK", url, desc);
 	}
 
 	@Override

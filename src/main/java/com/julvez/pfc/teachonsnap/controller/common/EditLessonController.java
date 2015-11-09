@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
-import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
@@ -48,7 +47,7 @@ public class EditLessonController extends CommonController {
 
 	@Override
 	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
@@ -59,10 +58,6 @@ public class EditLessonController extends CommonController {
 			Lesson lesson = lessonService.getLesson(idLesson);
 			
 			if(lesson!= null){
-				
-				User user = null;
-				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
-				if(visit!=null) user = visit.getUser();
 				
 				if(user.isAdmin() || (user.isAuthor() && user.getId() == lesson.getIdUser())){
 					

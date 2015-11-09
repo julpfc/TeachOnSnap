@@ -13,7 +13,6 @@ import com.julvez.pfc.teachonsnap.comment.model.Comment;
 import com.julvez.pfc.teachonsnap.comment.model.CommentPropertyName;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
-import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
@@ -35,6 +34,7 @@ import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class LessonController extends CommonController {
 
@@ -54,7 +54,7 @@ public class LessonController extends CommonController {
 
 	@Override
 	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 
@@ -68,8 +68,6 @@ public class LessonController extends CommonController {
 			if(lesson!=null){
 				int pageResult = 0;
 				boolean hasNextPage = false;
-				
-				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 				
 				if(visit != null && !visit.isViewedLesson(lesson.getId())){
 					visit = visitService.saveLesson(visit, lesson);

@@ -18,7 +18,7 @@ public interface TagService {
 	
 	public List<CloudTag> getAuthorCloudTags();
 	
-	public Lesson addLessonTags(Lesson lesson, List<String> tags);
+	public void addLessonTags(Lesson lesson, List<String> tags);
 	
 	//TODO un removeLessonTags para el editor de lecciones, le dices cuales añades y cuales quitas
 }

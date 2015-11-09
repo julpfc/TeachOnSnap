@@ -2,7 +2,7 @@ package com.julvez.pfc.teachonsnap.user.model;
 
 public enum UserMessageKey {
 	CHANGE_PASSWORD_SUBJECT("user.changepassword.subject"),
-	CHANGE_PASSWORD_SUBJECT_MESSAGE("user.changepassword.message");
+	CHANGE_PASSWORD_MESSAGE("user.changepassword.message");
 	
 	private final String realName;
  

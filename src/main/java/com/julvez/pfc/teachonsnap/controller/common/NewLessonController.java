@@ -8,19 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
+import com.julvez.pfc.teachonsnap.controller.model.Attribute;
 import com.julvez.pfc.teachonsnap.controller.model.Parameter;
-import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
+import com.julvez.pfc.teachonsnap.error.model.ErrorBean;
+import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.link.LinkService;
 import com.julvez.pfc.teachonsnap.link.LinkServiceFactory;
-import com.julvez.pfc.teachonsnap.manager.mail.MailManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
-import com.julvez.pfc.teachonsnap.media.model.MediaFile;
 import com.julvez.pfc.teachonsnap.media.model.MediaType;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
@@ -43,12 +44,7 @@ public class NewLessonController extends CommonController {
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
-	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		
-		User user = null;
-		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
-		if(visit!=null) user = visit.getUser();
+	protected void processController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
 		if(request.getMethod().equals("POST")){
 			
@@ -57,56 +53,63 @@ public class NewLessonController extends CommonController {
 			if(newLesson!=null){
 				newLesson.setIdUser(user.getId());
 				newLesson.setAuthor(user);
-				newLesson = lessonService.createLesson(newLesson);
+				Lesson savedLesson = lessonService.createLesson(newLesson);
 				
-				if(newLesson!=null){				
-					FileMetadata file = getSubmittedFile(request);
+				if(savedLesson!=null){
+					newLesson = savedLesson;
+
+					FileMetadata file = getSubmittedFile(request, user);
 					
-					if(file!=null){						
-						MediaFile mediaFile = mediaFileService.saveMediaFile(newLesson,file);
-						if(mediaFile==null){
-							//TODO error, habia fichero pero no hemos podido guardarlo
+					if(file!=null){		
+						int idMediaFile = mediaFileService.saveMediaFile(newLesson,file);
+						if(idMediaFile>0){
+							//SI todo es correcto cargarse los temporales que no hemos usado
+							uploadService.removeTemporaryFiles(user);
+							setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.LESSON_CREATED);
+						}
+						else{
+							//Error, habia fichero pero no hemos podido guardarlo
+							setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.LESSON_CREATED_WITH_MEDIA_ERROR);
 						}
 					}					
 					
 					List<String> tags = requestManager.getParameterList(request, Parameter.LESSON_NEW_TAGS);
 
 					if(tags!=null){
-						newLesson = tagService.addLessonTags(newLesson, tags);
+						tagService.addLessonTags(newLesson, tags);
 					}
 					
 					List<String> sources = requestManager.getParameterList(request, Parameter.LESSON_NEW_SOURCES);
 
 					if(sources!=null){
-						newLesson = linkService.addLessonSources(newLesson, sources);
+						linkService.addLessonSources(newLesson, sources);
 					}
 										
 					List<String> moreInfo = requestManager.getParameterList(request, Parameter.LESSON_NEW_MOREINFOS);
 
 					if(moreInfo!=null){
-						newLesson = linkService.addLessonMoreInfo(newLesson, moreInfo);
+						linkService.addLessonMoreInfo(newLesson, moreInfo);
 					}
 					
+					lessonService.notifyNewLesson(newLesson);
 					
+					response.sendRedirect(newLesson.getEditURL());
 				}
 				else{
-					//TODO error no se pudo crear la lesson				
+					//No se pudo crear la lesson					
+					setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE_DUPLICATE, ErrorMessageKey.SAVE_DUPLICATE_ERROR_LESSON));
+					requestManager.setAttribute(request, Attribute.LESSON, newLesson);
+					request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
 				}
 			}
 			else{
-				//TODO Error no se recuperaron params para el lesson
+				//Error no se recuperaron params para el lesson
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			}
 			
-			
-			//TODO SI todo es correcto cargarse los temporales que no hemos usado
-			uploadService.removeTemporaryFiles(user);
-			
-			//TODO Mandar el mail bien, sistema de notificaciones en un servicio apra los seguimientos etc
-			MailManagerFactory.getManager().send(user.getEmail(), "Lesson " + newLesson.getId() + " creada", newLesson.toString());
-			response.sendRedirect(newLesson.getEditURL());
 		}
 		else{
-			request.getRequestDispatcher("/WEB-INF/views/newLesson.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
 		}
 	}
 
@@ -122,6 +125,8 @@ public class NewLessonController extends CommonController {
 		String title = requestManager.getParameter(request, Parameter.LESSON_NEW_TITLE);
 		
 		if(!stringManager.isEmpty(title)){
+			//TODO HTML en los input text 
+			//title = stringManager.escapeHTML(title);
 			short idLanguage = (short)requestManager.getNumericParameter(request, Parameter.LESSON_NEW_LANGUAGE);
 			
 			if(idLanguage>0){
@@ -140,35 +145,27 @@ public class NewLessonController extends CommonController {
 		return lesson;
 	}
 	
-	private FileMetadata getSubmittedFile(HttpServletRequest request) {
+	private FileMetadata getSubmittedFile(HttpServletRequest request, User user) {
 		FileMetadata file = null;
-		User user = null;
-		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
-		
-		if(visit!=null) user=visit.getUser();		
 		
 		String attach = requestManager.getParameter(request, Parameter.LESSON_NEW_FILE_ATTACH);
 		
 		if(user!=null && !stringManager.isEmpty(attach)){
 			MediaType mediaType = MediaType.valueOf(attach.toUpperCase());
-			String index = null;
+			int mediaIndex = -1;
 			
 			if(mediaType!=null){
 				switch (mediaType) {
 				case VIDEO:
-					index =  requestManager.getParameter(request, Parameter.LESSON_NEW_VIDEO_INDEX);
+					mediaIndex =  requestManager.getNumericParameter(request, Parameter.LESSON_NEW_VIDEO_INDEX);
 					break;
 				case AUDIO:
-					index =  requestManager.getParameter(request, Parameter.LESSON_NEW_AUDIO_INDEX);
+					mediaIndex =  requestManager.getNumericParameter(request, Parameter.LESSON_NEW_AUDIO_INDEX);
 					break;
 				}
 				
-				if(stringManager.isNumeric(index)){
-					int mediaIndex = Integer.parseInt(index);
-										
-					if(mediaIndex>=0){
-						file = uploadService.getTemporaryFile(user, mediaType , mediaIndex);
-					}
+				if(mediaIndex>=0){
+					file = uploadService.getTemporaryFile(user, mediaType , mediaIndex);
 				}
 			}
 		}		

@@ -25,7 +25,7 @@
 	    VALUES (?)   
 	</sql-query>
 	<sql-query name="SQL_MEDIA_CREATE_MEDIAFILE">
-	    INSERT INTO tmediafile(idlessonmedia, idmediarepository, idmediamimetype, filename)
-	    VALUES (?, ?, ?, ?);   
+	    INSERT INTO tmediafile(idlessonmedia, idmediarepository, idmediamimetype, filename, filesize)
+	    VALUES (?, ?, ?, ?, ?);   
 	</sql-query>
 </hibernate-mapping>

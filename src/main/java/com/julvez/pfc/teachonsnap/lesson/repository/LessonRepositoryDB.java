@@ -50,7 +50,7 @@ public class LessonRepositoryDB implements LessonRepository {
 
 	@Override
 	public int createLesson(Lesson newLesson) {
-		return (int)dbm.updateQuery("SQL_LESSON_CREATE_LESSON", newLesson.getIdUser(),
+		return (int)dbm.insertQueryAndGetLastInserID("SQL_LESSON_CREATE_LESSON", newLesson.getIdUser(),
 				newLesson.getIdLanguage(),newLesson.getTitle(),newLesson.getURIname());
 	}
 

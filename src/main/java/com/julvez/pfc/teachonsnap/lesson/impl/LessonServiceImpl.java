@@ -7,19 +7,33 @@ import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.lesson.model.LessonMessageKey;
 import com.julvez.pfc.teachonsnap.lesson.repository.LessonRepository;
 import com.julvez.pfc.teachonsnap.lesson.repository.LessonRepositoryFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.notify.NotifyService;
+import com.julvez.pfc.teachonsnap.notify.NotifyServiceFactory;
+import com.julvez.pfc.teachonsnap.text.TextService;
+import com.julvez.pfc.teachonsnap.text.TextServiceFactory;
+import com.julvez.pfc.teachonsnap.url.URLService;
+import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 
 public class LessonServiceImpl implements LessonService{
 
 	private LessonRepository lessonRepository = LessonRepositoryFactory.getRepository();	
+	
 	private UserService userService = UserServiceFactory.getService();
 	private LangService langService = LangServiceFactory.getService();
+	private NotifyService notifyService = NotifyServiceFactory.getService();
+	private TextService textService = TextServiceFactory.getService();
+	private URLService urlService = URLServiceFactory.getService();
+	
 	private StringManager stringManager = StringManagerFactory.getManager();
+
+
 	
 	
 
@@ -97,12 +111,13 @@ public class LessonServiceImpl implements LessonService{
 		Lesson ret = null;
 		if(newLesson!=null){
 			newLesson.setURIname(stringManager.generateURIname(newLesson.getTitle()));
-			//TODO controlar duplicate keys, title, uriname,...
 			int idLesson = lessonRepository.createLesson(newLesson);
-			newLesson.setId(idLesson);
-			if(!stringManager.isEmpty(newLesson.getText()))
-				saveLessonText(newLesson, newLesson.getText());
-			ret = getLesson(idLesson);
+			if(idLesson > 0){
+				newLesson.setId(idLesson);
+				if(!stringManager.isEmpty(newLesson.getText()))
+					saveLessonText(newLesson, newLesson.getText());
+				ret = getLesson(idLesson);
+			}
 		}
 		return ret;
 	}
@@ -116,6 +131,21 @@ public class LessonServiceImpl implements LessonService{
 			ret = lesson;
 		}
 		return ret;
+	}
+
+	@Override
+	public boolean notifyNewLesson(Lesson lesson) {		
+		boolean success = false;
+		
+		if(lesson != null){
+			String url = urlService.getAbsoluteURL(lesson.getURL());
+			String subject = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.NEW_LESSON_SUBJECT, lesson.getTitle());
+			String message = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.NEW_LESSON_MESSAGE, url);
+			
+			success = notifyService.info(lesson.getAuthor(), subject, message, lesson.getURL());
+		}
+		
+		return success;		
 	}
 
 }

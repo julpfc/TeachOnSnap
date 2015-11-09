@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 			String url = requestService.getAbsoluteURL(ControllerURI.CHANGE_PASSWORD + token);
 			
 			String subject = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_SUBJECT);
-			String message = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_SUBJECT_MESSAGE, url);
+			String message = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_MESSAGE, url);
 			
 			success = notifyService.info(user, subject, message, url);
 		}

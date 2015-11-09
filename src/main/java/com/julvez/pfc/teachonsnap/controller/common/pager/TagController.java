@@ -11,13 +11,12 @@ public class TagController extends PagerController {
 
 	@Override
 	protected List<Lesson> getLessons(String searchURI, int pageResult) {
-		return tagService.getLessonsFromTag(searchURI,pageResult);
+		return tagService.getLessonsFromTag(stringManager.decodeURL(searchURI), pageResult);
 	}
 
 	@Override
 	protected String getSearchKeyword(String searchURI, List<Lesson> lessons) {
-		// TODO Revisar si lo del URI del tag es válido
-		return searchURI;
+		return stringManager.decodeURL(searchURI);
 	}
 
 }

@@ -29,7 +29,7 @@ public class TextServiceImpl implements TextService {
 			
 			String[] packages = packageName.split("\\.");
 			
-			String bundle = I18n_PACKAGE + "." + packages[packages.length - 1];			
+			String bundle = I18n_PACKAGE + "." + packages[packages.length - 2];	
 			
 			text = textManager.getLocalizedText(new Locale(language.getLanguage()), textKey.toString(), bundle, params);
 		

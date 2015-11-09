@@ -43,10 +43,12 @@ public class TagServiceImpl implements TagService {
 		
 		List<Lesson> lessons = new ArrayList<Lesson>();
 		
-		List<Integer> ids = tagRepository.getLessonIDsFromTag(tag,firstResult);
-		
-		for(int id:ids){
-			lessons.add(lessonService.getLesson(id));
+		if(tag != null){
+			List<Integer> ids = tagRepository.getLessonIDsFromTag(tag,firstResult);
+			
+			for(int id:ids){
+				lessons.add(lessonService.getLesson(id));
+			}
 		}
 		
 		return lessons;
@@ -115,20 +117,19 @@ public class TagServiceImpl implements TagService {
 	}
 
 	@Override
-	public Lesson addLessonTags(Lesson lesson, List<String> tags) {
+	public void addLessonTags(Lesson lesson, List<String> tags) {
 		ArrayList<Integer> tagIDs = new ArrayList<Integer>();
-		Lesson ret = null;
 		
 		if(lesson!=null && lesson.getId()>0 && tags!=null){
 
 			for(String tag:tags){
 				int tagID = 0;
-				tagID = tagRepository.getTagID(tag);
+				tagID = tagRepository.getTagID(tag.toLowerCase());
 				if(tagID>0){
 					tagIDs.add(tagID);
 				}
 				else{
-					tagID = tagRepository.createTag(tag);	
+					tagID = tagRepository.createTag(tag.toLowerCase());	
 					if(tagID>0){
 						tagIDs.add(tagID);
 					}
@@ -136,11 +137,9 @@ public class TagServiceImpl implements TagService {
 			}
 			if(tagIDs.size()>0){
 				tagRepository.addLessonTags(lesson.getId(), tagIDs);
-				lesson = lessonService.getLesson(lesson.getId());
 			}
-			ret = lesson;
 		}
-		return ret;
+
 	}
 
 }

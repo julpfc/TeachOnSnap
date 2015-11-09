@@ -134,26 +134,26 @@
 				</c:if>
           		<c:if test="${not empty moreInfoLinks}">
 	          		<div class="sidebar">
-	               		<h4><fmt:message key="lesson.moreInfo.heading" bundle="${lessonBundle}"/></h4>
+	               		<h4><span class="glyphicon glyphicon-globe"></span> <fmt:message key="lesson.moreInfo.heading" bundle="${lessonBundle}"/></h4>
 	            		<ol class="list-unstyled">
 	            			<c:forEach items="${moreInfoLinks}" var="link">		
-								<li><a href="${link.URL}">${link.desc}</a></li>									
+								<li><span class="glyphicon glyphicon-link"></span> <a href="${link.URL}">${link.desc}</a></li>									
 							</c:forEach>              			
 	            		</ol>
 	          		</div>
 	          	</c:if>
           		<c:if test="${not empty sourceLinks}">
 	          		<div class="sidebar">
-	               		<h4><fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/></h4>
+	               		<h4><span class="glyphicon glyphicon-education"></span> <fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/></h4>
 	            		<ol class="list-unstyled">
 	            			<c:forEach items="${sourceLinks}" var="link">		
-								<li><a href="${link.URL}">${link.desc}</a></li>									
+								<li><span class="glyphicon glyphicon-link"></span> <a href="${link.URL}">${link.desc}</a></li>									
 							</c:forEach>              			
 	            		</ol>
 	          		</div>
 	          	</c:if>
 	          	<div class="sidebar">
-               		<h4><fmt:message key="lesson.sameAuthor.heading" bundle="${lessonBundle}"/></h4>
+               		<h4><span class="glyphicon glyphicon-pencil"></span> <fmt:message key="lesson.sameAuthor.heading" bundle="${lessonBundle}"/></h4>
             		<p><a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>
           		</div>
         	</div><!-- sidebar -->

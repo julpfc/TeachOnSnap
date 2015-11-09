@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,9 @@ import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.error.model.ErrorBean;
 import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.error.model.ErrorType;
+import com.julvez.pfc.teachonsnap.lang.LangService;
+import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
+import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -32,6 +36,7 @@ public class ChangePWController extends HttpServlet {
     	
 	private UserService userService = UserServiceFactory.getService();
 	private URLService requestService = URLServiceFactory.getService();
+	private LangService langService = LangServiceFactory.getService();
 		
 	private RequestManager requestManager = RequestManagerFactory.getManager();
 	private StringManager stringManager = StringManagerFactory.getManager();
@@ -60,6 +65,9 @@ public class ChangePWController extends HttpServlet {
 				
 				String host = requestService.getHost();
 		
+				List<Language> langs = langService.getAllLanguages();
+				requestManager.setAttribute(request, Attribute.LIST_LANGUAGES, langs);
+
 				requestManager.setAttribute(request, Attribute.LANGUAGE_USERLANGUAGE, user.getLanguage());
 				requestManager.setAttribute(request, Attribute.USER, user);
 				requestManager.setAttribute(request, Attribute.STRING_HOST, host);

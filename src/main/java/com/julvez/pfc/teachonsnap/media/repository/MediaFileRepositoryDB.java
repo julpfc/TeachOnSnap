@@ -56,7 +56,8 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 		int idLessonMedia = createLessonMedia(session, idLesson);
 		
 		if(idLessonMedia>0){
-			idMediaFile = createMediaFile(session, idLessonMedia, repoPath.getId(), idMediaMimeType, file.getFileName());
+			int fileSize = Integer.parseInt(file.getFileSize());
+			idMediaFile = createMediaFile(session, idLessonMedia, repoPath.getId(), idMediaMimeType, file.getFileName(), fileSize);
 			
 			if(idMediaFile>0){
 				String path = repoPath.getURI() + repoPath.getFilePathSeparator() +
@@ -82,9 +83,9 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 	}
 
 	private int createMediaFile(Object session, int idLessonMedia,
-			short idMediaRepository, short idMediaMimeType, String fileName) {
+			short idMediaRepository, short idMediaMimeType, String fileName, int fileSize) {
 		return (int)dbm.insertQueryAndGetLastInserID_NoCommit(session,"SQL_MEDIA_CREATE_MEDIAFILE", idLessonMedia,
-				idMediaRepository, idMediaMimeType, fileName);
+				idMediaRepository, idMediaMimeType, fileName, fileSize);
 	}
 
 	private int createLessonMedia(Object session, int idLesson){

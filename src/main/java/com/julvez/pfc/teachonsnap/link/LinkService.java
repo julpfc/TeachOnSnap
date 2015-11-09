@@ -13,10 +13,10 @@ public interface LinkService {
 	
 	public List<Link> getSourceLinks(int idLesson);
 	
-	public Lesson addLessonSources(Lesson lesson, List<String> sources);
+	public void addLessonSources(Lesson lesson, List<String> sources);
 
 	public int createLink(String URL);
 
-	public Lesson addLessonMoreInfo(Lesson lesson, List<String> moreInfos);
+	public void addLessonMoreInfo(Lesson lesson, List<String> moreInfos);
 
 }

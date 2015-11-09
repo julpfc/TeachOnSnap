@@ -1,5 +1,8 @@
 package com.julvez.pfc.teachonsnap.lang.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lang.repository.LangRepository;
@@ -80,6 +83,19 @@ public class LangServiceImpl implements LangService {
 			lang = langRepo.getLanguage(idLang);
 		
 		return lang;
+	}
+
+	@Override
+	public List<Language> getAllLanguages() {
+		List<Language> languages = new ArrayList<Language>();
+		
+		List<Byte> ids = langRepo.getAllLanguages();
+		
+		for(short id:ids){
+			languages.add(getLanguage(id));
+		}
+		
+		return languages;
 	}
 
 

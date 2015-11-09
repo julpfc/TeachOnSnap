@@ -19,5 +19,7 @@ public interface LessonService {
 	public Lesson createLesson(Lesson newLesson);
 	
 	public Lesson saveLessonText(Lesson lesson,String newText);
+
+	public boolean notifyNewLesson(Lesson lesson);
 	
 }

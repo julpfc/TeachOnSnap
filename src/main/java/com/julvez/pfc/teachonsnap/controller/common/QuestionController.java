@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
 import com.julvez.pfc.teachonsnap.controller.model.Parameter;
-import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
@@ -44,7 +43,7 @@ public class QuestionController extends CommonController {
 		
 	@Override
 	protected void processController(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
@@ -55,10 +54,6 @@ public class QuestionController extends CommonController {
 			LessonTest test = lessonTestService.getLessonTest(idLessonTest);
 			
 			if(test!=null){
-				
-				User user = null;
-				Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
-				if(visit!=null) user = visit.getUser();
 
 				Lesson lesson = lessonService.getLesson(test.getIdLesson());
 				

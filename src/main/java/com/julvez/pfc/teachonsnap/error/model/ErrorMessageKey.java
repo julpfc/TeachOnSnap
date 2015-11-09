@@ -22,6 +22,9 @@ public enum ErrorMessageKey {
 	USERTEST_SAVED("usertest.saved"), 
 	
 	//Lesson
+	SAVE_DUPLICATE_ERROR_LESSON("save.duplicate.error.lesson"),
+	LESSON_CREATED("lesson.created"),
+	LESSON_CREATED_WITH_MEDIA_ERROR("lesson.created.with.media.error"),
 	COMMENT_UNBLOCKED("comment.unblocked"),
 	COMMENT_BLOCKED("comment.blocked"),
 	COMMENT_SAVED("comment.saved"),
