@@ -6,4 +6,7 @@ public interface FileManager {
 
 	boolean copyStream(InputStream inputStream, String path, String fileName);
 
+	String getFileExtension(String fileName);
+
+	
 }

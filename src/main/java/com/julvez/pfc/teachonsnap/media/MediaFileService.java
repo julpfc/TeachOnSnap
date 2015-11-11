@@ -12,6 +12,8 @@ public interface MediaFileService {
 
 	public int saveMediaFile(Lesson lesson, FileMetadata file);
 
+	public List<String> getAcceptedFileTypes();
+
 		
 	
 }

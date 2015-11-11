@@ -53,72 +53,52 @@
 			    	
 			    	<!-- Media -->
 					<div class="panel panel-default">
-		    			
-				    	<div class="panel-body" role="tabpanel">
-							<!-- Nav tabs -->
-					  		<ul class="nav nav-tabs" role="tablist">
-					    		<li role="presentation" class="active"><a href="#video" aria-controls="video" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-facetime-video"></span> <fmt:message key="lesson.form.media.video" bundle="${editLessonBundle}"/></a></li>
-					    		<li role="presentation"><a href="#audio" aria-controls="audio" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-bullhorn"></span> <fmt:message key="lesson.form.media.audio" bundle="${editLessonBundle}"/></a></li>
-					    		<li role="presentation"><a href="#nofiles" aria-controls="nofiles" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-ban-circle"></span> <fmt:message key="lesson.form.media.nofiles" bundle="${editLessonBundle}"/></a></li>				    		
-				    		</ul>
-					
-					  		<!-- Tab panes -->
-							<div class="tab-content">
-					  			<div role="tabpanel" class="tab-pane fade in active" id="video">
-						  			<div class="form-group">			    					
-										<div id="dropzone_video" class="well"><fmt:message key="lesson.form.media.video.drop" bundle="${editLessonBundle}"/></div>
-										<p id="uploadFile_video" class="help-block"></p>
-										<div class="progress hidden" id="progress_video">
-											<div id="progressbar_video" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-												<span id="progressbar_bw_video" class="sr-only">0%</span>
-											</div>
-										</div>  									
-										<table id="uploaded-files_video" class="help-block table">
-											<tr><td><fmt:message key="lesson.form.media.video.select" bundle="${editLessonBundle}"/></td></tr>										
-										</table>															
-				   						<span class="btn btn-default btn-file">
-											<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload_video" name="files_video" data-url="/upload/video" data-accept-file-types="/^video\/.*$/"/>
-										</span>
-										<h5><small><fmt:message key="lesson.form.media.tip" bundle="${editLessonBundle}"/></small></h5> 
-	  								</div>				  						
-				  					<input type="radio" name="attach" id="inputRadioAttach_video" value="video" required checked="checked"/>			  					
-					  			</div>
-					  			<div role="tabpanel" class="tab-pane fade" id="audio">
-					  				<div class="form-group">			    					
-										<div id="dropzone_audio" class="well"><fmt:message key="lesson.form.media.audio.drop" bundle="${editLessonBundle}"/></div>
-										<p id="uploadFile_audio" class="help-block"></p>
-										<div class="progress hidden" id="progress_audio">
-											<div id="progressbar_audio" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-												<span id="progressbar_bw_audio" class="sr-only">0%</span>
-											</div>
-										</div>  									
-										<table id="uploaded-files_audio" class="help-block table">
-											<tr><td><fmt:message key="lesson.form.media.audio.select" bundle="${editLessonBundle}"/></td></tr>										
-										</table>															
-				   						<span class="btn btn-default btn-file">
-											<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload_audio" name="files_audio" data-url="/upload/audio" data-accept-file-types="/^audio\/.*$/"/>
-										</span>
-										<h5><small><fmt:message key="lesson.form.media.tip" bundle="${editLessonBundle}"/></small></h5> 
-	  								</div>	
-					  				<input type="radio" name="attach" id="inputRadioAttach_audio" value="audio" required/>
-					  			</div>
-					  			<div role="tabpanel" class="tab-pane fade" id="nofiles">
-					  				<input type="radio" name="attach" id="inputRadioAttach_nofiles" value="none" required/>
-					  				<p class="help-block"><fmt:message key="lesson.form.media.nofiles.tip" bundle="${editLessonBundle}"/></p>
-				  				</div>
-							</div>				
+						<div class="panel-heading">
+							<span class="glyphicon glyphicon-paperclip"></span> <fmt:message key="lesson.form.media.heading" bundle="${editLessonBundle}"/>
 						</div>
+				    	
+				    	<div class="panel-body">
+							<div class="form-group">			    					
+								<div id="dropzone" class="well"><fmt:message key="lesson.form.media.drop" bundle="${editLessonBundle}"/></div>
+								<p id="uploadFile" class="help-block"></p>
+								<div class="progress hidden" id="progress_video">
+									<div id="progressbar" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+										<span id="progressbar_bw" class="sr-only">0%</span>
+									</div>
+								</div>  									
+								<table id="uploaded-files" class="table">
+									<tr><td><fmt:message key="lesson.form.media.select" bundle="${editLessonBundle}"/></td></tr>										
+								</table>															
+				   				<span class="btn btn-default btn-file">
+									<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload" name="files" data-url="/upload/"/>
+								</span>
+	  						</div>
+	  					</div>				  	
+	  					<div class="panel-footer">
+							<h5><small><fmt:message key="lesson.form.media.tip" bundle="${editLessonBundle}"/> ${maxUploadFileSize/1024/1024} MB</small></h5> 
+	  					</div>					
 					</div>
 					
 					<div>
 						<c:if test="${lesson.idLessonMedia>0}">					
-				     		<div class="lesson-video">		     		
-				     			<c:set var="firstVideo" value="${medias[0]}"/>
-				     			<video src="${firstVideo.URL}" id="lesson_video" controls="controls" poster="" height="auto" width="100%">
-					     			<c:forEach items="${medias}" var="media">		
-				       					<source src="${media.URL}" type='video/mp4'/>							    							
-									</c:forEach>
-								</video>   
+				     		<div class="lesson-media">		     		
+				     			<c:set var="firstMedia" value="${medias[0]}"/>				     			
+				     			<c:choose>
+				     				<c:when test="${lesson.mediaType == 'VIDEO'}">
+						     			<video src="${firstMedia.URL}" id="lesson_media" controls="controls" poster="" height="auto" width="100%">
+							     			<c:forEach items="${medias}" var="media">		
+						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
+											</c:forEach>
+										</video>   
+				     				</c:when>
+				     				<c:when test="${lesson.mediaType == 'AUDIO'}">
+				     					<audio src="${firstMedia.URL}" id="lesson_media" controls="controls">
+							     			<c:forEach items="${medias}" var="media">		
+						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
+											</c:forEach>
+										</audio>
+				     				</c:when>				     								     			
+				     			</c:choose>
 				     		</div>         		
 						</c:if>												
 					</div>
@@ -168,7 +148,7 @@
 	    					</table>
 	    					<div class="form-group form-inline">				    			
 				    			<input type="text" id="inputLessonSource" class="form-control" 
-					    			placeholder="Source URL">
+					    			placeholder="<fmt:message key="lesson.form.source.add" bundle="${editLessonBundle}"/>">
 					    		<button id="addSource" type="button" class="btn btn-default"><fmt:message key="lesson.form.source.add" bundle="${editLessonBundle}"/></button>
 					    	</div>
     						<p class="help-block"><fmt:message key="lesson.form.source.tip" bundle="${editLessonBundle}"/></p>
@@ -191,7 +171,7 @@
 	    					</table>
 	    					<div class="form-group form-inline">				    			
 				    			<input type="text" id="inputLessonMoreInfo" class="form-control" 
-					    			placeholder="More Info URL">
+					    			placeholder="<fmt:message key="lesson.form.moreinfo.add" bundle="${editLessonBundle}"/>">
 					    		<button id="addMoreInfo" type="button" class="btn btn-default"><fmt:message key="lesson.form.moreinfo.add" bundle="${editLessonBundle}"/></button>
 					    	</div>
     						<p class="help-block"><fmt:message key="lesson.form.moreinfo.tip" bundle="${editLessonBundle}"/></p>
@@ -220,7 +200,6 @@
 				<!-- Sidebar -->
 	        	<div class="col-sm-5">	        		
 	        		<div class="sidebar">
-						<h4><fmt:message key="lesson.command.heading" bundle="${lessonBundle}"/></h4>
 						<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
 						 <fmt:message key="lesson.form.save" bundle="${editLessonBundle}"/></button>
 					</div>
@@ -298,14 +277,21 @@
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script src="/resources/js/ext/jquery.ui.widget.js"></script>
 	<script src="/resources/js/ext/jquery.iframe-transport.js"></script>
-	<script src="/resources/js/ext/jquery.fileupload.js"></script>
-	<script src="/resources/js/ext/jquery.fileupload-validate.js"></script>
+	<script src="/resources/js/ext/jquery.fileupload.js"></script>	
 	<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 		<script type="text/javascript">
 		<!--	    
 		var msg = {};
-		msg['lesson.confirm'] = 		"<c:choose><c:when test="${lesson.id > 0}"><fmt:message key="lesson.save.confirm" bundle="${editLessonBundle}"/></c:when><c:otherwise><fmt:message key="lesson.create.confirm" bundle="${editLessonBundle}"/></c:otherwise></c:choose>";
-		msg['lesson.save.confirm'] = 	"<fmt:message key="lesson.save.confirm" bundle="${editLessonBundle}"/>";
+		msg['lesson.confirm'] = 						"<c:choose><c:when test="${lesson.id > 0}"><fmt:message key="lesson.save.confirm" bundle="${editLessonBundle}"/></c:when><c:otherwise><fmt:message key="lesson.create.confirm" bundle="${editLessonBundle}"/></c:otherwise></c:choose>";
+		msg['lesson.form.media.select'] = 				"<fmt:message key='lesson.form.media.select' bundle='${editLessonBundle}'/>";
+		msg['lesson.form.media.download'] =				"<fmt:message key='lesson.form.media.download' bundle='${editLessonBundle}'/>";
+		msg['lesson.form.media.upload.error'] = 		"<fmt:message key='lesson.form.media.upload.error' bundle='${editLessonBundle}'/>";
+		msg['lesson.form.media.upload.ignore.size'] =	"<fmt:message key='lesson.form.media.upload.ignore.size' bundle='${editLessonBundle}'/>";
+		msg['lesson.form.media.upload.ignore.type'] =	"<fmt:message key='lesson.form.media.upload.ignore.type' bundle='${editLessonBundle}'/>";
+		msg['lesson.form.media.upload.progress'] = 		"<fmt:message key='lesson.form.media.upload.progress' bundle='${editLessonBundle}'/>";
+		
+		var acceptedFileTypes = [<c:forEach items="${acceptedFileTypes}" var="type" varStatus="loop">${loop.index > 0?",":""}"${type}"</c:forEach>];
+		var maxFileSize = ${maxUploadFileSize};
 		//-->
 	</script>
 	<script src="/resources/js/editLesson.js"></script>

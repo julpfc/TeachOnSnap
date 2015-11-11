@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.media.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
@@ -11,6 +12,7 @@ import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
 import com.julvez.pfc.teachonsnap.media.model.MediaFileRepositoryPath;
 import com.julvez.pfc.teachonsnap.media.model.MediaPropertyName;
+import com.julvez.pfc.teachonsnap.media.model.MediaType;
 import com.julvez.pfc.teachonsnap.media.repository.MediaFileRepository;
 import com.julvez.pfc.teachonsnap.media.repository.MediaFileRepositoryFactory;
 import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
@@ -41,12 +43,25 @@ public class MediaFileServiceImpl implements MediaFileService {
 				MediaFileRepositoryPath repoPath = mediaFileRepository.getMediaFileRepositoryPath(idMediaRepository);
 				short idMediaMimeType = mediaFileRepository.getMimeTypeID(file.getMediaType(),file.getFileType());
 				
-				if(idMediaMimeType>0){
-					idMediaFile = mediaFileRepository.saveMediaFile(lesson.getId(),file, repoPath, idMediaMimeType);
+				if(idMediaMimeType == -1){
+					idMediaMimeType = mediaFileRepository.createMimeTypeID(file.getMediaType(), file.getFileType(), file.getFileName());
 				}
+				
+				idMediaFile = mediaFileRepository.saveMediaFile(lesson.getId(),file, repoPath, idMediaMimeType);
 			}
 		}
 		return idMediaFile;
+	}
+
+	@Override
+	public List<String> getAcceptedFileTypes() {
+		List<String> mediaTypes = new ArrayList<String>();
+		
+		for(MediaType media:MediaType.values()){
+			mediaTypes.add(media.toString().toLowerCase());
+		}
+		
+		return mediaTypes;
 	}
 
 }

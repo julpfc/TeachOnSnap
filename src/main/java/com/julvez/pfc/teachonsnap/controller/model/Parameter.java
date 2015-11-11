@@ -16,9 +16,7 @@ public enum Parameter {
 	//New/Edit Lesson
 	LESSON_NEW_TITLE("title"),
 	LESSON_NEW_LANGUAGE("lang"),
-	LESSON_NEW_VIDEO_INDEX("index_video"),
-	LESSON_NEW_AUDIO_INDEX("index_audio"),
-	LESSON_NEW_FILE_ATTACH("attach"),
+	LESSON_NEW_MEDIA_INDEX("index"),
 	LESSON_NEW_TEXT("text"),
 	LESSON_NEW_TAGS("tags"),
 	LESSON_NEW_SOURCES("sources"),
@@ -43,7 +41,12 @@ public enum Parameter {
 	OLD_PASSWORD("pwo"), 
 	NEW_PASSWORD("pwn"), 
 	FIRST_NAME("firstname"), 
-	LAST_NAME("lastname");
+	LAST_NAME("lastname"), 
+	
+	//Upload
+	UPLOAD_DOWNLOAD_INDEX("f"), 
+	UPLOAD_LIST("l"), 
+	UPLOAD_REMOVE_INDEX("r");
 
 		 		
 	private final String realName;

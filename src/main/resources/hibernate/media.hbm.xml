@@ -28,4 +28,8 @@
 	    INSERT INTO tmediafile(idlessonmedia, idmediarepository, idmediamimetype, filename, filesize)
 	    VALUES (?, ?, ?, ?, ?);   
 	</sql-query>
+	<sql-query name="SQL_MEDIA_CREATE_MIMETYPE">
+	    INSERT INTO tmediamimetype(idmediatype, mimetype, extension)
+	    VALUES (?, ?, ?);   
+	</sql-query>
 </hibernate-mapping>

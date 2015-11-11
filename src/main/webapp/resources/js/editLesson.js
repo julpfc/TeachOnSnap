@@ -1,39 +1,72 @@
-function reloadUploadedFiles(data,contentType) {	
+function reloadUploadedFiles(data) {	
 	if(data){
 		var len = data.length;
-		var uploadedFiles = $("#uploaded-files_"+contentType);
+		var uploadedFiles = $("#uploaded-files");
 		uploadedFiles.empty();
 		if(len==0){
 			uploadedFiles.append(
 	    			$('<tr/>')
-	    				.append($('<td/>').text('Selecciona un fichero de '+contentType+' o arrástralo hasta la zona marcada.')
+	    				.append($('<td/>').text(msg['lesson.form.media.select'])
 	    	));		
 		}
 	    $.each(data, function (index, file) {        	  
 	    	uploadedFiles.append(
 	    			$('<tr/>')
-	    				.append($('<td/>').html("<input type='radio' name='index_"+contentType+"' value='"+index+"' required "+((index==len-1)?"checked='checked'":'')+" />"))
+	    				.append($('<td/>').html("<input type='radio' name='index' value='"+index+"' required "+((index==len-1)?"checked='checked'":'')+"/>"))
 	                    .append($('<td/>').text(file.fileName))
-	                    .append($('<td/>').text(file.fileSize))
-	                    .append($('<td/>').text(file.fileType))
-	                    .append($('<td/>').html("<a href='/upload/"+contentType+"?f="+index+"'>Download</a>"))
-	                    .append($('<td/>').html("<span class='glyphicon glyphicon-remove' onclick=$.ajax('/upload/"+contentType+"?r="+index+"').done(function(data){reloadUploadedFiles(data,'"+contentType+"');})></span>"))
-	    	)//end $("#uploaded-files").append()
+	                    .append($('<td/>').html("<span class='glyphicon glyphicon-"+((file.fileType.match('video\/.*')!=null)?"film":"volume-up")+"'></span>"))
+	                    .append($('<td/>').html("<span class='glyphicon glyphicon-remove' onclick=$.ajax('/upload/?r="+index+"').done(function(data){reloadUploadedFiles(data);})></span>"))
+	        );
+	    	uploadedFiles.append(
+	    			$('<tr/>')
+	    				.append($('<td/>'))
+	                    .append($('<td/>').html("<a href='/upload/?f="+index+"'>"+msg['lesson.form.media.download']+"</a>"))
+	                    .append($('<td/>').text((file.fileSize/1024/1024).toFixed(2)))
+	                    .append($('<td/>').text("MB"))
+	    	);
 	    });		
 	}
+}
+
+function validateFiles(data) {
+	var validFiles = [];
+	$("#uploadFile").empty();
+
+    $.each(data.files, function (index, file) {
+    	if(file.size > maxFileSize || file.size==0){
+    		$("#uploadFile").append(
+	    			$('<tr/>').append($('<td/>').text(file.name + ' ' + msg['lesson.form.media.upload.ignore.size'] + ' -> ' + (file.size/1024/1024).toFixed(2) +' MB')));            		
+    	}            	
+    	else {
+    		var i;
+    		var accepted = false;
+    		for (i in acceptedFileTypes) {
+    		    accepted = file.type.match(acceptedFileTypes[i]+'\/.*')!=null;
+    		    if(accepted) break;
+    		}
+    		
+    		if( !accepted){    	
+        		$("#uploadFile").append(
+    	    			$('<tr/>').append($('<td/>').text(file.name + ' ' + msg['lesson.form.media.upload.ignore.type'] + ' -> '+ file.type)));
+        	}
+    		else{
+    			$("#uploadFile").append(
+    					$('<tr/>').append($('<td/>').text(msg['lesson.form.media.upload.progress'] + ' ' + file.name + ' ' + file.type + ' ('+ (file.size/1024/1024).toFixed(2)+' MB)')));
+    			validFiles.push(data.files[index]);
+    		}
+    	}
+
+    });
+    
+    return validFiles;
 }
 
 
 $('#lessonForm').on('submit.confirm',function(e){
     e.preventDefault();
-    confirmSubmit('lesson.save.confirm',$('#lessonForm'));   
+    confirmSubmit('lesson.confirm',$('#lessonForm'));   
 });
 
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-	  var newTab = e.target.attributes['aria-controls'].value; // newly activated tab
-	  var inputTab = $('#inputRadioAttach_'+newTab);
-	  inputTab.trigger('click');
-});	
 
 $(document).ready(function() {
     
@@ -85,26 +118,25 @@ $(document).ready(function() {
     });
 
 	
-	$.ajax("/upload/video?l=1").done(function(data){reloadUploadedFiles(data,'video');});
-	$.ajax("/upload/audio?l=1").done(function(data){reloadUploadedFiles(data,'audio');});
+	$.ajax("/upload/?l=1").done(function(data){reloadUploadedFiles(data);});	
 	
 });
 
-$(function () {
-    $('#fileupload_video').fileupload({
-        dataType: 'json',        
+$(function () {	
+    $('#fileupload').fileupload({
+        dataType: 'json',       
                
-        done: function (e, data) {
-        	$("#uploadFile_video").empty();
-        	reloadUploadedFiles(data.result,'video');
+        done: function (e, data) {        	
+        	$("#uploadFile").empty();
+        	reloadUploadedFiles(data.result);
             $("#buttonSave").prop('disabled',false);
-            $('#progress_video').addClass('hidden');
+            $('#progress').addClass('hidden');
         },
  
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            var progressbar = $('#progressbar_video');
-        	var progressbar_bw = $('#progressbar_bw_video');
+            var progressbar = $('#progressbar');
+        	var progressbar_bw = $('#progressbar_bw');
         	
             progressbar.css('width',progress+'%');
             progressbar.prop('aria-valuenow',progress);
@@ -113,82 +145,42 @@ $(function () {
         },
         
         change: function (e, data) {
-            $.each(data.files, function (index, file) {
-            	$("#uploadFile_video").empty();
-            	$("#uploadFile_video").text('Uploading ' + file.name + ' ' + file.type + ' ('+ file.size+' bytes)');
-            });
-            $("#buttonSave").prop('disabled',true);
-            $('#progress_video').removeClass('hidden');
+            
+            data.files = validateFiles(data);
+            
+            if(data.files.length>0){
+            	$("#buttonSave").prop('disabled',true);
+            	$('#progress').removeClass('hidden');
+            }
+
         },
+
         drop: function (e, data) {
-            $.each(data.files, function (index, file) {
-            	$("#uploadFile_video").empty();
-            	$("#uploadFile_video").text('Uploading ' + file.name + ' ' + file.type + ' ('+ file.size+' bytes)');
-            });
-            $("#buttonSave").prop('disabled',true);
-            $('#progress_video').removeClass('hidden');
+        	            
+            data.files = validateFiles(data);
+            
+            if(data.files.length>0){
+            	$("#buttonSave").prop('disabled',true);
+            	$('#progress').removeClass('hidden');
+            }
         },
  
-        fail: function (e,data) {
-    	    if (data.errorThrown === 'abort') {
-    	        alert('File Upload has been canceled');
+        fail: function (e,data) {        	
+    	    if (data.jqXHR.status == 403) {
+    	    	location.reload();
+    	    }
+    	    else{
+    	    	$("#uploadFile").empty();
+    	    	$("#uploadFile").append(
+    	    			$('<tr/>').append($('<td/>').text(msg['lesson.form.media.upload.error'])));
     	    }
         },
         
-        dropZone: $('#dropzone_video')
+        dropZone: $('#dropzone')
     });
     
 });
 
-$(function () {
-    $('#fileupload_audio').fileupload({
-        dataType: 'json',        
-               
-        done: function (e, data) {
-        	$("#uploadFile_audio").empty();
-        	reloadUploadedFiles(data.result,'audio');
-            $("#buttonSave").prop('disabled',false);
-            $('#progress_audio').addClass('hidden');
-        },
- 
-        progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            var progressbar = $('#progressbar_audio');
-        	var progressbar_bw = $('#progressbar_bw_audio');
-        	
-            progressbar.css('width',progress+'%');
-            progressbar.prop('aria-valuenow',progress);
-            progressbar_bw.empty();
-            progressbar_bw.append(progress+'%');
-        },
-        
-        change: function (e, data) {
-            $.each(data.files, function (index, file) {
-            	$("#uploadFile_audio").empty();
-            	$("#uploadFile_audio").text('Uploading ' + file.name + ' ' + file.type + ' ('+ file.size+' bytes)');
-            });
-            $("#buttonSave").prop('disabled',true);
-            $('#progress_audio').removeClass('hidden');
-        },
-        drop: function (e, data) {
-            $.each(data.files, function (index, file) {
-            	$("#uploadFile_audio").empty();
-            	$("#uploadFile_audio").text('Uploading ' + file.name + ' ' + file.type + ' ('+ file.size+' bytes)');
-            });
-            $("#buttonSave").prop('disabled',true);
-            $('#progress_audio').removeClass('hidden');
-        },
- 
-        fail: function (e,data) {
-    	    if (data.errorThrown === 'abort') {
-    	        alert('File Upload has been canceled');
-    	    }
-        },
-        
-        dropZone: $('#dropzone_audio')
-    });
-    
-});
 
     
     

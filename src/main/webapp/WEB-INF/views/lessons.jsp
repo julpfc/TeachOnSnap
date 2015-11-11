@@ -37,9 +37,14 @@
 	            			 <a href="${lesson.author.URL}">${lesson.author.fullName}</a>
             			</p>
 	            		<p class="lesson-addons">
-	            			<c:if test="${lesson.idLessonMedia>0}">
-								<span class="glyphicon glyphicon-facetime-video"></span> video
-							</c:if>
+	            			<c:choose>
+			     				<c:when test="${lesson.mediaType == 'VIDEO'}">
+									<span class="glyphicon glyphicon-film"></span> video
+			     				</c:when>
+			     				<c:when test="${lesson.mediaType == 'AUDIO'}">
+			     					<span class="glyphicon glyphicon-volume-up"></span> audio
+			     				</c:when>				     								     			
+			     			</c:choose>	
 							<c:if test="${lesson.testAvailable}">
 								<span class="glyphicon glyphicon-edit"></span> test
 							</c:if>

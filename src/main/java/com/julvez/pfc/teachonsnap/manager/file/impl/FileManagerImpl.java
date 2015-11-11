@@ -15,7 +15,6 @@ public class FileManagerImpl implements FileManager {
 		try {        
 			File filePath = new File(path);
 			File file = new File(path+fileName);
-			
 			Files.createDirectories(filePath.toPath());			
 			
 			System.out.println("FileManager.copy: "+file.toPath());
@@ -32,5 +31,19 @@ public class FileManagerImpl implements FileManager {
 		
 		return copyOK;
 	}
+
+	@Override
+	public String getFileExtension(String fileName) {
+		String extension = null;
+		if(fileName != null){
+			String[] matches = fileName.split("\\.");
+			
+			if(matches != null && matches.length > 0){
+				extension = matches[matches.length - 1];
+			}
+		}
+		return extension;
+	}
+	
 
 }

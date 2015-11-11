@@ -23,6 +23,7 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
+import com.julvez.pfc.teachonsnap.media.model.MediaPropertyName;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
@@ -48,6 +49,7 @@ public class EditLessonController extends CommonController {
 	@Override
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
+		
 		
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
@@ -84,6 +86,13 @@ public class EditLessonController extends CommonController {
 					
 					
 					//TODO Editar Linked lesson?
+					
+					int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
+					requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);
+					
+					List<String> acceptedFileTypes = mediaFileService.getAcceptedFileTypes();
+					requestManager.setAttribute(request, Attribute.LIST_STRING_MEDIATYPE, acceptedFileTypes);
+
 					
 					request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
 				}

@@ -18,5 +18,7 @@ public interface MediaFileRepository {
 	public int saveMediaFile(int idLesson, FileMetadata file, MediaFileRepositoryPath repoPath, short idMediaMimeType);
 
 	public MediaFileRepositoryPath getMediaFileRepositoryPath(short idMediaRepository);
+
+	public short createMimeTypeID(MediaType mediaType, String fileType, String fileName);
 		
 }

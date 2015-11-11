@@ -11,6 +11,10 @@ public enum Attribute {
 	STRING_ERRORMESSAGEKEY("errorMessageKey"), 
 	STRING_ERRORTYPE("errorType"),
 	LIST_PAGE_STACK("pageStack"),
+	
+	//Upload
+	INT_MAX_UPLOAD_FILE_SIZE("maxUploadFileSize"),
+	LIST_STRING_MEDIATYPE("acceptedFileTypes"),
 
 	//Lesson
 	LESSON("lesson"),

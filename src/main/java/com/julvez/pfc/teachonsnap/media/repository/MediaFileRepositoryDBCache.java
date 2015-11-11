@@ -47,6 +47,11 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 	public MediaFileRepositoryPath getMediaFileRepositoryPath(short idMediaRepository) {
 		return (MediaFileRepositoryPath)cache.executeImplCached(repoDB, idMediaRepository);
 	}
+
+	@Override
+	public short createMimeTypeID(MediaType mediaType, String fileType,	String fileName) {
+		return (short)cache.updateImplCached(repoDB, null, null, mediaType, fileType, fileName);
+	}
 	
 	
 }

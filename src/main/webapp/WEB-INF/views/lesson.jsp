@@ -38,14 +38,25 @@
 			<div class="col-sm-7">
 				<div>
 					<c:if test="${lesson.idLessonMedia>0}">					
-			     		<div class="lesson-video">		     		
-			     			<c:set var="firstVideo" value="${medias[0]}"/>
-			     			<video src="${firstVideo.URL}" id="lesson_video" controls="controls" poster="" height="auto" width="100%">
-				     			<c:forEach items="${medias}" var="media">		
-			       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
-								</c:forEach>
-							</video>   
-			     		</div>         		
+			     		<div class="lesson-media">		     		
+				     			<c:set var="firstMedia" value="${medias[0]}"/>				     			
+				     			<c:choose>
+				     				<c:when test="${lesson.mediaType == 'VIDEO'}">
+						     			<video src="${firstMedia.URL}" id="lesson_media" controls="controls" poster="" height="auto" width="100%">
+							     			<c:forEach items="${medias}" var="media">		
+						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
+											</c:forEach>
+										</video>   
+				     				</c:when>
+				     				<c:when test="${lesson.mediaType == 'AUDIO'}">
+				     					<audio src="${firstMedia.URL}" id="lesson_media" controls="controls">
+							     			<c:forEach items="${medias}" var="media">		
+						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
+											</c:forEach>
+										</audio>
+				     				</c:when>				     								     			
+				     			</c:choose>
+				     		</div>  		
 					</c:if>												
 					
     				<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>	             	

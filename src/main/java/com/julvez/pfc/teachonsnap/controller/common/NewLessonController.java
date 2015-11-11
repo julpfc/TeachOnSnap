@@ -22,7 +22,7 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
-import com.julvez.pfc.teachonsnap.media.model.MediaType;
+import com.julvez.pfc.teachonsnap.media.model.MediaPropertyName;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
@@ -46,6 +46,12 @@ public class NewLessonController extends CommonController {
 	@Override
 	protected void processController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
+		int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
+		requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);
+		
+		List<String> acceptedFileTypes = mediaFileService.getAcceptedFileTypes();
+		requestManager.setAttribute(request, Attribute.LIST_STRING_MEDIATYPE, acceptedFileTypes);
+		
 		if(request.getMethod().equals("POST")){
 			
 			Lesson newLesson = getNewLesson(request);
@@ -61,7 +67,7 @@ public class NewLessonController extends CommonController {
 					FileMetadata file = getSubmittedFile(request, user);
 					
 					if(file!=null){		
-						int idMediaFile = mediaFileService.saveMediaFile(newLesson,file);
+						int idMediaFile = mediaFileService.saveMediaFile(newLesson, file);
 						if(idMediaFile>0){
 							//SI todo es correcto cargarse los temporales que no hemos usado
 							uploadService.removeTemporaryFiles(user);
@@ -148,26 +154,10 @@ public class NewLessonController extends CommonController {
 	private FileMetadata getSubmittedFile(HttpServletRequest request, User user) {
 		FileMetadata file = null;
 		
-		String attach = requestManager.getParameter(request, Parameter.LESSON_NEW_FILE_ATTACH);
+		int mediaIndex =  requestManager.getNumericParameter(request, Parameter.LESSON_NEW_MEDIA_INDEX);
 		
-		if(user!=null && !stringManager.isEmpty(attach)){
-			MediaType mediaType = MediaType.valueOf(attach.toUpperCase());
-			int mediaIndex = -1;
-			
-			if(mediaType!=null){
-				switch (mediaType) {
-				case VIDEO:
-					mediaIndex =  requestManager.getNumericParameter(request, Parameter.LESSON_NEW_VIDEO_INDEX);
-					break;
-				case AUDIO:
-					mediaIndex =  requestManager.getNumericParameter(request, Parameter.LESSON_NEW_AUDIO_INDEX);
-					break;
-				}
-				
-				if(mediaIndex>=0){
-					file = uploadService.getTemporaryFile(user, mediaType , mediaIndex);
-				}
-			}
+		if(user!=null && mediaIndex >= 0){
+			file = uploadService.getTemporaryFile(user, mediaIndex);
 		}		
 		
 		return file;

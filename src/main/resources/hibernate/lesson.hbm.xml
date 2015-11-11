@@ -5,12 +5,17 @@
 	<sql-query name="SQL_LESSON_GET_LESSON">
 		SELECT idLesson, idUser, idLanguage, title, date,text,URIname,
 			(IFNULL(td.idLessonTest,0)=0 AND IFNULL(t.idLessonTest,0)>0) as testAvailable,
-			IFNULL(idLessonMedia,-1) as idLessonMedia
+			IFNULL(idLessonMedia,-1) as idLessonMedia, mediaType
 	    FROM tlesson
 	    LEFT JOIN tlessontxt USING (idLesson)
 	    LEFT JOIN tlessontest t USING (idLesson)
 	    LEFT JOIN tlessontestdraft td USING (idLessontest)
-	    LEFT JOIN tlessonmedia USING (idLesson)		    
+	    LEFT JOIN (
+	    	tlessonmedia 
+	    	JOIN tmediafile USING(idLessonMedia)
+	    	JOIN tmediamimetype USING(idMediaMimeType)
+	    	JOIN tmediatype USING(idMediaType) 
+	    ) USING (idLesson)		    		    
 	    WHERE idLesson = ?
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR">

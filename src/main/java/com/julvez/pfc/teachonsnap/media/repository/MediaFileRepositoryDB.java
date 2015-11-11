@@ -97,4 +97,10 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 		return dbm.getQueryResultUnique("SQL_MEDIA_GET_MEDIAREPOSITORY", MediaFileRepositoryPath.class, idMediaRepository);
 	}
 
+	@Override
+	public short createMimeTypeID(MediaType mediaType, String fileType,	String fileName) {
+		String ext = fileManager.getFileExtension(fileName);
+		return (short) dbm.insertQueryAndGetLastInserID("SQL_MEDIA_CREATE_MIMETYPE", mediaType.ordinal(), fileType, ext);
+	}
+
 }

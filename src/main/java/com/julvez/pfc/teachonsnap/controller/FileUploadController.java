@@ -46,8 +46,7 @@ public class FileUploadController extends HttpServlet {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	
 		User user = null;
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
@@ -55,29 +54,26 @@ public class FileUploadController extends HttpServlet {
     	
     	if(user == null){
     		//No hay session
-    		response.setStatus(403);
+    		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     	}
     	else{
-    		//TODO Controlar mejor que no venga una '/' detrás o que no sea uno de los tipos definidos (crear una enumeración)
-    		MediaType contentType = MediaType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
+    		//TODO log
     		System.out.println(request.getRequestURI()+"?"+request.getParameterMap());
     		
     		// 1. Get f from URL upload?f="?"
-    		//TODO hacerlo con el requestmanager
-    		String value = request.getParameter("f");
-    		//TODO Cuidado con el indice outofbounds
- 
-    		if(value!=null){
-	         // 2. Get the file of index "f" from the list "files"
-	         FileMetadata tempFile = uploadService.getTemporaryFile(user,contentType,Integer.parseInt(value));
+    		int downloadIndex = requestManager.getNumericParameter(request, Parameter.UPLOAD_DOWNLOAD_INDEX); 
+    		
+    		if(downloadIndex >= 0){
+    			// 2. Get the file of index "f" from the list "files"
+    			FileMetadata tempFile = uploadService.getTemporaryFile(user, downloadIndex);
 	 
-	         try {        
-	                 // 3. Set the response content type = file content type
-	                 // 4. Set header Content-disposition
-	                 requestManager.setFileMetadataHeaders(response, tempFile.getFileType(), tempFile.getFileName());
+    			try {        
+    				// 3. Set the response content type = file content type
+    				// 4. Set header Content-disposition
+    				requestManager.setFileMetadataHeaders(response, tempFile.getFileType(), tempFile.getFileName());
 	 
-	                 // 5. Copy file inputstream to response outputstream
-	                InputStream input = tempFile.getContent();
+    				// 5. Copy file inputstream to response outputstream
+    				InputStream input = tempFile.getContent();
 	                OutputStream output = response.getOutputStream();
 	                byte[] buffer = new byte[1024*10];
 	 
@@ -87,29 +83,38 @@ public class FileUploadController extends HttpServlet {
 	 
 	                output.close();
 	                input.close();
-	         }catch (IOException e) {
-	                e.printStackTrace();
-	         }
-         }
-         else if (request.getParameter("l")!=null){
-        	 response.setContentType("application/json");
+    			}
+    			catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    		else{
+    			String list = requestManager.getParameter(request, Parameter.UPLOAD_LIST);
+    			
+    			if (list !=null ){
+    				response.setContentType("application/json");
         	 
-        	 String outJSON = jsonManager.object2JSON(uploadService.getTemporaryFiles(user,contentType));
+    				String outJSON = jsonManager.object2JSON(uploadService.getTemporaryFiles(user));
 
-        	 response.getOutputStream().write(outJSON.getBytes("UTF-8"));
-             
-             
-         }
-         else if (request.getParameter("r")!=null){
-        	 String index = request.getParameter("r");
-        	 uploadService.removeTemporaryFile(user,contentType,Integer.parseInt(index));
-        	 response.setContentType("application/json");
+    				response.getOutputStream().write(outJSON.getBytes("UTF-8"));             
+    			}
+    			else{
+    				int removeIndex = requestManager.getNumericParameter(request, Parameter.UPLOAD_REMOVE_INDEX);
+    				
+    				if(removeIndex >=0){
+    					uploadService.removeTemporaryFile(user, removeIndex);
+    					response.setContentType("application/json");
         	
-        	 String outJSON = jsonManager.object2JSON(uploadService.getTemporaryFiles(user,contentType));
+    					String outJSON = jsonManager.object2JSON(uploadService.getTemporaryFiles(user));
 
-        	 response.getOutputStream().write(outJSON.getBytes("UTF-8"));
-         }
-    		
+    					response.getOutputStream().write(outJSON.getBytes("UTF-8"));
+    				}
+    				else{
+    					//Bad params
+    					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    				}    		
+    			}
+    		}
     	}
     }
 	/**
@@ -123,16 +128,12 @@ public class FileUploadController extends HttpServlet {
     	
     	if(user == null){
     		//No hay session
-    		response.setStatus(403);
+    		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     	}
     	else{
-    		//TODO Controlar mejor que no venga una '/' detrás o que no sea uno de los tipos definidos (crear una enumeración)
-    		MediaType contentType = MediaType.valueOf(request.getRequestURI().replaceFirst(request.getServletPath()+"/", "").toUpperCase());
-
-    		uploadService.addTemporaryFiles(user,contentType,getUploadFiles(request));
+    		uploadService.addTemporaryFiles(user, getUploadFiles(request));
     		
-    		List<FileMetadata> files = uploadService.getTemporaryFiles(user,contentType);
-			
+    		List<FileMetadata> files = uploadService.getTemporaryFiles(user);
 			
 			//TODO Cuidado con que haya muchos files en memoria (remove?)
 	        	 
@@ -159,13 +160,17 @@ public class FileUploadController extends HttpServlet {
                 
 					temp = new FileMetadata();
 					temp.setFileName(requestManager.getPartFilename(part));
-					temp.setFileSize(part.getSize()/1024 +" Kb");
+					temp.setFileSize(String.valueOf(part.getSize()));
 					temp.setFileType(part.getContentType());
 					temp.setContent(part.getInputStream());
-					temp.setMediaType(MediaType.valueOf(requestManager.getParameter(request, Parameter.LESSON_NEW_FILE_ATTACH).toUpperCase()));
 					
-					System.out.println("Upload.Part: "+temp);
-					files.add(temp);
+					MediaType mtype = uploadService.getMediaType(part.getContentType());
+					temp.setMediaType(mtype);
+					
+					if(mtype != null){
+						System.out.println("Upload.Part: "+temp);
+						files.add(temp);
+					}
 				}
 			}
 		 

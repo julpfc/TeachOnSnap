@@ -4,10 +4,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
+import com.julvez.pfc.teachonsnap.media.model.MediaType;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 @Entity
@@ -22,7 +25,9 @@ public class Lesson {
 	private Date date;
 	private String text;
 	private String URIname;	
-	private int idLessonMedia;	
+	private int idLessonMedia;
+	@Enumerated(EnumType.STRING)
+	private MediaType mediaType;
 	private boolean testAvailable;
 
 	@Transient
@@ -133,5 +138,13 @@ public class Lesson {
 
 	public void setTestAvailable(boolean testAvailable) {
 		this.testAvailable = testAvailable;
+	}
+
+	public MediaType getMediaType() {
+		return mediaType;
+	}
+
+	public void setMediaType(MediaType mediaType) {
+		this.mediaType = mediaType;
 	}	
 }
