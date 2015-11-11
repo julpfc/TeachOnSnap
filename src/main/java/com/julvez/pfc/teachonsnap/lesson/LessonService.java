@@ -8,8 +8,6 @@ public interface LessonService {
 	
 	public Lesson getLessonFromURI(String lessonURI);
 
-	public List<Lesson> getLinkedLessons(int idLesson);
-
 	public Lesson getLesson(int idLesson);
 
 	public List<Lesson> getLastLessons(int firstResult);

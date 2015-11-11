@@ -20,7 +20,6 @@ public enum Attribute {
 	LESSON("lesson"),
 	LIST_MEDIAFILE_LESSONFILES("medias"),
 	LIST_TAG_LESSONTAGS("tags"),
-	LIST_LESSON_LINKEDLESSONS("linkedLessons"),
 	LIST_LINK_MOREINFO("moreInfoLinks"),
 	LIST_LINK_SOURCES("sourceLinks"),
 	LIST_COMMENTS("comments"),

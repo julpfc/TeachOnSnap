@@ -35,8 +35,6 @@ public class LessonServiceImpl implements LessonService{
 
 
 	
-	
-
 	@Override
 	public Lesson getLessonFromURI(String lessonURI) {
 		Lesson lesson = null;
@@ -49,20 +47,6 @@ public class LessonServiceImpl implements LessonService{
 		
 		return lesson;
 	}
-
-	@Override
-	public List<Lesson> getLinkedLessons(int idLesson) {
-		List<Lesson> lessons = new ArrayList<Lesson>();
-		
-		List<Integer> ids = lessonRepository.getLinkedLessonIDs(idLesson);
-		
-		for(int id:ids){
-			lessons.add(getLesson(id));
-		}
-		
-		return lessons;
-	}
-
 
 	
 	@Override

@@ -10,8 +10,6 @@ public interface LessonRepository {
 	
 	public int getLessonIDFromURI(String lessonURI);
 
-	public List<Integer> getLinkedLessonIDs(int idLesson);
-
 	public List<Integer> getLastLessonIDs(int firstResult);
 
 	public List<Integer> getLessonIDsFromAuthor(String author, int firstResult);

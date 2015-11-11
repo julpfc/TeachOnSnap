@@ -30,11 +30,6 @@ public class LessonRepositoryDB implements LessonRepository {
 		return id; 
 	}
 
-	@Override
-	public List<Integer> getLinkedLessonIDs(int idLesson) {
-		return dbm.getQueryResultList("SQL_LESSON_GET_LINKEDLESSONIDS", Integer.class, idLesson);
-			
-	}
 
 	@Override
 	public List<Integer> getLastLessonIDs(int firstResult) {

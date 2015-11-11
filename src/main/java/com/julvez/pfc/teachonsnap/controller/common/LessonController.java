@@ -76,7 +76,6 @@ public class LessonController extends CommonController {
 				//TODO actualizar session con visit?
 				
 				List<Tag> tags = tagService.getLessonTags(lesson.getId());
-				List<Lesson> linkedLessons = lessonService.getLinkedLessons(lesson.getId());
 				List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
 				List<Link> sourceLinks = linkService.getSourceLinks(lesson.getId());
 				List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
@@ -119,7 +118,6 @@ public class LessonController extends CommonController {
 				requestManager.setAttribute(request, Attribute.LESSON, lesson);
 				requestManager.setAttribute(request, Attribute.LIST_MEDIAFILE_LESSONFILES, medias);
 				requestManager.setAttribute(request, Attribute.LIST_TAG_LESSONTAGS, tags);
-				requestManager.setAttribute(request, Attribute.LIST_LESSON_LINKEDLESSONS, linkedLessons);
 				requestManager.setAttribute(request, Attribute.LIST_LINK_MOREINFO, moreInfoLinks);
 				requestManager.setAttribute(request, Attribute.LIST_LINK_SOURCES, sourceLinks);
 				requestManager.setAttribute(request, Attribute.LIST_COMMENTS, comments);

@@ -30,7 +30,7 @@
 	<div class="content container-fluid">	
 		<div class="row">
 			<form id="lessonForm" role="form" method="POST"> 
-	<c:import url="./import/confirm.jsp"/>
+<c:import url="./import/confirm.jsp"/>
 				<div class="col-sm-7">
 					<!-- Title -->					
 					<div class="form-group">
@@ -182,19 +182,6 @@
 							</select>
 						</div>
 			    	</div>
-			    	
-			    	<!-- Recommended -->
-		          	<c:if test="${not empty linkedLessons}">
-			          	<div class="sidebar"> 	
-							<h4><fmt:message key="lesson.linkedLessons.heading" bundle="${lessonBundle}"/></h4>
-							<ol class="list-unstyled">
-		            			<c:forEach items="${linkedLessons}" var="linkedlesson">		
-									<li><a href="${linkedlesson.URL}">${linkedlesson.title}</a></li>									
-								</c:forEach>              			
-		            		</ol>
-						</div>
-					</c:if>
-					
 		        </div><!-- col -->
 	
 				<!-- Sidebar -->

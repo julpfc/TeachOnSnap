@@ -31,12 +31,6 @@
 	    FROM tlesson	    
 	    WHERE URIname = ?
 	</sql-query>
-	<sql-query name="SQL_LESSON_GET_LINKEDLESSONIDS">
-	    SELECT idLessonReferenced
-	    FROM tlessonlinked	    
-	    WHERE idLesson = ?
-	    ORDER BY priority
-	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LASTLESSONIDS">
 	    SELECT idLesson
 	    FROM tlesson

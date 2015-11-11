@@ -25,11 +25,6 @@ public class LessonRepositoryDBCache implements LessonRepository {
 		return (int)cache.executeImplCached(repoDB, lessonURI);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Integer> getLinkedLessonIDs(int idLesson) {
-		return (List<Integer>)cache.executeImplCached(repoDB, idLesson);
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override

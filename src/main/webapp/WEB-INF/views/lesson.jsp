@@ -133,16 +133,6 @@
 			    		</div>
 					</div>
 				</c:if>
-	          	<c:if test="${not empty linkedLessons}">
-		          	<div class="sidebar"> 	
-						<h4><fmt:message key="lesson.linkedLessons.heading" bundle="${lessonBundle}"/></h4>
-						<ol class="list-unstyled">
-	            			<c:forEach items="${linkedLessons}" var="linkedlesson">		
-								<li><a href="${linkedlesson.URL}">${linkedlesson.title}</a></li>									
-							</c:forEach>              			
-	            		</ol>
-					</div>
-				</c:if>
           		<c:if test="${not empty moreInfoLinks}">
 	          		<div class="sidebar">
 	               		<h4><span class="glyphicon glyphicon-globe"></span> <fmt:message key="lesson.moreInfo.heading" bundle="${lessonBundle}"/></h4>
