@@ -47,7 +47,7 @@ public class TagRepositoryDB implements TagRepository {
 	@Override
 	public void addLessonTags(int idLesson, ArrayList<Integer> tagIDs) {
 		for(int tagID:tagIDs){
-			dbm.updateQuery("SQL_TAG_SAVE_TAG", idLesson,tagID);
+			dbm.updateQuery("SQL_TAG_SAVE_LESSON_TAG", idLesson,tagID);
 		}		
 	}
 
@@ -63,5 +63,13 @@ public class TagRepositoryDB implements TagRepository {
 	@Override
 	public int createTag(String tag) {
 		return (int)dbm.insertQueryAndGetLastInserID("SQL_TAG_CREATE_TAG", tag);
+	}
+
+	@Override
+	public void removeLessonTags(int idLesson, ArrayList<Integer> removeTagIDs) {
+		for(int tagID:removeTagIDs){
+			dbm.updateQuery("SQL_TAG_DELETE_LESSON_TAG", idLesson,tagID);
+		}		
+		
 	}
 }

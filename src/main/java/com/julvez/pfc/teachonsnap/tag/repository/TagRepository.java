@@ -23,4 +23,6 @@ public interface TagRepository {
 
 	public int createTag(String tag);
 
+	public void removeLessonTags(int idLesson, ArrayList<Integer> removeTagIDs);
+
 }

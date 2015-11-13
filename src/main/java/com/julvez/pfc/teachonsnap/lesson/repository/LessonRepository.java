@@ -18,4 +18,10 @@ public interface LessonRepository {
 
 	public void saveLessonText(int idLesson, String newText);
 
+	public void saveLessonLanguage(int idLesson, short idLanguage);
+
+	public boolean saveLessonTitle(Lesson lesson, String title, String URIName);
+
+	public void removeLessonText(int idLesson);
+
 }

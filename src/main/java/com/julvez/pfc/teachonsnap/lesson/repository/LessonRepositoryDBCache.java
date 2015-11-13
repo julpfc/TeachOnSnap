@@ -58,4 +58,22 @@ public class LessonRepositoryDBCache implements LessonRepository {
 				new String[]{"getLesson"}, idLesson, newText);		
 	}
 
+	@Override
+	public void saveLessonLanguage(int idLesson, short idLanguage) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getLesson"}, idLesson, idLanguage);		
+	}
+
+	@Override
+	public boolean saveLessonTitle(Lesson lesson, String title, String URIName) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(lesson.getId()), stringManager.getKey(lesson.getURIname())}, 
+				new String[]{"getLesson","getLessonIDFromURI"}, lesson, title, URIName);
+	}
+
+	@Override
+	public void removeLessonText(int idLesson) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getLesson"}, idLesson);		
+	}
+
 }

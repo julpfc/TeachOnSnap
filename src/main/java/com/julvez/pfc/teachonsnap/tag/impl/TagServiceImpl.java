@@ -142,4 +142,48 @@ public class TagServiceImpl implements TagService {
 
 	}
 
+	@Override
+	public boolean saveLessonTags(Lesson lesson, List<Tag> oldTags, List<String> newTags) {
+		boolean modified = false;
+		
+		if(lesson!=null && lesson.getId()>0){
+		
+			ArrayList<Integer> removeTagIDs = getTagIDsToRemove(oldTags, newTags);
+		
+			if(removeTagIDs.size()>0){
+				removeLessonTags(lesson, removeTagIDs);
+				modified = true;
+			}
+			
+			if(newTags != null && newTags.size() > 0){
+				addLessonTags(lesson, newTags);
+				modified = true;
+			}
+		}
+		
+		return modified;
+	}
+	
+	@Override
+	public void removeLessonTags(Lesson lesson, ArrayList<Integer> removeTagIDs) {
+		if(lesson != null && lesson.getId()>0 && removeTagIDs != null && removeTagIDs.size() > 0){
+			tagRepository.removeLessonTags(lesson.getId(), removeTagIDs);
+		}		
+	}
+
+	private ArrayList<Integer> getTagIDsToRemove(List<Tag> oldTags, List<String> newTags){
+		ArrayList<Integer> removeTagIDs = new ArrayList<Integer>();
+
+		if(newTags == null){
+			newTags = new ArrayList<String>();
+		}
+		for(Tag tag:oldTags){
+			if(!newTags.contains(tag.getTag())){
+				removeTagIDs.add(tag.getId());
+			}
+		}
+		
+		return removeTagIDs;
+	}
+
 }

@@ -5,14 +5,12 @@
 	<sql-query name="SQL_LINK_GET_MOREINFOLINKIDS">
 	    SELECT idLink
 	    FROM tlessonmoreinfo	    
-	    WHERE idLesson = ?
-	    ORDER BY priority
+	    WHERE idLesson = ?	    
 	</sql-query>
 	<sql-query name="SQL_LINK_GET_SOURCELINKIDS">
 	    SELECT idLink
 	    FROM tlessonsource	    
 	    WHERE idLesson = ?
-	    ORDER BY priority
 	</sql-query>
 	<sql-query name="SQL_LINK_GET_LINK">
 		SELECT idLink, URL, tlink.desc
@@ -35,5 +33,13 @@
 	<sql-query name="SQL_LINK_SAVE_MOREINFO">
 	    INSERT IGNORE INTO tlessonmoreinfo(idLesson,idLink)
 	    VALUES (?,?)	       
-	</sql-query>						
+	</sql-query>			
+	<sql-query name="SQL_LINK_DELETE_MOREINFO">
+	    DELETE FROM tlessonmoreinfo
+	    WHERE idLesson = ? AND idLink = ?  
+	</sql-query>	
+	<sql-query name="SQL_LINK_DELETE_SOURCE">
+	    DELETE FROM tlessonsource
+	    WHERE idLesson = ? AND idLink = ?	       
+	</sql-query>				
 </hibernate-mapping>

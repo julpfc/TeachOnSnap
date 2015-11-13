@@ -54,4 +54,17 @@ public class LinkRepositoryDBCache implements LinkRepository {
 				new String[]{"getMoreInfoLinkIDs"}, idLesson, moreInfoLinkIDs);		
 	}
 
+	@Override
+	public void removeLessonSources(int idLesson, ArrayList<Integer> removeLinkIDs) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getSourceLinkIDs"}, idLesson, removeLinkIDs);	
+		
+	}
+
+	@Override
+	public void removeLessonMoreInfos(int idLesson, ArrayList<Integer> removeLinkIDs) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getMoreInfoLinkIDs"}, idLesson, removeLinkIDs);			
+	}
+
 }

@@ -62,4 +62,14 @@ public class TagRepositoryDBCache implements TagRepository {
 	public int createTag(String tag) {
 		return (int)cache.updateImplCached(repoDB, null, null, tag);
 	}
+
+	@Override
+	public void removeLessonTags(int idLesson, ArrayList<Integer> removeTagIDs) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getLessonTagIDs"}, idLesson, removeTagIDs);
+		
+		cache.clearCache("getLessonIDsFromTag");
+		cache.clearCache("getCloudTags");
+		
+	}
 }

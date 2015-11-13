@@ -97,7 +97,7 @@ public class NewLessonController extends CommonController {
 						linkService.addLessonMoreInfo(newLesson, moreInfo);
 					}
 					
-					lessonService.notifyNewLesson(newLesson);
+					lessonService.notifyLessonCreated(newLesson);
 					
 					response.sendRedirect(newLesson.getEditURL());
 				}

@@ -42,7 +42,7 @@
 		JOIN tuser USING (iduser)
 		ORDER BY lastname;
 	</sql-query>
-	<sql-query name="SQL_TAG_SAVE_TAG">
+	<sql-query name="SQL_TAG_SAVE_LESSON_TAG">
 	    INSERT IGNORE INTO tlessontag(idLesson,idTag)
 	    VALUES (?,?)	       
 	</sql-query>
@@ -54,5 +54,9 @@
 	<sql-query name="SQL_TAG_CREATE_TAG">
 	    INSERT INTO ttag(tag)
 	    VALUES (?)   
+	</sql-query>	
+	<sql-query name="SQL_TAG_DELETE_LESSON_TAG">
+	    DELETE FROM tlessontag
+	    WHERE idLesson = ? AND idTag = ?
 	</sql-query>						
 </hibernate-mapping>

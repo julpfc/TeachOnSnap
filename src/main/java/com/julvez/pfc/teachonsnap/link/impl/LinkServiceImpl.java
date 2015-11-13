@@ -136,6 +136,89 @@ public class LinkServiceImpl implements LinkService {
 		}
 		return link;
 	}
+
+	@Override
+	public boolean saveLessonMoreInfo(Lesson lesson, List<Link> oldLinks, List<String> newLinks) {
+		boolean modified = false;
+		
+		if(lesson!=null && lesson.getId()>0){
+		
+			ArrayList<Integer> removeLinkIDs = getLinkIDsToRemove(oldLinks, newLinks);
+		
+			if(removeLinkIDs.size()>0){
+				removeLessonMoreInfos(lesson, removeLinkIDs);
+				modified = true;
+			}
+			
+			if(newLinks != null && newLinks.size() > 0){
+				addLessonMoreInfo(lesson, newLinks);
+				modified = true;
+			}
+		}
+		
+		return modified;
+	}
+
+	@Override
+	public boolean saveLessonSources(Lesson lesson, List<Link> oldLinks, List<String> newLinks) {
+		boolean modified = false;
+		
+		if(lesson!=null && lesson.getId()>0){
+		
+			ArrayList<Integer> removeLinkIDs = getLinkIDsToRemove(oldLinks, newLinks);
+		
+			if(removeLinkIDs.size()>0){
+				removeLessonSources(lesson, removeLinkIDs);
+				modified = true;
+			}
+			
+			if(newLinks != null && newLinks.size() > 0){
+				addLessonSources(lesson, newLinks);
+				modified = true;
+			}
+		}
+		
+		return modified;
+	}
 	
+	@Override
+	public void removeLessonSources(Lesson lesson, ArrayList<Integer> removeLinkIDs) {
+		if(lesson != null && lesson.getId()>0 && removeLinkIDs != null && removeLinkIDs.size() > 0){
+			linkRepository.removeLessonSources(lesson.getId(), removeLinkIDs);
+		}		
+	}
+
+	@Override
+	public void removeLessonMoreInfos(Lesson lesson, ArrayList<Integer> removeLinkIDs) {
+		if(lesson != null && lesson.getId()>0 && removeLinkIDs != null && removeLinkIDs.size() > 0){
+			linkRepository.removeLessonMoreInfos(lesson.getId(), removeLinkIDs);
+		}		
+	}
+	
+	private ArrayList<Integer> getLinkIDsToRemove(List<Link> oldLinks, List<String> newLinks){
+		ArrayList<Integer> removeLinkIDs = new ArrayList<Integer>();
+
+		if(newLinks == null){
+			newLinks = new ArrayList<String>();
+		}
+
+		List<String> correctedLinks = new ArrayList<String>();
+		for(String newLink:newLinks){
+			if(!newLink.startsWith("http")){
+				newLink = "http://" + newLink;
+			}
+			correctedLinks.add(newLink);
+		}
+		newLinks = correctedLinks;
+		
+		for(Link link:oldLinks){
+			if(!newLinks.contains(link.getURL())){
+				removeLinkIDs.add(link.getId());
+			}
+		}
+		
+		return removeLinkIDs;
+	}
+
 
 }

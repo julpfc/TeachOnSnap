@@ -55,4 +55,18 @@ public class LinkRepositoryDB implements LinkRepository {
 		
 	}
 
+	@Override
+	public void removeLessonSources(int idLesson, ArrayList<Integer> removeLinkIDs) {
+		for(int linkID:removeLinkIDs){
+			dbm.updateQuery("SQL_LINK_DELETE_SOURCE", idLesson, linkID);
+		}		
+	}
+
+	@Override
+	public void removeLessonMoreInfos(int idLesson, ArrayList<Integer> removeLinkIDs) {
+		for(int linkID:removeLinkIDs){
+			dbm.updateQuery("SQL_LINK_DELETE_MOREINFO", idLesson, linkID);
+		}		
+	}
+
 }

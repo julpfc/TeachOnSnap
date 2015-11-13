@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.lesson;
 
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 
 public interface LessonService {
@@ -16,8 +17,14 @@ public interface LessonService {
 
 	public Lesson createLesson(Lesson newLesson);
 	
-	public Lesson saveLessonText(Lesson lesson,String newText);
+	public Lesson saveLessonText(Lesson lesson, String newText);
 
-	public boolean notifyNewLesson(Lesson lesson);
+	public boolean notifyLessonCreated(Lesson lesson);
+
+	public boolean notifyLessonModified(Lesson lesson);
+
+	public Lesson saveLessonLanguage(Lesson lesson, Language language);
+
+	public Lesson saveLessonTitle(Lesson lesson, String title);
 	
 }

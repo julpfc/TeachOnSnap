@@ -2,7 +2,9 @@ package com.julvez.pfc.teachonsnap.lesson.model;
 
 public enum LessonMessageKey {
 	NEW_LESSON_SUBJECT("lesson.new.subject"), 
-	NEW_LESSON_MESSAGE("lesson.new.message");
+	NEW_LESSON_MESSAGE("lesson.new.message"), 
+	MODIFIED_LESSON_SUBJECT("lesson.mod.subject"), 
+	MODIFIED_LESSON_MESSAGE("lesson.mod.message");
 	
 	
 	private final String realName;

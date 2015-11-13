@@ -15,6 +15,7 @@ public class MediaFile {
 	private int idLessonMedia;
 	private short idMediaRepository;
 	private String filename;
+	private int filesize;
 	private String mimetype;
 	@Enumerated(EnumType.STRING)
 	private MediaType mediaType;
@@ -23,8 +24,8 @@ public class MediaFile {
 	public String toString() {
 		return "MediaFile [id=" + id + ", idLessonMedia=" + idLessonMedia
 				+ ", idMediaRepository=" + idMediaRepository + ", filename="
-				+ filename + ", mimetype=" + mimetype + ", mediaType="
-				+ mediaType + "]";
+				+ filename + ", filesize=" + filesize +", mimetype=" 
+				+ mimetype + ", mediaType="	+ mediaType + "]";
 	}
 	public int getId() {
 		return id;
@@ -67,6 +68,12 @@ public class MediaFile {
 
 	public void setMediaType(MediaType mediaType) {
 		this.mediaType = mediaType;
+	}
+	public int getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(int filesize) {
+		this.filesize = filesize;
 	}
 	
 

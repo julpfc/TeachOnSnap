@@ -45,7 +45,7 @@
 			    		<label for="radioLang"><fmt:message key="lesson.form.lang" bundle="${editLessonBundle}"/></label>
 			    		<c:forEach items="${languages}" var="lang" varStatus="loop">
 				    		<span>  
-								<input type="radio" name="lang" id="radioLessonLang${lang.language}" value="${lang.id}" ${lang.id == userLang.id?'checked="checked"':''} required />
+								<input type="radio" name="lang" id="radioLessonLang${lang.language}" value="${lang.id}" ${(lesson!=null)?(lang.id == lesson.language.id?'checked="checked"':''):(lang.id == userLang.id?'checked="checked"':'')} required />
 								<img alt="${lang.language}" src="/resources/img/ico/flag_${lang.language}.jpg"/>
 							</span>						
 			    		</c:forEach>			    												    					    	
@@ -56,52 +56,76 @@
 						<div class="panel-heading">
 							<span class="glyphicon glyphicon-paperclip"></span> <fmt:message key="lesson.form.media.heading" bundle="${editLessonBundle}"/>
 						</div>
-				    	
-				    	<div class="panel-body">
-							<div class="form-group">			    					
-								<div id="dropzone" class="well"><fmt:message key="lesson.form.media.drop" bundle="${editLessonBundle}"/></div>
-								<p id="uploadFile" class="help-block"></p>
-								<div class="progress hidden" id="progress_video">
-									<div id="progressbar" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-										<span id="progressbar_bw" class="sr-only">0%</span>
-									</div>
-								</div>  									
-								<table id="uploaded-files" class="table">
-									<tr><td><fmt:message key="lesson.form.media.select" bundle="${editLessonBundle}"/></td></tr>										
-								</table>															
-				   				<span class="btn btn-default btn-file">
-									<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload" name="files" data-url="/upload/"/>
-								</span>
-	  						</div>
+						
+						<div class="panel-body">				    	
+							<c:choose>
+								<c:when test="${lesson.idLessonMedia>0}">
+						     		<c:set var="firstMedia" value="${medias[0]}"/>
+						     		<div class="lesson-media">		     		
+						     			<c:choose>
+						     				<c:when test="${lesson.mediaType == 'VIDEO'}">
+								     			<video src="${firstMedia.URL}" id="lesson_media" controls="controls" poster="" height="auto" width="100%">
+									     			<c:forEach items="${medias}" var="media">		
+								       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
+													</c:forEach>
+												</video>   
+						     				</c:when>
+						     				<c:when test="${lesson.mediaType == 'AUDIO'}">
+						     					<audio src="${firstMedia.URL}" id="lesson_media" controls="controls">
+									     			<c:forEach items="${medias}" var="media">		
+								       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
+													</c:forEach>
+												</audio>
+						     				</c:when>				     								     			
+						     			</c:choose>
+						     		</div>
+						     		<table id="media-files" class="table">
+						     			<fmt:formatNumber maxFractionDigits="2" value="${firstMedia.filesize/1024/1024}" var="mediaFileSize"/>
+										<tr>
+											<td></td>
+											<td>${firstMedia.filename}</td>
+											<c:choose>
+							     				<c:when test="${lesson.mediaType == 'VIDEO'}">
+									     			<td><span class='glyphicon glyphicon-film'></span></td>   
+							     				</c:when>
+							     				<c:when test="${lesson.mediaType == 'AUDIO'}">
+							     					<td><span class='glyphicon glyphicon-volume-up'></span></td>
+							     				</c:when>				     								     			
+						     				</c:choose>											
+											<td><span class='glyphicon glyphicon-remove'></span></td>
+										</tr> 
+										<tr>
+											<td></td>
+											<td><a href='${firstMedia.URL}'><fmt:message key="lesson.form.media.download" bundle="${editLessonBundle}"/></a></td>
+											<td>${mediaFileSize}</td>
+											<td>MB</td>
+										</tr>
+	    							</table>  
+								</c:when>
+								<c:otherwise>
+									<div class="form-group">			    					
+										<div id="dropzone" class="well"><fmt:message key="lesson.form.media.drop" bundle="${editLessonBundle}"/></div>
+										<p id="uploadFile" class="help-block"></p>
+										<div class="progress hidden" id="progress_video">
+											<div id="progressbar" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+												<span id="progressbar_bw" class="sr-only">0%</span>
+											</div>
+										</div>  									
+										<table id="uploaded-files" class="table">
+											<tr><td><fmt:message key="lesson.form.media.select" bundle="${editLessonBundle}"/></td></tr>										
+										</table>															
+						   				<span class="btn btn-default btn-file">
+											<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload" name="files" data-url="/upload/"/>
+										</span>
+			  						</div>
+								</c:otherwise>												
+							</c:choose>
 	  					</div>				  	
 	  					<div class="panel-footer">
 							<h5><small><fmt:message key="lesson.form.media.tip" bundle="${editLessonBundle}"/> ${maxUploadFileSize/1024/1024} MB</small></h5> 
 	  					</div>					
-					</div>
-					
-					<div>
-						<c:if test="${lesson.idLessonMedia>0}">					
-				     		<div class="lesson-media">		     		
-				     			<c:set var="firstMedia" value="${medias[0]}"/>				     			
-				     			<c:choose>
-				     				<c:when test="${lesson.mediaType == 'VIDEO'}">
-						     			<video src="${firstMedia.URL}" id="lesson_media" controls="controls" poster="" height="auto" width="100%">
-							     			<c:forEach items="${medias}" var="media">		
-						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
-											</c:forEach>
-										</video>   
-				     				</c:when>
-				     				<c:when test="${lesson.mediaType == 'AUDIO'}">
-				     					<audio src="${firstMedia.URL}" id="lesson_media" controls="controls">
-							     			<c:forEach items="${medias}" var="media">		
-						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
-											</c:forEach>
-										</audio>
-				     				</c:when>				     								     			
-				     			</c:choose>
-				     		</div>         		
-						</c:if>												
-					</div>
+					</div>						
+
 					
 					<!-- Text -->
 			    	<div class="form-group">
@@ -154,7 +178,7 @@
     						<p class="help-block"><fmt:message key="lesson.form.source.tip" bundle="${editLessonBundle}"/></p>
 							<select multiple="multiple" id="formSources" hidden="true" name="sources">
 								<c:forEach items="${sourceLinks}" var="link">	
-									<option id="sources_${link.MD5}" selected="selected">${link.desc} - ${link.URL}</option>
+									<option id="sources_${link.MD5}" selected="selected">${link.URL}</option>
 								</c:forEach>
 							</select>
 						</div>

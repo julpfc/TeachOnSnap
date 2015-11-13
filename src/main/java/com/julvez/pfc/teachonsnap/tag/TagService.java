@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.tag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
@@ -19,6 +20,9 @@ public interface TagService {
 	public List<CloudTag> getAuthorCloudTags();
 	
 	public void addLessonTags(Lesson lesson, List<String> tags);
-	
-	//TODO un removeLessonTags para el editor de lecciones, le dices cuales añades y cuales quitas
+
+	public boolean saveLessonTags(Lesson lesson, List<Tag> oldTags,	List<String> newTags);
+
+	public void removeLessonTags(Lesson lesson, ArrayList<Integer> tagIDs);
+
 }

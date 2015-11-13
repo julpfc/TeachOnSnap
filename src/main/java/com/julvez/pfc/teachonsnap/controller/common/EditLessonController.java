@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
+import com.julvez.pfc.teachonsnap.controller.model.Parameter;
+import com.julvez.pfc.teachonsnap.error.model.ErrorBean;
+import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.error.model.ErrorType;
+import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
@@ -59,15 +64,110 @@ public class EditLessonController extends CommonController {
 			
 			Lesson lesson = lessonService.getLesson(idLesson);
 			
-			if(lesson!= null){
+			if(lesson!= null){				
 				
-				if(user.isAdmin() || (user.isAuthor() && user.getId() == lesson.getIdUser())){
-					
-					//TODO POST data
-					
+				if(userService.isAllowedForLesson(user, lesson)){
+
 					List<Tag> tags = tagService.getLessonTags(lesson.getId());
 					List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
 					List<Link> sourceLinks = linkService.getSourceLinks(lesson.getId());
+					
+					if(request.getMethod().equals("POST")){
+						Lesson modLesson = null;
+						boolean success = true;
+						boolean changes = false;
+						
+						String title = requestManager.getParameter(request, Parameter.LESSON_NEW_TITLE);
+						
+						if(!stringManager.isEmpty(title) && !title.equals(lesson.getTitle())){
+							
+							modLesson = lessonService.saveLessonTitle(lesson, title);
+							
+							if(modLesson == null){
+								// No se pudo guardar -> Duplicado
+								setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE_DUPLICATE, ErrorMessageKey.SAVE_DUPLICATE_ERROR_LESSON));
+								success = false;
+							}
+							else{
+								lesson = modLesson;
+								changes=true;
+							}
+						}
+						
+						if(success){
+
+							short idLanguage = (short)requestManager.getNumericParameter(request, Parameter.LESSON_NEW_LANGUAGE);
+							Language lang = langService.getLanguage(idLanguage);
+							
+							if(lang != null){
+								modLesson = lessonService.saveLessonLanguage(lesson, lang);
+									
+								if(modLesson != null){
+									lesson = modLesson;
+									changes=true;
+								}
+							}
+							
+							String text = requestManager.getParameter(request, Parameter.LESSON_NEW_TEXT);
+							
+							modLesson = lessonService.saveLessonText(lesson, text);
+							
+							if(modLesson != null){
+								lesson = modLesson;
+								changes = true;
+							}
+
+							List<String> newTags = requestManager.getParameterList(request, Parameter.LESSON_NEW_TAGS);
+
+							if(tagService.saveLessonTags(lesson, tags, newTags)){
+								changes = true;
+								tags = tagService.getLessonTags(lesson.getId());									
+							}
+													
+							List<String> newSourcesLinks = requestManager.getParameterList(request, Parameter.LESSON_NEW_SOURCES);
+
+							if(linkService.saveLessonSources(lesson, sourceLinks, newSourcesLinks)){
+								changes = true;
+								sourceLinks = linkService.getSourceLinks(lesson.getId());
+							}
+																	
+							List<String> newMoreInfoLinks = requestManager.getParameterList(request, Parameter.LESSON_NEW_MOREINFOS);
+
+							if(linkService.saveLessonMoreInfo(lesson, moreInfoLinks, newMoreInfoLinks)){
+								changes = true;
+								moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
+							}
+				
+/*							
+							FileMetadata file = getSubmittedFile(request, user);
+							
+							if(file!=null){		
+								int idMediaFile = mediaFileService.saveMediaFile(newLesson, file);
+								if(idMediaFile>0){
+									//SI todo es correcto cargarse los temporales que no hemos usado
+									uploadService.removeTemporaryFiles(user);
+									setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.LESSON_CREATED);
+								}
+								else{
+									//Error, habia fichero pero no hemos podido guardarlo
+									setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.LESSON_CREATED_WITH_MEDIA_ERROR);
+								}
+							}					
+*/
+						
+							if(success){
+								if(changes){
+									lessonService.notifyLessonModified(lesson);
+									setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.LESSON_SAVED));
+								}
+								else{
+									setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES));
+								}
+							}
+						}
+						
+					}
+					
 					List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
 					
 					LessonTest test = lessonTestService.getLessonTest(lesson);
@@ -83,14 +183,11 @@ public class EditLessonController extends CommonController {
 					requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 					
 					
-					//TODO Editar Linked lesson?
-					
 					int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
 					requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);
 					
 					List<String> acceptedFileTypes = mediaFileService.getAcceptedFileTypes();
 					requestManager.setAttribute(request, Attribute.LIST_STRING_MEDIATYPE, acceptedFileTypes);
-
 					
 					request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
 				}
@@ -99,7 +196,7 @@ public class EditLessonController extends CommonController {
 				}
 			}
 			else {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}			
 		}
 		else{

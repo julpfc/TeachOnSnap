@@ -54,4 +54,23 @@ public class LessonRepositoryDB implements LessonRepository {
 		dbm.updateQuery("SQL_LESSON_SAVE_TEXT", idLesson,newText,newText);
 	}
 
+
+	@Override
+	public void saveLessonLanguage(int idLesson, short idLanguage) {
+		dbm.updateQuery("SQL_LESSON_SAVE_LANGUAGE", idLanguage, idLesson);
+		
+	}
+
+
+	@Override
+	public boolean saveLessonTitle(Lesson lesson, String title, String URIName) {
+		return dbm.updateQuery("SQL_LESSON_SAVE_TITLE", title, URIName, lesson.getId()) >= 0;
+	}
+
+
+	@Override
+	public void removeLessonText(int idLesson) {
+		dbm.updateQuery("SQL_LESSON_DELETE_TEXT", idLesson);
+	}
+
 }

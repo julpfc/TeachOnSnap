@@ -21,4 +21,8 @@ public interface LinkRepository {
 
 	public void addLessonMoreInfos(int idLesson, ArrayList<Integer> moreInfoLinkIDs);
 
+	public void removeLessonSources(int idLesson, ArrayList<Integer> removeLinkIDs);
+
+	public void removeLessonMoreInfos(int idLesson, ArrayList<Integer> removeLinkIDs);
+
 }

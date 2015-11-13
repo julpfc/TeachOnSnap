@@ -146,5 +146,7 @@ public class Lesson {
 
 	public void setMediaType(MediaType mediaType) {
 		this.mediaType = mediaType;
-	}	
+	}
+
+		
 }

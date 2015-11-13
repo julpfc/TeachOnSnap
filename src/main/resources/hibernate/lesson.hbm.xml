@@ -53,4 +53,18 @@
 	    VALUES (?,?)
 	    ON DUPLICATE KEY UPDATE text = ?   
 	</sql-query>	
+	<sql-query name="SQL_LESSON_SAVE_LANGUAGE">
+	    UPDATE tlesson
+	    SET idLanguage = ?
+	    WHERE idLesson = ?   
+	</sql-query>
+	<sql-query name="SQL_LESSON_SAVE_TITLE">
+	    UPDATE tlesson
+	    SET title = ?, URIName = ?
+	    WHERE idLesson = ?   
+	</sql-query>
+	<sql-query name="SQL_LESSON_DELETE_TEXT">
+	    DELETE FROM tlessontxt	    
+	    WHERE idLesson = ?   
+	</sql-query>
 </hibernate-mapping>

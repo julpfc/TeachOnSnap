@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
+import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.model.LessonMessageKey;
@@ -109,16 +110,25 @@ public class LessonServiceImpl implements LessonService{
 	@Override
 	public Lesson saveLessonText(Lesson lesson, String newText) {
 		Lesson ret = null;
-		if(lesson!=null && lesson.getId()>0 && newText!=null){
-			lessonRepository.saveLessonText(lesson.getId(),newText);
-			lesson.setText(newText);
-			ret = lesson;
+		if(lesson!=null && lesson.getId()>0){
+			if((newText != null && !newText.equals(lesson.getText())) 
+					|| (lesson.getText() != null && !lesson.getText().equals(newText))){
+				
+				if(newText == null){
+					lessonRepository.removeLessonText(lesson.getId());
+				}
+				else{
+					lessonRepository.saveLessonText(lesson.getId(),newText);
+				}
+				lesson.setText(newText);
+				ret = lesson;
+			}
 		}
 		return ret;
 	}
 
 	@Override
-	public boolean notifyNewLesson(Lesson lesson) {		
+	public boolean notifyLessonCreated(Lesson lesson) {		
 		boolean success = false;
 		
 		if(lesson != null){
@@ -130,6 +140,50 @@ public class LessonServiceImpl implements LessonService{
 		}
 		
 		return success;		
+	}
+
+
+	@Override
+	public boolean notifyLessonModified(Lesson lesson) {
+		boolean success = false;
+		
+		if(lesson != null){
+			String url = urlService.getAbsoluteURL(lesson.getURL());
+			String subject = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.MODIFIED_LESSON_SUBJECT, lesson.getTitle());
+			String message = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.MODIFIED_LESSON_MESSAGE, url);
+			
+			success = notifyService.info(lesson.getAuthor(), subject, message, lesson.getURL());
+		}
+		
+		return success;		}
+
+
+	@Override
+	public Lesson saveLessonLanguage(Lesson lesson, Language language) {
+		Lesson ret = null;
+		if(lesson!=null && lesson.getId()>0 && language != null && language.getId() != lesson.getIdLanguage()){
+			lessonRepository.saveLessonLanguage(lesson.getId(), language.getId());
+			lesson.setLanguage(language);
+			lesson.setIdLanguage(language.getId());
+			ret = lesson;
+		}
+		return ret;
+	}
+
+
+	@Override
+	public Lesson saveLessonTitle(Lesson lesson, String title) {
+		Lesson ret = null;
+		if(lesson!=null && lesson.getId()>0 && title!=null && !title.equals(lesson.getTitle())){
+			String URIName = stringManager.generateURIname(title);
+			
+			if(lessonRepository.saveLessonTitle(lesson, title, URIName)){
+				lesson.setTitle(title);
+				lesson.setURIname(URIName);
+				ret = lesson;
+			}
+		}
+		return ret;
 	}
 
 }

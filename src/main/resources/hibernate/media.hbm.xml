@@ -3,7 +3,7 @@
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
 	<sql-query name="SQL_MEDIA_GET_MEDIAFILES">
-	    SELECT idMediaFile,idLessonMedia,idMediaRepository,filename,mimetype,mediaType
+	    SELECT idMediaFile,idLessonMedia,idMediaRepository,filename,mimetype,mediaType, filesize
 	    FROM tMediafile
 	    JOIN tMediamimetype USING (idmediamimetype)
 	    JOIN tMediatype USING (idmediatype)
