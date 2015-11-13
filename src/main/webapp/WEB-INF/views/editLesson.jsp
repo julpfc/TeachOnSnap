@@ -285,6 +285,14 @@
 					    	</div>					
 						</div><!-- Test Panel -->							
 					</c:if>
+					<c:if test="${lesson.id>0}">
+						<nav>
+							<ul class="pager">
+								<li><a href="${lesson.URL}"><span class="glyphicon glyphicon-chevron-left"></span>
+								 <fmt:message key="pager.back"/></a></li>						
+							</ul>
+						</nav>		
+					</c:if>
 	        	</div><!-- sidebar -->
 	        </form>
 		</div><!-- /.row -->
