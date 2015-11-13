@@ -64,4 +64,27 @@ public class MediaFileServiceImpl implements MediaFileService {
 		return mediaTypes;
 	}
 
+	@Override
+	public Lesson removeMediaFiles(Lesson lesson) {
+		Lesson modLesson = null;
+		
+		if(lesson != null && lesson.getId() > 0 && lesson.getIdLessonMedia() > 0){
+			
+			ArrayList<MediaFile> medias = (ArrayList<MediaFile>) getLessonMedias(lesson.getIdLessonMedia());
+			
+			if(medias != null && medias.size() > 0){
+				short idMediaRepository = mediaFileRepository.getDefaultRepositoryID();
+				MediaFileRepositoryPath repoPath = mediaFileRepository.getMediaFileRepositoryPath(idMediaRepository);
+				boolean success = mediaFileRepository.removeMediaFiles(lesson.getId(), medias, repoPath);
+				
+				if(success){
+					lesson.setIdLessonMedia(-1);
+					lesson.setMediaType(null);
+					modLesson = lesson;				
+				}
+			}
+		}		
+		return modLesson;
+	}
+
 }

@@ -58,9 +58,9 @@
 						</div>
 						
 						<div class="panel-body">				    	
-							<c:choose>
-								<c:when test="${lesson.idLessonMedia>0}">
-						     		<c:set var="firstMedia" value="${medias[0]}"/>
+							<c:if test="${lesson.idLessonMedia>0}">
+					     		<c:set var="firstMedia" value="${medias[0]}"/>
+					     		<div id="mediaDiv">
 						     		<div class="lesson-media">		     		
 						     			<c:choose>
 						     				<c:when test="${lesson.mediaType == 'VIDEO'}">
@@ -92,34 +92,40 @@
 							     					<td><span class='glyphicon glyphicon-volume-up'></span></td>
 							     				</c:when>				     								     			
 						     				</c:choose>											
-											<td><span class='glyphicon glyphicon-remove'></span></td>
+											<td></td>
 										</tr> 
 										<tr>
 											<td></td>
-											<td><a href='${firstMedia.URL}'><fmt:message key="lesson.form.media.download" bundle="${editLessonBundle}"/></a></td>
+											<td><a href='${firstMedia.URL}'><span class='glyphicon glyphicon-download'></span> <fmt:message key="lesson.form.media.download" bundle="${editLessonBundle}"/></a></td>
 											<td>${mediaFileSize}</td>
 											<td>MB</td>
 										</tr>
+										<tr>
+											<td></td>
+											<td><a id="removeMedia"><span class='glyphicon glyphicon-remove'></span> <fmt:message key="lesson.form.media.remove" bundle="${editLessonBundle}"/></a></td>
+											<td></td>
+											<td></td>
+											
+										</tr>
 	    							</table>  
-								</c:when>
-								<c:otherwise>
-									<div class="form-group">			    					
-										<div id="dropzone" class="well"><fmt:message key="lesson.form.media.drop" bundle="${editLessonBundle}"/></div>
-										<p id="uploadFile" class="help-block"></p>
-										<div class="progress hidden" id="progress_video">
-											<div id="progressbar" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-												<span id="progressbar_bw" class="sr-only">0%</span>
-											</div>
-										</div>  									
-										<table id="uploaded-files" class="table">
-											<tr><td><fmt:message key="lesson.form.media.select" bundle="${editLessonBundle}"/></td></tr>										
-										</table>															
-						   				<span class="btn btn-default btn-file">
-											<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload" name="files" data-url="/upload/"/>
-										</span>
-			  						</div>
-								</c:otherwise>												
-							</c:choose>
+    							</div>
+							</c:if>
+							<div id="uploadDiv" class="form-group ${lesson.idLessonMedia>0?'hidden':''}">			    					
+								<div id="dropzone" class="well"><fmt:message key="lesson.form.media.drop" bundle="${editLessonBundle}"/></div>
+								<p id="uploadFile" class="help-block"></p>
+								<div class="progress hidden" id="progress_video">
+									<div id="progressbar" class="progress-bar progress-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+										<span id="progressbar_bw" class="sr-only">0%</span>
+									</div>
+								</div>  									
+								<table id="uploaded-files" class="table">
+									<tr><td><fmt:message key="lesson.form.media.select" bundle="${editLessonBundle}"/></td></tr>										
+								</table>															
+				   				<span class="btn btn-default btn-file">
+									<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload" name="files" data-url="/upload/"/>
+								</span>
+								<c:if test="${lesson.idLessonMedia == -1}"><input type='hidden' name='remove' value='true'/></c:if>
+	  						</div>
 	  					</div>				  	
 	  					<div class="panel-footer">
 							<h5><small><fmt:message key="lesson.form.media.tip" bundle="${editLessonBundle}"/> ${maxUploadFileSize/1024/1024} MB</small></h5> 
@@ -201,7 +207,7 @@
     						<p class="help-block"><fmt:message key="lesson.form.moreinfo.tip" bundle="${editLessonBundle}"/></p>
 							<select multiple="multiple" id="formMoreInfo" hidden="true" name="moreInfos">
 								<c:forEach items="${moreInfoLinks}" var="link">	
-									<option id="more_${link.MD5}" selected="selected">${link.desc} - ${link.URL}</option>
+									<option id="more_${link.MD5}" selected="selected">${link.URL}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -300,7 +306,8 @@
 		msg['lesson.form.media.upload.ignore.size'] =	"<fmt:message key='lesson.form.media.upload.ignore.size' bundle='${editLessonBundle}'/>";
 		msg['lesson.form.media.upload.ignore.type'] =	"<fmt:message key='lesson.form.media.upload.ignore.type' bundle='${editLessonBundle}'/>";
 		msg['lesson.form.media.upload.progress'] = 		"<fmt:message key='lesson.form.media.upload.progress' bundle='${editLessonBundle}'/>";
-		
+		msg['lesson.form.media.remove.confirm'] = 		"<fmt:message key='lesson.form.media.remove.confirm' bundle='${editLessonBundle}'/>";
+				
 		var acceptedFileTypes = [<c:forEach items="${acceptedFileTypes}" var="type" varStatus="loop">${loop.index > 0?",":""}"${type}"</c:forEach>];
 		var maxFileSize = ${maxUploadFileSize};
 		//-->

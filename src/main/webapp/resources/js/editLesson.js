@@ -61,6 +61,12 @@ function validateFiles(data) {
     return validFiles;
 }
 
+function removeMedia(){
+	$("#uploadDiv").removeClass('hidden');
+	$("#mediaDiv").empty();
+	$("#mediaDiv").html("<input type='hidden' name='remove' value='true'/>");
+	$("#confirm").modal('hide');
+}
 
 $('#lessonForm').on('submit.confirm',function(e){
     e.preventDefault();
@@ -117,6 +123,10 @@ $(document).ready(function() {
 		}
     });
 
+	
+	$('#removeMedia').on('click', function(event) {
+		confirm('javascript:removeMedia();','lesson.form.media.remove.confirm');
+	});
 	
 	$.ajax("/upload/?l=1").done(function(data){reloadUploadedFiles(data);});	
 	

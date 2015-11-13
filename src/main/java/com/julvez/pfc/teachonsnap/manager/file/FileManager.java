@@ -8,5 +8,7 @@ public interface FileManager {
 
 	String getFileExtension(String fileName);
 
+	boolean delete(String path, String fileName);
+
 	
 }

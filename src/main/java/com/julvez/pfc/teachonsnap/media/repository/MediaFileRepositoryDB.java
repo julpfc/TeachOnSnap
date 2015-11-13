@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.media.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
@@ -101,6 +102,48 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 	public short createMimeTypeID(MediaType mediaType, String fileType,	String fileName) {
 		String ext = fileManager.getFileExtension(fileName);
 		return (short) dbm.insertQueryAndGetLastInserID("SQL_MEDIA_CREATE_MIMETYPE", mediaType.ordinal(), fileType, ext);
+	}
+
+	@Override
+	public boolean removeMediaFiles(int idLesson, ArrayList<MediaFile> medias, MediaFileRepositoryPath repoPath) {
+
+		int affectedRows = -1;
+		int idLessonMedia = -1;
+		
+		Object session = dbm.beginTransaction();
+		
+		for(MediaFile file:medias){
+			affectedRows = -1;
+			
+			idLessonMedia = file.getIdLessonMedia();
+			
+			String path = repoPath.getURI() + repoPath.getFilePathSeparator() +
+					file.getIdLessonMedia() + repoPath.getFilePathSeparator()	+ 
+					file.getId() + repoPath.getFilePathSeparator();
+
+			boolean deleteOK = fileManager.delete(path, file.getFilename());
+			
+			if(deleteOK){
+				affectedRows = dbm.updateQuery_NoCommit(session, "SQL_MEDIA_DELETE_MEDIAFILE", file.getId());
+				
+				if(affectedRows < 0){
+					break;
+				}
+			}				
+		}
+		
+		if(affectedRows >= 0){
+			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_MEDIA_DELETE_LESSONMEDIA", idLessonMedia);
+		}		
+				
+		if(affectedRows >= 0){
+			dbm.endTransaction(true, session);
+		}
+		else{
+			dbm.endTransaction(false, session);
+		}
+		
+		return affectedRows >= 0;
 	}
 
 }

@@ -14,6 +14,8 @@ public interface MediaFileService {
 
 	public List<String> getAcceptedFileTypes();
 
+	public Lesson removeMediaFiles(Lesson lesson);
+
 		
 	
 }

@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.media.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
@@ -51,6 +52,12 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 	@Override
 	public short createMimeTypeID(MediaType mediaType, String fileType,	String fileName) {
 		return (short)cache.updateImplCached(repoDB, null, null, mediaType, fileType, fileName);
+	}
+
+	@Override
+	public boolean removeMediaFiles(int idLesson, ArrayList<MediaFile> medias, MediaFileRepositoryPath repoPath) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getLesson"}, idLesson, medias, repoPath);
 	}
 	
 	

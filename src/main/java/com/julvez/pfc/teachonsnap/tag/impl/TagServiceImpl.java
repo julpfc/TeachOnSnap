@@ -156,8 +156,17 @@ public class TagServiceImpl implements TagService {
 			}
 			
 			if(newTags != null && newTags.size() > 0){
-				addLessonTags(lesson, newTags);
-				modified = true;
+				
+				for(Tag tag:oldTags){
+					if(newTags.contains(tag.getTag())){
+						newTags.remove(tag.getTag());
+					}
+				}
+				
+				if(newTags.size() > 0){
+					addLessonTags(lesson, newTags);
+					modified = true;
+				}
 			}
 		}
 		

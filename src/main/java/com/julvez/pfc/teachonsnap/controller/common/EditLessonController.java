@@ -36,6 +36,9 @@ import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
+import com.julvez.pfc.teachonsnap.upload.UploadService;
+import com.julvez.pfc.teachonsnap.upload.UploadServiceFactory;
+import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class EditLessonController extends CommonController {
@@ -48,6 +51,7 @@ public class EditLessonController extends CommonController {
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
 	private PageService pageService = PageServiceFactory.getService();
+	private UploadService uploadService = UploadServiceFactory.getService();
 
 	private StringManager stringManager = StringManagerFactory.getManager();
 
@@ -138,22 +142,43 @@ public class EditLessonController extends CommonController {
 								moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
 							}
 				
-/*							
-							FileMetadata file = getSubmittedFile(request, user);
+							boolean remove = requestManager.getBooleanParameter(request, Parameter.LESSON_MEDIA_REMOVE);
 							
-							if(file!=null){		
-								int idMediaFile = mediaFileService.saveMediaFile(newLesson, file);
-								if(idMediaFile>0){
-									//SI todo es correcto cargarse los temporales que no hemos usado
-									uploadService.removeTemporaryFiles(user);
-									setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.LESSON_CREATED);
+							if(remove){
+								//eliminar el viejo
+								modLesson = mediaFileService.removeMediaFiles(lesson);
+								
+								if(modLesson != null){
+									lesson = modLesson;
+									changes = true;
 								}
 								else{
-									//Error, habia fichero pero no hemos podido guardarlo
-									setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.LESSON_CREATED_WITH_MEDIA_ERROR);
+									setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
+									success = false;
 								}
-							}					
-*/
+								
+								//Y coger el nuevo (sólo si se ha eliminado el viejo)
+								if(lesson.getIdLessonMedia() == -1){
+								
+									FileMetadata file = getSubmittedFile(request, user);
+								
+									if(file!=null){		
+										int idMediaFile = mediaFileService.saveMediaFile(lesson, file);
+										if(idMediaFile>0){
+											//SI todo es correcto cargarse los temporales que no hemos usado
+											uploadService.removeTemporaryFiles(user);
+											lesson = lessonService.getLesson(lesson.getId());
+											changes = true;
+										}
+										else{
+											//Error, habia fichero pero no hemos podido guardarlo
+											success = false;
+											setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
+										}
+									}
+								}
+							}							
+
 						
 							if(success){
 								if(changes){
@@ -208,6 +233,18 @@ public class EditLessonController extends CommonController {
 	@Override
 	protected boolean isPrivateZone() {
 		return true;
+	}
+
+	private FileMetadata getSubmittedFile(HttpServletRequest request, User user) {
+		FileMetadata file = null;
+		
+		int mediaIndex =  requestManager.getNumericParameter(request, Parameter.LESSON_NEW_MEDIA_INDEX);
+		
+		if(user!=null && mediaIndex >= 0){
+			file = uploadService.getTemporaryFile(user, mediaIndex);
+		}		
+		
+		return file;
 	}
 
 }

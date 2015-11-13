@@ -57,6 +57,8 @@ public class LinkServiceImpl implements LinkService {
 				if(!link.startsWith("http")){
 					link = "http://" + link;
 				}
+				link = link.toLowerCase();
+				
 				linkID = linkRepository.getLinkID(link);
 				if(linkID>0){
 					linkIDs.add(linkID);
@@ -82,6 +84,8 @@ public class LinkServiceImpl implements LinkService {
 		if(!url.startsWith("http")){
 			url = "http://" + url;
 		}
+		url = url.toLowerCase();
+		
 		try{
 			URL link = new URL(url);
 			String host = link.getHost();
@@ -104,6 +108,8 @@ public class LinkServiceImpl implements LinkService {
 				if(!link.startsWith("http")){
 					link = "http://" + link;
 				}
+				link = link.toLowerCase();
+				
 				int linkID = 0;
 				linkID = linkRepository.getLinkID(link);
 				if(linkID>0){
@@ -143,6 +149,8 @@ public class LinkServiceImpl implements LinkService {
 		
 		if(lesson!=null && lesson.getId()>0){
 		
+			newLinks = correctNewLinks(newLinks);
+			
 			ArrayList<Integer> removeLinkIDs = getLinkIDsToRemove(oldLinks, newLinks);
 		
 			if(removeLinkIDs.size()>0){
@@ -151,8 +159,16 @@ public class LinkServiceImpl implements LinkService {
 			}
 			
 			if(newLinks != null && newLinks.size() > 0){
-				addLessonMoreInfo(lesson, newLinks);
-				modified = true;
+				for(Link link:oldLinks){
+					if(newLinks.contains(link.getURL())){
+						newLinks.remove(link.getURL());
+					}
+				}
+				
+				if(newLinks.size() > 0){
+					addLessonMoreInfo(lesson, newLinks);
+					modified = true;
+				}				
 			}
 		}
 		
@@ -164,6 +180,8 @@ public class LinkServiceImpl implements LinkService {
 		boolean modified = false;
 		
 		if(lesson!=null && lesson.getId()>0){
+			
+			newLinks = correctNewLinks(newLinks);
 		
 			ArrayList<Integer> removeLinkIDs = getLinkIDsToRemove(oldLinks, newLinks);
 		
@@ -173,8 +191,16 @@ public class LinkServiceImpl implements LinkService {
 			}
 			
 			if(newLinks != null && newLinks.size() > 0){
-				addLessonSources(lesson, newLinks);
-				modified = true;
+				for(Link link:oldLinks){
+					if(newLinks.contains(link.getURL())){
+						newLinks.remove(link.getURL());
+					}
+				}
+				
+				if(newLinks.size() > 0){
+					addLessonSources(lesson, newLinks);
+					modified = true;
+				}				
 			}
 		}
 		
@@ -198,19 +224,6 @@ public class LinkServiceImpl implements LinkService {
 	private ArrayList<Integer> getLinkIDsToRemove(List<Link> oldLinks, List<String> newLinks){
 		ArrayList<Integer> removeLinkIDs = new ArrayList<Integer>();
 
-		if(newLinks == null){
-			newLinks = new ArrayList<String>();
-		}
-
-		List<String> correctedLinks = new ArrayList<String>();
-		for(String newLink:newLinks){
-			if(!newLink.startsWith("http")){
-				newLink = "http://" + newLink;
-			}
-			correctedLinks.add(newLink);
-		}
-		newLinks = correctedLinks;
-		
 		for(Link link:oldLinks){
 			if(!newLinks.contains(link.getURL())){
 				removeLinkIDs.add(link.getId());
@@ -218,6 +231,20 @@ public class LinkServiceImpl implements LinkService {
 		}
 		
 		return removeLinkIDs;
+	}
+	
+	private List<String> correctNewLinks(List<String> newLinks){
+		List<String> correctedLinks = new ArrayList<String>();
+		if(newLinks != null){
+			
+			for(String newLink:newLinks){
+				if(!newLink.startsWith("http")){
+					newLink = "http://" + newLink;
+				}
+				correctedLinks.add(newLink.toLowerCase());
+			}			
+		}
+		return correctedLinks;
 	}
 
 

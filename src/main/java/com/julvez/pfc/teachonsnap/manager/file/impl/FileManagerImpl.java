@@ -26,7 +26,7 @@ public class FileManagerImpl implements FileManager {
 		catch (IOException e) {
             e.printStackTrace();
             copyOK = false;
-            //TODO Si falla cargarse los directorios
+            delete(path, fileName);
 		}
 		
 		return copyOK;
@@ -43,6 +43,25 @@ public class FileManagerImpl implements FileManager {
 			}
 		}
 		return extension;
+	}
+
+	@Override
+	public boolean delete(String path, String fileName) {
+		boolean deleteOk = false;
+		
+		try {
+			File filePath = new File(path);	
+			File file = new File(path + fileName);
+			Files.deleteIfExists(file.toPath());
+			Files.deleteIfExists(filePath.toPath());
+			deleteOk = true;
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			deleteOk = false;
+		}		
+		
+		return deleteOk;
 	}
 	
 

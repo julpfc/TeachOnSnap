@@ -32,4 +32,12 @@
 	    INSERT INTO tmediamimetype(idmediatype, mimetype, extension)
 	    VALUES (?, ?, ?);   
 	</sql-query>
+	<sql-query name="SQL_MEDIA_DELETE_MEDIAFILE">
+	    DELETE FROM tmediafile
+	    WHERE idMediaFile = ?;   
+	</sql-query>
+	<sql-query name="SQL_MEDIA_DELETE_LESSONMEDIA">
+	    DELETE FROM tlessonmedia
+		WHERE idLessonMedia = ?;
+	</sql-query>
 </hibernate-mapping>

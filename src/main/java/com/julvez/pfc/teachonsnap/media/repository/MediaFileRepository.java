@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.media.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
@@ -20,5 +21,7 @@ public interface MediaFileRepository {
 	public MediaFileRepositoryPath getMediaFileRepositoryPath(short idMediaRepository);
 
 	public short createMimeTypeID(MediaType mediaType, String fileType, String fileName);
+
+	public boolean removeMediaFiles(int idLesson, ArrayList<MediaFile> medias, MediaFileRepositoryPath repoPath);
 		
 }
