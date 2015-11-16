@@ -3,12 +3,14 @@
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
 	<sql-query name="SQL_LESSON_GET_LESSON">
-		SELECT idLesson, idUser, idLanguage, title, date,text,URIname,
+		SELECT idLesson, idUser, idLanguage, title, COALESCE(o.date, tlesson.date) as date,text,URIname,
 			(IFNULL(td.idLessonTest,0)=0 AND IFNULL(t.idLessonTest,0)>0) as testAvailable,
-			IFNULL(idLessonMedia,-1) as idLessonMedia, mediaType
+			IFNULL(idLessonMedia,-1) as idLessonMedia, mediaType, 
+			IFNULL(o.idLesson,0)=0 as draft
 	    FROM tlesson
 	    LEFT JOIN tlessontxt USING (idLesson)
 	    LEFT JOIN tlessontest t USING (idLesson)
+	    LEFT JOIN tlessononline o USING (idLesson)
 	    LEFT JOIN tlessontestdraft td USING (idLessontest)
 	    LEFT JOIN (
 	    	tlessonmedia 
@@ -21,19 +23,30 @@
 	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR">
 	    SELECT idLesson
 	    FROM tlesson
+	    JOIN tlessononline USING(idlesson)
 	    JOIN tuserauthor USING(iduser)
 	    WHERE tuserauthor.URIName = ?
 	    ORDER BY idLesson DESC
 	    LIMIT ?,?
 	</sql-query>	
+	<sql-query name="SQL_LESSON_GET_DRAFT_LESSONIDS_FROM_USER">
+	    SELECT idLesson
+	    FROM tlesson
+	    LEFT JOIN tlessononline o USING(idlesson)	    
+	    WHERE iduser = ? and o.idLesson is NULL
+	    ORDER BY idLesson DESC
+	    LIMIT ?,?
+	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONID_FROM_URI">
 	    SELECT idLesson
-	    FROM tlesson	    
+	    FROM tlesson
+	    JOIN tlessononline USING(idlesson)	    	    
 	    WHERE URIname = ?
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LASTLESSONIDS">
 	    SELECT idLesson
 	    FROM tlesson
+	    JOIN tlessononline USING(idlesson)
 	    ORDER BY idLesson DESC	    
 	    LIMIT ?,?
 	</sql-query>
@@ -65,6 +78,14 @@
 	</sql-query>
 	<sql-query name="SQL_LESSON_DELETE_TEXT">
 	    DELETE FROM tlessontxt	    
+	    WHERE idLesson = ?   
+	</sql-query>
+	<sql-query name="SQL_LESSON_PUBLISH">
+	    INSERT IGNORE INTO tlessononline(idLesson, date)	    
+	    VALUES(?, now())   
+	</sql-query>
+	<sql-query name="SQL_LESSON_UNPUBLISH">
+	    DELETE FROM tlessononline	    
 	    WHERE idLesson = ?   
 	</sql-query>
 </hibernate-mapping>

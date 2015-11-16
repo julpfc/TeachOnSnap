@@ -22,6 +22,7 @@ public enum Parameter {
 	LESSON_NEW_SOURCES("sources"),
 	LESSON_NEW_MOREINFOS("moreInfos"),
 	LESSON_MEDIA_REMOVE("remove"),
+	LESSON_PUBLISH("publishLesson"),
 	
 	//Comments	
 	LESSON_COMMENT("comment"), 

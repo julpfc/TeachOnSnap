@@ -38,6 +38,17 @@
 	</servlet-mapping>	
 	<servlet>
 		<description>
+  		</description>
+		<display-name>DraftsController</display-name>
+		<servlet-name>DraftsController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.DraftsController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DraftsController</servlet-name>
+		<url-pattern>/drafts/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<description>
   	</description>
 		<display-name>LessonController</display-name>
 		<servlet-name>LessonController</servlet-name>

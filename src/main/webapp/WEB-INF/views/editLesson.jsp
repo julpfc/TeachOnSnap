@@ -215,14 +215,50 @@
 		        </div><!-- col -->
 	
 				<!-- Sidebar -->
-	        	<div class="col-sm-5">	        		
-	        		<div class="sidebar">
-						<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
-						 <fmt:message key="lesson.form.save" bundle="${editLessonBundle}"/></button>
-					</div>
+	        	<div class="col-sm-5">
+					<c:choose>
+					<c:when test="${lesson.id > 0}">
+						
+					<!-- Publish panel -->
+						<div class="sidebar">
+							<div class="panel ${lesson.draft?'panel-warning':'panel-success'}">
+								<div class="panel-heading">
+									<span><fmt:message key="lesson.publish.status" bundle="${editLessonBundle}"/></span>
+									<c:choose>
+									 	<c:when test="${lesson.draft}">
+									 		<span class="label label-warning pull-right"><fmt:message key="lesson.publish.status.draft" bundle="${editLessonBundle}"/></span>
+									 	</c:when>
+									 	<c:otherwise>
+									 		<span class="label label-success pull-right"><fmt:message key="lesson.publish.status.published" bundle="${editLessonBundle}"/></span>							    			
+									 	</c:otherwise>
+									 </c:choose>
+								</div>
+			    				<div id="login" class="panel-body">
+			    					<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
+						 			 <fmt:message key="lesson.form.save" bundle="${editLessonBundle}"/></button>
+									 <c:choose>
+									 	<c:when test="${lesson.draft}">									 											 		
+									 		<a onclick="confirm('${lesson.editURL}?publishLesson=true','lesson.publish.confirm');">
+							    				<button class="btn btn-success pull-right" type="button">
+									 			<span class="glyphicon glyphicon-eye-open"></span>
+									 			  <fmt:message key="lesson.publish.command" bundle="${editLessonBundle}"/>
+									 			 </button>
+											</a>
+									 	</c:when>
+									 	<c:otherwise>									 		
+							    			<a onclick="confirm('${lesson.editURL}?publishLesson=false','lesson.unpublish.confirm');">
+							    				<button class="btn btn-warning pull-right" type="button">											
+										 		<span class="glyphicon glyphicon-eye-close"></span>
+												 <fmt:message key="lesson.unpublish.command" bundle="${editLessonBundle}"/>			 	
+												</button>
+											</a>
+									 	</c:otherwise>
+									 </c:choose>										 	
+	     						</div>		     					
+					    	</div>					
+						</div><!-- Publish Panel -->
 					
-					<!-- Test Panel -->
-					<c:if test="${lesson.id > 0}">
+						<!-- Test Panel -->
 						<div class="sidebar">
 							<div class="panel panel-default">
 					    		<div class="panel-heading">
@@ -284,11 +320,23 @@
 		     					</c:if>
 					    	</div>					
 						</div><!-- Test Panel -->							
-					</c:if>
+					</c:when>
+					<c:otherwise>
+						<!-- Save -->
+						<div class="sidebar">
+							<div class="panel panel-default">								
+			    				<div id="login" class="panel-body">
+			    					<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
+						 			 <fmt:message key="lesson.form.save" bundle="${editLessonBundle}"/></button>																			 	
+	     						</div>		     					
+					    	</div>					
+						</div><!-- Save -->
+					</c:otherwise>
+					</c:choose>
 					<c:if test="${lesson.id>0}">
 						<nav>
 							<ul class="pager">
-								<li><a href="${lesson.URL}"><span class="glyphicon glyphicon-chevron-left"></span>
+								<li><a href="${lastPage}"><span class="glyphicon glyphicon-chevron-left"></span>
 								 <fmt:message key="pager.back"/></a></li>						
 							</ul>
 						</nav>		
@@ -315,6 +363,8 @@
 		msg['lesson.form.media.upload.ignore.type'] =	"<fmt:message key='lesson.form.media.upload.ignore.type' bundle='${editLessonBundle}'/>";
 		msg['lesson.form.media.upload.progress'] = 		"<fmt:message key='lesson.form.media.upload.progress' bundle='${editLessonBundle}'/>";
 		msg['lesson.form.media.remove.confirm'] = 		"<fmt:message key='lesson.form.media.remove.confirm' bundle='${editLessonBundle}'/>";
+		msg['lesson.publish.confirm'] = 				"<fmt:message key='lesson.publish.confirm' bundle='${editLessonBundle}'/>";
+		msg['lesson.unpublish.confirm'] = 				"<fmt:message key='lesson.unpublish.confirm' bundle='${editLessonBundle}'/>";
 				
 		var acceptedFileTypes = [<c:forEach items="${acceptedFileTypes}" var="type" varStatus="loop">${loop.index > 0?",":""}"${type}"</c:forEach>];
 		var maxFileSize = ${maxUploadFileSize};

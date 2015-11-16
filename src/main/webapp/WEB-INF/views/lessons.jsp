@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lessons" var="lessonsBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
 <!DOCTYPE html>
@@ -51,8 +52,8 @@
 						</p>                    		
 						<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
 			            <nav class="col-sm-offset-8"><ul class="pager"><li>
-							<a href="${lesson.URL}"><span class="glyphicon glyphicon-book"></span>
-							 <fmt:message key="lesson.more"/></a></li></ul>
+							<a href="${lesson.URL}"><fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/> <span class="glyphicon glyphicon-edit"></span>
+							</a></li></ul>
 						</nav>
 		          	</div>
 		          	<hr/>	          	
@@ -84,22 +85,26 @@
 	            		<span class="label label-info">${searchKeyword}</span>	            		
 	          		</div>        
           		</c:if> 
-          		<div class="sidebar tags">
-            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.heading"/></h4>
-            		<ul class="tags">
-            		<c:forEach items="${cloudTags}" var="cloudTag">
-            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
-		            </c:forEach>
-		            </ul>
-          		</div>  
-          		<div class="sidebar tags">
-            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.author.heading"/></h4>
-            		<ul class="tags">
-            		<c:forEach items="${authorCloudTags}" var="cloudTag">
-            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
-		            </c:forEach>
-		            </ul>
-          		</div>         	 		          		
+          		<c:if test="${not empty cloudTags}">
+	          		<div class="sidebar tags">
+	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.heading"/></h4>
+	            		<ul class="tags">
+	            		<c:forEach items="${cloudTags}" var="cloudTag">
+	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+			            </c:forEach>
+			            </ul>
+	          		</div>  
+          		</c:if>
+          		<c:if test="${not empty authorCloudTags}">
+	          		<div class="sidebar tags">
+	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.author.heading"/></h4>
+	            		<ul class="tags">
+	            		<c:forEach items="${authorCloudTags}" var="cloudTag">
+	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+			            </c:forEach>
+			            </ul>
+	          		</div>    
+	          	</c:if>     	 		          		
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

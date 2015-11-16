@@ -5,6 +5,7 @@
 	<sql-query name="SQL_TAG_GET_LESSONIDS_FROM_TAG">
 	    SELECT idLesson
 	    FROM tlessontag
+	    JOIN tlessononline USING(idlesson)
 	    JOIN ttag USING(idTag)
 	    WHERE tag = ?
 	    ORDER BY idLesson DESC
@@ -24,6 +25,7 @@
 		SELECT idTag,weight FROM (
 			SELECT 	idTag, COUNT(idlesson) AS weight
 			FROM tlessontag
+			JOIN tlessononline USING(idlesson)
 			GROUP BY idtag
 			ORDER BY weight DESC
 			LIMIT ?
@@ -35,6 +37,7 @@
 		SELECT idUser,weight FROM (
 			SELECT 	idUser, COUNT(idlesson) AS weight
 			FROM tlesson
+			JOIN tlessononline USING(idlesson)
 			GROUP BY idUser
 			ORDER BY weight DESC
 			LIMIT ?

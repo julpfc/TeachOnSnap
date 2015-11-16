@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
@@ -18,31 +17,21 @@ import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
-import com.julvez.pfc.teachonsnap.tag.TagService;
-import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
-import com.julvez.pfc.teachonsnap.tag.model.CloudTag;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
-public abstract class PagerController extends CommonController {
+public class DraftsController extends CommentController {
 
-	private static final long serialVersionUID = 1428850419073596728L;
+	private static final long serialVersionUID = 6547159334243210678L;
 
 	protected LessonService lessonService = LessonServiceFactory.getService();
-	protected TagService tagService = TagServiceFactory.getService();
 	protected StringManager stringManager = StringManagerFactory.getManager();
 	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
 	protected final int MAX_RESULTS_PAGE = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 
-	@Override
-	protected boolean isPrivateZone() {		
-		return false;
-	}
 	
 	@Override
-	protected void processController(HttpServletRequest request,
-			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
-
+	protected void processController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user)	throws ServletException, IOException {
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		int pageResult = getPageResult(params);
@@ -51,7 +40,7 @@ public abstract class PagerController extends CommonController {
 			boolean hasNextPage = false;
 			String searchURI = getSearchURI(params);
 					
-			List<Lesson> lessons = getLessons(searchURI, pageResult);	
+			List<Lesson> lessons = lessonService.getLessonDraftsFromUser(searchURI,pageResult);	
 			
 			if(lessons.size()>MAX_RESULTS_PAGE){
 				hasNextPage = true;
@@ -78,41 +67,23 @@ public abstract class PagerController extends CommonController {
 			}
 			requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
 			requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
-			
-			
-			List<CloudTag> cloudTags = tagService.getCloudTags();
-			List<CloudTag> authorCloudTags = tagService.getAuthorCloudTags();
-			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_AUTHOR, authorCloudTags);
-			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG, cloudTags);
-	
+		
 			requestManager.setAttribute(request, Attribute.LIST_LESSON, lessons);
 			
-			requestManager.setAttribute(request, Attribute.STRING_SEARCHTYPE,request.getServletPath().substring(1));
-			
-			String searchKeyword = getSearchKeyword(searchURI,lessons);
-			
-			if(!stringManager.isEmpty(searchKeyword)){
-				requestManager.setAttribute(request, Attribute.STRING_SEARCHKEYWORD, searchKeyword);
-			}
 		    
 		    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);
 		}
 		else{
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
+		}		
+	}
+	
+	@Override
+	protected boolean isPrivateZone() {
+		return true;
 	}
 
-	protected String getSearchURI(String[] params) {
-		String searchURI = null;
-		
-		if(params!=null && params.length>0 && !stringManager.isNumeric(params[0])){
-			searchURI = params[0];
-		}
-		
-		return searchURI;
-	}
-
-	protected int getPageResult(String[] params) {
+	private int getPageResult(String[] params) {
 		int pageResult = -1;
 		
 		if(params!=null && params.length>0){
@@ -121,22 +92,22 @@ public abstract class PagerController extends CommonController {
 					pageResult = Integer.parseInt(params[1]);
 				}				
 			}
-			else if(stringManager.isNumeric(params[0])){
-				pageResult = Integer.parseInt(params[0]);
-			}
 			else{
 				pageResult = 0;
 			}
 		}
-		else{
-			pageResult = 0;
-		}
+
 		return pageResult;
 	}
 	
-	protected abstract List<Lesson> getLessons(String searchURI, int pageResult);
-	
-	protected abstract String getSearchKeyword(String searchURI,List<Lesson> lessons);	
-	
+	private String getSearchURI(String[] params) {
+		String searchURI = null;
+		
+		if(params!=null && params.length>0){
+			searchURI = params[0];
+		}
+		
+		return searchURI;
+	}
 
 }

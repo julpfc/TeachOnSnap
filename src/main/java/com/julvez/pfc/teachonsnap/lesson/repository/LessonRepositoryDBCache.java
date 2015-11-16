@@ -47,6 +47,7 @@ public class LessonRepositoryDBCache implements LessonRepository {
 		if(id>0){
 			cache.clearCache("getLastLessonIDs");
 			cache.clearCache("getAuthorCloudTags");
+			cache.clearCache("getDraftLessonIDsFromUser");
 		}
 		
 		return id;
@@ -74,6 +75,39 @@ public class LessonRepositoryDBCache implements LessonRepository {
 	public void removeLessonText(int idLesson) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
 				new String[]{"getLesson"}, idLesson);		
+	}
+
+	@Override
+	public void publish(int idLesson) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getLesson"}, idLesson);
+		
+		cache.clearCache("getLastLessonIDs");
+		cache.clearCache("getAuthorCloudTags");
+		cache.clearCache("getLessonIDsFromAuthor");
+		cache.clearCache("getLessonIDsFromTag");
+		cache.clearCache("getCloudTags");
+		cache.clearCache("getDraftLessonIDsFromUser");		
+		cache.clearCache("getLessonIDFromURI");		
+	}
+
+	@Override
+	public void unpublish(int idLesson) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
+				new String[]{"getLesson"}, idLesson);
+		cache.clearCache("getLastLessonIDs");
+		cache.clearCache("getAuthorCloudTags");
+		cache.clearCache("getLessonIDsFromAuthor");
+		cache.clearCache("getLessonIDsFromTag");
+		cache.clearCache("getCloudTags");
+		cache.clearCache("getDraftLessonIDsFromUser");		
+		cache.clearCache("getLessonIDFromURI");
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Integer> getDraftLessonIDsFromUser(short idUser, int firstResult) {
+		return (List<Integer>)cache.executeImplCached(repoDB, idUser, firstResult);
 	}
 
 }

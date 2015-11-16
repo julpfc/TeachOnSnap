@@ -186,4 +186,37 @@ public class LessonServiceImpl implements LessonService{
 		return ret;
 	}
 
+
+	@Override
+	public void publish(Lesson lesson) {
+		if(lesson != null && lesson.getId() > 0 && lesson.isDraft()){
+			lessonRepository.publish(lesson.getId());
+		}		
+	}
+
+
+	@Override
+	public void unpublish(Lesson lesson) {
+		if(lesson != null && lesson.getId() > 0 && !lesson.isDraft()){
+			lessonRepository.unpublish(lesson.getId());
+		}
+	}
+
+
+	@Override
+	public List<Lesson> getLessonDraftsFromUser(String userId, int firstResult) {
+		List<Lesson> lessons = new ArrayList<Lesson>();
+		
+		if(stringManager.isNumeric(userId)){
+			short idUser = Short.parseShort(userId);  
+		
+			List<Integer> ids = lessonRepository.getDraftLessonIDsFromUser(idUser, firstResult);
+		
+			for(int id:ids){
+				lessons.add(getLesson(id));
+			}
+		}
+		return lessons;	
+	}
+
 }

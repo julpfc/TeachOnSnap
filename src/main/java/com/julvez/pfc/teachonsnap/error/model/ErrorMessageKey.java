@@ -26,6 +26,8 @@ public enum ErrorMessageKey {
 	LESSON_CREATED("lesson.created"),
 	LESSON_CREATED_WITH_MEDIA_ERROR("lesson.created.with.media.error"),
 	LESSON_SAVED("lesson.saved"),
+	LESSON_PUBLISHED("lesson.published"),
+	LESSON_UNPUBLISHED("lesson.unpublished"),
 	COMMENT_UNBLOCKED("comment.unblocked"),
 	COMMENT_BLOCKED("comment.blocked"),
 	COMMENT_SAVED("comment.saved"),

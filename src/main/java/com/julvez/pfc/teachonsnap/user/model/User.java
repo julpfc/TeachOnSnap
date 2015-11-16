@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 
 @Entity
 public class User {
@@ -119,6 +120,10 @@ public class User {
 		if(URIName!=null)
 			return "/author/"+URIName;
 		else return "#";		
+	}
+	
+	public String getDraftsURL() {
+		return ControllerURI.LESSON_DRAFTS_BY_USER.toString() + id;				
 	}
 
 	public boolean isAdmin() {

@@ -11,6 +11,7 @@ import javax.persistence.Transient;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.media.model.MediaType;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 @Entity
@@ -29,7 +30,8 @@ public class Lesson {
 	@Enumerated(EnumType.STRING)
 	private MediaType mediaType;
 	private boolean testAvailable;
-
+	private boolean draft;	
+	
 	@Transient
 	private User author;
 	@Transient
@@ -41,8 +43,9 @@ public class Lesson {
 		return "Lesson [id=" + id + ", title=" + title + ", idUser=" + idUser
 				+ ", idLanguage=" + idLanguage + ", date=" + date + ", text="
 				+ text + ", URIname=" + URIname + ", idLessonMedia="
-				+ idLessonMedia + ", testAvailable=" + testAvailable
-				+ ", author=" + author + ", language=" + language + "]";
+				+ idLessonMedia + ", mediaType=" + mediaType
+				+ ", testAvailable=" + testAvailable + ", draft=" + draft
+				+ ", author=" + author + "]";
 	}
 
 	public String getText() {
@@ -93,7 +96,10 @@ public class Lesson {
 	}
 	
 	public String getURL() {
-		return "/lesson/"+URIname;
+		if(draft){
+			return getEditURL();
+		}
+		else return ControllerURI.LESSON + URIname;
 	}
 	
 	public String getEditURL() {
@@ -148,5 +154,12 @@ public class Lesson {
 		this.mediaType = mediaType;
 	}
 
+	public boolean isDraft() {
+		return draft;
+	}
+
+	public void setDraft(boolean draft) {
+		this.draft = draft;
+	}
 		
 }

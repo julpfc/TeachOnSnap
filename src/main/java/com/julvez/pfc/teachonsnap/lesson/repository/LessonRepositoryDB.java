@@ -73,4 +73,23 @@ public class LessonRepositoryDB implements LessonRepository {
 		dbm.updateQuery("SQL_LESSON_DELETE_TEXT", idLesson);
 	}
 
+
+	@Override
+	public void publish(int idLesson) {
+		dbm.updateQuery("SQL_LESSON_PUBLISH", idLesson);		
+	}
+
+
+	@Override
+	public void unpublish(int idLesson) {
+		dbm.updateQuery("SQL_LESSON_UNPUBLISH", idLesson);
+	}
+
+
+	@Override
+	public List<Integer> getDraftLessonIDsFromUser(short idUser, int firstResult) {
+		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_LESSON_GET_DRAFT_LESSONIDS_FROM_USER", Integer.class, idUser, firstResult, maxResults + 1);
+	}
+
 }

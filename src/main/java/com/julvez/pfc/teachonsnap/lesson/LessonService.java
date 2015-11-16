@@ -26,5 +26,11 @@ public interface LessonService {
 	public Lesson saveLessonLanguage(Lesson lesson, Language language);
 
 	public Lesson saveLessonTitle(Lesson lesson, String title);
+
+	public void publish(Lesson lesson);
+
+	public void unpublish(Lesson lesson);
+
+	public List<Lesson> getLessonDraftsFromUser(String userId, int firstResult);
 	
 }

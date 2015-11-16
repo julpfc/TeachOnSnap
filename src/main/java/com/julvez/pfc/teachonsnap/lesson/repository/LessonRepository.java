@@ -24,4 +24,10 @@ public interface LessonRepository {
 
 	public void removeLessonText(int idLesson);
 
+	public void publish(int idLesson);
+
+	public void unpublish(int idLesson);
+
+	public List<Integer> getDraftLessonIDsFromUser(short idUser, int firstResult);
+
 }
