@@ -39,6 +39,17 @@
 	<servlet>
 		<description>
   		</description>
+		<display-name>PreviewController</display-name>
+		<servlet-name>PreviewController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.PreviewLessonController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PreviewController</servlet-name>
+		<url-pattern>/preview/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<description>
+  		</description>
 		<display-name>DraftsController</display-name>
 		<servlet-name>DraftsController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.DraftsController</servlet-class>

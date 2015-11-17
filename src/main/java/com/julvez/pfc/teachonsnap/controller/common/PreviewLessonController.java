@@ -7,13 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.julvez.pfc.teachonsnap.comment.CommentService;
-import com.julvez.pfc.teachonsnap.comment.CommentServiceFactory;
-import com.julvez.pfc.teachonsnap.comment.model.Comment;
-import com.julvez.pfc.teachonsnap.comment.model.CommentPropertyName;
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
-import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
@@ -23,8 +18,6 @@ import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.link.LinkService;
 import com.julvez.pfc.teachonsnap.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.link.model.Link;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
@@ -37,7 +30,7 @@ import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
-public class LessonController extends CommonController {
+public class PreviewLessonController extends CommonController {
 
 	private static final long serialVersionUID = 7608540908435958036L;
 
@@ -45,13 +38,10 @@ public class LessonController extends CommonController {
 	private TagService tagService = TagServiceFactory.getService();
 	private LinkService linkService = LinkServiceFactory.getService();
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
-	private CommentService commentService = CommentServiceFactory.getService();
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
-	private PropertyManager properties = PropertyManagerFactory.getManager();
-
-	protected final int MAX_COMMENTS_PAGE = properties.getNumericProperty(CommentPropertyName.MAX_PAGE_COMMENTS);
+	
 
 	@Override
 	protected void processController(HttpServletRequest request,
@@ -59,22 +49,12 @@ public class LessonController extends CommonController {
 
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 				
-		if(params!=null && params.length>0){
-			String lessonURI= params[0];
+		if(params!=null && params.length>0 && stringManager.isNumeric(params[0])){
+			int idLesson = Integer.parseInt(params[0]);
 			
-			Lesson lesson = lessonService.getLessonFromURI(lessonURI);
+			Lesson lesson = lessonService.getLesson(idLesson);
 			
 			if(lesson!=null){
-				int pageResult = 0;
-				boolean hasNextPage = false;
-				
-				if(visit != null && !visit.isViewedLesson(lesson.getId())){
-					visit = visitService.saveLesson(visit, lesson);
-					if(visit != null){
-						requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
-					}
-				}
-				
 				List<Tag> tags = tagService.getLessonTags(lesson.getId());
 				List<Link> moreInfoLinks = linkService.getMoreInfoLinks(lesson.getId());
 				List<Link> sourceLinks = linkService.getSourceLinks(lesson.getId());
@@ -92,37 +72,11 @@ public class LessonController extends CommonController {
 					requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
 				}
 				
-				if(params.length > 1 && stringManager.isNumeric(params[1])){
-					pageResult = Integer.parseInt(params[1]);
-				}
-				List<Comment> comments = commentService.getComments(lesson.getId(), pageResult);
-				
-				if(comments.size()>MAX_COMMENTS_PAGE){
-					hasNextPage = true;
-					comments.remove(MAX_COMMENTS_PAGE);
-				}
-				
-				String nextPage = null;
-				if(hasNextPage){
-					nextPage = request.getServletPath()+"/"+lessonURI+"/"+(pageResult+MAX_COMMENTS_PAGE);
-				}
-				
-				String prevPage = null;
-				if(pageResult>0){
-					prevPage = request.getServletPath()+"/"+lessonURI;
-					if(pageResult>MAX_COMMENTS_PAGE){
-						prevPage = prevPage + "/" + (pageResult-MAX_COMMENTS_PAGE);
-					}
-				}
-				
 				requestManager.setAttribute(request, Attribute.LESSON, lesson);
 				requestManager.setAttribute(request, Attribute.LIST_MEDIAFILE_LESSONFILES, medias);
 				requestManager.setAttribute(request, Attribute.LIST_TAG_LESSONTAGS, tags);
 				requestManager.setAttribute(request, Attribute.LIST_LINK_MOREINFO, moreInfoLinks);
 				requestManager.setAttribute(request, Attribute.LIST_LINK_SOURCES, sourceLinks);
-				requestManager.setAttribute(request, Attribute.LIST_COMMENTS, comments);
-				requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
-				requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
 
 				request.getRequestDispatcher("/WEB-INF/views/lesson.jsp").forward(request, response);
 			}

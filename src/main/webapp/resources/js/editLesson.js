@@ -76,6 +76,8 @@ $('#lessonForm').on('submit.confirm',function(e){
 
 $(document).ready(function() {
     
+	$('[data-toggle="popover"]').popover(); 
+	
 	var tags = $('#tags');
 	var formTags = $('#formTags');
 	var newTag = $('#inputLessonTag');

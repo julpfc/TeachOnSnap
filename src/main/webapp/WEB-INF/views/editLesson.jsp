@@ -55,6 +55,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<span class="glyphicon glyphicon-paperclip"></span> <fmt:message key="lesson.form.media.heading" bundle="${editLessonBundle}"/>
+							<button title="" data-original-title="" type="button" class="btn btn-xs btn-default pull-right" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">?</button>
 						</div>
 						
 						<div class="panel-body">				    	
@@ -234,12 +235,18 @@
 									 </c:choose>
 								</div>
 			    				<div id="login" class="panel-body">
-			    					<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
+			    					<button class="btn btn-xs btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>
 						 			 <fmt:message key="lesson.form.save" bundle="${editLessonBundle}"/></button>
 									 <c:choose>
 									 	<c:when test="${lesson.draft}">									 											 		
-									 		<a onclick="confirm('${lesson.editURL}?publishLesson=true','lesson.publish.confirm');">
-							    				<button class="btn btn-success pull-right" type="button">
+									 		<a href="${lesson.URL}">
+							    				<button class="btn btn-xs btn-info" type="button">
+									 			<span class="glyphicon glyphicon-sunglasses"></span>
+									 			  <fmt:message key="lesson.publish.preview" bundle="${editLessonBundle}"/>
+									 			 </button>
+											</a>
+											<a onclick="confirm('${lesson.editURL}?publishLesson=true','lesson.publish.confirm');">
+							    				<button class="btn btn-success btn-xs" type="button">
 									 			<span class="glyphicon glyphicon-eye-open"></span>
 									 			  <fmt:message key="lesson.publish.command" bundle="${editLessonBundle}"/>
 									 			 </button>
@@ -247,7 +254,7 @@
 									 	</c:when>
 									 	<c:otherwise>									 		
 							    			<a onclick="confirm('${lesson.editURL}?publishLesson=false','lesson.unpublish.confirm');">
-							    				<button class="btn btn-warning pull-right" type="button">											
+							    				<button class="btn btn-warning btn-xs" type="button">											
 										 		<span class="glyphicon glyphicon-eye-close"></span>
 												 <fmt:message key="lesson.unpublish.command" bundle="${editLessonBundle}"/>			 	
 												</button>

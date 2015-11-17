@@ -28,7 +28,7 @@
 			<div class="col-sm-7">
 				<c:forEach items="${lessons}" var="lesson">					
 					<div>
-	            		<h2 class="lesson-title"><a href="${lesson.URL}">${lesson.title}</a></h2>
+	            		<h2 class="lesson-title"><a href="${lesson.draft?lesson.editURL:lesson.URL}">${lesson.title}</a></h2>
 	            		<p class="lesson-meta">
 	            			<c:if test="${userLang.id != lesson.language.id}">
 	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
@@ -52,7 +52,7 @@
 						</p>                    		
 						<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
 			            <nav class="col-sm-offset-8"><ul class="pager"><li>
-							<a href="${lesson.URL}"><fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/> <span class="glyphicon glyphicon-edit"></span>
+							<a href="${lesson.draft?lesson.editURL:lesson.URL}"><fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/> <span class="glyphicon glyphicon-edit"></span>
 							</a></li></ul>
 						</nav>
 		          	</div>

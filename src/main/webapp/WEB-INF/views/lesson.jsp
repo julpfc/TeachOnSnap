@@ -68,8 +68,8 @@
 				</div>
 				<nav>
 					<ul class="pager pagerBottom">
-						<li><a href="/"><span class="glyphicon glyphicon-home"></span>
-						 <fmt:message key="pager.home"/></a>
+						<li><a href="${lastPage}"><span class="glyphicon glyphicon-chevron-left"></span>
+						 <fmt:message key="pager.back"/></a>
 						</li>						
 					</ul>
 				</nav>	

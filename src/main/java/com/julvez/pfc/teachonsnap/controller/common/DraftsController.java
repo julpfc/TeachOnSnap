@@ -74,7 +74,7 @@ public class DraftsController extends CommentController {
 		    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);
 		}
 		else{
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 		}		
 	}
 	

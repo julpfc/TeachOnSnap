@@ -97,7 +97,7 @@ public class Lesson {
 	
 	public String getURL() {
 		if(draft){
-			return getEditURL();
+			return ControllerURI.LESSON_PREVIEW.toString() + id;
 		}
 		else return ControllerURI.LESSON + URIname;
 	}

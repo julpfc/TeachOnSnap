@@ -5,7 +5,8 @@ public enum ControllerURI {
 	CHANGE_PASSWORD("/changepw/"), 
 	LESSONS_BY_LAST("/last/"),
 	LESSON_DRAFTS_BY_USER("/drafts/"), 
-	LESSON("/lesson/");
+	LESSON("/lesson/"), 
+	LESSON_PREVIEW("/preview/");
 
 		 		
 	private final String URI;
