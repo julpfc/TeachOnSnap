@@ -55,7 +55,9 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<span class="glyphicon glyphicon-paperclip"></span> <fmt:message key="lesson.form.media.heading" bundle="${editLessonBundle}"/>
-							<button title="" data-original-title="" type="button" class="btn btn-xs btn-default pull-right" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">?</button>
+							<button title="" data-original-title="" type="button" class="btn btn-xs btn-default pull-right" data-container="body" 
+								data-toggle="popover" data-placement="bottom" data-trigger="focus"
+								data-content="<fmt:message key="lesson.form.media.help" bundle="${editLessonBundle}"/>">?</button>
 						</div>
 						
 						<div class="panel-body">				    	
@@ -136,7 +138,11 @@
 					
 					<!-- Text -->
 			    	<div class="form-group">
-						<label for="textareaLessonText"><fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/></label>
+						<label for="textareaLessonText"><fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/>
+						 <a title="" data-original-title="" data-container="body" 
+								data-toggle="popover" data-placement="bottom"
+								data-content="<fmt:message key="lesson.form.text.help" bundle="${editLessonBundle}"/>">?</a>
+						</label>
 				    	<textarea name="text" id="textareaLessonText" class="form-control" maxlength="140" 
 				    		placeholder="<fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/>">${lesson.text}</textarea>
 				    	<p class="help-block"><fmt:message key="lesson.form.text.tip" bundle="${editLessonBundle}"/></p>				    	
@@ -144,7 +150,11 @@
 	    				
 	    			<!-- Tags -->	             	
 		          	<div class="panel panel-default">
-		        		<div class="panel-heading"><span class="glyphicon glyphicon-tags"></span> <fmt:message key="lesson.form.tags" bundle="${editLessonBundle}"/></div>
+		        		<div class="panel-heading"><span class="glyphicon glyphicon-tags"></span> <fmt:message key="lesson.form.tags" bundle="${editLessonBundle}"/>
+		        			<button title="" data-original-title="" type="button" class="btn btn-xs btn-default pull-right" data-container="body" 
+								data-toggle="popover" data-placement="bottom" data-trigger="focus"
+								data-content="<fmt:message key="lesson.form.tag.help" bundle="${editLessonBundle}"/>">?</button>
+		        		</div>
 		    			<div class="panel-body">
 		    				<div class="form-group form-inline">	
 		    			    	<input type="text" id="inputLessonTag" class="form-control"
@@ -170,7 +180,11 @@
 		          	
 		          	<!-- Source links -->
 		          	<div class="panel panel-default">
-			    		<div class="panel-heading"><span class="glyphicon glyphicon-education"></span> <fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/></div>
+			    		<div class="panel-heading"><span class="glyphicon glyphicon-education"></span> <fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/>
+			    			<button title="" data-original-title="" type="button" class="btn btn-xs btn-default pull-right" data-container="body" 
+								data-toggle="popover" data-placement="bottom" data-trigger="focus"
+								data-content="<fmt:message key="lesson.form.source.help" bundle="${editLessonBundle}"/>">?</button>
+			    		</div>
 		    			<div class="panel-body">
 	    					<table class="table table-striped" id="sources">
 	    					<c:forEach items="${sourceLinks}" var="link">	
@@ -193,7 +207,11 @@
 			    				
 			    	<!-- More info links -->    	
 			    	<div class="panel panel-default">
-			    		<div class="panel-heading"><span class="glyphicon glyphicon-globe"></span> <fmt:message key="lesson.moreInfo.heading" bundle="${lessonBundle}"/></div>
+			    		<div class="panel-heading"><span class="glyphicon glyphicon-globe"></span> <fmt:message key="lesson.moreInfo.heading" bundle="${lessonBundle}"/>
+			    			<button title="" data-original-title="" type="button" class="btn btn-xs btn-default pull-right" data-container="body" 
+								data-toggle="popover" data-placement="bottom" data-trigger="focus"
+								data-content="<fmt:message key="lesson.form.moreinfo.help" bundle="${editLessonBundle}"/>">?</button>
+			    		</div>
 		    			<div class="panel-body">
 	    					<table class="table table-striped" id="moreInfo">	
 	    					<c:forEach items="${moreInfoLinks}" var="link">		
@@ -269,9 +287,13 @@
 						<div class="sidebar">
 							<div class="panel panel-default">
 					    		<div class="panel-heading">
+					    			<span><fmt:message key="lesson.test.heading" bundle="${testBundle}"/>
+									 	<button title="" data-original-title="" type="button" class="btn btn-xs btn-default" data-container="body" 
+											data-toggle="popover" data-placement="bottom" data-trigger="focus"
+											data-content="<fmt:message key="lesson.form.test.help" bundle="${editLessonBundle}"/>">?</button>
+									</span>				    			
 					    			 <c:choose>
-									 	<c:when test="${not empty test}">
-										 	<span><fmt:message key="lesson.test.heading" bundle="${testBundle}"/></span>				    			
+									 	<c:when test="${not empty test}">										 	
 					    					<a href="${test.editURL}">
 					    						<button class="btn btn-default btn-xs pull-right" type="button">
 													<span class="glyphicon glyphicon-edit"></span>								
@@ -280,8 +302,7 @@
 											</a>										 	
 										</c:when>
 										<c:otherwise>
-											<span><fmt:message key="lesson.test.heading" bundle="${testBundle}"/></span>				    			
-					    					<a href="${lesson.newTestURL}">
+											<a href="${lesson.newTestURL}">
 					    						<button class="btn btn-default btn-xs pull-right" type="button">
 													<span class="glyphicon glyphicon-edit"></span>
 											 		 <fmt:message key="lesson.test.new" bundle="${testBundle}"/>
