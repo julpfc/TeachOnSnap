@@ -52,8 +52,15 @@
 						</p>                    		
 						<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>
 			            <nav class="col-sm-offset-8"><ul class="pager"><li>
-							<a href="${lesson.draft?lesson.editURL:lesson.URL}"><fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/> <span class="glyphicon glyphicon-edit"></span>
-							</a></li></ul>
+			            	<c:choose>
+			            		<c:when test="${lesson.draft}">
+									<a href="${lesson.editURL}"><fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/> <span class="glyphicon glyphicon-edit"></span></a>
+			            		</c:when>
+			            		<c:otherwise>
+									<a href="${lesson.URL}"><span class="glyphicon glyphicon-book"></span> <fmt:message key="lesson.more"/></a>			            	
+			            		</c:otherwise>
+			            	</c:choose>
+							</li></ul>
 						</nav>
 		          	</div>
 		          	<hr/>	          	
