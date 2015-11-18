@@ -69,7 +69,7 @@ public class QuestionController extends CommonController {
 					
 							//Guardamos cambios
 							if(request.getMethod().equals("POST")){
-								String json = requestManager.getParameter(request,Parameter.JSON);
+								String json = stringManager.unescapeHTML(requestManager.getParameter(request,Parameter.JSON));
 									
 								if(json!=null){
 									System.out.println("json="+json);
@@ -147,7 +147,7 @@ public class QuestionController extends CommonController {
 						//No viene idQuestion en la URL, hay que crear una nueva
 						//Guardamos New Question
 						if(request.getMethod().equals("POST")){
-							String json = requestManager.getParameter(request, Parameter.JSON);
+							String json = stringManager.unescapeHTML(requestManager.getParameter(request, Parameter.JSON));
 							
 							if(json!=null){
 								System.out.println("json="+json);

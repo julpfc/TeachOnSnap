@@ -28,7 +28,7 @@ public class CommentRepositoryDB implements CommentRepository {
 		Comment comment = dbm.getQueryResultUnique("SQL_COMMENT_GET_COMMENT", Comment.class, idComment);
 		
 		if(comment!=null){
-			comment.setBody(stringManager.convertToHTMLParagraph(comment.getBody()));
+			comment.setBody(stringManager.convertToHTMLParagraph(stringManager.escapeHTML(comment.getBody())));
 		}
 		return comment;
 	}

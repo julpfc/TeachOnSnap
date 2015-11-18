@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
@@ -11,14 +12,14 @@
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/test.css"/>"/>
-<title><fmt:message key="app.name"/> - ${lesson.title} - <fmt:message key="lesson.test.heading" bundle="${testBundle}"/></title>
+<title><fmt:message key="app.name"/> - ${fn:escapeXml(lesson.title)} - <fmt:message key="lesson.test.heading" bundle="${testBundle}"/></title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>
 	<form action="" method="post">
 	<div class="content container-fluid">
 		<div>
-       		<h2 class="lesson-title">${lesson.title}</h2>       		 	
+       		<h2 class="lesson-title">${fn:escapeXml(lesson.title)}</h2>       		 	
 			<p class="lesson-meta">
 				<c:if test="${userLang.id != lesson.language.id}">
      				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
@@ -42,14 +43,14 @@
   									<c:if test="${not empty userTest}">
   										<span class="glyphicon ${question.OK?'glyphicon-ok':'glyphicon-remove'}"></span>
   									</c:if>
-  									${question.text}
+  									${fn:escapeXml(question.text)}
   								</div>
 								<ul class="list-group">
   									<c:forEach items="${question.answers}" var="answer">
   										<li class="list-group-item answer${not empty userTest?(answer.checked?(answer.OK?' list-group-item-success':' list-group-item-danger'):''):''}">
     										<input type="${test.multipleChoice?'checkbox':'radio'}" name="question_${question.id}" value="${answer.id}" 
     											${not empty userTest?(answer.checked?'checked="checked" disabled="disabled"':'disabled="disabled"'):''}/>    										
-    										${answer.text}
+    										${fn:escapeXml(answer.text)}
 	    									<c:if test="${not empty userTest && not empty answer.reason && answer.checked && !answer.OK}">
 	    										<ul><li class="list-group-item">${answer.reason}</li></ul>
 	    									</c:if>

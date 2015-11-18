@@ -42,7 +42,7 @@ public class CommentController extends CommonController {
 			String isBanned = requestManager.getParameter(request,Parameter.LESSON_COMMENT_BAN);
 			
 			if(request.getMethod().equals("POST")){			
-				String commentBody = requestManager.getParameter(request,Parameter.LESSON_COMMENT);
+				String commentBody = stringManager.unescapeHTML(requestManager.getParameter(request,Parameter.LESSON_COMMENT));
 				boolean isEditing = requestManager.getBooleanParameter(request,Parameter.LESSON_COMMENT_EDIT);
 				
 				if(commentBody != null){

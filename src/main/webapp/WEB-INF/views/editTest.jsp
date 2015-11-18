@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
@@ -11,7 +12,7 @@
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/editTest.css"/>"/>
-<title><fmt:message key="app.name"/> - ${lesson.title} - <fmt:message key="lesson.test.edit" bundle="${testBundle}"/></title>
+<title><fmt:message key="app.name"/> - ${fn:escapeXml(lesson.title)} - <fmt:message key="lesson.test.edit" bundle="${testBundle}"/></title>
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>
@@ -42,14 +43,14 @@
      								<div class="panel-heading" role="tab" id="collapseQuestionHeading${question.id}" data-toggle="collapse" data-target="#collapseQuestion${question.id}">
      								<span class="label label-default">${loop.index+1}</span>
 									<a class="collapsed" onclick="#collapseQuestion${question.id}" aria-expanded="false" aria-controls="collapseQuestion${question.id}">
-           								${question.text}
+           								${fn:escapeXml(question.text)}
          								</a>
 								</div>
 								<div style="height: 0px;" aria-expanded="false" id="collapseQuestion${question.id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseQuestionHeading${question.id}">
        								<ul class="list-group">
 	        							<c:forEach items="${question.answers}" var="answer">
 	  										<li class="list-group-item answer${answer.correct?' list-group-item-success':''}">    										    										
-	    										${answer.text}			    										    									
+	    										${fn:escapeXml(answer.text)}			    										    									
 	    									</li>
 										</c:forEach>	
 							        </ul>

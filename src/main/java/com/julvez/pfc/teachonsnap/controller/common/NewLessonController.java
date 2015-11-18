@@ -133,11 +133,9 @@ public class NewLessonController extends CommonController {
 	private Lesson getNewLesson(HttpServletRequest request) {
 		Lesson lesson = null;
 		
-		String title = requestManager.getParameter(request, Parameter.LESSON_NEW_TITLE);
+		String title = stringManager.unescapeHTML(requestManager.getParameter(request, Parameter.LESSON_NEW_TITLE));
 		
-		if(!stringManager.isEmpty(title)){
-			//TODO HTML en los input text 
-			//title = stringManager.escapeHTML(title);
+		if(!stringManager.isEmpty(title)){			
 			short idLanguage = (short)requestManager.getNumericParameter(request, Parameter.LESSON_NEW_LANGUAGE);
 			
 			if(idLanguage>0){
@@ -145,7 +143,7 @@ public class NewLessonController extends CommonController {
 				lesson.setTitle(title);
 				lesson.setIdLanguage(idLanguage);					
 
-				String text = requestManager.getParameter(request, Parameter.LESSON_NEW_TEXT);
+				String text = stringManager.unescapeHTML(requestManager.getParameter(request, Parameter.LESSON_NEW_TEXT));
 				
 				if(!stringManager.isEmpty(title)){
 					lesson.setText(text);						

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
@@ -12,13 +13,13 @@
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/lesson.css"/>"/>
-<title><fmt:message key="app.name"/> - ${lesson.title}</title>
+<title><fmt:message key="app.name"/> - ${fn:escapeXml(lesson.title)}</title>
 </head>
 <body>
 	<c:import url="./import/nav.jsp"/>
 	<div class="content container-fluid">
 		<div>
-       		<h2 class="lesson-title">${lesson.title}</h2>       		 	
+       		<h2 class="lesson-title">${fn:escapeXml(lesson.title)}</h2>       		 	
 			<p class="lesson-meta">
 				<c:if test="${lesson.author.id == user.id || user.admin}">
 					<span class="lesson-edit"><a href="${lesson.editURL}"><button class="btn btn-default btn-xs" type="button">
@@ -159,97 +160,99 @@
           		</div>
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
-		<div class="row">
-			<div class="col-sm-8 col-sm-offset-2">
-				<h3 class="comments-section">
-					<span class="glyphicon glyphicon-comment"></span> 
-					<fmt:message key="lesson.comment.heading" bundle="${lessonBundle}"/>
-				</h3>
-				<hr id="commentNewAnchor" />
-				<div id="commentNew">			
-					<div class="comment-new">
-						<a data-toggle="collapse" href="#collapseNewComment" aria-expanded="${empty comments}" aria-controls="collapseNewComment">
-	  					<fmt:message key="lesson.comment.new.heading" bundle="${lessonBundle}"/> <span class="caret"></span>
-						</a>
+		<c:if test="${not lesson.draft}">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2">
+					<h3 class="comments-section">
+						<span class="glyphicon glyphicon-comment"></span> 
+						<fmt:message key="lesson.comment.heading" bundle="${lessonBundle}"/>
+					</h3>
+					<hr id="commentNewAnchor" />
+					<div id="commentNew">			
+						<div class="comment-new">
+							<a data-toggle="collapse" href="#collapseNewComment" aria-expanded="${empty comments}" aria-controls="collapseNewComment">
+		  					<fmt:message key="lesson.comment.new.heading" bundle="${lessonBundle}"/> <span class="caret"></span>
+							</a>
+						</div>
+						<div class="collapse${not empty comments?'':' in'}" id="collapseNewComment">
+		  					<form role="form" action="${lesson.commentURL}" method="post">
+		  						<div class="form-group well">    					
+						    		<p><textarea name="comment" class="form-control" rows="4" maxlength="65535"></textarea></p>				    	
+		  							<p><button class="btn btn-primary form-control" type="submit"><span class="glyphicon glyphicon-send"></span>
+									 <fmt:message key="lesson.comment.new.submit" bundle="${lessonBundle}"/></button></p>
+		  						</div>
+		  					</form>
+						</div>
+						<hr/>
 					</div>
-					<div class="collapse${not empty comments?'':' in'}" id="collapseNewComment">
-	  					<form role="form" action="${lesson.commentURL}" method="post">
-	  						<div class="form-group well">    					
-					    		<p><textarea name="comment" class="form-control" rows="4" maxlength="65535"></textarea></p>				    	
-	  							<p><button class="btn btn-primary form-control" type="submit"><span class="glyphicon glyphicon-send"></span>
-								 <fmt:message key="lesson.comment.new.submit" bundle="${lessonBundle}"/></button></p>
-	  						</div>
-	  					</form>
-					</div>
-					<hr/>
-				</div>
- 				<c:choose>
-					<c:when test="${not empty comments}">
-						<c:forEach items="${comments}" var="comment">		
-							<article id="comment-${comment.id}" class="comment${comment.response?' col-sm-11 col-sm-offset-1 col-xs-11 col-xs-offset-1':''}">				
-								<footer>
-									<div class="comment-author">
-									<span><img alt="avatar" src="https://www.gravatar.com/avatar/${comment.user.MD5}?s=48&d=identicon" width="48" height="48"></span>
-									<cite>${comment.user.firstName}</cite> <span class="comment-author-says"><fmt:message key="lesson.comment.author.says" bundle="${lessonBundle}"/>:</span>	
-									</div>
-								</footer>
-								<div class="comment-content">${comment.body}</div>
-								<div class="comment-meta">
-									<time datetime="${comment.date}">
-										<c:choose>
-											<c:when test="${comment.banned}">
-												<span class="glyphicon glyphicon-ban-circle"></span> <fmt:message key="lesson.comment.banned" bundle="${lessonBundle}"/> | 
-											</c:when>
-											<c:otherwise>
-												<c:if test="${comment.edited}"><span class="glyphicon glyphicon-edit"></span> <fmt:message key="lesson.comment.edited" bundle="${lessonBundle}"/> | </c:if>
-											</c:otherwise>
-										</c:choose>
-									<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${comment.date}"/></time>
-
-									<c:set var="replyText"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/>${comment.id>0?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${comment.id>0?' )</span>':''}</c:set>
-									| <a onclick="return moveCommentForm('${comment.id}','${replyText}');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>
-	 
-									<c:if test="${user.id == comment.user.id}">
-										<c:set var="editText"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/>${comment.id>0?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${comment.id>0?' )</span>':''}</c:set>
-										| <a onclick="return moveCommentForm('${comment.id}','${editText}','true');"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/></a>
-									</c:if>	
-									<c:if test="${user.admin}">
-										<c:set var="blockReasonText"><fmt:message key="lesson.comment.block.reason" bundle="${lessonBundle}"/>${user.admin?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${user.admin?' )</span>':''}</c:set>
-										<c:set var="blockText"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></c:set>
-										<c:choose>
-											<c:when test="${comment.banned}">
-												| <a href="${lesson.commentURL}?idComment=${comment.id}&banComment=false"><fmt:message key="lesson.comment.unblock" bundle="${lessonBundle}"/></a> 
-											</c:when>
-											<c:otherwise>
-											 	| <a onclick="return moveCommentForm('${comment.id}','${blockReasonText}','false','${blockText}');"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></a>
-												
-											</c:otherwise>
-										</c:choose>							
+	 				<c:choose>
+						<c:when test="${not empty comments}">
+							<c:forEach items="${comments}" var="comment">		
+								<article id="comment-${comment.id}" class="comment${comment.response?' col-sm-11 col-sm-offset-1 col-xs-11 col-xs-offset-1':''}">				
+									<footer>
+										<div class="comment-author">
+										<span><img alt="avatar" src="https://www.gravatar.com/avatar/${comment.user.MD5}?s=48&d=identicon" width="48" height="48"></span>
+										<cite>${comment.user.firstName}</cite> <span class="comment-author-says"><fmt:message key="lesson.comment.author.says" bundle="${lessonBundle}"/>:</span>	
+										</div>
+									</footer>
+									<div class="comment-content">${comment.body}</div>
+									<div class="comment-meta">
+										<time datetime="${comment.date}">
+											<c:choose>
+												<c:when test="${comment.banned}">
+													<span class="glyphicon glyphicon-ban-circle"></span> <fmt:message key="lesson.comment.banned" bundle="${lessonBundle}"/> | 
+												</c:when>
+												<c:otherwise>
+													<c:if test="${comment.edited}"><span class="glyphicon glyphicon-edit"></span> <fmt:message key="lesson.comment.edited" bundle="${lessonBundle}"/> | </c:if>
+												</c:otherwise>
+											</c:choose>
+										<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${comment.date}"/></time>
+	
+										<c:set var="replyText"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/>${comment.id>0?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${comment.id>0?' )</span>':''}</c:set>
+										| <a onclick="return moveCommentForm('${comment.id}','${replyText}');"><fmt:message key="lesson.comment.reply" bundle="${lessonBundle}"/></a>
+		 
+										<c:if test="${user.id == comment.user.id}">
+											<c:set var="editText"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/>${comment.id>0?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${comment.id>0?' )</span>':''}</c:set>
+											| <a onclick="return moveCommentForm('${comment.id}','${editText}','true');"><fmt:message key="lesson.comment.edit" bundle="${lessonBundle}"/></a>
+										</c:if>	
+										<c:if test="${user.admin}">
+											<c:set var="blockReasonText"><fmt:message key="lesson.comment.block.reason" bundle="${lessonBundle}"/>${user.admin?" <span class=\\'comment-cancel\\'> (":""}<fmt:message key="lesson.comment.cancel" bundle="${lessonBundle}"/>${user.admin?' )</span>':''}</c:set>
+											<c:set var="blockText"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></c:set>
+											<c:choose>
+												<c:when test="${comment.banned}">
+													| <a href="${lesson.commentURL}?idComment=${comment.id}&banComment=false"><fmt:message key="lesson.comment.unblock" bundle="${lessonBundle}"/></a> 
+												</c:when>
+												<c:otherwise>
+												 	| <a onclick="return moveCommentForm('${comment.id}','${blockReasonText}','false','${blockText}');"><fmt:message key="lesson.comment.block" bundle="${lessonBundle}"/></a>
+													
+												</c:otherwise>
+											</c:choose>							
+										</c:if>
+									</div><!-- .comment-meta .commentmetadata -->	 							
+								</article>												
+							</c:forEach>
+							<nav>
+								<ul class="pager">
+									<c:if test="${not empty prevPage}">								
+										<li><a href="${prevPage}"><span class="glyphicon glyphicon-chevron-left"></span>
+										 <fmt:message key="pager.previous"/></a></li>
+										 <li><a href="${lesson.URL}"><span class="glyphicon glyphicon-home"></span>
+										 <fmt:message key="lesson.comment.pager" bundle="${lessonBundle}"/></a></li>
+									</c:if>								
+									<c:if test="${not empty nextPage}">									
+										<li><a href="${nextPage}"><span class="glyphicon glyphicon-chevron-right"></span>
+										  <fmt:message key="pager.next"/></a></li>
 									</c:if>
-								</div><!-- .comment-meta .commentmetadata -->	 							
-							</article>												
-						</c:forEach>
-						<nav>
-							<ul class="pager">
-								<c:if test="${not empty prevPage}">								
-									<li><a href="${prevPage}"><span class="glyphicon glyphicon-chevron-left"></span>
-									 <fmt:message key="pager.previous"/></a></li>
-									 <li><a href="${lesson.URL}"><span class="glyphicon glyphicon-home"></span>
-									 <fmt:message key="lesson.comment.pager" bundle="${lessonBundle}"/></a></li>
-								</c:if>								
-								<c:if test="${not empty nextPage}">									
-									<li><a href="${nextPage}"><span class="glyphicon glyphicon-chevron-right"></span>
-									  <fmt:message key="pager.next"/></a></li>
-								</c:if>
-							</ul>
-						</nav>              			
-            		</c:when>
-					<c:otherwise> 
-						<cite><fmt:message key="lesson.comment.nocomments" bundle="${lessonBundle}"/></cite>
-				    </c:otherwise>
-        		</c:choose>							
-			</div>				
-		</div><!-- /.row -->      	
+								</ul>
+							</nav>              			
+	            		</c:when>
+						<c:otherwise> 
+							<cite><fmt:message key="lesson.comment.nocomments" bundle="${lessonBundle}"/></cite>
+					    </c:otherwise>
+	        		</c:choose>							
+				</div>				
+			</div><!-- /.row -->
+		</c:if>      	
 	</div><!-- /.container -->
 	
 	<c:import url="./import/footer.jsp"/>

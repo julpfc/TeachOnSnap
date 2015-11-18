@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.preferences" var="prefBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
@@ -28,9 +29,9 @@
 					<form id="usernameForm" action="" method="POST">
 						<div id="div-name" class="hidden">
 							<span class="input-group-addon"><fmt:message key="user.pref.firstname" bundle="${prefBundle}"/>:</span>
-							<input name="firstname" type="text" class="form-control" placeholder="${user.firstName}" required="required">
+							<input name="firstname" type="text" class="form-control" placeholder="${fn:escapeXml(user.firstName)}" required="required">
 							<span class="input-group-addon"><fmt:message key="user.pref.lastname" bundle="${prefBundle}"/>:</span>
-							<input name="lastname" type="text" class="form-control" placeholder="${user.lastName}" required="required">
+							<input name="lastname" type="text" class="form-control" placeholder="${fn:escapeXml(user.lastName)}" required="required">
 					      	<span class="pull-right">
 					        	<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span></button>
 					        	<button class="btn btn-default" type="button" onclick="return showEditName(false);"><span class="glyphicon glyphicon-remove"></span></button>

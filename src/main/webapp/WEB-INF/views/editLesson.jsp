@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.editLesson" var="editLessonBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
@@ -17,7 +18,7 @@
 	<title><fmt:message key="app.name"/> - 
 		<c:choose>
 			<c:when test="${lesson.id>0}">
-				${lesson.title}
+				${fn:escapeXml(lesson.title)}
 			</c:when>
 			<c:otherwise>
 				<fmt:message key="lesson.new.heading" bundle="${editLessonBundle}"/>
@@ -37,7 +38,7 @@
 						<label for="inputLessonTitle"><fmt:message key="lesson.form.title" bundle="${editLessonBundle}"/></label>
 				    	<input type="text" name="title" id="inputLessonTitle" class="form-control" maxlength="140" 
 				    		placeholder="<fmt:message key="lesson.form.title" bundle="${editLessonBundle}"/>" 
-				    		required value="${lesson.title}">				    	
+				    		required value="${fn:escapeXml(lesson.title)}">				    	
 			    	</div>		
 			    	
 			    	<!-- Lang -->	
@@ -126,8 +127,7 @@
 								</table>															
 				   				<span class="btn btn-default btn-file">
 									<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload" name="files" data-url="/upload/"/>
-								</span>
-								<c:if test="${lesson.idLessonMedia == -1}"><input type='hidden' name='remove' value='true'/></c:if>
+								</span>								
 	  						</div>
 	  					</div>				  	
 	  					<div class="panel-footer">
@@ -144,7 +144,7 @@
 								data-content="<fmt:message key="lesson.form.text.help" bundle="${editLessonBundle}"/>">?</a>
 						</label>
 				    	<textarea name="text" id="textareaLessonText" class="form-control" maxlength="140" 
-				    		placeholder="<fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/>">${lesson.text}</textarea>
+				    		placeholder="<fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/>">${fn:escapeXml(lesson.text)}</textarea>
 				    	<p class="help-block"><fmt:message key="lesson.form.text.tip" bundle="${editLessonBundle}"/></p>				    	
 			    	</div>
 	    				

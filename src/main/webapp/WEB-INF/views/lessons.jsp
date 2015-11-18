@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lessons" var="lessonsBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
@@ -28,7 +29,7 @@
 			<div class="col-sm-7">
 				<c:forEach items="${lessons}" var="lesson">					
 					<div>
-	            		<h2 class="lesson-title"><a href="${lesson.draft?lesson.editURL:lesson.URL}">${lesson.title}</a></h2>
+	            		<h2 class="lesson-title"><a href="${lesson.draft?lesson.editURL:lesson.URL}">${fn:escapeXml(lesson.title)}</a></h2>
 	            		<p class="lesson-meta">
 	            			<c:if test="${userLang.id != lesson.language.id}">
 	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>

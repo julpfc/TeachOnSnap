@@ -24,4 +24,6 @@ public interface StringManager {
 	public String decodeURL(String urlEncoded);
 
 	public String escapeHTML(String string);
+
+	public String unescapeHTML(String string);
 }

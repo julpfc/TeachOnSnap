@@ -97,7 +97,7 @@ public class EditLessonController extends CommonController {
 							boolean success = true;
 							boolean changes = false;
 							
-							String title = requestManager.getParameter(request, Parameter.LESSON_NEW_TITLE);
+							String title = stringManager.unescapeHTML(requestManager.getParameter(request, Parameter.LESSON_NEW_TITLE));
 							
 							if(!stringManager.isEmpty(title) && !title.equals(lesson.getTitle())){
 								
@@ -128,7 +128,7 @@ public class EditLessonController extends CommonController {
 									}
 								}
 								
-								String text = requestManager.getParameter(request, Parameter.LESSON_NEW_TEXT);
+								String text = stringManager.unescapeHTML(requestManager.getParameter(request, Parameter.LESSON_NEW_TEXT));
 								
 								modLesson = lessonService.saveLessonText(lesson, text);
 								

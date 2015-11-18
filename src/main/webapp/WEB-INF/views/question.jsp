@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
@@ -41,7 +42,7 @@
 						    </div>
 						     -->
 					<!-- /input-group -->
-						<input type="text" name="text" class="form-control" placeholder="<fmt:message key="lesson.test.question.text" bundle="${testBundle}"/>" value="${question.text}" required="required" maxlength="140"/>
+						<input type="text" name="text" class="form-control" placeholder="<fmt:message key="lesson.test.question.text" bundle="${testBundle}"/>" value="${fn:escapeXml(question.text)}" required="required" maxlength="140"/>
 						<c:if test="${not empty question}">
 							<input name="idLessonTest" type="text" hidden="true" value="${test.id}"/>
 							<input name="id" type="text" hidden="true" value="${question.id}"/>
@@ -71,7 +72,7 @@
 										<td class="col-xs-6">
 											<input name="answers[${loop.index}].id" type="text" hidden="true" value="${answer.id}"/>
 											<input name="answers[${loop.index}].idQuestion" type="text" hidden="true" value="${question.id}"/>
-											<input type="text" name="answers[${loop.index}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" value="${answer.text}" required="required" maxlength="140"/>
+											<input type="text" name="answers[${loop.index}].text" class="form-control" placeholder="<fmt:message key="lesson.test.answer.text" bundle="${testBundle}"/>" value="${fn:escapeXml(answer.text)}" required="required" maxlength="140"/>
  										</td>
  										<td class="col-xs-6">
   											<div class="input-group">

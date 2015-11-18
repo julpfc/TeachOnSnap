@@ -122,4 +122,9 @@ public class StringManagerImpl implements StringManager {
 	public String escapeHTML(String string) {
 		return StringEscapeUtils.escapeHtml4(string);
 	}
+	
+	@Override
+	public String unescapeHTML(String string) {
+		return StringEscapeUtils.unescapeHtml4(string);
+	}
 }

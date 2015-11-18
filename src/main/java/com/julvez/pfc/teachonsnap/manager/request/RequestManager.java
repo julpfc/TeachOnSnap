@@ -22,6 +22,7 @@ public interface RequestManager {
 	public String getIP(HttpServletRequest request);
 	
 	public String getParameter(HttpServletRequest request, Enum<?> parameter);
+	
 	public boolean getBooleanParameter(HttpServletRequest request, Enum<?> parameter);
 	public int getNumericParameter(HttpServletRequest request, Enum<?> parameter);
 	public List<String> getParameterList(HttpServletRequest request, Enum<?> parameter);

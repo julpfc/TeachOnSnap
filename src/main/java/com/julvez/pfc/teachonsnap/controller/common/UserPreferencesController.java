@@ -33,8 +33,8 @@ public class UserPreferencesController extends CommonController {
 		
 		if(request.getMethod().equals("POST")){
 			
-			String firstname = requestManager.getParameter(request,Parameter.FIRST_NAME);
-			String lastname = requestManager.getParameter(request,Parameter.LAST_NAME);
+			String firstname = stringManager.unescapeHTML(requestManager.getParameter(request,Parameter.FIRST_NAME));
+			String lastname = stringManager.unescapeHTML(requestManager.getParameter(request,Parameter.LAST_NAME));
 			String oldPassword = requestManager.getParameter(request,Parameter.OLD_PASSWORD);
 			String newPassword = requestManager.getParameter(request,Parameter.NEW_PASSWORD);
 		

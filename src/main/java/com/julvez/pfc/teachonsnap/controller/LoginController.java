@@ -131,8 +131,8 @@ public class LoginController extends HttpServlet {
 							requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_INVALID_INPUT, ErrorMessageKey.REGISTER_EMAIL_DUPLICATE));
 						}
 						else {
-							String firstname = requestManager.getParameter(request, Parameter.FIRST_NAME);
-							String lastname = requestManager.getParameter(request, Parameter.LAST_NAME);
+							String firstname = stringManager.unescapeHTML(requestManager.getParameter(request, Parameter.FIRST_NAME));
+							String lastname = stringManager.unescapeHTML(requestManager.getParameter(request, Parameter.LAST_NAME));
 							String acceptLang = requestManager.getRequestLanguage(request);
 							
 							Language userLang = langService.getUserSessionLanguage(acceptLang, null, null);
