@@ -75,4 +75,9 @@ public class UserRepositoryDB implements UserRepository {
 		
 	}
 
+	@Override
+	public int createUser(String email, String firstname, String lastname, short idLanguage) {
+		return (int)dbm.insertQueryAndGetLastInserID("SQL_USER_CREATE_USER", email, firstname, lastname, idLanguage);
+	}
+
 }

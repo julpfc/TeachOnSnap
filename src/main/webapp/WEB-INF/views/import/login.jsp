@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.preferences" var="prefBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
 <div class="container-fluid modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
@@ -21,7 +22,7 @@
        			<h2 class="modal-title" id="loginLabel">
 	       			<span class="modal-icons"><span class="glyphicon glyphicon-facetime-video"></span>
 			        <span class="glyphicon glyphicon-book"></span></span>
-       				TeachOnSnap
+       				<fmt:message key="app.name"/>
        			</h2>
      		 </div> 
     		<form action="https://${host}/login/" method="post" class="form-signin" role="form" id="loginForm" >
@@ -39,10 +40,9 @@
       			     		
 	      		<div class="modal-footer">	  
 	        		<button class="btn btn-primary" type="submit"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></button>
-	      		</div>
-      			
-		  	</form>	      	
-		  	<form action="https://${host}/login/" method="post" class="form-signin" role="form" id="loginForm" >
+	      		</div>      			
+		  	</form>	  
+		  	<form action="https://${host}/login/" method="post" class="form-signin" role="form">
 	    		<div class="collapse" id="collapseForgotPass">
 					<div class="well">
 						<label for="inputEmailRemind" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>
@@ -52,8 +52,56 @@
 	  					</div>
 					</div>
 				</div> 
-			</form>
+			</form>			
    		</div>
 	</div>
-    	
+</div> <!-- /container -->
+<div class="container-fluid modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="registerLabel" aria-hidden="true">
+	<div class="modal-dialog">		
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+        			<span class="sr-only">X</span>
+       			</button>
+       			<h2 class="modal-title" id="registerLabel">
+	       			<span class="modal-icons"><span class="glyphicon glyphicon-facetime-video"></span>
+			        <span class="glyphicon glyphicon-book"></span></span>
+       				<fmt:message key="app.name"/>
+       			</h2>
+     		 </div> 
+    		<form action="https://${host}/login/" method="post" class="form-signin" role="form">		  		    	
+    			<div class="modal-body">
+	      			<h2 class="form-signin-heading"><fmt:message key="nav.menu.register"/></h2>
+			    	<label for="inputFirstName" class="sr-only"><fmt:message key="user.pref.firstname" bundle="${prefBundle}"/></label>
+			    	<input type="text" name="firstname" id="inputFirstName" class="form-control" placeholder="<fmt:message key="user.pref.firstname" bundle="${prefBundle}"/>" required>
+			    	<label for="inputLastName" class="sr-only"><fmt:message key="user.pref.lastname" bundle="${prefBundle}"/></label>
+			    	<input type="text" name="lastname" id="inputLastName" class="form-control" placeholder="<fmt:message key="user.pref.lastname" bundle="${prefBundle}"/>" required>
+			    	<label for="inputEmail" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>
+			    	<input type="email" name="emailRegister" id="inputEmail" class="form-control" placeholder="<fmt:message key="login.form.email" bundle="${loginBundle}"/>" required autofocus>
+	    		</div>				 	
+	      		<div class="modal-footer"> 
+		    		<button class="btn btn-primary" type="submit"><fmt:message key="nav.menu.register"/> <span class="glyphicon glyphicon-edit"></span></button>
+	      		</div>      			
+		  	</form>	  
+   		</div>
+	</div>	
+</div> <!-- /container -->
+<div class="container-fluid modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="aboutLabel" aria-hidden="true">
+	<div class="modal-dialog">		
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+        			<span class="sr-only">X</span>
+       			</button>
+       			<h2 class="modal-title" id="aboutLabel">
+	       			<span class="modal-icons"><span class="glyphicon glyphicon-facetime-video"></span>
+			        <span class="glyphicon glyphicon-book"></span></span>
+       				<fmt:message key="nav.menu.explore.about"/>
+       			</h2>
+     		 </div> 
+    		<div class="modal-body form-signin">      			
+      			<div class="form-signin"><fmt:message key="about"/></div>		    	
+    		</div>
+   		</div>
+	</div>	
 </div> <!-- /container -->

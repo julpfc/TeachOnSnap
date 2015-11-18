@@ -24,4 +24,6 @@ public interface UserRepository {
 
 	public void deletePasswordTemporaryToken(int idUser);
 
+	public int createUser(String email, String firstname, String lastname, short idLanguage);
+
 }

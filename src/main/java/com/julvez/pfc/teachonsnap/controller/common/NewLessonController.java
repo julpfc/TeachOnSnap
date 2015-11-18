@@ -46,76 +46,81 @@ public class NewLessonController extends CommonController {
 	@Override
 	protected void processController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
-		int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
-		requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);
-		
-		List<String> acceptedFileTypes = mediaFileService.getAcceptedFileTypes();
-		requestManager.setAttribute(request, Attribute.LIST_STRING_MEDIATYPE, acceptedFileTypes);
-		
-		if(request.getMethod().equals("POST")){
+		if(user.isAuthor()){
+			int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
+			requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);
 			
-			Lesson newLesson = getNewLesson(request);
-
-			if(newLesson!=null){
-				newLesson.setIdUser(user.getId());
-				newLesson.setAuthor(user);
-				Lesson savedLesson = lessonService.createLesson(newLesson);
+			List<String> acceptedFileTypes = mediaFileService.getAcceptedFileTypes();
+			requestManager.setAttribute(request, Attribute.LIST_STRING_MEDIATYPE, acceptedFileTypes);
+			
+			if(request.getMethod().equals("POST")){
 				
-				if(savedLesson!=null){
-					newLesson = savedLesson;
-
-					FileMetadata file = getSubmittedFile(request, user);
+				Lesson newLesson = getNewLesson(request);
+	
+				if(newLesson!=null){
+					newLesson.setIdUser(user.getId());
+					newLesson.setAuthor(user);
+					Lesson savedLesson = lessonService.createLesson(newLesson);
 					
-					if(file!=null){		
-						int idMediaFile = mediaFileService.saveMediaFile(newLesson, file);
-						if(idMediaFile>0){
-							//SI todo es correcto cargarse los temporales que no hemos usado
-							uploadService.removeTemporaryFiles(user);
-							setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.LESSON_CREATED);
+					if(savedLesson!=null){
+						newLesson = savedLesson;
+	
+						FileMetadata file = getSubmittedFile(request, user);
+						
+						if(file!=null){		
+							int idMediaFile = mediaFileService.saveMediaFile(newLesson, file);
+							if(idMediaFile>0){
+								//SI todo es correcto cargarse los temporales que no hemos usado
+								uploadService.removeTemporaryFiles(user);
+								setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.LESSON_CREATED);
+							}
+							else{
+								//Error, habia fichero pero no hemos podido guardarlo
+								setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.LESSON_CREATED_WITH_MEDIA_ERROR);
+							}
+						}					
+						
+						List<String> tags = requestManager.getParameterList(request, Parameter.LESSON_NEW_TAGS);
+	
+						if(tags!=null){
+							tagService.addLessonTags(newLesson, tags);
 						}
-						else{
-							//Error, habia fichero pero no hemos podido guardarlo
-							setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.LESSON_CREATED_WITH_MEDIA_ERROR);
+						
+						List<String> sources = requestManager.getParameterList(request, Parameter.LESSON_NEW_SOURCES);
+	
+						if(sources!=null){
+							linkService.addLessonSources(newLesson, sources);
 						}
-					}					
-					
-					List<String> tags = requestManager.getParameterList(request, Parameter.LESSON_NEW_TAGS);
-
-					if(tags!=null){
-						tagService.addLessonTags(newLesson, tags);
+											
+						List<String> moreInfo = requestManager.getParameterList(request, Parameter.LESSON_NEW_MOREINFOS);
+	
+						if(moreInfo!=null){
+							linkService.addLessonMoreInfo(newLesson, moreInfo);
+						}
+						
+						lessonService.notifyLessonCreated(newLesson);
+						
+						response.sendRedirect(newLesson.getEditURL());
 					}
-					
-					List<String> sources = requestManager.getParameterList(request, Parameter.LESSON_NEW_SOURCES);
-
-					if(sources!=null){
-						linkService.addLessonSources(newLesson, sources);
+					else{
+						//No se pudo crear la lesson					
+						setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE_DUPLICATE, ErrorMessageKey.SAVE_DUPLICATE_ERROR_LESSON));
+						requestManager.setAttribute(request, Attribute.LESSON, newLesson);
+						request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
 					}
-										
-					List<String> moreInfo = requestManager.getParameterList(request, Parameter.LESSON_NEW_MOREINFOS);
-
-					if(moreInfo!=null){
-						linkService.addLessonMoreInfo(newLesson, moreInfo);
-					}
-					
-					lessonService.notifyLessonCreated(newLesson);
-					
-					response.sendRedirect(newLesson.getEditURL());
 				}
 				else{
-					//No se pudo crear la lesson					
-					setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE_DUPLICATE, ErrorMessageKey.SAVE_DUPLICATE_ERROR_LESSON));
-					requestManager.setAttribute(request, Attribute.LESSON, newLesson);
-					request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
+					//Error no se recuperaron params para el lesson
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				}
+				
 			}
 			else{
-				//Error no se recuperaron params para el lesson
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+				request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
 			}
-			
 		}
 		else{
-			request.getRequestDispatcher("/WEB-INF/views/editLesson.jsp").forward(request, response);
+			response.sendError(HttpServletResponse.SC_FORBIDDEN);
 		}
 	}
 

@@ -55,5 +55,9 @@
 	    FROM tusertmptoken	    
 	    WHERE idUser=?
 	</sql-query>	
+	<sql-query name="SQL_USER_CREATE_USER">
+	    INSERT INTO tuser(email, password, firstname, lastname, idLanguage, dateIni)
+	    VALUES (?, '', ?, ?, ?, now());	       
+	</sql-query>
 	
 </hibernate-mapping>

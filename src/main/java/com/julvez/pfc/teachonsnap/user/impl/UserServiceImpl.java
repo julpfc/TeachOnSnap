@@ -1,11 +1,15 @@
 package com.julvez.pfc.teachonsnap.user.impl;
 
+import java.util.List;
+
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.manager.date.DateManager;
 import com.julvez.pfc.teachonsnap.manager.date.DateManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.notify.NotifyService;
@@ -18,6 +22,7 @@ import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserMessageKey;
+import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 import com.julvez.pfc.teachonsnap.user.repository.UserRepository;
 import com.julvez.pfc.teachonsnap.user.repository.UserRepositoryFactory;
 
@@ -26,13 +31,13 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository = UserRepositoryFactory.getRepository();
 	
 	private LangService langService = LangServiceFactory.getService(); 
-	private URLService requestService = URLServiceFactory.getService();
+	private URLService urlService = URLServiceFactory.getService();
 	private NotifyService notifyService = NotifyServiceFactory.getService();
 	private TextService textService = TextServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
 	private DateManager dateManager = DateManagerFactory.getManager();
-		
+	private PropertyManager properties = PropertyManagerFactory.getManager();		
 	
 	@Override
 	public User getUser(int idUser) {
@@ -117,7 +122,7 @@ public class UserServiceImpl implements UserService {
 		if(user != null){
 			String token = savePasswordTemporaryToken(user); 
 						
-			String url = requestService.getAbsoluteURL(ControllerURI.CHANGE_PASSWORD + token);
+			String url = urlService.getAbsoluteURL(ControllerURI.CHANGE_PASSWORD + token);
 			
 			String subject = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_SUBJECT);
 			String message = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_MESSAGE, url);
@@ -176,6 +181,57 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return isAllowed;
+	}
+
+	@Override
+	public boolean sendRegister(String email, String firstname, String lastname, Language language) {
+		boolean success = false;
+		
+		if(!stringManager.isEmpty(email) && !stringManager.isEmpty(firstname) && !stringManager.isEmpty(lastname) && language != null){
+						
+			boolean verified = verifyEmailDomain(email);
+			
+			if(verified){
+				User user = createUser(email, firstname, lastname, language);
+		
+				if(user != null){
+					success = sendPasswordRemind(user);
+				}				
+			}			
+		}		
+		return success;
+	}
+	
+	@Override
+	public User createUser(String email, String firstname, String lastname, Language language) {
+		User ret = null;
+		
+		if(!stringManager.isEmpty(email) && !stringManager.isEmpty(firstname) && !stringManager.isEmpty(lastname) && language != null){
+						
+			int idUser = userRepository.createUser(email, firstname, lastname, language.getId());
+			
+			if(idUser > 0){				
+				ret = getUser(idUser);
+			}
+		}
+		return ret;
+	}
+
+	@Override
+	public boolean verifyEmailDomain(String email) {
+		boolean verified = false;
+		
+		if(!stringManager.isEmpty(email)){
+			List<String> verifiedDomains = properties.getListProperty(UserPropertyName.VERIFIED_EMAIL_DOMAINS);
+		
+			for(String domain:verifiedDomains){
+				if(email.toLowerCase().endsWith(domain)){
+					verified = true;
+					break;
+				}
+			}
+		}
+		return verified;
 	}	
 
 }

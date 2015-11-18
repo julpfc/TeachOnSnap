@@ -69,4 +69,9 @@ public class UserRepositoryDBCache implements UserRepository {
 		cache.clearCache("getIdUserFromPasswordTemporaryToken");		
 	}
 
+	@Override
+	public int createUser(String email, String firstname, String lastname, short idLanguage) {
+		return (int)cache.updateImplCached(repoDB, null, null, email, firstname, lastname, idLanguage);
+	}
+
 }

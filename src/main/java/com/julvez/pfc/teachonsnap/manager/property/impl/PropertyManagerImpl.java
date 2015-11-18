@@ -1,6 +1,8 @@
 package com.julvez.pfc.teachonsnap.manager.property.impl;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
@@ -54,13 +56,9 @@ public class PropertyManagerImpl implements PropertyManager {
 		int ret = -1;
 		String prop = getProperty(propertyName);
 		
-		try{
+		if(stringManager.isNumeric(prop)){
 			ret = Integer.parseInt(prop);
 		}
-		catch(Throwable t){
-			t.printStackTrace();
-		}
-		
 		return ret; 
 	}
 
@@ -73,6 +71,30 @@ public class PropertyManagerImpl implements PropertyManager {
 		ret = stringManager.isTrue(prop);
 		
 		return ret;
+	}
+
+	@Override
+	public List<String> getListProperty(Enum<?> propertyName) {
+		List<String> list = null;
+		
+		String prop = getProperty(propertyName);
+		
+		if(!stringManager.isEmpty(prop)){
+			String[] params = null;
+			if(prop.contains(",")){
+				params = prop.split(",");
+			}
+			else params = new String[]{prop};
+			
+			if(params != null){
+				list = new ArrayList<String>();
+				for(String param:params){
+					list.add(param.toLowerCase().trim());
+				}
+			}			
+		}		
+		
+		return list;
 	}
 	
 }

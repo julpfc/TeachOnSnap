@@ -156,7 +156,9 @@ button.close{
 	padding-top: 5px;
 }
 
-#login .modal-header{	
+#login .modal-header, 
+#register .modal-header, 
+#about .modal-header{	
     text-align: left;
     text-indent: 40px;
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);

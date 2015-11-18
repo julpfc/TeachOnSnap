@@ -12,6 +12,7 @@ public enum Parameter {
 	LOGIN_EMAIL("email"),
 	LOGIN_PASSWORD("password"),
 	LOGIN_EMAIL_REMIND("emailRemind"),
+	LOGIN_EMAIL_REGISTER("emailRegister"),
 	
 	//New/Edit Lesson
 	LESSON_NEW_TITLE("title"),

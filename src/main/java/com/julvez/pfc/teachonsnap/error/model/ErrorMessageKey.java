@@ -7,6 +7,7 @@ public enum ErrorMessageKey {
 	SAVE_NOCHANGES("save.nochanges"), 
 	SAVE_ERROR("save.error"), 
 	REMOVE_ERROR("remove.error"),
+	MAIL_SEND_ERROR("mail.send.error"),
 	
 	//Test
 	INVALID_INPUT_ERROR_TEST("invalid.input.error.test"),
@@ -40,8 +41,11 @@ public enum ErrorMessageKey {
 	
 	//Login password remind
 	PASSWORD_REMIND_SENT("password.remind.sent"), 
-	PASSWORD_REMIND_SEND_ERROR("password.remind.send.error"), 
-	PASSWORD_REMIND_EMAIL_ERROR("password.remind.email.error");
+	PASSWORD_REMIND_EMAIL_ERROR("password.remind.email.error"), 
+	//Login Register
+	REGISTER_EMAIL_DUPLICATE("register.email.duplicate"), 
+	REGISTER_SENT("register.sent"), 
+	REGISTER_UNVERIFIED_MAIL("register.unverified.mail");
 		 		
 	private final String key;
  

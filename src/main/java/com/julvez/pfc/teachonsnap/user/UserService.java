@@ -29,5 +29,11 @@ public interface UserService {
 	public void deletePasswordTemporaryToken(User user);
 	
 	public boolean isAllowedForLesson(User user, Lesson lesson);
+
+	public boolean sendRegister(String email, String firstname, String lastname, Language language);
+
+	User createUser(String email, String firstname, String lastname, Language language);
+
+	boolean verifyEmailDomain(String email);
 	
 }

@@ -21,17 +21,19 @@
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav navbar-left">
       	<c:if test="${empty user}">
-        	<li><a href="#"><fmt:message key="nav.menu.register"/> <span class="glyphicon glyphicon-pencil"></span></a></li>
+        	<li><a href="#" data-toggle="modal" data-target="#register"><fmt:message key="nav.menu.register"/> <span class="glyphicon glyphicon-pencil"></span></a></li>
         </c:if>
         <li class="dropdown">
         	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="nav.menu.explore"/> <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
             	<li><a href="/last/"><fmt:message key="nav.menu.explore.lastVideos"/></a></li>                
                 <li class="divider"></li>
-                <li><a href="#"><fmt:message key="nav.menu.explore.about"/></a></li>                
+                <li><a href="#" data-toggle="modal" data-target="#about"><fmt:message key="nav.menu.explore.about"/></a></li>                
 			</ul>
         </li>
-        <li><a href="/lesson/new/"><fmt:message key="nav.menu.upload"/> <span class="glyphicon glyphicon-cloud-upload"></span></a></li>        
+        <c:if test="${user.author}">
+        	<li><a href="/lesson/new/"><fmt:message key="nav.menu.upload"/> <span class="glyphicon glyphicon-cloud-upload"></span></a></li>
+        </c:if>        
       </ul>
       <ul class="nav navbar-nav navbar-right">      	
         <c:choose>
