@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.manager.string;
 
+import java.util.List;
+
 public interface StringManager {
 
 	public boolean isEmpty(String string);
@@ -26,4 +28,6 @@ public interface StringManager {
 	public String escapeHTML(String string);
 
 	public String unescapeHTML(String string);
+
+	public List<String> split(String string, String splitter);
 }

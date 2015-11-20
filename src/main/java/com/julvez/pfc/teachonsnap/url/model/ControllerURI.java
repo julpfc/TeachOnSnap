@@ -6,7 +6,8 @@ public enum ControllerURI {
 	LESSONS_BY_LAST("/last/"),
 	LESSON_DRAFTS_BY_USER("/drafts/"), 
 	LESSON("/lesson/"), 
-	LESSON_PREVIEW("/preview/");
+	LESSON_PREVIEW("/preview/"), 
+	ADMIN_USER_MANAGER("/admin/users/");
 
 		 		
 	private final String URI;

@@ -45,7 +45,9 @@ public enum ErrorMessageKey {
 	//Login Register
 	REGISTER_EMAIL_DUPLICATE("register.email.duplicate"), 
 	REGISTER_SENT("register.sent"), 
-	REGISTER_UNVERIFIED_MAIL("register.unverified.mail");
+	REGISTER_UNVERIFIED_MAIL("register.unverified.mail"), 
+	USER_CREATED("user.created"), 
+	USERS_CREATED("users.created");
 		 		
 	private final String key;
  

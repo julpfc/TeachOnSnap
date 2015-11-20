@@ -59,5 +59,30 @@
 	    INSERT INTO tuser(email, password, firstname, lastname, idLanguage, dateIni)
 	    VALUES (?, '', ?, ?, ?, now());	       
 	</sql-query>
-	
+	<sql-query name="SQL_USER_GET_USERIDS">
+	    SELECT idUser
+	    FROM tuser
+	    LIMIT ?,?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_SEARCH_USERIDS_BY_EMAIL">
+	    SELECT idUser
+	    FROM tuser
+	    WHERE email LIKE CONCAT('%',?,'%')
+	    LIMIT ?,?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_SEARCH_USERIDS_BY_NAME">
+	    SELECT idUser
+	    FROM tuser
+	    WHERE firstname LIKE CONCAT('%',?,'%') OR lastname LIKE CONCAT('%',?,'%') 
+	    LIMIT ?,?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_SAVE_AUTHOR">
+	    INSERT INTO tuserauthor(idUser, URIname)
+	    VALUES (?,?)
+	    ON DUPLICATE KEY UPDATE URIName = ?;   
+	</sql-query>
+	<sql-query name="SQL_USER_SAVE_ADMIN">
+	    INSERT IGNORE INTO tuseradmin(idUser)
+	    VALUES (?);   
+	</sql-query>
 </hibernate-mapping>

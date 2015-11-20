@@ -14,7 +14,7 @@
       </button>
       <a class="navbar-brand" href="/">
       	<span><img src="/resources/favicon/apple-touch-icon-precomposed.png" width="22" height="22"/></span>
-      	TeachOnSnap</a>
+      	<fmt:message key="app.name"/></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -55,7 +55,7 @@
 	        	 	<li class="dropdown">
 			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="nav.menu.admin"/> <span class="caret"></span></a>
 			            <ul class="dropdown-menu" role="menu">
-			            	<li><a href="#"><fmt:message key="nav.menu.admin.users"/></a></li>			            	                
+			            	<li><a href="/admin/users/"><fmt:message key="nav.menu.admin.users"/></a></li>			            	                
 						</ul>
 			        </li>
 			   	</c:if>

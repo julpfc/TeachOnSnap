@@ -7,12 +7,20 @@ public enum Parameter {
 	LOGOUT("logout"),
 	JSON("json"),
 	EXPORT("export"),
+	SEARCH_QUERY("searchQuery"),
+	SEARCH_TYPE("searchType"),
 	
 	//Login
 	LOGIN_EMAIL("email"),
 	LOGIN_PASSWORD("password"),
 	LOGIN_EMAIL_REMIND("emailRemind"),
 	LOGIN_EMAIL_REGISTER("emailRegister"),
+	
+	//Admin User
+	REGISTER_SEND_EMAIL("sendPassword"),
+	REGISTER_MULTIPLE_EMAILS("emailList"),
+	USER_ROLE_AUTHOR("author"),
+	USER_ROLE_ADMIN("admin"),
 	
 	//New/Edit Lesson
 	LESSON_NEW_TITLE("title"),

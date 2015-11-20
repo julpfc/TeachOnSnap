@@ -6,6 +6,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -126,5 +128,27 @@ public class StringManagerImpl implements StringManager {
 	@Override
 	public String unescapeHTML(String string) {
 		return StringEscapeUtils.unescapeHtml4(string);
+	}
+
+	@Override
+	public List<String> split(String string, String splitter) {
+		List<String> list = null;
+		
+		if(!isEmpty(string)){
+			String[] params = null;
+			if(string.contains(",")){
+				params = string.split(",");
+			}
+			else params = new String[]{string};
+			
+			if(params != null){
+				list = new ArrayList<String>();
+				for(String param:params){
+					list.add(param.toLowerCase().trim());
+				}
+			}			
+		}		
+		
+		return list;
 	}
 }

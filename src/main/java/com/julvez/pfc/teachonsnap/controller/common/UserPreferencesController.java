@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
-import com.julvez.pfc.teachonsnap.controller.model.Attribute;
 import com.julvez.pfc.teachonsnap.controller.model.Parameter;
 import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
@@ -28,8 +27,6 @@ public class UserPreferencesController extends CommonController {
 			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
 		String prevPage = requestManager.getSessionAttribute(request, SessionAttribute.LAST_PAGE);
-		
-		requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
 		
 		if(request.getMethod().equals("POST")){
 			

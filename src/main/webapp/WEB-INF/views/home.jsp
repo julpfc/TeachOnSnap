@@ -20,7 +20,7 @@
 		<div class="home">		
 			<div class="container-fluid"> 
 		        <div class="col-sm-8">
-		        	<h1>TeachOnSnap</h1>
+		        	<h1><fmt:message key="app.name"/></h1>
 		        	<p><fmt:message key="brand.subtitle" bundle="${homeBundle}"/></p>
 		        </div>
 		        <div class="col-sm-4">

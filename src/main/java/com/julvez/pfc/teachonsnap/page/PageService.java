@@ -20,4 +20,8 @@ public interface PageService {
 	public List<Page> getEditQuestionPageStack(Lesson lesson, LessonTest test, Question question);
 	
 	public List<Page> getNewQuestionPageStack(Lesson lesson, LessonTest test);
+
+	public List<Page> getAdminUsersPageStack();
+	
+	public List<Page> getAdminUsersSearchPageStack(String searchQuery, String searchType);
 }

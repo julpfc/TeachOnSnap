@@ -42,6 +42,9 @@ public enum Attribute {
 	STRING_SEARCHTYPE("searchType"),
 	STRING_SEARCHKEYWORD("searchKeyword"),
 	
+	//Admin
+	LIST_USER("users"), 
+	USER_PROFILE("profile"),
 	
 	//Error
 	INT_ERROR_STATUS_CODE("javax.servlet.error.status_code"), 

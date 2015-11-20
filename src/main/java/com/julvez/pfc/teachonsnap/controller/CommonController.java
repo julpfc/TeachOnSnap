@@ -41,7 +41,7 @@ public abstract class CommonController extends HttpServlet {
 	protected LangService langService = LangServiceFactory.getService();
 	protected UserService userService = UserServiceFactory.getService();	
 	protected StatsService visitService = StatsServiceFactory.getService();
-	protected URLService requestService = URLServiceFactory.getService();
+	protected URLService urlService = URLServiceFactory.getService();
 	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
@@ -96,7 +96,7 @@ public abstract class CommonController extends HttpServlet {
 			}
 		}
 		
-		String host = requestService.getHost();
+		String host = urlService.getHost();
 		
 		requestManager.setAttribute(request, Attribute.LIST_LANGUAGES, langs);
 		requestManager.setAttribute(request, Attribute.LANGUAGE_USERLANGUAGE, userLang);
@@ -107,7 +107,7 @@ public abstract class CommonController extends HttpServlet {
 		// Si es zona restringida pedimos login
 		if(user==null && isPrivateZone()){
 			setErrorSession(request, ErrorType.ERR_LOGIN, ErrorMessageKey.NONE);
-			String lastPage = requestService.getHomeURL();
+			String lastPage = urlService.getHomeURL();
 			response.sendRedirect(lastPage);
 		}
 		else{

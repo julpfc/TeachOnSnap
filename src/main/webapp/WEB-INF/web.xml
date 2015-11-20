@@ -50,6 +50,28 @@
 	<servlet>
 		<description>
   		</description>
+		<display-name>AdminUserProfileController</display-name>
+		<servlet-name>AdminUserProfileController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.UserProfileController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminUserProfileController</servlet-name>
+		<url-pattern>/admin/user/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
+		<display-name>AdminUsersController</display-name>
+		<servlet-name>AdminUsersController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.UsersController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminUsersController</servlet-name>
+		<url-pattern>/admin/users/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
 		<display-name>DraftsController</display-name>
 		<servlet-name>DraftsController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.DraftsController</servlet-class>

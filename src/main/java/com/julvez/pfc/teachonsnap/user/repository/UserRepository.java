@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.user.repository;
 
+import java.util.List;
+
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public interface UserRepository {
@@ -25,5 +27,15 @@ public interface UserRepository {
 	public void deletePasswordTemporaryToken(int idUser);
 
 	public int createUser(String email, String firstname, String lastname, short idLanguage);
+
+	public List<Short> getUsers(int firstResult);
+
+	public List<Short> searchUsersByEmail(String searchQuery, int firstResult);
+
+	public List<Short> searchUsersByName(String searchQuery, int firstResult);
+
+	public void saveAuthor(int idUser, String fullName);
+
+	public void saveAdmin(int idUser);	
 
 }

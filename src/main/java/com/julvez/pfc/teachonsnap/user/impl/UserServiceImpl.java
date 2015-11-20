@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.user.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lang.LangService;
@@ -187,17 +188,21 @@ public class UserServiceImpl implements UserService {
 	public boolean sendRegister(String email, String firstname, String lastname, Language language) {
 		boolean success = false;
 		
-		if(!stringManager.isEmpty(email) && !stringManager.isEmpty(firstname) && !stringManager.isEmpty(lastname) && language != null){
+		if(!stringManager.isEmpty(email) && firstname!=null && lastname!=null && language != null){
 						
 			boolean verified = verifyEmailDomain(email);
 			
 			if(verified){
-				User user = createUser(email, firstname, lastname, language);
-		
-				if(user != null){
-					success = sendPasswordRemind(user);
-				}				
-			}			
+				User user = getUserFromEmail(email);
+				
+				if(user == null){
+					user = createUser(email, firstname, lastname, language);
+			
+					if(user != null){
+						success = sendPasswordRemind(user);
+					}				
+				}
+			}
 		}		
 		return success;
 	}
@@ -206,7 +211,7 @@ public class UserServiceImpl implements UserService {
 	public User createUser(String email, String firstname, String lastname, Language language) {
 		User ret = null;
 		
-		if(!stringManager.isEmpty(email) && !stringManager.isEmpty(firstname) && !stringManager.isEmpty(lastname) && language != null){
+		if(!stringManager.isEmpty(email) && firstname!=null && lastname!=null && language != null){
 						
 			int idUser = userRepository.createUser(email, firstname, lastname, language.getId());
 			
@@ -232,6 +237,69 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return verified;
+	}
+
+	@Override
+	public List<User> getUsers(int firstResult) {
+		List<User> users = new ArrayList<User>();
+		
+		List<Short> ids = userRepository.getUsers(firstResult);
+		
+		for(short id:ids){
+			users.add(getUser(id));
+		}
+		
+		return users;
+	}
+
+	@Override
+	public List<User> searchUsersByEmail(String searchQuery, int firstResult) {
+		List<User> users = new ArrayList<User>();
+		
+		List<Short> ids = userRepository.searchUsersByEmail(searchQuery, firstResult);
+		
+		for(short id:ids){
+			users.add(getUser(id));
+		}
+		
+		return users;
+	}
+
+	@Override
+	public List<User> searchUsersByName(String searchQuery, int firstResult) {
+		List<User> users = new ArrayList<User>();
+		
+		List<Short> ids = userRepository.searchUsersByName(searchQuery, firstResult);
+		
+		for(short id:ids){
+			users.add(getUser(id));
+		}
+		
+		return users;
+	}
+
+	@Override
+	public User saveAuthor(User user) {
+		User retUser = null;
+		
+		if(user != null && !user.isAuthor()){
+			userRepository.saveAuthor(user.getId(), user.getFullName());
+			retUser = getUser(user.getId());
+		}
+		
+		return retUser;
+	}
+
+	@Override
+	public User saveAdmin(User user) {
+		User retUser = null;
+		
+		if(user != null && !user.isAuthor()){
+			userRepository.saveAdmin(user.getId());
+			retUser = getUser(user.getId());
+		}
+		
+		return retUser;
 	}	
 
 }

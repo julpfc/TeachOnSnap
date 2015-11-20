@@ -1,15 +1,21 @@
 package com.julvez.pfc.teachonsnap.user.repository;
 
+import java.util.List;
+
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 
 public class UserRepositoryDB implements UserRepository {
 
 	DBManager dbm = DBManagerFactory.getDBManager();
 	StringManager stringManager = StringManagerFactory.getManager();
+	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
 	@Override
 	public User getUser(int idUser) {
@@ -78,6 +84,36 @@ public class UserRepositoryDB implements UserRepository {
 	@Override
 	public int createUser(String email, String firstname, String lastname, short idLanguage) {
 		return (int)dbm.insertQueryAndGetLastInserID("SQL_USER_CREATE_USER", email, firstname, lastname, idLanguage);
+	}
+
+	@Override
+	public List<Short> getUsers(int firstResult) {
+		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_USER_GET_USERIDS", Short.class, firstResult, maxResults + 1);
+	}
+
+	@Override
+	public List<Short> searchUsersByEmail(String searchQuery, int firstResult) {
+		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_USER_SEARCH_USERIDS_BY_EMAIL", Short.class, searchQuery, firstResult, maxResults + 1);
+	}
+
+	@Override
+	public List<Short> searchUsersByName(String searchQuery, int firstResult) {
+		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_USER_SEARCH_USERIDS_BY_NAME", Short.class, searchQuery, searchQuery, firstResult, maxResults + 1);
+	}
+
+	@Override
+	public void saveAuthor(int idUser, String fullName) {
+		String URI = stringManager.generateURIname(fullName);
+		dbm.updateQuery("SQL_USER_SAVE_AUTHOR", idUser, URI, URI);
+		
+	}
+
+	@Override
+	public void saveAdmin(int idUser) {
+		dbm.updateQuery("SQL_USER_SAVE_ADMIN", idUser);		
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.user.repository;
 
+import java.util.List;
+
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -71,7 +73,44 @@ public class UserRepositoryDBCache implements UserRepository {
 
 	@Override
 	public int createUser(String email, String firstname, String lastname, short idLanguage) {
+		cache.clearCache("getUsers");
+		cache.clearCache("searchUsersByEmail");
+		cache.clearCache("searchUsersByName");
 		return (int)cache.updateImplCached(repoDB, null, null, email, firstname, lastname, idLanguage);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> getUsers(int firstResult) {
+		return (List<Short>)cache.executeImplCached(repoDB, firstResult);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> searchUsersByEmail(String searchQuery, int firstResult) {
+		return (List<Short>)cache.executeImplCached(repoDB, searchQuery, firstResult);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> searchUsersByName(String searchQuery, int firstResult) {
+		return (List<Short>)cache.executeImplCached(repoDB, searchQuery, firstResult);
+	}
+
+	@Override
+	public void saveAuthor(int idUser, String fullName) {
+		cache.updateImplCached(repoDB,new String[]{stringManager.getKey(idUser)}, 
+				new String[]{"getUser"}, idUser, fullName);
+		cache.clearCache("getUsers");
+		
+	}
+
+	@Override
+	public void saveAdmin(int idUser) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
+				new String[]{"getUser"}, idUser);
+		cache.clearCache("getUsers");
+		
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.user;
 
+import java.util.List;
+
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.user.model.User;
@@ -35,5 +37,15 @@ public interface UserService {
 	User createUser(String email, String firstname, String lastname, Language language);
 
 	boolean verifyEmailDomain(String email);
+
+	public List<User> getUsers(int firstResult);
+
+	public List<User> searchUsersByEmail(String searchQuery, int firstResult);
+
+	public List<User> searchUsersByName(String searchQuery, int firstResult);
+
+	public User saveAuthor(User user);
+	
+	public User saveAdmin(User user);
 	
 }
