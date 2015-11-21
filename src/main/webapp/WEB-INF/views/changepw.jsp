@@ -16,7 +16,7 @@
 </head>
 <body>
 	<c:import url="./import/nav.jsp"/>	
-	<div class="content container-fluid">		
+	<div class="content container-fluid">			
 		<div id="login" class="row col-sm-6 col-sm-offset-3"> 			
 			<form id="passwordForm" action="" method="POST">
 				<div class="panel panel-default">

@@ -8,6 +8,7 @@ public enum ErrorMessageKey {
 	SAVE_ERROR("save.error"), 
 	REMOVE_ERROR("remove.error"),
 	MAIL_SEND_ERROR("mail.send.error"),
+	USER_BANNED("user.banned"),
 	
 	//Test
 	INVALID_INPUT_ERROR_TEST("invalid.input.error.test"),
@@ -46,7 +47,7 @@ public enum ErrorMessageKey {
 	REGISTER_EMAIL_DUPLICATE("register.email.duplicate"), 
 	REGISTER_SENT("register.sent"), 
 	REGISTER_UNVERIFIED_MAIL("register.unverified.mail"), 
-	USER_CREATED("user.created"), 
+	USER_SAVED("user.saved"), 
 	USERS_CREATED("users.created");
 		 		
 	private final String key;

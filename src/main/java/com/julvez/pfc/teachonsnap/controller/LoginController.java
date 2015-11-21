@@ -75,18 +75,25 @@ public class LoginController extends HttpServlet {
 			
 				if(password!=null){
 					if(userService.validatePassword(user, password)){
-						//Login OK
-						if(visit == null){
-							visit = visitService.createVisit(requestManager.getIP(request));							
+						if(!user.isBanned()){
+							//Login OK
+							if(visit == null){
+								visit = visitService.createVisit(requestManager.getIP(request));							
+							}
+							
+							Visit visitu = visitService.saveUser(visit,user);
+							
+							if(visitu != null){							
+								visit = visitu;
+							}
+							requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
+							loginError = false;
 						}
-						
-						Visit visitu = visitService.saveUser(visit,user);
-						
-						if(visitu != null){							
-							visit = visitu;
+						else{
+							emailRemind = true;
+							loginError = false;
+							requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_BANNED, ErrorMessageKey.USER_BANNED));
 						}
-						requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
-						loginError = false;
 					}					
 				}				
 				

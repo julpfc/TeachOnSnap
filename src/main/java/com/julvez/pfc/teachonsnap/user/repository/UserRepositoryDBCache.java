@@ -7,6 +7,7 @@ import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
 
 public class UserRepositoryDBCache implements UserRepository {
 
@@ -100,17 +101,44 @@ public class UserRepositoryDBCache implements UserRepository {
 	@Override
 	public void saveAuthor(int idUser, String fullName) {
 		cache.updateImplCached(repoDB,new String[]{stringManager.getKey(idUser)}, 
-				new String[]{"getUser"}, idUser, fullName);
-		cache.clearCache("getUsers");
+				new String[]{"getUser"}, idUser, fullName);		
 		
 	}
 
 	@Override
 	public void saveAdmin(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
-				new String[]{"getUser"}, idUser);
-		cache.clearCache("getUsers");
+				new String[]{"getUser"}, idUser);				
+	}
+
+	@Override
+	public void removeAdmin(int idUser) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
+				new String[]{"getUser"}, idUser);		
+	}
+
+	@Override
+	public void removeAuthor(int idUser) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
+				new String[]{"getUser"}, idUser);		
+	}
+
+	@Override
+	public UserBannedInfo getUserBannedInfo(int idUser) {
+		return (UserBannedInfo)cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	public void blockUser(int idUser, String reason, int idAdmin) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser),stringManager.getKey(idUser)}, 
+				new String[]{"getUser","getUserBannedInfo"}, idUser, reason, idAdmin);
 		
+	}
+
+	@Override
+	public void unblockUser(int idUser) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser),stringManager.getKey(idUser)}, 
+				new String[]{"getUser","getUserBannedInfo"}, idUser);
 	}
 
 }

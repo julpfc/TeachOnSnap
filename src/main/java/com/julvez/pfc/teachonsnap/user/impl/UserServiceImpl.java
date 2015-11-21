@@ -22,6 +22,7 @@ import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
 import com.julvez.pfc.teachonsnap.user.model.UserMessageKey;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 import com.julvez.pfc.teachonsnap.user.repository.UserRepository;
@@ -45,6 +46,13 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.getUser(idUser);
 		user.setLanguage(langService.getLanguage(user.getIdLanguage()));
 		user.setMD5(stringManager.generateMD5(user.getEmail()));
+		if(user.isBanned()){
+			UserBannedInfo bannedInfo = userRepository.getUserBannedInfo(idUser);
+			if(bannedInfo != null){
+				bannedInfo.setAdmin(getUser(bannedInfo.getIdAdmin()));
+			}
+			user.setBannedInfo(bannedInfo);
+		}
 		return user;
 	}
 
@@ -294,8 +302,56 @@ public class UserServiceImpl implements UserService {
 	public User saveAdmin(User user) {
 		User retUser = null;
 		
-		if(user != null && !user.isAuthor()){
+		if(user != null && !user.isAdmin()){
 			userRepository.saveAdmin(user.getId());
+			retUser = getUser(user.getId());
+		}
+		
+		return retUser;
+	}
+
+	@Override
+	public User removeAdmin(User user) {
+		User retUser = null;
+		
+		if(user != null && user.isAdmin()){
+			userRepository.removeAdmin(user.getId());
+			retUser = getUser(user.getId());
+		}
+		
+		return retUser;
+	}
+
+	@Override
+	public User removeAuthor(User user) {
+		User retUser = null;
+		
+		if(user != null && user.isAuthor()){
+			userRepository.removeAuthor(user.getId());
+			retUser = getUser(user.getId());
+		}
+		
+		return retUser;
+	}
+
+	@Override
+	public User blockUser(User user, String reason, User admin) {
+		User retUser = null;
+		
+		if(user != null && admin!=null && admin.isAdmin() && !stringManager.isEmpty(reason)){
+			userRepository.blockUser(user.getId(), reason, admin.getId());
+			retUser = getUser(user.getId());
+		}
+		
+		return retUser;
+	}
+
+	@Override
+	public User unblockUser(User user, User admin) {
+		User retUser = null;
+		
+		if(user != null && admin!=null && admin.isAdmin()){
+			userRepository.unblockUser(user.getId());
 			retUser = getUser(user.getId());
 		}
 		

@@ -4,10 +4,12 @@
  <hibernate-mapping>
 	<sql-query name="SQL_USER_GET_USER">
 	    SELECT idUser,email,firstName,lastName,idLanguage,IFNULL(tuserauthor.idUser,0) as author,
-	    	IFNULL(tuseradmin.idUser,0) as admin,URIName
+	    	IFNULL(tuseradmin.idUser,0) as admin,URIName, IFNULL(tuserbanned.idUser,0) as banned
 	    FROM tuser
 	    LEFT JOIN tuserauthor USING (idUser)
+	    LEFT JOIN tuserauthoruri USING (idUser)
 	    LEFT JOIN tuseradmin USING (idUser)
+	    LEFT JOIN tuserbanned USING(idUser)
 	    WHERE idUser=?
 	</sql-query>
 	<sql-query name="SQL_USER_GET_IDUSER_FROM_EMAIL">
@@ -77,12 +79,38 @@
 	    LIMIT ?,?;	       
 	</sql-query>
 	<sql-query name="SQL_USER_SAVE_AUTHOR">
-	    INSERT INTO tuserauthor(idUser, URIname)
+	    INSERT IGNORE INTO tuserauthor(idUser)
+	    VALUES (?);   
+	</sql-query>
+	<sql-query name="SQL_USER_SAVE_AUTHOR_URI">
+	    INSERT INTO tuserauthoruri(idUser, URIname)
 	    VALUES (?,?)
 	    ON DUPLICATE KEY UPDATE URIName = ?;   
 	</sql-query>
 	<sql-query name="SQL_USER_SAVE_ADMIN">
 	    INSERT IGNORE INTO tuseradmin(idUser)
 	    VALUES (?);   
+	</sql-query>
+	<sql-query name="SQL_USER_DELETE_ADMIN">
+	    DELETE FROM tuseradmin
+	    WHERE idUser = ?;   
+	</sql-query>
+	<sql-query name="SQL_USER_DELETE_AUTHOR">
+	    DELETE FROM tuserauthor
+	    WHERE idUser = ?;   
+	</sql-query>
+	<sql-query name="SQL_USER_GET_USER_BANNED_INFO">
+	    SELECT idUser, reason, date, idAdmin
+	    FROM tuserbanned
+	    WHERE idUser = ?;   
+	</sql-query>
+	<sql-query name="SQL_USER_BLOCK">
+	    INSERT INTO tuserbanned(idUser, reason, date, idAdmin)
+	    VALUES (?, ?, now(), ?)
+	    ON DUPLICATE KEY UPDATE reason = ?, date = now(), idAdmin = ?;   
+	</sql-query>
+	<sql-query name="SQL_USER_UNBLOCK">
+	    DELETE FROM tuserbanned
+	    WHERE idUser = ?;   
 	</sql-query>
 </hibernate-mapping>

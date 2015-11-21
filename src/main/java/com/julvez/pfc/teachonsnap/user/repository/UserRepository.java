@@ -3,6 +3,7 @@ package com.julvez.pfc.teachonsnap.user.repository;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
 
 public interface UserRepository {
 
@@ -36,6 +37,16 @@ public interface UserRepository {
 
 	public void saveAuthor(int idUser, String fullName);
 
-	public void saveAdmin(int idUser);	
+	public void saveAdmin(int idUser);
+
+	public void removeAdmin(int idUser);
+
+	public void removeAuthor(int idUser);
+
+	public UserBannedInfo getUserBannedInfo(int idUser);
+
+	public void blockUser(int idUser, String reason, int idAdmin);
+
+	public void unblockUser(int idUser);	
 
 }

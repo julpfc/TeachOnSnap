@@ -6,6 +6,7 @@ import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.Question;
 import com.julvez.pfc.teachonsnap.page.model.Page;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 public interface PageService {
 
@@ -24,4 +25,6 @@ public interface PageService {
 	public List<Page> getAdminUsersPageStack();
 	
 	public List<Page> getAdminUsersSearchPageStack(String searchQuery, String searchType);
+
+	public List<Page> getAdminUserProfilePageStack(User profile);
 }

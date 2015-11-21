@@ -11,6 +11,7 @@ import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.page.model.PageNameKey;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class PageServiceImpl implements PageService {
 
@@ -106,6 +107,18 @@ public class PageServiceImpl implements PageService {
 		Page page = new Page(PageNameKey.ADMIN_USERS, ControllerURI.ADMIN_USER_MANAGER.toString());
 		pages.add(page);
 				
+		return pages;
+	}
+
+	@Override
+	public List<Page> getAdminUserProfilePageStack(User profile) {
+		List<Page> pages = getAdminUsersPageStack();
+		
+		if(pages != null && profile != null){
+			Page page = new Page(PageNameKey.ADMIN_USER_PROFILE, ControllerURI.ADMIN_USER_PROFILE + "/" + profile.getId() + "/");
+			pages.add(page);
+		}
+		else pages = null;
 		return pages;
 	}
 

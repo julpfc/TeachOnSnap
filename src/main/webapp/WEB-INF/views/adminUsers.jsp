@@ -62,11 +62,12 @@
 	      					</thead>
 	      					<tbody>
 		        			<c:forEach items="${users}" var="profile"> 		
-		  						<tr onclick="window.location='/admin/user/${profile.id}'" class="${profile.admin?'success':(profile.author?'info':'')}">
+		  						<tr onclick="window.location='/admin/user/${profile.id}'" class="${profile.banned?'danger':(profile.admin?'warning':(profile.author?'info':''))}">
 			  						<td>
-			  							<c:if test="${profile.admin}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.admin" bundle="${adminBundle}"/>" class="glyphicon glyphicon-wrench"></span></c:if>
-			  							<c:if test="${profile.author}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.author" bundle="${adminBundle}"/>" class="glyphicon glyphicon-pencil"></span></c:if>
-			  							<c:if test="${not profile.author && not profile.admin}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.basic" bundle="${adminBundle}"/>" class="glyphicon glyphicon-user"></span></c:if>
+			  							<c:if test="${profile.banned}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.banned" bundle="${adminBundle}"/>" class="glyphicon glyphicon-ban-circle"></span></c:if>
+			  							<c:if test="${not profile.banned && profile.admin}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.admin" bundle="${adminBundle}"/>" class="glyphicon glyphicon-wrench"></span></c:if>
+			  							<c:if test="${not profile.banned && profile.author}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.author" bundle="${adminBundle}"/>" class="glyphicon glyphicon-pencil"></span></c:if>
+			  							<c:if test="${not profile.banned && not profile.author && not profile.admin}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.basic" bundle="${adminBundle}"/>" class="glyphicon glyphicon-user"></span></c:if>
 			  						</td>
 			  						<td>${fn:escapeXml(profile.fullName)}</td>
 		  							<td>${profile.email}</td>

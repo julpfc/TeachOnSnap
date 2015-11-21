@@ -9,6 +9,7 @@ import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 
 public class UserRepositoryDB implements UserRepository {
@@ -106,14 +107,41 @@ public class UserRepositoryDB implements UserRepository {
 
 	@Override
 	public void saveAuthor(int idUser, String fullName) {
-		String URI = stringManager.generateURIname(fullName);
-		dbm.updateQuery("SQL_USER_SAVE_AUTHOR", idUser, URI, URI);
-		
+		String URI = stringManager.generateURIname(fullName);		
+		dbm.updateQuery("SQL_USER_SAVE_AUTHOR", idUser);
+		dbm.updateQuery("SQL_USER_SAVE_AUTHOR_URI", idUser, URI, URI);		
 	}
 
 	@Override
 	public void saveAdmin(int idUser) {
 		dbm.updateQuery("SQL_USER_SAVE_ADMIN", idUser);		
+	}
+
+	@Override
+	public void removeAdmin(int idUser) {
+		dbm.updateQuery("SQL_USER_DELETE_ADMIN", idUser);		
+	}
+
+	@Override
+	public void removeAuthor(int idUser) {
+		dbm.updateQuery("SQL_USER_DELETE_AUTHOR", idUser);		
+	}
+
+	@Override
+	public UserBannedInfo getUserBannedInfo(int idUser) {
+		return (UserBannedInfo)dbm.getQueryResultUnique("SQL_USER_GET_USER_BANNED_INFO", UserBannedInfo.class, idUser);
+	}
+
+	@Override
+	public void blockUser(int idUser, String reason, int idAdmin) {
+		dbm.updateQuery("SQL_USER_BLOCK", idUser, reason, idAdmin, reason, idAdmin);
+		
+	}
+
+	@Override
+	public void unblockUser(int idUser) {
+		dbm.updateQuery("SQL_USER_UNBLOCK", idUser);
+		
 	}
 
 }

@@ -21,6 +21,7 @@ public class User {
 	
 	private boolean author;
 	private boolean admin;
+	private boolean banned;
 	
 	private String URIName;
 	
@@ -30,6 +31,8 @@ public class User {
 	@Transient
 	private String MD5;
 	
+	@Transient
+	private UserBannedInfo bannedInfo;
 	
 	public String getMD5() {
 		return MD5;
@@ -69,7 +72,8 @@ public class User {
 		return "User [id=" + id + ", email=" + email + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", idLanguage="
 				+ idLanguage + ", author=" + author + ", admin=" + admin
-				+ ", URIName=" + URIName + ", language=" + language + "]";
+				+ ", URIName=" + URIName + ", language=" + language 
+				+ ", bannedInfo=" + bannedInfo +"]";
 	}
 
 	public boolean isAuthor() {
@@ -132,6 +136,22 @@ public class User {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	public boolean isBanned() {
+		return banned;
+	}
+
+	public void setBanned(boolean banned) {
+		this.banned = banned;
+	}
+
+	public UserBannedInfo getBannedInfo() {
+		return bannedInfo;
+	}
+
+	public void setBannedInfo(UserBannedInfo bannedInfo) {
+		this.bannedInfo = bannedInfo;
 	}
 	
 }

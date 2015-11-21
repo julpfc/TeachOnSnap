@@ -24,8 +24,8 @@
 	    SELECT idLesson
 	    FROM tlesson
 	    JOIN tlessononline USING(idlesson)
-	    JOIN tuserauthor USING(iduser)
-	    WHERE tuserauthor.URIName = ?
+	    JOIN tuserauthoruri USING(iduser)
+	    WHERE tuserauthoruri.URIName = ?
 	    ORDER BY idLesson DESC
 	    LIMIT ?,?
 	</sql-query>	

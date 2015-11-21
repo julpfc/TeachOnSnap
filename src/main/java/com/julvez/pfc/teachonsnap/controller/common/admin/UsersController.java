@@ -92,7 +92,7 @@ public class UsersController extends AdminController {
 									userService.saveAdmin(newUser);
 								}
 
-								setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USER_CREATED));
+								setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USER_SAVED));
 								
 							}
 							else{
@@ -145,10 +145,7 @@ public class UsersController extends AdminController {
 							// No llegan parámetros obligatorios
 							error = true;
 							response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-						}
-						
-						
-						
+						}						
 					}					
 				}
 			}
@@ -214,8 +211,7 @@ public class UsersController extends AdminController {
 				
 				requestManager.setAttribute(request, Attribute.LIST_USER, users);
 				
-				List<Page> pageStack = pageService.getAdminUsersSearchPageStack(searchQuery, searchType);
-				
+				List<Page> pageStack = pageService.getAdminUsersSearchPageStack(searchQuery, searchType);				
 				requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 	
 				

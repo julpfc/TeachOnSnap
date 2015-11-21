@@ -47,5 +47,13 @@ public interface UserService {
 	public User saveAuthor(User user);
 	
 	public User saveAdmin(User user);
+
+	public User removeAdmin(User user);
+
+	public User removeAuthor(User user);
+
+	public User blockUser(User user, String reason, User admin);
+
+	public User unblockUser(User user, User admin);
 	
 }

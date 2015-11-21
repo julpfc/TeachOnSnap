@@ -10,7 +10,8 @@ public enum PageNameKey {
 	EDIT_QUESTION("lesson.test.question.edit.breadcrumb"), 
 	ADMIN_USERS("admin.users.breadcrumb"), 
 	ADMIN_USERS_SEARCH_BY_NAME("admin.users.search.by.name.breadcrumb"),
-	ADMIN_USERS_SEARCH_BY_EMAIL("admin.users.search.by.email.breadcrumb");
+	ADMIN_USERS_SEARCH_BY_EMAIL("admin.users.search.by.email.breadcrumb"), 
+	ADMIN_USER_PROFILE("admin.user.profile.breadcrumb");
 	
 		 		
 	private final String key;

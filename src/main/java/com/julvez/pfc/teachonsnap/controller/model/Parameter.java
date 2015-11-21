@@ -21,6 +21,9 @@ public enum Parameter {
 	REGISTER_MULTIPLE_EMAILS("emailList"),
 	USER_ROLE_AUTHOR("author"),
 	USER_ROLE_ADMIN("admin"),
+	USER_BLOCK("blockUser"), 
+	USER_BLOCK_REASON("blockUserReason"), 
+	USER_UNBLOCK("unblockUser"),
 	
 	//New/Edit Lesson
 	LESSON_NEW_TITLE("title"),

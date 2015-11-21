@@ -46,7 +46,7 @@ public class UserPreferencesController extends CommonController {
 					if(!firstname.equals(user.getFirstName())){
 						user = userService.saveFirstName(user, firstname);					
 					}
-					else{
+					if(!lastname.equals(user.getLastName())){
 						user = userService.saveLastName(user, lastname);
 					}
 					requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
