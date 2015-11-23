@@ -27,4 +27,8 @@ public interface PageService {
 	public List<Page> getAdminUsersSearchPageStack(String searchQuery, String searchType);
 
 	public List<Page> getAdminUserProfilePageStack(User profile);
+
+	public List<Page> getAdminGroupsSearchPageStack(String searchQuery);
+	
+	public List<Page> getAdminGroupsPageStack();
 }

@@ -8,7 +8,9 @@ public enum ControllerURI {
 	LESSON("/lesson/"), 
 	LESSON_PREVIEW("/preview/"), 
 	ADMIN_USER_MANAGER("/admin/users/"), 
-	ADMIN_USER_PROFILE("/admin/user/");
+	ADMIN_USER_PROFILE("/admin/user/"), 
+	ADMIN_GROUP_MANAGER("/admin/groups/"),
+	ADMIN_GROUP_PROFILE("/admin/group/");
 
 		 		
 	private final String URI;

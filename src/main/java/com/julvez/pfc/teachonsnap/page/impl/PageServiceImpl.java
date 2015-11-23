@@ -122,4 +122,26 @@ public class PageServiceImpl implements PageService {
 		return pages;
 	}
 
+	@Override
+	public List<Page> getAdminGroupsSearchPageStack(String searchQuery) {
+		List<Page> pages = getAdminGroupsPageStack();
+		
+		if(pages != null && searchQuery!=null){
+			Page page = new Page(PageNameKey.ADMIN_GROUPS_SEARCH_BY_NAME,
+					ControllerURI.ADMIN_GROUP_MANAGER + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery);
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getAdminGroupsPageStack() {
+		List<Page> pages = new ArrayList<Page>();
+		Page page = new Page(PageNameKey.ADMIN_GROUPS, ControllerURI.ADMIN_GROUP_MANAGER.toString());
+		pages.add(page);
+				
+		return pages;
+	}
+
 }

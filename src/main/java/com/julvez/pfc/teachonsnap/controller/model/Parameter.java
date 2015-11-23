@@ -24,6 +24,7 @@ public enum Parameter {
 	USER_BLOCK("blockUser"), 
 	USER_BLOCK_REASON("blockUserReason"), 
 	USER_UNBLOCK("unblockUser"),
+	USER_GROUP_NAME("groupName"),
 	
 	//New/Edit Lesson
 	LESSON_NEW_TITLE("title"),

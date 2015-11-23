@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+	<sql-query name="SQL_USERGROUP_GET_GROUP">
+	    SELECT idUserGroup, groupName
+	    FROM tusergroup	    
+	    WHERE idUserGroup=?
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_GET_GROUP_MEMBERIDS">
+	    SELECT idUser
+	    FROM tusergroupmember	    
+	    WHERE idUserGroup=?
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_GET_GROUPIDS">
+	    SELECT idUserGroup
+	    FROM tusergroup
+	    LIMIT ?,?;	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_SEARCH_GROUPIDS_BY_NAME">
+	    SELECT idUserGroup
+	    FROM tusergroup
+	    WHERE groupname LIKE CONCAT('%',?,'%')
+	    LIMIT ?,?;	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_CREATE_GROUP">
+	    INSERT INTO tusergroup(groupName)
+	    VALUES(?);	       
+	</sql-query>
+</hibernate-mapping>

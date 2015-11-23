@@ -48,7 +48,11 @@ public enum ErrorMessageKey {
 	REGISTER_SENT("register.sent"), 
 	REGISTER_UNVERIFIED_MAIL("register.unverified.mail"), 
 	USER_SAVED("user.saved"), 
-	USERS_CREATED("users.created");
+	USERS_CREATED("users.created"),
+	
+	//ADMIN
+	SAVE_DUPLICATE_ERROR_GROUP("save.duplicate.error.group"), 
+	GROUP_SAVED("group.saved");
 		 		
 	private final String key;
  

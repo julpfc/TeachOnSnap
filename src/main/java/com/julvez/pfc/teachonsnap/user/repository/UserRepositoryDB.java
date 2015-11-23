@@ -14,8 +14,8 @@ import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 
 public class UserRepositoryDB implements UserRepository {
 
-	DBManager dbm = DBManagerFactory.getDBManager();
-	StringManager stringManager = StringManagerFactory.getManager();
+	private DBManager dbm = DBManagerFactory.getDBManager();
+	private StringManager stringManager = StringManagerFactory.getManager();
 	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
 	@Override

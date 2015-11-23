@@ -72,6 +72,17 @@
 	<servlet>
 		<description>
   		</description>
+		<display-name>AdminGroupsController</display-name>
+		<servlet-name>AdminGroupsController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.GroupsController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminGroupsController</servlet-name>
+		<url-pattern>/admin/groups/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
 		<display-name>DraftsController</display-name>
 		<servlet-name>DraftsController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.DraftsController</servlet-class>

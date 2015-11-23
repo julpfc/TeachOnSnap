@@ -45,6 +45,7 @@ public enum Attribute {
 	//Admin
 	LIST_USER("users"), 
 	USER_PROFILE("profile"),
+	LIST_GROUP("groups"),
 	
 	//Error
 	INT_ERROR_STATUS_CODE("javax.servlet.error.status_code"), 
