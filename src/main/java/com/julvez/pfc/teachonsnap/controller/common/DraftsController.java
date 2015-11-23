@@ -40,38 +40,59 @@ public class DraftsController extends CommentController {
 			boolean hasNextPage = false;
 			String searchURI = getSearchURI(params);
 					
-			List<Lesson> lessons = lessonService.getLessonDraftsFromUser(searchURI,pageResult);	
+			if(stringManager.isNumeric(searchURI)){
+				int idUser = Integer.parseInt(searchURI);
+				
+				User draftUser = userService.getUser(idUser);
+				
+				if(draftUser != null){
+					
+					if((draftUser.getId() == user.getId() && user.isAuthor()) || user.isAdmin()){
 			
-			if(lessons.size()>MAX_RESULTS_PAGE){
-				hasNextPage = true;
-				lessons.remove(MAX_RESULTS_PAGE);
-			}
-			
-			String nextPage = null;
-			if(hasNextPage){
-				if(searchURI == null)
-					nextPage = request.getServletPath()+"/"+(pageResult+MAX_RESULTS_PAGE);
-				else
-					nextPage = request.getServletPath()+"/"+searchURI+"/"+(pageResult+MAX_RESULTS_PAGE);
-			}
-			
-			String prevPage = null;
-			if(pageResult>0){
-				if(searchURI == null)
-					prevPage = request.getServletPath()+"/";
-				else
-					prevPage = request.getServletPath()+"/"+searchURI+"/";
-				if(pageResult>MAX_RESULTS_PAGE){
-					prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);
+						List<Lesson> lessons = lessonService.getLessonDraftsFromUser(draftUser, pageResult);	
+						
+						if(lessons.size()>MAX_RESULTS_PAGE){
+							hasNextPage = true;
+							lessons.remove(MAX_RESULTS_PAGE);
+						}
+						
+						String nextPage = null;
+						if(hasNextPage){
+							if(searchURI == null)
+								nextPage = request.getServletPath()+"/"+(pageResult+MAX_RESULTS_PAGE);
+							else
+								nextPage = request.getServletPath()+"/"+searchURI+"/"+(pageResult+MAX_RESULTS_PAGE);
+						}
+						
+						String prevPage = null;
+						if(pageResult>0){
+							if(searchURI == null)
+								prevPage = request.getServletPath()+"/";
+							else
+								prevPage = request.getServletPath()+"/"+searchURI+"/";
+							if(pageResult>MAX_RESULTS_PAGE){
+								prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);
+							}
+						}
+						requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
+						requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
+					
+						requestManager.setAttribute(request, Attribute.LIST_LESSON, lessons);
+						
+					    
+					    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);			
+					}
+					else{
+						response.sendError(HttpServletResponse.SC_FORBIDDEN);
+					}
 				}
+				else{
+					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				}	
 			}
-			requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
-			requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
-		
-			requestManager.setAttribute(request, Attribute.LIST_LESSON, lessons);
-			
-		    
-		    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);
+			else{
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			}	
 		}
 		else{
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);

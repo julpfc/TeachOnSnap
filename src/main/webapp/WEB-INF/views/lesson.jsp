@@ -21,7 +21,7 @@
 		<div>
        		<h2 class="lesson-title">${fn:escapeXml(lesson.title)}</h2>       		 	
 			<p class="lesson-meta">
-				<c:if test="${lesson.author.id == user.id || user.admin}">
+				<c:if test="${(lesson.author.id == user.id && user.author)|| user.admin}">
 					<span class="lesson-edit"><a href="${lesson.editURL}"><button class="btn btn-default btn-xs" type="button">
 						<fmt:message key="lesson.command.edit" bundle="${lessonBundle}"/>
 						 <span class="glyphicon glyphicon-edit"></span></button>

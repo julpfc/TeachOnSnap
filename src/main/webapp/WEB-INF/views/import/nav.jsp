@@ -56,6 +56,7 @@
 			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="nav.menu.admin"/> <span class="caret"></span></a>
 			            <ul class="dropdown-menu" role="menu">
 			            	<li><a href="/admin/users/"><fmt:message key="nav.menu.admin.users"/></a></li>			            	                
+			            	<li><a href="/admin/groups/"><fmt:message key="nav.menu.admin.groups"/></a></li>
 						</ul>
 			        </li>
 			   	</c:if>

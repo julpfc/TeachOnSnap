@@ -21,6 +21,7 @@ import com.julvez.pfc.teachonsnap.url.URLService;
 import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class LessonServiceImpl implements LessonService{
 
@@ -204,13 +205,12 @@ public class LessonServiceImpl implements LessonService{
 
 
 	@Override
-	public List<Lesson> getLessonDraftsFromUser(String userId, int firstResult) {
+	public List<Lesson> getLessonDraftsFromUser(User user, int firstResult) {
 		List<Lesson> lessons = new ArrayList<Lesson>();
 		
-		if(stringManager.isNumeric(userId)){
-			short idUser = Short.parseShort(userId);  
+		if(user!=null){			  
 		
-			List<Integer> ids = lessonRepository.getDraftLessonIDsFromUser(idUser, firstResult);
+			List<Integer> ids = lessonRepository.getDraftLessonIDsFromUser(user.getId(), firstResult);
 		
 			for(int id:ids){
 				lessons.add(getLesson(id));

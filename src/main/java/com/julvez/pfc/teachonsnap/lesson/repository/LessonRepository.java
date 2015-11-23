@@ -28,6 +28,6 @@ public interface LessonRepository {
 
 	public void unpublish(int idLesson);
 
-	public List<Integer> getDraftLessonIDsFromUser(short idUser, int firstResult);
+	public List<Integer> getDraftLessonIDsFromUser(int idUser, int firstResult);
 
 }

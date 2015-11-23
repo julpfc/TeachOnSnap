@@ -87,7 +87,7 @@ public class LessonRepositoryDB implements LessonRepository {
 
 
 	@Override
-	public List<Integer> getDraftLessonIDsFromUser(short idUser, int firstResult) {
+	public List<Integer> getDraftLessonIDsFromUser(int idUser, int firstResult) {
 		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_LESSON_GET_DRAFT_LESSONIDS_FROM_USER", Integer.class, idUser, firstResult, maxResults + 1);
 	}

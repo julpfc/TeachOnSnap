@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 public interface LessonService {
 	
@@ -31,6 +32,6 @@ public interface LessonService {
 
 	public void unpublish(Lesson lesson);
 
-	public List<Lesson> getLessonDraftsFromUser(String userId, int firstResult);
+	public List<Lesson> getLessonDraftsFromUser(User user, int firstResult);	
 	
 }

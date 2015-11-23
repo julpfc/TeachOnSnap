@@ -106,7 +106,7 @@ public class LessonRepositoryDBCache implements LessonRepository {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Integer> getDraftLessonIDsFromUser(short idUser, int firstResult) {
+	public List<Integer> getDraftLessonIDsFromUser(int idUser, int firstResult) {
 		return (List<Integer>)cache.executeImplCached(repoDB, idUser, firstResult);
 	}
 

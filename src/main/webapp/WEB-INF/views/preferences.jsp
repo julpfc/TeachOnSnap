@@ -157,7 +157,14 @@
 					</div>
 			    </form>				
 			</div>		
-			
+			<c:if test="${not empty profile.URIName}">
+				<div class="alert alert-default col-sm-12" role="alert">					
+				 	<span>
+						<a class="alert-link pull-left" href="/author/${profile.URIName}">Ver lecciones publicadas</a>
+						<a class="alert-link pull-right" href="/drafts/${profile.id}">Ver borradores</a>
+					</span>					
+				</div>
+			</c:if>	
 		</div><!-- /.row -->
 		<div class="row">
 			<nav>
