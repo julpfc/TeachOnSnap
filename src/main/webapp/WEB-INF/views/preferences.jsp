@@ -31,13 +31,13 @@
 		<div class="row">
 			<c:if test="${not empty profile}">
 				<div class="alert ${profile.banned?'alert-danger':'alert-success'} col-sm-6" role="alert">
-					<label>Estado: </label>
+					<label><fmt:message key="admin.user.status" bundle="${adminBundle}"/>: </label>
 						<c:choose>
 							<c:when test="${profile.banned}">
-								Bloqueada <span class="glyphicon glyphicon-ban-circle"></span>						
+								<fmt:message key="admin.user.status.banned" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-ban-circle"></span>						
 							</c:when>
 							<c:otherwise>
-								Activa <span class="glyphicon glyphicon-ok-circle"></span>						
+								<fmt:message key="admin.user.status.active" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-ok-circle"></span>						
 							</c:otherwise>
 						</c:choose>
 				 	<span id="span-status">
@@ -49,25 +49,25 @@
 								<c:when test="${profile.banned}">
 									<ul class="list-group">
 										<li class="list-group-item">
-											Razón del bloqueo: ${fn:escapeXml(profile.bannedInfo.reason)}									
+											<fmt:message key="admin.user.status.banned.reason" bundle="${adminBundle}"/>: ${fn:escapeXml(profile.bannedInfo.reason)}									
 										</li>
 										<li class="list-group-item">
 											<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${profile.bannedInfo.date}"/>					
 										</li>
 										<li class="list-group-item">
-											Administrador: ${fn:escapeXml(profile.bannedInfo.admin.fullName)}
+											<fmt:message key="admin.user.admin" bundle="${adminBundle}"/>: ${fn:escapeXml(profile.bannedInfo.admin.fullName)}
 										</li>
 									</ul>
-									<label class="alert-success" for="unblockInput"><span class="glyphicon glyphicon-ok-circle"></span> Desbloquear usuario</label>
+									<label class="alert-success" for="unblockInput"><span class="glyphicon glyphicon-ok-circle"></span> <fmt:message key="admin.user.unblock" bundle="${adminBundle}"/></label>
 									<input id="unblockInput" type="checkbox" name="unblockUser" value="true" required="required"/>
 								</c:when>
 								<c:otherwise>
 									<ul class="list-group">
 										<li class="list-group-item">
-											Razón del bloqueo: <textarea name="blockUserReason" class="form-control" maxlength="255" placeholder="Razón" required="required"></textarea>									
+											<fmt:message key="admin.user.status.banned.reason" bundle="${adminBundle}"/>: <textarea name="blockUserReason" class="form-control" maxlength="255" placeholder="<fmt:message key="admin.user.status.banned.reason" bundle="${adminBundle}"/>" required="required"></textarea>									
 										</li>
 									</ul>
-									<label class="alert-danger" for="blockInput"><span class="glyphicon glyphicon-ban-circle"></span> Bloquear usuario</label>
+									<label class="alert-danger" for="blockInput"><span class="glyphicon glyphicon-ban-circle"></span> <fmt:message key="admin.user.block" bundle="${adminBundle}"/></label>
 									<input id="blockInput" type="checkbox" name="blockUser" value="true" required="required"/>
 								</c:otherwise>
 							</c:choose>
@@ -82,22 +82,22 @@
 			
 			
 				<div class="alert ${profile.admin?'alert-warning':(profile.author?'alert-info':'')} col-sm-6" role="alert">										
-					<label>Tipo de usuario: </label>
+					<label><fmt:message key="admin.user.type" bundle="${adminBundle}"/>: </label>
 				 	<span id="span-type">
-						<c:if test="${profile.admin}">Administrator <span class="glyphicon glyphicon-wrench"></span></c:if>
-	  					<c:if test="${profile.author}">Author <span class="glyphicon glyphicon-pencil"></span></c:if>
-	  					<c:if test="${not profile.author && not profile.admin}">Basic user <span class="glyphicon glyphicon-user"></span></c:if>
+						<c:if test="${profile.admin}"><fmt:message key="admin.user.admin" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-wrench"></span></c:if>
+	  					<c:if test="${profile.author}"><fmt:message key="admin.user.author" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-pencil"></span></c:if>
+	  					<c:if test="${not profile.author && not profile.admin}"><fmt:message key="admin.user.basic" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-user"></span></c:if>
 						<a class="alert-link pull-right" onclick="return showEditType(true);"><fmt:message key="user.pref.edit" bundle="${prefBundle}"/></a>
 					</span>
 					<form id="typeForm" action="" method="POST">
 						<div id="div-type" class="hidden">
 							<ul>
 								<li>
-								<label for="authorInput"><span class="glyphicon glyphicon-pencil"></span> Author</label>
+								<label for="authorInput"><span class="glyphicon glyphicon-pencil"></span> <fmt:message key="admin.user.author" bundle="${adminBundle}"/></label>
 								<input id="authorInput" type="checkbox" ${profile.author?'checked="checked"':''} name="author" value="true"/>
 								</li>
 								<li>
-								<label for="adminInput"><span class="glyphicon glyphicon-wrench"></span> Administrator</label>
+								<label for="adminInput"><span class="glyphicon glyphicon-wrench"></span> <fmt:message key="admin.user.admin" bundle="${adminBundle}"/></label>
 								<input id="adminInput" type="checkbox" ${profile.admin?'checked="checked"':''} name="admin" value="true"/>
 								</li>
 							</ul>								
@@ -151,7 +151,7 @@
 				        	<button class="btn btn-default" type="button" onclick="return showEditPassword(false);"><span class="glyphicon glyphicon-remove"></span></button>
 				      	</span>
 						<c:if test="${not empty profile}">
-							<a class="alert-link" href="?sendPassword=true">Reenviar correo de cambio de contraseña</a>
+							<a class="alert-link" href="?sendPassword=true"><fmt:message key="admin.user.password.resendPassword" bundle="${adminBundle}"/></a>
 						</c:if>
 				      	<input id="pwnMatch" type="hidden" class="form-control" value="<fmt:message key="user.pref.validator.matchpasswords" bundle="${prefBundle}"/>">					      	
 					</div>
@@ -160,8 +160,8 @@
 			<c:if test="${not empty profile.URIName}">
 				<div class="alert alert-default col-sm-12" role="alert">					
 				 	<span>
-						<a class="alert-link pull-left" href="/author/${profile.URIName}">Ver lecciones publicadas</a>
-						<a class="alert-link pull-right" href="/drafts/${profile.id}">Ver borradores</a>
+						<a class="alert-link pull-left" href="/author/${profile.URIName}"><fmt:message key="admin.user.lessons" bundle="${adminBundle}"/></a>
+						<a class="alert-link pull-right" href="/drafts/${profile.id}"><fmt:message key="admin.user.drafts" bundle="${adminBundle}"/></a>
 					</span>					
 				</div>
 			</c:if>	
