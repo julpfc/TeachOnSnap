@@ -50,14 +50,16 @@
 	      						<thead>
 	        						<tr>	          							
 	          							<th><fmt:message key="admin.group.name" bundle="${adminBundle}"/></th>	          							
-	          							<th></th>          						
+	          							<th><fmt:message key="admin.users" bundle="${adminBundle}"/></th>
+	          							<th></th>
 	        						</tr>
 	      						</thead>
 	      						<tbody>
 		        					<c:forEach items="${groups}" var="group"> 		
 		  								<tr onclick="window.location='/admin/group/${group.id}'">			  								
-			  								<td>${fn:escapeXml(group.groupName)}</td>		  									
-		  									<td><a href="/admin/group/${group.id}"><fmt:message key="admin.groups.edit" bundle="${adminBundle}"/></a></td>
+			  								<td>${fn:escapeXml(group.groupName)}</td>
+			  								<td><span class="badge">${fn:length(group.users)}</span></td>
+		  									<td><a href="/admin/group/${group.id}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.groups.edit" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a></td>
 		  								</tr>
 									</c:forEach>	
 	      						</tbody>
@@ -107,5 +109,6 @@
 	 </div><!-- /.container -->		
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>	
+	<script src="/resources/js/adminGroups.js"></script>
 </body>
 </html>

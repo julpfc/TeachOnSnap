@@ -43,15 +43,20 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User getUser(int idUser) {
-		User user = userRepository.getUser(idUser);
-		user.setLanguage(langService.getLanguage(user.getIdLanguage()));
-		user.setMD5(stringManager.generateMD5(user.getEmail()));
-		if(user.isBanned()){
-			UserBannedInfo bannedInfo = userRepository.getUserBannedInfo(idUser);
-			if(bannedInfo != null){
-				bannedInfo.setAdmin(getUser(bannedInfo.getIdAdmin()));
+		User user = null;
+		
+		if(idUser>0){
+			user = userRepository.getUser(idUser);
+		
+			user.setLanguage(langService.getLanguage(user.getIdLanguage()));
+			user.setMD5(stringManager.generateMD5(user.getEmail()));
+			if(user.isBanned()){
+				UserBannedInfo bannedInfo = userRepository.getUserBannedInfo(idUser);
+				if(bannedInfo != null){
+					bannedInfo.setAdmin(getUser(bannedInfo.getIdAdmin()));
+				}
+				user.setBannedInfo(bannedInfo);
 			}
-			user.setBannedInfo(bannedInfo);
 		}
 		return user;
 	}

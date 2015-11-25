@@ -11,6 +11,7 @@ import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.page.model.PageNameKey;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
+import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class PageServiceImpl implements PageService {
@@ -141,6 +142,19 @@ public class PageServiceImpl implements PageService {
 		Page page = new Page(PageNameKey.ADMIN_GROUPS, ControllerURI.ADMIN_GROUP_MANAGER.toString());
 		pages.add(page);
 				
+		return pages;
+	}
+
+	@Override
+	public List<Page> getAdminGroupProfilePageStack(UserGroup profile) {
+		List<Page> pages = getAdminGroupsPageStack();
+		
+		if(pages != null && profile != null){
+			Page page = new Page(PageNameKey.ADMIN_GROUP_PROFILE,
+					ControllerURI.ADMIN_GROUP_PROFILE + "/" + profile.getId() + "/");
+			pages.add(page);
+		}
+		else pages = null;
 		return pages;
 	}
 

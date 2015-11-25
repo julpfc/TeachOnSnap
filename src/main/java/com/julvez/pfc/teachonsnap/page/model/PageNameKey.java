@@ -13,7 +13,8 @@ public enum PageNameKey {
 	ADMIN_USERS_SEARCH_BY_EMAIL("admin.users.search.by.email.breadcrumb"), 
 	ADMIN_USER_PROFILE("admin.user.profile.breadcrumb"), 
 	ADMIN_GROUPS("admin.groups.breadcrumb"), 
-	ADMIN_GROUPS_SEARCH_BY_NAME("admin.groups.search.by.name.breadcrumb");
+	ADMIN_GROUPS_SEARCH_BY_NAME("admin.groups.search.by.name.breadcrumb"), 
+	ADMIN_GROUP_PROFILE("admin.group.profile.breadcrumb");
 	
 		 		
 	private final String key;

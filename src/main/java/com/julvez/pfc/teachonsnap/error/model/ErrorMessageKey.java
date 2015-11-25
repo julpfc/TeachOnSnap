@@ -52,7 +52,9 @@ public enum ErrorMessageKey {
 	
 	//ADMIN
 	SAVE_DUPLICATE_ERROR_GROUP("save.duplicate.error.group"), 
-	GROUP_SAVED("group.saved");
+	GROUP_SAVED("group.saved"),
+	GROUP_USERS_ADDED("group.users.added"), 
+	GROUP_DELETED("group.deleted");
 		 		
 	private final String key;
  

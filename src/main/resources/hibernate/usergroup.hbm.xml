@@ -27,4 +27,30 @@
 	    INSERT INTO tusergroup(groupName)
 	    VALUES(?);	       
 	</sql-query>
+	<sql-query name="SQL_USERGROUP_ADD_USER">
+	    INSERT IGNORE INTO tusergroupmember(idUserGroup, idUser)
+	    VALUES(?, ?);	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_SAVE_GROUPNAME">
+	    UPDATE tusergroup
+	    SET groupName = ?
+	    WHERE idUserGroup = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_REMOVE_USER">
+	    DELETE FROM tusergroupmember	    
+	    WHERE idUserGroup = ? AND idUSer = ?;	       
+	</sql-query>	
+	<sql-query name="SQL_USERGROUP_DELETE_GROUP">
+	    DELETE FROM tusergroup	    
+	    WHERE idUserGroup = ?;	       
+	</sql-query>	
+	<sql-query name="SQL_USERGROUP_DELETE_ALL_USERS">
+	    DELETE FROM tusergroupmember	    
+	    WHERE idUserGroup = ?;	       
+	</sql-query>	
+	<sql-query name="SQL_USERGROUP_GET_GROUPIDS_FROM_USER">
+	    SELECT idUserGroup
+	    FROM tusergroupmember	    
+	    WHERE idUser=?
+	</sql-query>
 </hibernate-mapping>

@@ -41,4 +41,45 @@ public class UserGroupRepositoryDB implements UserGroupRepository {
 		return (short)dbm.insertQueryAndGetLastInserID("SQL_USERGROUP_CREATE_GROUP", groupName);
 	}
 
+	@Override
+	public boolean addUser(short idUserGroup, int idUser) {
+		return dbm.updateQuery("SQL_USERGROUP_ADD_USER", idUserGroup, idUser) >= 0;		
+	}
+
+	@Override
+	public boolean saveGroupName(short idUserGroup, String groupName) {
+		return dbm.updateQuery("SQL_USERGROUP_SAVE_GROUPNAME", groupName, idUserGroup) >= 0;	
+	}
+
+	@Override
+	public boolean removeUser(short idUserGroup, int idUser) {
+		return dbm.updateQuery("SQL_USERGROUP_REMOVE_USER", idUserGroup, idUser) >= 0;
+	}
+
+	@Override
+	public boolean removeGroup(short idUserGroup) {
+		boolean success = false;
+		
+		Object session = dbm.beginTransaction();
+		
+		success = removeAllUsers(session, idUserGroup);
+		
+		if(success){			
+			success = dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_GROUP", idUserGroup) >= 0;			
+		}
+		
+		dbm.endTransaction(success, session);
+		
+		return success;
+	}
+
+	private boolean removeAllUsers(Object session, short idUserGroup) {
+		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_USERS", idUserGroup) >= 0;		
+	}
+
+	@Override
+	public List<Short> getGroupsFromUser(int idUser) {
+		return dbm.getQueryResultList("SQL_USERGROUP_GET_GROUPIDS_FROM_USER", Short.class, idUser);
+	}
+
 }

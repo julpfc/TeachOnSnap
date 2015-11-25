@@ -20,6 +20,9 @@ import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
+import com.julvez.pfc.teachonsnap.user.group.UserGroupService;
+import com.julvez.pfc.teachonsnap.user.group.UserGroupServiceFactory;
+import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class UserProfileController extends AdminController {
@@ -27,6 +30,7 @@ public class UserProfileController extends AdminController {
 	private static final long serialVersionUID = -6715205860379822910L;
 
 	private PageService pageService = PageServiceFactory.getService();
+	private UserGroupService groupService = UserGroupServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
@@ -167,6 +171,9 @@ public class UserProfileController extends AdminController {
 				}
 				
 				if(!error){
+					List<UserGroup> groups = groupService.getGroupsFromUser(profile);
+					requestManager.setAttribute(request, Attribute.LIST_GROUP, groups);
+					
 					List<Page> pageStack = pageService.getAdminUserProfilePageStack(profile);				
 					requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 					

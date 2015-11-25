@@ -16,4 +16,14 @@ public interface UserGroupRepository {
 
 	public short createGroup(String groupName);
 
+	public boolean addUser(short idUserGroup, int idUser);
+
+	public boolean saveGroupName(short idUserGroup, String groupName);
+
+	public boolean removeUser(short idUserGroup, int idUser);
+
+	public boolean removeGroup(short idUserGroup);
+
+	public List<Short> getGroupsFromUser(int idUser);
+
 }

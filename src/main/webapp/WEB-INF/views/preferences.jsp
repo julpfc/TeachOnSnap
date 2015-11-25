@@ -158,11 +158,34 @@
 			    </form>				
 			</div>		
 			<c:if test="${not empty profile.URIName}">
-				<div class="alert alert-default col-sm-12" role="alert">					
+				<div class="alert alert-default col-sm-6" role="alert">					
 				 	<span>
 						<a class="alert-link pull-left" href="/author/${profile.URIName}"><fmt:message key="admin.user.lessons" bundle="${adminBundle}"/></a>
 						<a class="alert-link pull-right" href="/drafts/${profile.id}"><fmt:message key="admin.user.drafts" bundle="${adminBundle}"/></a>
 					</span>					
+				</div>
+			</c:if>	
+			<c:if test="${not empty profile}">
+				<div class="alert alert-info col-sm-6" role="alert">					
+				 	<label><fmt:message key="admin.user.groups" bundle="${adminBundle}"/>: </label>
+			 	<span id="span-groups">
+					<span class="badge">${fn:length(groups)}</span>
+					<c:if test="${not empty groups}">
+						<a class="alert-link pull-right" onclick="return showGroups(true);"><fmt:message key="user.pref.edit" bundle="${prefBundle}"/></a>
+					</c:if>
+				</span>
+				
+					<div id="div-groups" class="hidden">
+						<ul class="list-group">
+						<c:forEach items="${groups}" var="group">
+							<li class="list-group-item"><a href="/admin/group/${group.id}">${group.groupName} <span class="badge pull-right">${fn:length(group.users)}</span></a></li>
+						</c:forEach>
+						</ul>
+				      	<span class="pull-right">				        	
+				        	<button class="btn btn-default" type="button" onclick="return showGroups(false);"><span class="glyphicon glyphicon-chevron-up"></span></button>
+				      	</span>
+				      	<span>&nbsp;</span>
+				    </div>			
 				</div>
 			</c:if>	
 		</div><!-- /.row -->
