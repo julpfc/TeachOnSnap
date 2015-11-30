@@ -27,7 +27,7 @@
      					<c:when test="${not empty param['searchQuery']}">
      						<fmt:message key="admin.users.search.result.heading" bundle="${adminBundle}"/>: <span class="label label-info">${param['searchQuery']}</span>     						    
      					</c:when>
-     					<c:otherwise>
+     					<c:otherwise>     						
 		     				<form action="" method="post" role="form">
 				    			<div class="col-sm-4 col-sm-offset-8 input-group">
 			      					<input type="text" class="form-control" name="searchQuery" placeholder="<fmt:message key="admin.users.search.placeholder" bundle="${adminBundle}"/>"/>
@@ -41,7 +41,7 @@
 			        					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>        
 			      					</div><!-- /btn-group -->
 			    				</div><!-- /input-group -->
-							</form>     				
+							</form>							     				
      					</c:otherwise>
      				</c:choose>
 				</div>
