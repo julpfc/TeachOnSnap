@@ -35,7 +35,7 @@ public enum ErrorMessageKey {
 	COMMENT_SAVED("comment.saved"),
 	COMMENT_CREATED("comment.created"),
 	
-	//Preferences
+	//User profile
 	USERNAME_SAVED("username.saved"), 
 	WRONG_CURRENT_PASSWORD("wrong.current.password.error.prefs"), 
 	PASSWORD_CHANGED("password.changed"), 

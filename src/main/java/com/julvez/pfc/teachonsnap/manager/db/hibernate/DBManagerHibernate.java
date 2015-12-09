@@ -307,4 +307,6 @@ public class DBManagerHibernate implements DBManager{
 		}			
 		return lastInsertID;
 	}
+	
+	
 }

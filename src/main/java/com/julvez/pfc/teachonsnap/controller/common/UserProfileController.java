@@ -16,7 +16,7 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
-public class UserPreferencesController extends CommonController {
+public class UserProfileController extends CommonController {
 
 	private static final long serialVersionUID = -6482638863947050167L;
 	
@@ -78,7 +78,7 @@ public class UserPreferencesController extends CommonController {
 			
 		}
 		else{
-			request.getRequestDispatcher("/WEB-INF/views/preferences.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/userProfile.jsp").forward(request, response);
 		}
 
 	}

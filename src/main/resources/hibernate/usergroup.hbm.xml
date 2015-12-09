@@ -53,4 +53,38 @@
 	    FROM tusergroupmember	    
 	    WHERE idUser=?
 	</sql-query>
+	<sql-query name="SQL_USERGROUP_GET_FOLLOW_AUTHORIDS">
+	    SELECT idUser
+	    FROM tfollowgroupuser	    
+	    WHERE idFollowerGroup=?
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_ADD_FOLLOW_AUTHOR">
+	    INSERT IGNORE INTO tfollowgroupuser(idFollowerGroup, idUser)
+	    VALUES(?, ?);	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_REMOVE_FOLLOW_AUTHOR">
+	    DELETE FROM tfollowgroupuser
+	    WHERE idFollowerGroup = ? AND idUser = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_GET_FOLLOW_TAGIDS">
+	    SELECT idTag
+	    FROM tfollowgrouptag	    
+	    WHERE idFollowerGroup=?
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_ADD_FOLLOW_TAG">
+	    INSERT IGNORE INTO tfollowgrouptag(idFollowerGroup, idTag)
+	    VALUES(?, ?);	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_REMOVE_FOLLOW_TAG">
+	    DELETE FROM tfollowgrouptag
+	    WHERE idFollowerGroup = ? AND idTag = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_DELETE_ALL_TAG_FOLLOWINGS">
+	    DELETE FROM tfollowgrouptag
+	    WHERE idFollowerGroup = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USERGROUP_DELETE_ALL_AUTHOR_FOLLOWINGS">
+	    DELETE FROM tfollowgroupuser
+	    WHERE idFollowerGroup = ?;	       
+	</sql-query>
 </hibernate-mapping>

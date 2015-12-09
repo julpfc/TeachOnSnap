@@ -83,6 +83,61 @@
 	<servlet>
 		<description>
   		</description>
+		<display-name>AdminGroupFollowAuthorController</display-name>
+		<servlet-name>AdminGroupFollowAuthorController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.FollowAuthorController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminGroupFollowAuthorController</servlet-name>
+		<url-pattern>/admin/group/follow/author/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<description>
+  		</description>
+		<display-name>FollowAuthorController</display-name>
+		<servlet-name>FollowAuthorController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.FollowAuthorController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FollowAuthorController</servlet-name>
+		<url-pattern>/follow/author/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<description>
+  		</description>
+		<display-name>FollowController</display-name>
+		<servlet-name>FollowController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.FollowController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FollowController</servlet-name>
+		<url-pattern>/follow/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
+		<display-name>AdminGroupFollowTagController</display-name>
+		<servlet-name>AdminGroupFollowTagController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.FollowTagController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminGroupFollowTagController</servlet-name>
+		<url-pattern>/admin/group/follow/tag/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
+		<display-name>AdminGroupFollowingController</display-name>
+		<servlet-name>AdminGroupFollowingController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.GroupFollowController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminGroupFollowingController</servlet-name>
+		<url-pattern>/admin/group/follow/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
 		<display-name>AdminGroupProfileController</display-name>
 		<servlet-name>AdminGroupProfileController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.GroupProfileController</servlet-class>
@@ -90,7 +145,7 @@
 	<servlet-mapping>
 		<servlet-name>AdminGroupProfileController</servlet-name>
 		<url-pattern>/admin/group/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping>	
 	<servlet>
 		<description>
   		</description>
@@ -116,13 +171,13 @@
 	<servlet>
 		<description>
   		</description>
-		<display-name>UserPreferencesController</display-name>
-		<servlet-name>UserPreferencesController</servlet-name>
-		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.UserPreferencesController</servlet-class>
+		<display-name>UserProfileController</display-name>
+		<servlet-name>UserProfileController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.UserProfileController</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>UserPreferencesController</servlet-name>
-		<url-pattern>/preferences/*</url-pattern>
+		<servlet-name>UserProfileController</servlet-name>
+		<url-pattern>/profile/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<description>

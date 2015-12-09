@@ -98,4 +98,40 @@ public class UserGroupRepositoryDBCache implements UserGroupRepository {
 		return (List<Short>)cache.executeImplCached(repoDB, idUser);
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> getAuthorFollowings(short idUserGroup) {
+		return (List<Short>)cache.executeImplCached(repoDB, idUserGroup);
+	}
+
+	@Override
+	public boolean followAuthor(short idUserGroup, int idAuthor) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUserGroup),stringManager.getKey(idAuthor)}, 
+				new String[]{"getAuthorFollowings","getAuthorFollowers"}, idUserGroup, idAuthor);
+	}
+
+	@Override
+	public boolean unfollowAuthor(short idUserGroup, int idAuthor) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUserGroup),stringManager.getKey(idAuthor)}, 
+				new String[]{"getAuthorFollowings","getAuthorFollowers"}, idUserGroup, idAuthor);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Integer> getTagFollowings(short idUserGroup) {
+		return (List<Integer>)cache.executeImplCached(repoDB, idUserGroup);
+	}
+
+	@Override
+	public boolean followTag(short idUserGroup, int idTag) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUserGroup),stringManager.getKey(idTag)}, 
+				new String[]{"getTagFollowings","getTagFollowers"}, idUserGroup, idTag);
+	}
+
+	@Override
+	public boolean unfollowTag(short idUserGroup, int idTag) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUserGroup),stringManager.getKey(idTag)}, 
+				new String[]{"getTagFollowings","getTagFollowers"}, idUserGroup, idTag);
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.user.model;
 
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,6 +36,29 @@ public class User {
 	@Transient
 	private UserBannedInfo bannedInfo;
 	
+	@Transient
+	private Map<String,String> authorFollowed;
+	
+	@Transient
+	private Map<String,String> lessonFollowed;
+		
+	
+	public Map<String, String> getAuthorFollowed() {
+		return authorFollowed;
+	}
+
+	public void setAuthorFollowed(Map<String, String> authorFollowed) {
+		this.authorFollowed = authorFollowed;
+	}
+
+	public Map<String, String> getLessonFollowed() {
+		return lessonFollowed;
+	}
+
+	public void setLessonFollowed(Map<String, String> lessonFollowed) {
+		this.lessonFollowed = lessonFollowed;
+	}
+
 	public String getMD5() {
 		return MD5;
 	}
@@ -73,7 +98,8 @@ public class User {
 				+ firstName + ", lastName=" + lastName + ", idLanguage="
 				+ idLanguage + ", author=" + author + ", admin=" + admin
 				+ ", URIName=" + URIName + ", language=" + language 
-				+ ", bannedInfo=" + bannedInfo +"]";
+				+ ", bannedInfo=" + bannedInfo + ", authorFollowed=" + authorFollowed
+				+ ", lessonFollowed=" + lessonFollowed +"]";
 	}
 
 	public boolean isAuthor() {

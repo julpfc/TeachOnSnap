@@ -13,5 +13,7 @@ public interface CommentService {
 	public void saveCommentBody(int idComment, int idUser, String commentBody);
 	public void blockComment(int idComment, User admin, String reason);
 	public void unblockComment(int idComment, User admin);
-	
+
+	public boolean notifyComment(int idLesson, Comment comment);
+	public boolean notifyParentComment(int idLesson, Comment comment, int idParentComment);
 }

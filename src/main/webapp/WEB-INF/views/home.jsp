@@ -32,15 +32,15 @@
 		<div class="row">					
 			<div class="col-sm-7">
 				<c:forEach items="${lessons}" var="lesson">					
-					<div> 
-	            		<h2 class="lesson-title"><a href="${lesson.URL}">${fn:escapeXml(lesson.title)}</a></h2>
+					<div> <c:set var="lessonID" value="[${lesson.id}]"/>
+	            		<h2 class="lesson-title"><a href="${lesson.URL}">${fn:escapeXml(lesson.title)}</a>${not empty user.lessonFollowed[lessonID]?' <span class="glyphicon glyphicon-star"></span>':''}</h2>
 	            		<p class="lesson-meta">
 	            			<c:if test="${userLang.id != lesson.language.id}">
 	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
 	            			</c:if>	           			 
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
-	            			 <fmt:message key="lesson.meta.author.by"/> 
-            			 	<a href="${lesson.author.URL}">${lesson.author.fullName}</a>
+	            			 <fmt:message key="lesson.meta.author.by"/> <c:set var="authorID" value="[${lesson.author.id}]"/>
+            			 	<a href="${lesson.author.URL}">${lesson.author.fullName}${not empty user.authorFollowed[authorID]?' <span class="glyphicon glyphicon-star"></span>':''}</a>
            			 	</p>
 	            		<p class="lesson-addons">	            			
 							<c:choose>

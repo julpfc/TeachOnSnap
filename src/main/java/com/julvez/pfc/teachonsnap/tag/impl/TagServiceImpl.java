@@ -9,18 +9,30 @@ import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.notify.NotifyService;
+import com.julvez.pfc.teachonsnap.notify.NotifyServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.model.CloudTag;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
+import com.julvez.pfc.teachonsnap.tag.model.TagFollowed;
+import com.julvez.pfc.teachonsnap.tag.model.TagMessageKey;
 import com.julvez.pfc.teachonsnap.tag.repository.TagRepository;
 import com.julvez.pfc.teachonsnap.tag.repository.TagRepositoryFactory;
+import com.julvez.pfc.teachonsnap.text.TextService;
+import com.julvez.pfc.teachonsnap.text.TextServiceFactory;
+import com.julvez.pfc.teachonsnap.url.URLService;
+import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class TagServiceImpl implements TagService {
 
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private UserService userService = UserServiceFactory.getService();
+	private URLService urlService = URLServiceFactory.getService();
+	private TextService textService = TextServiceFactory.getService();
+	private NotifyService notifyService = NotifyServiceFactory.getService();
 	
 	private TagRepository tagRepository = TagRepositoryFactory.getRepository();
 	
@@ -127,6 +139,10 @@ public class TagServiceImpl implements TagService {
 				tagID = tagRepository.getTagID(tag.toLowerCase());
 				if(tagID>0){
 					tagIDs.add(tagID);
+					
+					if(!lesson.isDraft()){
+						notifyLessonTagged(lesson, tagID);
+					}
 				}
 				else{
 					tagID = tagRepository.createTag(tag.toLowerCase());	
@@ -195,4 +211,72 @@ public class TagServiceImpl implements TagService {
 		return removeTagIDs;
 	}
 
+	@Override
+	public List<Tag> getTags(int firstResult) {
+		List<Tag> tags = new ArrayList<Tag>();
+		
+		List<Integer> ids = tagRepository.getTags(firstResult);
+		
+		for(int id:ids){
+			tags.add(getTag(id));
+		}
+		
+		return tags;
+	}
+
+	@Override
+	public List<TagFollowed> getTagsFollowed(List<Tag> tags, List<Tag> tagFollowings) {
+		List<TagFollowed> retList = new ArrayList<TagFollowed>();
+		
+		if(tags != null){
+			
+			for(Tag tag:tags){
+				TagFollowed followed = new TagFollowed(tag);
+				
+				if(tagFollowings != null && tagFollowings.contains(tag)){
+					followed.setFollowed(true);
+				}				
+				retList.add(followed);				
+			}			
+		}
+		
+		return retList;
+	}
+
+	@Override
+	public List<Tag> searchTag(String searchQuery, int firstResult) {
+		List<Tag> tags = new ArrayList<Tag>();
+		
+		List<Integer> ids = tagRepository.searchTag(searchQuery, firstResult);
+		
+		for(int id:ids){
+			tags.add(getTag(id));
+		}
+		
+		return tags;
+	}
+
+	@Override
+	public boolean notifyLessonTagged(Lesson lesson, int idTag) {		
+		boolean success = false;
+		
+		if(lesson != null && !lesson.isDraft() && idTag > 0){
+			Tag tag = getTag(idTag);
+			
+			List<User> followers = userService.getTagFollowers(tag);
+			
+			if(followers != null){
+				String url = urlService.getAbsoluteURL(lesson.getURL());
+
+				for(User follower:followers){
+					String subject = textService.getLocalizedText(follower.getLanguage(),TagMessageKey.LESSON_TAGGED_SUBJECT, lesson.getTitle(), tag.getTag());
+					String message = textService.getLocalizedText(follower.getLanguage(),TagMessageKey.LESSON_TAGGED_MESSAGE, url, tag.getTag(), lesson.getTitle());
+					notifyService.info(follower, subject, message, lesson.getURL());					
+				}
+			}
+		
+		}
+		
+		return success;		
+	}
 }

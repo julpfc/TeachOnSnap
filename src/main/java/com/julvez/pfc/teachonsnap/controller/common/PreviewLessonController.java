@@ -74,7 +74,7 @@ public class PreviewLessonController extends CommonController {
 				
 				requestManager.setAttribute(request, Attribute.LESSON, lesson);
 				requestManager.setAttribute(request, Attribute.LIST_MEDIAFILE_LESSONFILES, medias);
-				requestManager.setAttribute(request, Attribute.LIST_TAG_LESSONTAGS, tags);
+				requestManager.setAttribute(request, Attribute.LIST_TAG, tags);
 				requestManager.setAttribute(request, Attribute.LIST_LINK_MOREINFO, moreInfoLinks);
 				requestManager.setAttribute(request, Attribute.LIST_LINK_SOURCES, sourceLinks);
 

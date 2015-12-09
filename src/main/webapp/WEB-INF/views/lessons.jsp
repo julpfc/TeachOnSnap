@@ -6,6 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lessons" var="lessonsBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
 <!DOCTYPE html>
@@ -23,20 +24,21 @@
 </head>
 <body>
 <c:import url="./import/nav.jsp"/>	
-	
+<c:if test="${not empty user}"><c:import url="./import/confirm.jsp"/></c:if>	
 	<div class="content container-fluid">
 		<div class="row">					
 			<div class="col-sm-7">
-				<c:forEach items="${lessons}" var="lesson">					
-					<div>
-	            		<h2 class="lesson-title"><a href="${lesson.draft?lesson.editURL:lesson.URL}">${fn:escapeXml(lesson.title)}</a></h2>
+				<c:forEach items="${lessons}" var="lesson" varStatus="loop">	
+					<c:if test="${loop.last}"><c:set var="authorId" value="${lesson.author.id}"/></c:if>
+					<div><c:set var="lessonID" value="[${lesson.id}]"/>
+	            		<h2 class="lesson-title"><a href="${lesson.draft?lesson.editURL:lesson.URL}">${fn:escapeXml(lesson.title)}</a>${not empty user.lessonFollowed[lessonID]?' <span class="glyphicon glyphicon-star"></span>':''}</h2>
 	            		<p class="lesson-meta">
 	            			<c:if test="${userLang.id != lesson.language.id}">
 	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
 	            			</c:if>	            			 
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
-	            			 <fmt:message key="lesson.meta.author.by"/> 
-	            			 <a href="${lesson.author.URL}">${lesson.author.fullName}</a>
+	            			 <fmt:message key="lesson.meta.author.by"/><c:set var="authorID" value="[${lesson.author.id}]"/>
+	            			 <a href="${lesson.author.URL}">${lesson.author.fullName}${not empty user.authorFollowed[authorID]?' <span class="glyphicon glyphicon-star"></span>':''}</a>
             			</p>
 	            		<p class="lesson-addons">
 	            			<c:choose>
@@ -91,6 +93,16 @@
 	          		<div class="sidebar">
 	            		<h4><fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}:</h4>
 	            		<span class="label label-info">${searchKeyword}</span>	            		
+	            		<c:if test="${not empty user && searchType eq 'author' && not empty authorId}">
+	            			<c:choose>
+	            			<c:when test="${not empty user.authorFollowed[authorID]}">	            				
+	            				<a onclick="confirm('?unfollowAuthor=${authorId}','admin.group.follow.author.unfollow.confirm');"><button class="btn btn-xs btn-warning" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="admin.group.follow.author.unfollow" bundle="${adminBundle}"/></button></a>	            				
+	            			</c:when>
+	            			<c:otherwise>	            				
+		            			<a class="violetButton" onclick="confirm('?followAuthor=${authorId}','admin.group.follow.author.follow.confirm');"><button class="btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="admin.group.follow.author.follow" bundle="${adminBundle}"/></button></a>
+	            			</c:otherwise>
+	            			</c:choose>
+	            		</c:if>           		
 	          		</div>        
           		</c:if> 
           		<c:if test="${not empty cloudTags}">
@@ -117,8 +129,17 @@
 		</div><!-- /.row -->
     </div><!-- /.container -->
     <c:import url="./import/footer.jsp"/>
-
 	<c:import url="./import/js_bootstrap.jsp"/>
-
+	<c:if test="${not empty user}">
+		<script type="text/javascript">
+			<!--	    
+			var msg = {};
+			msg['admin.group.follow.author.follow.confirm'] = 	"<fmt:message key="admin.group.follow.author.follow.confirm" bundle="${adminBundle}"/>";
+			msg['admin.group.follow.author.unfollow.confirm'] = "<fmt:message key="admin.group.follow.author.unfollow.confirm" bundle="${adminBundle}"/>";
+			//-->
+		</script>
+			
+		<script src="/resources/js/confirm.js"></script>
+	</c:if>
 </body>
 </html>

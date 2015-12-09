@@ -25,4 +25,8 @@ public interface TagRepository {
 
 	public void removeLessonTags(int idLesson, ArrayList<Integer> removeTagIDs);
 
+	public List<Integer> searchTag(String searchQuery, int firstResult);
+
+	public List<Integer> getTags(int firstResult);
+
 }

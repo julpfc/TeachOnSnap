@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.user.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
@@ -15,12 +16,14 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.notify.NotifyService;
 import com.julvez.pfc.teachonsnap.notify.NotifyServiceFactory;
+import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.text.TextService;
 import com.julvez.pfc.teachonsnap.text.TextServiceFactory;
 import com.julvez.pfc.teachonsnap.url.URLService;
 import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.UserService;
+import com.julvez.pfc.teachonsnap.user.model.AuthorFollowed;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
 import com.julvez.pfc.teachonsnap.user.model.UserMessageKey;
@@ -57,6 +60,12 @@ public class UserServiceImpl implements UserService {
 				}
 				user.setBannedInfo(bannedInfo);
 			}
+			
+			Map<String, String> authorFollowed = userRepository.getAuthorFollowed(user.getId());
+			user.setAuthorFollowed(authorFollowed);
+
+			Map<String, String> lessonFollowed = userRepository.getLessonFollowed(user.getId());
+			user.setLessonFollowed(lessonFollowed);
 		}
 		return user;
 	}
@@ -361,6 +370,181 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return retUser;
+	}
+
+	@Override
+	public List<User> getAuthors(int firstResult) {
+		List<User> users = new ArrayList<User>();
+		
+		List<Short> ids = userRepository.getAuthors(firstResult);
+		
+		for(short id:ids){
+			users.add(getUser(id));
+		}
+		
+		return users;
+	}
+
+	@Override
+	public List<User> searchAuthorsByEmail(String searchQuery, int firstResult) {
+		List<User> users = new ArrayList<User>();
+		
+		List<Short> ids = userRepository.searchAuthorsByEmail(searchQuery, firstResult);
+		
+		for(short id:ids){
+			users.add(getUser(id));
+		}
+		
+		return users;
+	}
+
+	@Override
+	public List<User> searchAuthorsByName(String searchQuery, int firstResult) {
+		List<User> users = new ArrayList<User>();
+		
+		List<Short> ids = userRepository.searchAuthorsByName(searchQuery, firstResult);
+		
+		for(short id:ids){
+			users.add(getUser(id));
+		}
+		
+		return users;
+	}
+
+	@Override
+	public List<AuthorFollowed> getAuthorsFollowed(List<User> authors, List<User> authorFollowings) {
+		List<AuthorFollowed> retList = new ArrayList<AuthorFollowed>();
+		
+		if(authors != null){
+			
+			for(User author:authors){
+				AuthorFollowed followed = new AuthorFollowed(author);
+				
+				if(authorFollowings != null && authorFollowings.contains(author)){
+					followed.setFollowed(true);
+				}
+				
+				retList.add(followed);				
+			}			
+		}
+		
+		return retList;
+	}
+
+	@Override
+	public User followAuthor(User user, User author) {
+		User retUser = null;
+		
+		if(user != null && author != null && author.isAuthor()){
+						
+			if(user.getAuthorFollowed() != null && !user.getAuthorFollowed().containsKey(author.getId())){
+				if(userRepository.followAuthor(user.getId(), author.getId())){					
+					retUser = getUser(user.getId());
+				}
+			}			
+		}		
+		return retUser;
+	}
+
+	@Override
+	public User unfollowAuthor(User user, User author) {
+		User retUser = null;
+		
+		if(user != null && author != null){
+			if(userRepository.unfollowAuthor(user.getId(), author.getId())){					
+				retUser = getUser(user.getId());
+			}						
+		}		
+		return retUser;
+	}
+
+	@Override
+	public User followLesson(User user, Lesson lesson) {
+		User retUser = null;
+		
+		if(user != null && lesson != null){
+						
+			if(user.getLessonFollowed() != null && !user.getLessonFollowed().containsKey(lesson.getId())){
+				if(userRepository.followLesson(user.getId(), lesson.getId())){					
+					retUser = getUser(user.getId());
+				}
+			}			
+		}		
+		return retUser;
+	}
+
+	@Override
+	public User unfollowLesson(User user, Lesson lesson) {
+		User retUser = null;
+		
+		if(user != null && lesson != null){
+			if(userRepository.unfollowLesson(user.getId(), lesson.getId())){					
+				retUser = getUser(user.getId());
+			}						
+		}		
+		return retUser;
+	}
+
+	@Override
+	public List<User> getUsersFromIDs(Map<String, String> authorFollowed) {
+		List<User> users = null;
+		
+		if(authorFollowed != null){
+			users = new ArrayList<User>();
+			
+			for(String id:authorFollowed.values()){
+				if(stringManager.isNumeric(id)){
+					int idUser = Integer.parseInt(id);
+					User user = getUser(idUser);
+					users.add(user);
+				}
+			}
+		}
+		return users;
+	}
+
+	@Override
+	public List<User> getAuthorFollowers(User author) {
+		List<User> users = new ArrayList<User>();
+		
+		if(author != null){
+			List<Short> ids = userRepository.getAuthorFollowers(author.getId());
+			
+			for(short id:ids){
+				users.add(getUser(id));
+			}
+		}			
+		return users;
+	}
+
+	@Override
+	public List<User> getLessonFollowers(Lesson lesson) {
+		List<User> users = new ArrayList<User>();
+		
+		if(lesson != null && !lesson.isDraft()){
+			List<Short> ids = userRepository.getLessonFollowers(lesson.getId());
+		
+			for(short id:ids){
+				users.add(getUser(id));
+			}
+		}
+		
+		return users;
+	}
+
+	@Override
+	public List<User> getTagFollowers(Tag tag) {
+		List<User> users = new ArrayList<User>();
+		
+		if(tag != null){
+			List<Short> ids = userRepository.getTagFollowers(tag.getId());
+		
+			for(short id:ids){
+				users.add(getUser(id));
+			}
+		}
+		
+		return users;
 	}	
 
 }

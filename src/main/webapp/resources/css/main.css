@@ -35,6 +35,7 @@ h1, h2{
 	margin-top: 0px;
 }
 
+
 /* The white background content wrapper */
 .content {
 	background-color: #fff;
@@ -81,6 +82,13 @@ h1, h2{
 	margin-bottom: 0px;	
 }
 
+
+/* Nav label PageStack*/
+.navlabel{
+	padding-bottom: 0px;
+	padding-left: 1px;
+	padding-right: 1px;
+}
 
 /* Footer */
 .footer {

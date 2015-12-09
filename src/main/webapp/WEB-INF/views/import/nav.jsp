@@ -43,9 +43,13 @@
 		        		<img alt="${userLang.language}" src="/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
 		       		</a>
 		            <ul class="dropdown-menu" role="menu">
-		            	<c:forEach items="${languages}" var="lang" varStatus="loop">            	
+		            	<c:forEach items="${languages}" var="lang" varStatus="loop">
+		            		<fmt:setLocale value="${lang.language}"/>
+		            		<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 		            		<li><a href="?changeLang=${lang.language}"><img alt="${lang.language}" src="/resources/img/ico/flag_${lang.language}.jpg"/> <fmt:message key="nav.menu.lang"/></a></li>		            	
 		            	</c:forEach>
+		            	<fmt:setLocale value="${userLang.language}"/>
+		            	<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 					</ul>
 		        </li>
 				<li><a href="#" data-toggle="modal" data-target="#login"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></a></li>			        
@@ -68,7 +72,11 @@
 		            		<li><a href="${user.draftsURL}"><fmt:message key="nav.menu.user.lessons.draft"/></a></li>
 		            		<li class="divider"></li>
 		            	</c:if>
-		            	<li><a href="/preferences/"><fmt:message key="nav.menu.user.preferences"/></a></li>                
+		            	<c:if test="${not empty user.authorFollowed || not empty user.lessonFollowed}">		            		
+		            		<li><a href="/follow/"><fmt:message key="nav.menu.user.follow"/></a></li>
+		            		<li class="divider"></li>
+		            	</c:if>
+		            	<li><a href="/profile/"><fmt:message key="nav.menu.user.profile"/></a></li>                
 					</ul>
 		        </li>
 		        <li class="dropdown">
@@ -76,9 +84,13 @@
 		        		<img alt="${userLang.language}" src="/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
 		       		</a>		           
 					<ul class="dropdown-menu" role="menu">
-		            	<c:forEach items="${languages}" var="lang" varStatus="loop">            	
+		            	<c:forEach items="${languages}" var="lang" varStatus="loop">
+		            		<fmt:setLocale value="${lang.language}"/>    
+		            		<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>        	
 		            		<li><a href="?changeLang=${lang.language}"><img alt="${lang.language}" src="/resources/img/ico/flag_${lang.language}.jpg"/> <fmt:message key="nav.menu.lang"/></a></li>		            	
 		            	</c:forEach>
+		            	<fmt:setLocale value="${userLang.language}"/>
+		            	<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 					</ul>
 		        </li>
         		<li><a href="/login/?logout=1"><fmt:message key="nav.menu.logout"/> <span class="glyphicon glyphicon-log-out"></span></a></li>
@@ -95,10 +107,10 @@
 	      	<c:forEach items="${pageStack}" var="page" varStatus="loop">
 	      		<c:choose>
 	      			<c:when test="${loop.last}">
-	      				<li><a><fmt:message key="${page.name}"/></a></li>
+	      				<li><a><fmt:message key="${page.name}"/></a></li>	      				
 	      			</c:when>
 	      			<c:otherwise>
-	      				<li><a href="${page.link}"><fmt:message key="${page.name}"/></a></li>
+	      				<li><a href="${page.link}"><fmt:message key="${page.name}"/><c:if test="${not empty page.extraName}">: <span class="label label-info navlabel">${page.extraName}</span></c:if></a></li>
 	      			</c:otherwise>
 	      		</c:choose>	        	
 	        </c:forEach>	  		       

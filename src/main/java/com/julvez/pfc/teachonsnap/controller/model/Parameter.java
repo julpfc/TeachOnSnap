@@ -54,7 +54,7 @@ public enum Parameter {
 	QUESTIONID("idQuestion"), 
 	QUESTION_PRIORITY("questionPriority"), 
 	
-	//Preferences
+	//User profile
 	OLD_PASSWORD("pwo"), 
 	NEW_PASSWORD("pwn"), 
 	FIRST_NAME("firstname"), 
@@ -63,7 +63,15 @@ public enum Parameter {
 	//Upload
 	UPLOAD_DOWNLOAD_INDEX("f"), 
 	UPLOAD_LIST("l"), 
-	UPLOAD_REMOVE_INDEX("r");
+	UPLOAD_REMOVE_INDEX("r"), 
+	
+	//Follow
+	FOLLOW_AUTHOR("followAuthor"), 
+	UNFOLLOW_AUTHOR("unfollowAuthor"), 
+	FOLLOW_TAG("followTag"), 
+	UNFOLLOW_TAG("unfollowTag"), 
+	FOLLOW_LESSON("followLesson"),
+	UNFOLLOW_LESSON("unfollowLesson");
 
 		 		
 	private final String realName;

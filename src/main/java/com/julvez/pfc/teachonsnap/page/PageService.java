@@ -34,4 +34,20 @@ public interface PageService {
 	public List<Page> getAdminGroupsPageStack();
 
 	public List<Page> getAdminGroupProfilePageStack(UserGroup profile);
+	
+	public List<Page> getAdminGroupFollowPageStack(UserGroup profile);
+	
+	public List<Page> getAdminGroupFollowAuthorPageStack(UserGroup profile);
+	
+	public List<Page> getAdminGroupFollowAuthorSearchPageStack(UserGroup profile, String searchQuery, String searchType);
+
+	public List<Page> getAdminGroupFollowTagPageStack(UserGroup profile);
+	
+	public List<Page> getAdminGroupFollowTagSearchPageStack(UserGroup profile, String searchQuery);
+
+	public List<Page> getUserFollowPageStack(User profile);
+	
+	public List<Page> getUserFollowAuthorPageStack(User profile);
+	
+	public List<Page> getUserFollowAuthorSearchPageStack(User profile, String searchQuery, String searchType);
 }

@@ -60,6 +60,8 @@ public class TagRepositoryDBCache implements TagRepository {
 
 	@Override
 	public int createTag(String tag) {
+		cache.clearCache("getTags");
+		cache.clearCache("searchTag");
 		return (int)cache.updateImplCached(repoDB, null, null, tag);
 	}
 
@@ -71,5 +73,17 @@ public class TagRepositoryDBCache implements TagRepository {
 		cache.clearCache("getLessonIDsFromTag");
 		cache.clearCache("getCloudTags");
 		
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Integer> searchTag(String searchQuery, int firstResult) {		
+		return (List<Integer>)cache.executeImplCached(repoDB, searchQuery, firstResult);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Integer> getTags(int firstResult) {
+		return (List<Integer>)cache.executeImplCached(repoDB, firstResult);
 	}
 }

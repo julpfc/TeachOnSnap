@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.user.group;
 
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
@@ -26,5 +27,17 @@ public interface UserGroupService {
 	public boolean removeGroup(UserGroup group);
 
 	public List<UserGroup> getGroupsFromUser(User user);
+
+	public UserGroup followAuthor(UserGroup group, User author);
+
+	public List<User> getAuthorFollowings(UserGroup group);
+
+	public UserGroup unfollowAuthor(UserGroup group, User author);
+
+	public List<Tag> getTagFollowings(UserGroup group);
+
+	public UserGroup followTag(UserGroup group, Tag tag);
+
+	public UserGroup unfollowTag(UserGroup group, Tag tag);
 	
 }

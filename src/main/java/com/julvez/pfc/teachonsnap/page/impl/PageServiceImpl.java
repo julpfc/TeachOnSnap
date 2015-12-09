@@ -116,7 +116,7 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = getAdminUsersPageStack();
 		
 		if(pages != null && profile != null){
-			Page page = new Page(PageNameKey.ADMIN_USER_PROFILE, ControllerURI.ADMIN_USER_PROFILE + "/" + profile.getId() + "/");
+			Page page = new Page(PageNameKey.ADMIN_USER_PROFILE, ControllerURI.ADMIN_USER_PROFILE.toString() + profile.getId() + "/");
 			pages.add(page);
 		}
 		else pages = null;
@@ -150,11 +150,111 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = getAdminGroupsPageStack();
 		
 		if(pages != null && profile != null){
-			Page page = new Page(PageNameKey.ADMIN_GROUP_PROFILE,
-					ControllerURI.ADMIN_GROUP_PROFILE + "/" + profile.getId() + "/");
+			Page page = new Page(PageNameKey.ADMIN_GROUP_PROFILE, profile.getGroupName(),
+					ControllerURI.ADMIN_GROUP_PROFILE.toString() + profile.getId() + "/");
 			pages.add(page);
 		}
 		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getAdminGroupFollowPageStack(UserGroup profile) {
+		List<Page> pages = getAdminGroupProfilePageStack(profile);
+		
+		if(pages != null && profile != null){
+			Page page = new Page(PageNameKey.ADMIN_GROUP_FOLLOWS, 
+					ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId() + "/");
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getAdminGroupFollowAuthorPageStack(UserGroup profile) {
+		List<Page> pages = getAdminGroupFollowPageStack(profile);
+		
+		if(pages != null && profile != null){
+			Page page = new Page(PageNameKey.ADMIN_GROUP_FOLLOW_AUTHOR, 
+					ControllerURI.ADMIN_GROUP_FOLLOW_AUTHOR.toString() + profile.getId() + "/");
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getAdminGroupFollowAuthorSearchPageStack(UserGroup profile, String searchQuery, String searchType) {
+		List<Page> pages = getAdminGroupFollowAuthorPageStack(profile);
+		
+		if(pages != null && searchQuery!=null && searchType!=null && profile != null){
+			Page page = new Page("email".equalsIgnoreCase(searchType)?PageNameKey.ADMIN_GROUP_FOLLOW_AUTHOR_SEARCH_BY_EMAIL:PageNameKey.ADMIN_GROUP_FOLLOW_AUTHOR_SEARCH_BY_NAME, 
+					ControllerURI.ADMIN_GROUP_FOLLOW_AUTHOR.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType);
+			pages.add(page);
+		}		
+		return pages;
+	}
+
+	@Override
+	public List<Page> getAdminGroupFollowTagPageStack(UserGroup profile) {
+		List<Page> pages = getAdminGroupFollowPageStack(profile);
+		
+		if(pages != null && profile != null){
+			Page page = new Page(PageNameKey.ADMIN_GROUP_FOLLOW_TAG, 
+					ControllerURI.ADMIN_GROUP_FOLLOW_TAG.toString() + profile.getId() + "/");
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getAdminGroupFollowTagSearchPageStack(UserGroup profile, String searchQuery) {
+		List<Page> pages = getAdminGroupFollowTagPageStack(profile);
+		
+		if(pages != null && searchQuery!=null && profile != null){
+			Page page = new Page(PageNameKey.ADMIN_GROUP_FOLLOW_TAG_SEARCH, 
+					ControllerURI.ADMIN_GROUP_FOLLOW_TAG.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery);
+			pages.add(page);
+		}		
+		return pages;
+	}
+
+	@Override
+	public List<Page> getUserFollowPageStack(User profile) {
+		List<Page> pages = new ArrayList<Page>();
+		
+		if(profile != null){
+			Page page = new Page(PageNameKey.USER_FOLLOWS, ControllerURI.USER_FOLLOWS.toString() + profile.getId() + "/");
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getUserFollowAuthorPageStack(User profile) {
+		List<Page> pages = getUserFollowPageStack(profile);
+		
+		if(pages != null && profile != null){
+			Page page = new Page(PageNameKey.USER_FOLLOW_AUTHOR, 
+					ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() + "/");
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getUserFollowAuthorSearchPageStack(User profile, String searchQuery, String searchType) {
+		List<Page> pages = getUserFollowAuthorPageStack(profile);
+		
+		if(pages != null && searchQuery!=null && searchType!=null && profile != null){
+			Page page = new Page("email".equalsIgnoreCase(searchType)?PageNameKey.USER_FOLLOW_AUTHOR_SEARCH_BY_EMAIL:PageNameKey.USER_FOLLOW_AUTHOR_SEARCH_BY_NAME, 
+					ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType);
+			pages.add(page);
+		}		
 		return pages;
 	}
 

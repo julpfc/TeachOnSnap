@@ -113,4 +113,79 @@
 	    DELETE FROM tuserbanned
 	    WHERE idUser = ?;   
 	</sql-query>
+	<sql-query name="SQL_USER_GET_AUTHORIDS">
+	    SELECT idUser
+	    FROM tuserauthor
+	    LIMIT ?,?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_SEARCH_AUTHORIDS_BY_EMAIL">
+	    SELECT idUser
+	    FROM tuser
+	    JOIN tuserauthor USING(idUser)
+	    WHERE email LIKE CONCAT('%',?,'%')
+	    LIMIT ?,?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_SEARCH_AUTHORIDS_BY_NAME">
+	    SELECT idUser
+	    FROM tuser
+	    JOIN tuserauthor USING(idUser)
+	    WHERE firstname LIKE CONCAT('%',?,'%') OR lastname LIKE CONCAT('%',?,'%') 
+	    LIMIT ?,?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_GET_FOLLOW_AUTHORIDS">
+	    SELECT idUser
+	    FROM tfollowuser	    
+	    WHERE idFollower = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_GET_FOLLOW_LESSONIDS">
+	    SELECT idLesson
+	    FROM tfollowlesson	    
+	    WHERE idFollower = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_ADD_FOLLOW_AUTHOR">
+	    INSERT IGNORE INTO tfollowuser(idFollower, idUser)
+	    VALUES(?, ?);	       
+	</sql-query>
+	<sql-query name="SQL_USER_REMOVE_FOLLOW_AUTHOR">
+	    DELETE FROM tfollowuser
+	    WHERE idFollower = ? AND idUser = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_ADD_FOLLOW_LESSON">
+	    INSERT IGNORE INTO tfollowlesson(idFollower, idLesson)
+	    VALUES(?, ?);	       
+	</sql-query>
+	<sql-query name="SQL_USER_REMOVE_FOLLOW_LESSON">
+	    DELETE FROM tfollowlesson
+	    WHERE idFollower = ? AND idLesson = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_GET_AUTHOR_FOLLOWERIDS">
+	    SELECT idFollower
+	    FROM tfollowuser	    
+	    WHERE idUser = ?
+	    UNION
+	    SELECT tugm.idUser as idFollower
+	    FROM tfollowgroupuser tfgu
+	    JOIN tusergroupmember tugm ON (idfollowergroup=idusergroup)	    
+	    WHERE tfgu.idUser = ?
+	    GROUP BY idFollower;	       
+	</sql-query>
+	<sql-query name="SQL_USER_GET_LESSON_FOLLOWERIDS">
+	    SELECT idFollower
+	    	FROM tfollowlesson
+	    	WHERE idLesson = ?
+		UNION
+			SELECT tugm.idUser as idFollower
+	    	FROM tfollowgrouptag tfgt
+	    	JOIN tusergroupmember tugm ON (idfollowergroup=idusergroup)	    
+        	JOIN tlessontag USING (idtag)
+	    	WHERE idlesson = ?	    
+		GROUP BY idFollower   	       
+	</sql-query>
+	<sql-query name="SQL_USER_GET_TAG_FOLLOWERIDS">
+	    SELECT tugm.idUser
+	    FROM tfollowgrouptag tfgt
+	    JOIN tusergroupmember tugm ON (idfollowergroup=idusergroup)	    
+	    WHERE tfgt.idTag = ?
+	    GROUP BY tugm.idUser;	       
+	</sql-query>
 </hibernate-mapping>

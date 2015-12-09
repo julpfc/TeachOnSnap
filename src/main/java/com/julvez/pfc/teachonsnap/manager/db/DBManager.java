@@ -16,6 +16,7 @@ public interface DBManager {
 	public <T> T getQueryResultUnique_NoCommit(Object session, String queryName,Class<T> entityClass,Object... queryParams);
 	public int updateQuery_NoCommit(Object session, String queryName,Object... queryParams);
 	public long insertQueryAndGetLastInserID_NoCommit(Object session, String queryName,Object... queryParams);
-		
-	public void close();			
+			
+	public void close();
+	
 }

@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.tag.TagService;
+import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
+import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.group.UserGroupService;
@@ -18,6 +21,7 @@ public class UserGroupServiceImpl implements UserGroupService {
 	private UserGroupRepository groupRepository = UserGroupRepositoryFactory.getRepository();
 	
 	private UserService userService = UserServiceFactory.getService();
+	private TagService tagService = TagServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
@@ -185,6 +189,90 @@ public class UserGroupServiceImpl implements UserGroupService {
 		}
 		
 		return groups;
+	}
+
+	@Override
+	public UserGroup followAuthor(UserGroup group, User author) {
+		UserGroup retGroup = null;
+		
+		if(group != null && author != null && author.isAuthor()){
+			
+			List<Short> ids = groupRepository.getAuthorFollowings(group.getId());
+						
+			if(!ids.contains(author.getId())){
+				if(groupRepository.followAuthor(group.getId(), author.getId())){					
+					retGroup = group;
+				}
+			}			
+		}		
+		return retGroup;
+	}
+
+	@Override
+	public List<User> getAuthorFollowings(UserGroup group) {
+		List<User> users = new ArrayList<User>();
+		
+		List<Short> ids = groupRepository.getAuthorFollowings(group.getId());
+		
+		for(short id:ids){
+			users.add(userService.getUser(id));
+		}
+		
+		return users;
+	}
+
+	@Override
+	public UserGroup unfollowAuthor(UserGroup group, User author) {
+		UserGroup retGroup = null;
+		
+		if(group != null && author != null){
+			if(groupRepository.unfollowAuthor(group.getId(), author.getId())){					
+				retGroup = group;
+			}						
+		}		
+		return retGroup;
+	}
+
+	@Override
+	public List<Tag> getTagFollowings(UserGroup group) {
+		List<Tag> tags = new ArrayList<Tag>();
+		
+		List<Integer> ids = groupRepository.getTagFollowings(group.getId());
+		
+		for(int id:ids){
+			tags.add(tagService.getTag(id));
+		}
+		
+		return tags;
+	}
+
+	@Override
+	public UserGroup followTag(UserGroup group, Tag tag) {
+		UserGroup retGroup = null;
+		
+		if(group != null && tag != null){
+			
+			List<Integer> ids = groupRepository.getTagFollowings(group.getId());
+						
+			if(!ids.contains(tag.getId())){
+				if(groupRepository.followTag(group.getId(), tag.getId())){					
+					retGroup = group;
+				}
+			}			
+		}		
+		return retGroup;
+	}
+
+	@Override
+	public UserGroup unfollowTag(UserGroup group, Tag tag) {
+		UserGroup retGroup = null;
+		
+		if(group != null && tag != null){
+			if(groupRepository.unfollowTag(group.getId(), tag.getId())){					
+				retGroup = group;
+			}						
+		}		
+		return retGroup;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.lesson;
 
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
@@ -23,6 +24,8 @@ public interface LessonService {
 	public boolean notifyLessonCreated(Lesson lesson);
 
 	public boolean notifyLessonModified(Lesson lesson);
+	
+	public boolean notifyLessonPublished(Lesson lesson);
 
 	public Lesson saveLessonLanguage(Lesson lesson, Language language);
 
@@ -32,6 +35,8 @@ public interface LessonService {
 
 	public void unpublish(Lesson lesson);
 
-	public List<Lesson> getLessonDraftsFromUser(User user, int firstResult);	
+	public List<Lesson> getLessonDraftsFromUser(User user, int firstResult);
+
+	public List<Lesson> getLessonsFromIDs(Map<String, String> lessonFollowed);	
 	
 }

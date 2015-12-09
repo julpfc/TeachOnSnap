@@ -5,8 +5,18 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.comment.CommentService;
 import com.julvez.pfc.teachonsnap.comment.model.Comment;
+import com.julvez.pfc.teachonsnap.comment.model.CommentMessageKey;
 import com.julvez.pfc.teachonsnap.comment.repository.CommentRepository;
 import com.julvez.pfc.teachonsnap.comment.repository.CommentRepositoryFactory;
+import com.julvez.pfc.teachonsnap.lesson.LessonService;
+import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.notify.NotifyService;
+import com.julvez.pfc.teachonsnap.notify.NotifyServiceFactory;
+import com.julvez.pfc.teachonsnap.text.TextService;
+import com.julvez.pfc.teachonsnap.text.TextServiceFactory;
+import com.julvez.pfc.teachonsnap.url.URLService;
+import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
@@ -15,6 +25,10 @@ public class CommentServiceImpl implements CommentService {
 
 	private CommentRepository commentRepository = CommentRepositoryFactory.getRepository();
 	private UserService userService = UserServiceFactory.getService();
+	private LessonService lessonService = LessonServiceFactory.getService();
+	private URLService urlService = URLServiceFactory.getService();
+	private TextService textService = TextServiceFactory.getService();
+	private NotifyService notifyService = NotifyServiceFactory.getService();
 	
 	@Override
 	public List<Comment> getComments(int idLesson, int firstResult) {
@@ -52,7 +66,9 @@ public class CommentServiceImpl implements CommentService {
 				
 				if(parentComment!=null){
 					idParentComment = parentComment.isResponse()?parentComment.getIdParentComment():idParentComment;
-					commentRepository.saveCommentParent(idComment, idParentComment);						
+					commentRepository.saveCommentParent(idComment, idParentComment);
+					comment = getComment(idComment);
+					notifyParentComment(idLesson, comment, idParentComment);
 				}
 			}
 			else if(idComment>0){
@@ -61,6 +77,7 @@ public class CommentServiceImpl implements CommentService {
 			else{
 				comment = null;
 			}
+			notifyComment(idLesson, comment);
 		}
 		return comment;
 	}
@@ -93,6 +110,53 @@ public class CommentServiceImpl implements CommentService {
 		}
 	}
 
+	@Override
+	public boolean notifyComment(int idLesson, Comment comment) {		
+		boolean success = false;
+		
+		if(comment != null && idLesson > 0){
+			Lesson lesson = lessonService.getLesson(idLesson);
+			User author = userService.getUser(comment.getIdUser());
+			
+			String url = urlService.getAbsoluteURL(lesson.getURL());
+
+			List<User> followers = userService.getLessonFollowers(lesson);
+			if(followers != null){
+				for(User follower:followers){
+					if(follower.getId()!= author.getId()){ //No notificar al autor del comentario
+						String subject = textService.getLocalizedText(follower.getLanguage(),CommentMessageKey.NEW_COMMENT_SUBJECT, lesson.getTitle());
+						String message = textService.getLocalizedText(follower.getLanguage(),CommentMessageKey.NEW_COMMENT_MESSAGE, url, author.getFullName(), lesson.getTitle());
+						notifyService.info(follower, subject, message, lesson.getURL());
+					}
+				}
+			}
+		
+		}
+		
+		return success;		
+	}
+
+	@Override
+	public boolean notifyParentComment(int idLesson, Comment comment, int idParentComment) {
+		boolean success = false;
+		
+		if(comment != null && idLesson > 0 && idParentComment > 0){
+			Lesson lesson = lessonService.getLesson(idLesson);
+			User author = userService.getUser(comment.getIdUser());
+			Comment parentComment = getComment(idParentComment);
+			User parentAuthor = userService.getUser(parentComment.getIdUser());
+			
+			String url = urlService.getAbsoluteURL(lesson.getURL());
+
+			if(parentAuthor.getId() != author.getId()){ //No notificar al autor del comentario
+				String subject = textService.getLocalizedText(parentAuthor.getLanguage(),CommentMessageKey.REPLY_COMMENT_SUBJECT, lesson.getTitle());
+				String message = textService.getLocalizedText(parentAuthor.getLanguage(),CommentMessageKey.REPLY_COMMENT_MESSAGE, url, author.getFullName(), lesson.getTitle());
+				notifyService.info(parentAuthor, subject, message, lesson.getURL());				
+			}		
+		}
+		
+		return success;		
+	}
 
 
 }

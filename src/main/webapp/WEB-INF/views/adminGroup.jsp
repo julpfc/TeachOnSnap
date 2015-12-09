@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.preferences" var="prefBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
@@ -27,7 +27,7 @@
 			 		<span id="span-name">
      					<label><fmt:message key="admin.group.name" bundle="${adminBundle}"/>: </label>
 						${fn:escapeXml(group.groupName)}
-						<a onclick="return showEditName(true);"> (<fmt:message key="user.pref.edit" bundle="${prefBundle}"/>)</a>
+						<a onclick="return showEditName(true);"> (<fmt:message key="user.profile.edit" bundle="${profBundle}"/>)</a>
 					</span>
 					<button class="btn btn-sm btn-danger pull-right" type="button" onclick="confirm('?removeGroup=true','admin.group.remove.confirm');"><span class="glyphicon glyphicon-remove"></span> <fmt:message key="admin.group.remove" bundle="${adminBundle}"/></button>
 					<div id="div-name" class="hidden">
@@ -52,7 +52,7 @@
 	      					<thead>
 	        					<tr>
 	          						<th></th>
-	          						<th><fmt:message key="user.pref.username" bundle="${prefBundle}"/></th>
+	          						<th><fmt:message key="user.profile.username" bundle="${profBundle}"/></th>
 	          						<th><fmt:message key="login.form.email" bundle="${loginBundle}"/></th>
 	          						<th></th>
 	          						<th></th>          						
@@ -107,7 +107,8 @@
   						<fmt:message key="admin.group.add.user.multiple.tip" bundle="${adminBundle}"/>
   					</div>
      			</div>     
-     		</div>	
+     		</div>     		
+     		<a href="/admin/group/follow/${group.id}"><button class="btn btn-info pull-right" type="button"><span class="glyphicon glyphicon-star"></span> Gestionar seguimientos</button></a>     			
      	</div><!-- /.row -->     	
 		<div class="row">
 			<nav>

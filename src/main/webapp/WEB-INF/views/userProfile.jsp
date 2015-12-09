@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.preferences" var="prefBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
@@ -16,7 +16,7 @@
 		<fmt:message key="app.name"/> - 
 		<c:choose>
 			<c:when test="${empty profile}">
-				<fmt:message key="user.pref.heading" bundle="${prefBundle}"/>
+				<fmt:message key="user.profile.heading" bundle="${profBundle}"/>
 			</c:when>
 			<c:otherwise>
 				<fmt:message key="admin.user.heading" bundle="${adminBundle}"/>			
@@ -41,7 +41,7 @@
 							</c:otherwise>
 						</c:choose>
 				 	<span id="span-status">
-						<a class="alert-link pull-right" onclick="return showEditStatus(true);"><fmt:message key="user.pref.edit" bundle="${prefBundle}"/></a>
+						<a class="alert-link pull-right" onclick="return showEditStatus(true);"><fmt:message key="user.profile.edit" bundle="${profBundle}"/></a>
 					</span>
 					<form id="statusForm" action="" method="POST">
 						<div id="div-status" class="hidden">
@@ -87,7 +87,7 @@
 						<c:if test="${profile.admin}"><fmt:message key="admin.user.admin" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-wrench"></span></c:if>
 	  					<c:if test="${profile.author}"><fmt:message key="admin.user.author" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-pencil"></span></c:if>
 	  					<c:if test="${not profile.author && not profile.admin}"><fmt:message key="admin.user.basic" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-user"></span></c:if>
-						<a class="alert-link pull-right" onclick="return showEditType(true);"><fmt:message key="user.pref.edit" bundle="${prefBundle}"/></a>
+						<a class="alert-link pull-right" onclick="return showEditType(true);"><fmt:message key="user.profile.edit" bundle="${profBundle}"/></a>
 					</span>
 					<form id="typeForm" action="" method="POST">
 						<div id="div-type" class="hidden">
@@ -111,16 +111,16 @@
 				</div>
 			</c:if> 			
 			<div class="alert col-sm-6 ${empty profile?'alert-info':''}" role="alert">									
-				<label><fmt:message key="user.pref.username" bundle="${prefBundle}"/>: </label>
+				<label><fmt:message key="user.profile.username" bundle="${profBundle}"/>: </label>
 			 	<span id="span-name">
 					${fn:escapeXml(userProfile.fullName)}
-					<a class="alert-link pull-right" onclick="return showEditName(true);"><fmt:message key="user.pref.edit" bundle="${prefBundle}"/></a>
+					<a class="alert-link pull-right" onclick="return showEditName(true);"><fmt:message key="user.profile.edit" bundle="${profBundle}"/></a>
 				</span>
 				<form id="usernameForm" action="" method="POST">
 					<div id="div-name" class="hidden">
-						<span class="input-group-addon"><fmt:message key="user.pref.firstname" bundle="${prefBundle}"/>:</span>
+						<span class="input-group-addon"><fmt:message key="user.profile.firstname" bundle="${profBundle}"/>:</span>
 						<input name="firstname" type="text" class="form-control" placeholder="${fn:escapeXml(userProfile.firstName)}" required="required">
-						<span class="input-group-addon"><fmt:message key="user.pref.lastname" bundle="${prefBundle}"/>:</span>
+						<span class="input-group-addon"><fmt:message key="user.profile.lastname" bundle="${profBundle}"/>:</span>
 						<input name="lastname" type="text" class="form-control" placeholder="${fn:escapeXml(userProfile.lastName)}" required="required">
 				      	<span class="pull-right">
 				        	<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span></button>
@@ -131,20 +131,20 @@
 				</form>
 			</div>
 			<div class="alert col-sm-6 ${empty profile?'alert-warning':''}" role="alert">					
-				<label><fmt:message key="user.pref.password" bundle="${prefBundle}"/>: </label>
+				<label><fmt:message key="user.profile.password" bundle="${profBundle}"/>: </label>
 			 	<span id="span-password">					
 					<span class="glyphicon glyphicon-asterisk"></span><span class="glyphicon glyphicon-asterisk"></span><span class="glyphicon glyphicon-asterisk"></span><span class="glyphicon glyphicon-asterisk"></span><span class="glyphicon glyphicon-asterisk"></span>
-					<a class="alert-link pull-right" onclick="return showEditPassword(true);"><fmt:message key="user.pref.changepassword" bundle="${prefBundle}"/></a>
+					<a class="alert-link pull-right" onclick="return showEditPassword(true);"><fmt:message key="user.profile.changepassword" bundle="${profBundle}"/></a>
 				</span>
 				<form id="passwordForm" action="" method="POST">
 					<div id="div-password" class="hidden">
 						<c:if test="${empty profile}">
-							<span class="input-group-addon"><fmt:message key="user.pref.oldpassword" bundle="${prefBundle}"/>:</span>
+							<span class="input-group-addon"><fmt:message key="user.profile.oldpassword" bundle="${profBundle}"/>:</span>
 							<input id="pwo" name="pwo" type="password" class="form-control" required="required">
 						</c:if>
-						<span class="input-group-addon"><fmt:message key="user.pref.newpassword" bundle="${prefBundle}"/>:</span>
+						<span class="input-group-addon"><fmt:message key="user.profile.newpassword" bundle="${profBundle}"/>:</span>
 						<input id="pwn1" name="pwn" type="password" class="form-control" required="required">
-						<span class="input-group-addon"><fmt:message key="user.pref.repeatpassword" bundle="${prefBundle}"/>:</span>
+						<span class="input-group-addon"><fmt:message key="user.profile.repeatpassword" bundle="${profBundle}"/>:</span>
 						<input id="pwn2" type="password" class="form-control" required="required">
 				      	<span class="pull-right">
 				        	<button id="passwordFormButton" class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-floppy-disk"></span></button>
@@ -153,11 +153,11 @@
 						<c:if test="${not empty profile}">
 							<a class="alert-link" href="?sendPassword=true"><fmt:message key="admin.user.password.resendPassword" bundle="${adminBundle}"/></a>
 						</c:if>
-				      	<input id="pwnMatch" type="hidden" class="form-control" value="<fmt:message key="user.pref.validator.matchpasswords" bundle="${prefBundle}"/>">					      	
+				      	<input id="pwnMatch" type="hidden" class="form-control" value="<fmt:message key="user.profile.validator.matchpasswords" bundle="${profBundle}"/>">					      	
 					</div>
 			    </form>				
 			</div>		
-			<c:if test="${not empty profile.URIName}">
+			<c:if test="${not empty userProfile.URIName}">
 				<div class="alert alert-default col-sm-6" role="alert">					
 				 	<span>
 						<a class="alert-link pull-left" href="/author/${profile.URIName}"><fmt:message key="admin.user.lessons" bundle="${adminBundle}"/></a>
@@ -166,12 +166,12 @@
 				</div>
 			</c:if>	
 			<c:if test="${not empty profile}">
-				<div class="alert alert-info col-sm-6" role="alert">					
+				<div class="alert alert-warning col-sm-6" role="alert">					
 				 	<label><fmt:message key="admin.user.groups" bundle="${adminBundle}"/>: </label>
 			 	<span id="span-groups">
 					<span class="badge">${fn:length(groups)}</span>
 					<c:if test="${not empty groups}">
-						<a class="alert-link pull-right" onclick="return showGroups(true);"><fmt:message key="user.pref.edit" bundle="${prefBundle}"/></a>
+						<a class="alert-link pull-right" onclick="return showGroups(true);"><fmt:message key="user.profile.edit" bundle="${profBundle}"/></a>
 					</c:if>
 				</span>
 				
@@ -187,7 +187,17 @@
 				      	<span>&nbsp;</span>
 				    </div>			
 				</div>
-			</c:if>	
+			</c:if>
+			<c:if test="${not empty userProfile.authorFollowed || not empty userProfile.lessonFollowed}">
+				<div class="alert alert-info col-sm-6" role="alert">					
+				 	<label>Seguimientos: </label>
+			 		<span class="label label-info">${fn:length(userProfile.authorFollowed)} autores</span>			 		
+			 		<span class="label label-warning">${fn:length(userProfile.lessonFollowed)} lecciones</span>
+			 		<span class="pull-right">				        	
+				    	<a class="alert-link pull-right" href="/follow/${userProfile.id}"><fmt:message key="user.profile.follow" bundle="${profBundle}"/></a>
+				     </span>
+				</div>
+			</c:if>		
 		</div><!-- /.row -->
 		<div class="row">
 			<nav>
@@ -200,6 +210,6 @@
 	 </div><!-- /.container -->		
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>	
-	<script src="/resources/js/preferences.js"></script>	
+	<script src="/resources/js/userProfile.js"></script>	
 </body>
 </html>

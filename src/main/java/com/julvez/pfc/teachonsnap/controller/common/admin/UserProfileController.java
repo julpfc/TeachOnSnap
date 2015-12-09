@@ -180,7 +180,7 @@ public class UserProfileController extends AdminController {
 					requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, ControllerURI.ADMIN_USER_MANAGER.toString());
 					
 					requestManager.setAttribute(request, Attribute.USER_PROFILE, profile);
-					request.getRequestDispatcher("/WEB-INF/views/preferences.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/views/userProfile.jsp").forward(request, response);
 				}
 			}
 			else{

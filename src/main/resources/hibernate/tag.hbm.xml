@@ -61,5 +61,18 @@
 	<sql-query name="SQL_TAG_DELETE_LESSON_TAG">
 	    DELETE FROM tlessontag
 	    WHERE idLesson = ? AND idTag = ?
+	</sql-query>
+	<sql-query name="SQL_TAG_SEARCH_TAGIDS">
+	    SELECT idTag
+	    FROM ttag
+	    WHERE tag LIKE CONCAT('%',?,'%')
+	    ORDER BY tag
+	    LIMIT ?,?;	       
 	</sql-query>						
+	<sql-query name="SQL_TAG_GET_TAGIDS">
+		SELECT idTag
+	    FROM ttag	
+	    ORDER BY tag    	    
+	    LIMIT ?,?;
+	</sql-query>	
 </hibernate-mapping>

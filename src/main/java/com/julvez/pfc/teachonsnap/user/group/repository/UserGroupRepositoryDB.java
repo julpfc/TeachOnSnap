@@ -65,12 +65,30 @@ public class UserGroupRepositoryDB implements UserGroupRepository {
 		success = removeAllUsers(session, idUserGroup);
 		
 		if(success){			
-			success = dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_GROUP", idUserGroup) >= 0;			
+			
+			success = removeAllAuthorFollowings(session, idUserGroup);
+			
+			if(success){
+			
+				success = removeAllTagFollowings(session, idUserGroup);
+				
+				if(success){
+					success = dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_GROUP", idUserGroup) >= 0;
+				}
+			}
 		}
 		
 		dbm.endTransaction(success, session);
 		
 		return success;
+	}
+
+	private boolean removeAllTagFollowings(Object session, short idUserGroup) {
+		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_TAG_FOLLOWINGS", idUserGroup) >= 0;
+	}
+
+	private boolean removeAllAuthorFollowings(Object session, short idUserGroup) {
+		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_AUTHOR_FOLLOWINGS", idUserGroup) >= 0;
 	}
 
 	private boolean removeAllUsers(Object session, short idUserGroup) {
@@ -80,6 +98,36 @@ public class UserGroupRepositoryDB implements UserGroupRepository {
 	@Override
 	public List<Short> getGroupsFromUser(int idUser) {
 		return dbm.getQueryResultList("SQL_USERGROUP_GET_GROUPIDS_FROM_USER", Short.class, idUser);
+	}
+
+	@Override
+	public List<Short> getAuthorFollowings(short idUserGroup) {
+		return dbm.getQueryResultList("SQL_USERGROUP_GET_FOLLOW_AUTHORIDS", Short.class, idUserGroup);
+	}
+
+	@Override
+	public boolean followAuthor(short idUserGroup, int idAuthor) {
+		return dbm.updateQuery("SQL_USERGROUP_ADD_FOLLOW_AUTHOR", idUserGroup, idAuthor) >= 0;
+	}
+
+	@Override
+	public boolean unfollowAuthor(short idUserGroup, int idAuthor) {
+		return dbm.updateQuery("SQL_USERGROUP_REMOVE_FOLLOW_AUTHOR", idUserGroup, idAuthor) >= 0;
+	}
+
+	@Override
+	public List<Integer> getTagFollowings(short idUserGroup) {
+		return dbm.getQueryResultList("SQL_USERGROUP_GET_FOLLOW_TAGIDS", Integer.class, idUserGroup);
+	}
+
+	@Override
+	public boolean followTag(short idUserGroup, int idTag) {
+		return dbm.updateQuery("SQL_USERGROUP_ADD_FOLLOW_TAG", idUserGroup, idTag) >= 0;
+	}
+
+	@Override
+	public boolean unfollowTag(short idUserGroup, int idTag) {
+		return dbm.updateQuery("SQL_USERGROUP_REMOVE_FOLLOW_TAG", idUserGroup, idTag) >= 0;
 	}
 
 }

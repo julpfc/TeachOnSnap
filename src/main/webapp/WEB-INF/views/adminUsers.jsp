@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.preferences" var="prefBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
@@ -55,7 +55,7 @@
 	      					<thead>
 	        					<tr>
 	          						<th></th>
-	          						<th><fmt:message key="user.pref.username" bundle="${prefBundle}"/></th>
+	          						<th><fmt:message key="user.profile.username" bundle="${profBundle}"/></th>
 	          						<th><fmt:message key="login.form.email" bundle="${loginBundle}"/></th>
 	          						<th></th>          						
 	        					</tr>
@@ -117,10 +117,10 @@
 		      						<fmt:message key="admin.users.new.user" bundle="${adminBundle}"/>	      				
 	      						</div>
 	      						<div class="panel-body">	      					
-					    			<label for="inputFirstName" class="sr-only"><fmt:message key="user.pref.firstname" bundle="${prefBundle}"/></label>
-					    			<input type="text" name="firstname" id="inputFirstName" class="form-control" placeholder="<fmt:message key="user.pref.firstname" bundle="${prefBundle}"/>" required>
-					    			<label for="inputLastName" class="sr-only"><fmt:message key="user.pref.lastname" bundle="${prefBundle}"/></label>
-					    			<input type="text" name="lastname" id="inputLastName" class="form-control" placeholder="<fmt:message key="user.pref.lastname" bundle="${prefBundle}"/>" required>
+					    			<label for="inputFirstName" class="sr-only"><fmt:message key="user.profile.firstname" bundle="${profBundle}"/></label>
+					    			<input type="text" name="firstname" id="inputFirstName" class="form-control" placeholder="<fmt:message key="user.profile.firstname" bundle="${profBundle}"/>" required>
+					    			<label for="inputLastName" class="sr-only"><fmt:message key="user.profile.lastname" bundle="${profBundle}"/></label>
+					    			<input type="text" name="lastname" id="inputLastName" class="form-control" placeholder="<fmt:message key="user.profile.lastname" bundle="${profBundle}"/>" required>
 					    			<label for="inputEmail" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>
 					    			<input type="email" name="emailRegister" id="inputEmail" class="form-control" placeholder="<fmt:message key="login.form.email" bundle="${loginBundle}"/>" required autofocus>
 	      							<ul class="list-group">

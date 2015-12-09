@@ -72,4 +72,16 @@ public class TagRepositoryDB implements TagRepository {
 		}		
 		
 	}
+
+	@Override
+	public List<Integer> searchTag(String searchQuery, int firstResult) {
+		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
+		return (List<Integer>)dbm.getQueryResultList("SQL_TAG_SEARCH_TAGIDS", Integer.class, searchQuery, firstResult, limit+1);
+	}
+
+	@Override
+	public List<Integer> getTags(int firstResult) {
+		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
+		return (List<Integer>)dbm.getQueryResultList("SQL_TAG_GET_TAGIDS", Integer.class, firstResult, limit+1);
+	}
 }

@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
@@ -17,9 +18,11 @@
 </head>
 <body>
 	<c:import url="./import/nav.jsp"/>
+	<c:if test="${not empty user}"><c:import url="./import/confirm.jsp"/></c:if>
 	<div class="content container-fluid">
 		<div>
-       		<h2 class="lesson-title">${fn:escapeXml(lesson.title)}</h2>       		 	
+			<c:set var="lessonID" value="[${lesson.id}]"/>
+       		<h2 class="lesson-title">${fn:escapeXml(lesson.title)}${not empty user.lessonFollowed[lessonID]?' <span class="glyphicon glyphicon-star"></span>':''}</h2>       		 	
 			<p class="lesson-meta">
 				<c:if test="${(lesson.author.id == user.id && user.author)|| user.admin}">
 					<span class="lesson-edit"><a href="${lesson.editURL}"><button class="btn btn-default btn-xs" type="button">
@@ -31,8 +34,8 @@
 				<c:if test="${userLang.id != lesson.language.id}">
      				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
      			</c:if>	            			 
-      			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
-      			 <fmt:message key="lesson.meta.author.by"/> <a href="${lesson.author.URL}">${lesson.author.fullName}</a>
+      			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/><c:set var="authorID" value="[${lesson.author.id}]"/>
+      			 <fmt:message key="lesson.meta.author.by"/> <a href="${lesson.author.URL}">${lesson.author.fullName}${not empty user.authorFollowed[authorID]?' <span class="glyphicon glyphicon-star"></span>':''}</a>
    			</p>
        	</div>
 		<div class="row">
@@ -158,6 +161,18 @@
                		<h4><span class="glyphicon glyphicon-pencil"></span> <fmt:message key="lesson.sameAuthor.heading" bundle="${lessonBundle}"/></h4>
             		<p><a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>
           		</div>
+          		<c:if test="${not empty user}">
+          			<div class="sidebar">          				
+	            			<c:choose>
+	            			<c:when test="${not empty user.lessonFollowed[lessonID]}">	            				
+	            				<a onclick="confirm('?unfollowLesson=${lesson.id}','user.follow.lesson.unfollow.confirm');"><button class="btn btn-xs btn-warning" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="user.follow.lesson.unfollow" bundle="${profBundle}"/></button></a>	            				
+	            			</c:when>
+	            			<c:otherwise>	            				
+		            			<a class="violetButton" onclick="confirm('?followLesson=${lesson.id}','user.follow.lesson.follow.confirm');"><button class="btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="user.follow.lesson.follow" bundle="${profBundle}"/></button></a>
+	            			</c:otherwise>
+	            			</c:choose>
+	            	</div>
+	            </c:if> 
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
 		<c:if test="${not lesson.draft}">
@@ -258,5 +273,16 @@
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script src="/resources/js/lesson.js"></script>
+	<c:if test="${not empty user}">
+		<script type="text/javascript">
+			<!--	    
+			var msg = {};
+			msg['user.follow.lesson.follow.confirm'] = 	"<fmt:message key="user.follow.lesson.follow.confirm" bundle="${profBundle}"/>";
+			msg['user.follow.lesson.unfollow.confirm'] = "<fmt:message key="user.follow.lesson.unfollow.confirm" bundle="${profBundle}"/>";
+			//-->
+		</script>
+			
+		<script src="/resources/js/confirm.js"></script>
+	</c:if>
 </body>
 </html>

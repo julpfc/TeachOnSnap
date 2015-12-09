@@ -26,4 +26,16 @@ public interface UserGroupRepository {
 
 	public List<Short> getGroupsFromUser(int idUser);
 
+	public List<Short> getAuthorFollowings(short idUserGroup);
+
+	public boolean followAuthor(short idUserGroup, int idAuthor);
+
+	public boolean unfollowAuthor(short idUserGroup, int idAuthor);
+
+	public List<Integer> getTagFollowings(short idUserGroup);
+
+	public boolean followTag(short idUserGroup, int idTag);
+
+	public boolean unfollowTag(short idUserGroup, int idTag);
+
 }

@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.user.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
@@ -47,6 +48,30 @@ public interface UserRepository {
 
 	public void blockUser(int idUser, String reason, int idAdmin);
 
-	public void unblockUser(int idUser);	
+	public void unblockUser(int idUser);
+
+	public List<Short> getAuthors(int firstResult);
+
+	public List<Short> searchAuthorsByEmail(String searchQuery, int firstResult);
+
+	public List<Short> searchAuthorsByName(String searchQuery, int firstResult);
+
+	public Map<String, String> getAuthorFollowed(int idUser);
+
+	public Map<String, String> getLessonFollowed(int idUser);
+
+	public boolean unfollowAuthor(int idUser, int idAuthor);
+
+	public boolean followAuthor(int idUser, int idAuthor);
+
+	public boolean followLesson(int idUser, int idLesson);
+
+	public boolean unfollowLesson(int idUser, int idLesson);
+
+	public List<Short> getAuthorFollowers(int idUser);
+
+	public List<Short> getLessonFollowers(int idLesson);
+
+	public List<Short> getTagFollowers(int idTag);	
 
 }

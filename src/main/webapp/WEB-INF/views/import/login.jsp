@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.preferences" var="prefBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
 <div class="container-fluid modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
@@ -33,7 +33,7 @@
 			    	<label for="inputPassword" class="sr-only"><fmt:message key="login.form.password" bundle="${loginBundle}"/></label>
 			    	<input type="password" name="password" id="inputPassword" class="form-control" placeholder="<fmt:message key="login.form.password" bundle="${loginBundle}"/>" required>			    	 
 			    	<c:if test="${pageContext.request.scheme eq 'http'}">			    	
-			    		<a href="https://${host}/preferences"><span class="glyphicon glyphicon-lock"></span> <fmt:message key="login.form.securelogin" bundle="${loginBundle}"/></a>
+			    		<a href="https://${host}/profile"><span class="glyphicon glyphicon-lock"></span> <fmt:message key="login.form.securelogin" bundle="${loginBundle}"/></a>
 			   		</c:if>
 		    	</div> 
       			<a data-toggle="collapse" href="#collapseForgotPass" aria-expanded="false" aria-controls="collapseForgotPass"><fmt:message key="login.form.forgotpass" bundle="${loginBundle}"/></a>
@@ -72,10 +72,10 @@
     		<form action="https://${host}/login/" method="post" class="form-signin" role="form">		  		    	
     			<div class="modal-body">
 	      			<h2 class="form-signin-heading"><fmt:message key="nav.menu.register"/></h2>
-			    	<label for="inputFirstName" class="sr-only"><fmt:message key="user.pref.firstname" bundle="${prefBundle}"/></label>
-			    	<input type="text" name="firstname" id="inputFirstName" class="form-control" placeholder="<fmt:message key="user.pref.firstname" bundle="${prefBundle}"/>" required>
-			    	<label for="inputLastName" class="sr-only"><fmt:message key="user.pref.lastname" bundle="${prefBundle}"/></label>
-			    	<input type="text" name="lastname" id="inputLastName" class="form-control" placeholder="<fmt:message key="user.pref.lastname" bundle="${prefBundle}"/>" required>
+			    	<label for="inputFirstName" class="sr-only"><fmt:message key="user.profile.firstname" bundle="${profBundle}"/></label>
+			    	<input type="text" name="firstname" id="inputFirstName" class="form-control" placeholder="<fmt:message key="user.profile.firstname" bundle="${profBundle}"/>" required>
+			    	<label for="inputLastName" class="sr-only"><fmt:message key="user.profile.lastname" bundle="${profBundle}"/></label>
+			    	<input type="text" name="lastname" id="inputLastName" class="form-control" placeholder="<fmt:message key="user.profile.lastname" bundle="${profBundle}"/>" required>
 			    	<label for="inputEmail" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>
 			    	<input type="email" name="emailRegister" id="inputEmail" class="form-control" placeholder="<fmt:message key="login.form.email" bundle="${loginBundle}"/>" required autofocus>
 	    		</div>				 	

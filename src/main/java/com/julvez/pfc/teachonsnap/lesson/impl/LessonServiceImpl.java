@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.lesson.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
@@ -154,6 +155,18 @@ public class LessonServiceImpl implements LessonService{
 			String message = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.MODIFIED_LESSON_MESSAGE, url);
 			
 			success = notifyService.info(lesson.getAuthor(), subject, message, lesson.getURL());
+
+			if(!lesson.isDraft()){
+				List<User> followers = userService.getLessonFollowers(lesson);
+				if(followers != null){
+					for(User follower:followers){
+						subject = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.MODIFIED_LESSON_SUBJECT, lesson.getTitle());
+						message = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.MODIFIED_LESSON_MESSAGE, url);
+						notifyService.info(follower, subject, message, lesson.getURL());
+					}
+				}
+			}
+			
 		}
 		
 		return success;		}
@@ -192,6 +205,9 @@ public class LessonServiceImpl implements LessonService{
 	public void publish(Lesson lesson) {
 		if(lesson != null && lesson.getId() > 0 && lesson.isDraft()){
 			lessonRepository.publish(lesson.getId());
+			lesson = getLesson(lesson.getId());
+			notifyLessonPublished(lesson);
+			notifyLessonModified(lesson);
 		}		
 	}
 
@@ -217,6 +233,51 @@ public class LessonServiceImpl implements LessonService{
 			}
 		}
 		return lessons;	
+	}
+
+
+	@Override
+	public List<Lesson> getLessonsFromIDs(Map<String, String> lessonFollowed) {
+		List<Lesson> lessons = null;
+		
+		if(lessonFollowed != null){
+			lessons = new ArrayList<Lesson>();
+			
+			for(String id:lessonFollowed.values()){
+				if(stringManager.isNumeric(id)){
+					int idLesson = Integer.parseInt(id);
+					Lesson lesson = getLesson(idLesson);
+					lessons.add(lesson);
+				}
+			}
+		}
+		return lessons;
+	}
+
+
+	@Override
+	public boolean notifyLessonPublished(Lesson lesson) {
+		boolean success = false;
+		
+		if(lesson != null){
+			
+			User author = lesson.getAuthor();
+			
+			List<User> followers = userService.getAuthorFollowers(author);
+			
+			if(followers != null){			
+				
+				String url = urlService.getAbsoluteURL(lesson.getURL());
+				
+				for(User follower:followers){
+					String subject = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.PUBLISHED_LESSON_SUBJECT, lesson.getTitle(), lesson.getAuthor().getFullName());
+					String message = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.PUBLISHED_LESSON_MESSAGE, url, lesson.getAuthor().getFullName());
+					success = notifyService.info(follower, subject, message, lesson.getURL());
+				}
+			}				
+		}
+		
+		return success;
 	}
 
 }

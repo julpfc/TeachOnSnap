@@ -19,7 +19,7 @@ public enum Attribute {
 	//Lesson
 	LESSON("lesson"),
 	LIST_MEDIAFILE_LESSONFILES("medias"),
-	LIST_TAG_LESSONTAGS("tags"),
+	LIST_TAG("tags"),
 	LIST_LINK_MOREINFO("moreInfoLinks"),
 	LIST_LINK_SOURCES("sourceLinks"),
 	LIST_COMMENTS("comments"),
@@ -41,6 +41,7 @@ public enum Attribute {
 	STRING_PREVPAGE("prevPage"),
 	STRING_SEARCHTYPE("searchType"),
 	STRING_SEARCHKEYWORD("searchKeyword"),
+	STRING_BACKPAGE("backPage"),
 	
 	//Admin
 	LIST_USER("users"), 
@@ -50,7 +51,11 @@ public enum Attribute {
 	
 	//Error
 	INT_ERROR_STATUS_CODE("javax.servlet.error.status_code"), 
-	THROWABLE_ERROR_EXCEPTION("javax.servlet.error.exception");
+	THROWABLE_ERROR_EXCEPTION("javax.servlet.error.exception"),
+	
+	//Follow
+	LIST_AUTHOR_FOLLOWED("authors"), 
+	LIST_TAG_FOLLOWED("followTags");
 
 	
 	private final String realName;

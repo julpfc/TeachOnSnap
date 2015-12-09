@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.user.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
@@ -41,12 +42,16 @@ public class UserRepositoryDBCache implements UserRepository {
 	public void saveFirstName(int idUser, String firstname) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
 				new String[]{"getUser"}, idUser, firstname);		
+		cache.clearCache("searchUsersByName");
+		cache.clearCache("searchAuthorsByName");
 	}
 
 	@Override
 	public void saveLastName(int idUser, String lastname) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
-				new String[]{"getUser"}, idUser, lastname);		
+				new String[]{"getUser"}, idUser, lastname);	
+		cache.clearCache("searchUsersByName");
+		cache.clearCache("searchAuthorsByName");
 	}
 
 	@Override
@@ -75,8 +80,11 @@ public class UserRepositoryDBCache implements UserRepository {
 	@Override
 	public int createUser(String email, String firstname, String lastname, short idLanguage) {
 		cache.clearCache("getUsers");
+		cache.clearCache("getAuthors");
 		cache.clearCache("searchUsersByEmail");
 		cache.clearCache("searchUsersByName");
+		cache.clearCache("searchAuthorsByName");
+		cache.clearCache("searchAuthorsByEmail");
 		return (int)cache.updateImplCached(repoDB, null, null, email, firstname, lastname, idLanguage);
 	}
 
@@ -102,7 +110,9 @@ public class UserRepositoryDBCache implements UserRepository {
 	public void saveAuthor(int idUser, String fullName) {
 		cache.updateImplCached(repoDB,new String[]{stringManager.getKey(idUser)}, 
 				new String[]{"getUser"}, idUser, fullName);		
-		
+		cache.clearCache("getAuthors");	
+		cache.clearCache("searchAuthorsByEmail");
+		cache.clearCache("searchAuthorsByName");
 	}
 
 	@Override
@@ -120,7 +130,10 @@ public class UserRepositoryDBCache implements UserRepository {
 	@Override
 	public void removeAuthor(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
-				new String[]{"getUser"}, idUser);		
+				new String[]{"getUser"}, idUser);
+		cache.clearCache("getAuthors");
+		cache.clearCache("searchAuthorsByEmail");
+		cache.clearCache("searchAuthorsByName");
 	}
 
 	@Override
@@ -139,6 +152,78 @@ public class UserRepositoryDBCache implements UserRepository {
 	public void unblockUser(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser),stringManager.getKey(idUser)}, 
 				new String[]{"getUser","getUserBannedInfo"}, idUser);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> getAuthors(int firstResult) {
+		return (List<Short>)cache.executeImplCached(repoDB, firstResult);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> searchAuthorsByEmail(String searchQuery, int firstResult) {
+		return (List<Short>)cache.executeImplCached(repoDB, searchQuery, firstResult);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> searchAuthorsByName(String searchQuery, int firstResult) {
+		return (List<Short>)cache.executeImplCached(repoDB, searchQuery, firstResult);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Map<String, String> getAuthorFollowed(int idUser) {
+		return (Map<String, String>) cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Map<String, String> getLessonFollowed(int idUser) {
+		return (Map<String, String>) cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	public boolean unfollowAuthor(int idUser, int idAuthor) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser),stringManager.getKey(idAuthor)}, 
+				new String[]{"getAuthorFollowed","getAuthorFollowers"}, idUser, idAuthor);
+	}
+
+	@Override
+	public boolean followAuthor(int idUser, int idAuthor) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser),stringManager.getKey(idAuthor)}, 
+				new String[]{"getAuthorFollowed","getAuthorFollowers"}, idUser, idAuthor);
+	}
+
+	@Override
+	public boolean followLesson(int idUser, int idLesson) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser),stringManager.getKey(idLesson)}, 
+				new String[]{"getLessonFollowed","getLessonFollowers"}, idUser, idLesson);
+	}
+
+	@Override
+	public boolean unfollowLesson(int idUser, int idLesson) {
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser),stringManager.getKey(idLesson)}, 
+				new String[]{"getLessonFollowed","getLessonFollowers"}, idUser, idLesson);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> getAuthorFollowers(int idUser) {
+		return (List<Short>)cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> getLessonFollowers(int idLesson) {
+		return (List<Short>)cache.executeImplCached(repoDB, idLesson);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> getTagFollowers(int idTag) {
+		return (List<Short>)cache.executeImplCached(repoDB, idTag);
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.julvez.pfc.teachonsnap.user.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
@@ -142,6 +144,85 @@ public class UserRepositoryDB implements UserRepository {
 	public void unblockUser(int idUser) {
 		dbm.updateQuery("SQL_USER_UNBLOCK", idUser);
 		
+	}
+
+	@Override
+	public List<Short> getAuthors(int firstResult) {
+		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_USER_GET_AUTHORIDS", Short.class, firstResult, maxResults + 1);
+	}
+
+	@Override
+	public List<Short> searchAuthorsByEmail(String searchQuery, int firstResult) {
+		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_USER_SEARCH_AUTHORIDS_BY_EMAIL", Short.class, searchQuery, firstResult, maxResults + 1);
+	}
+
+	@Override
+	public List<Short> searchAuthorsByName(String searchQuery, int firstResult) {
+		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		return dbm.getQueryResultList("SQL_USER_SEARCH_AUTHORIDS_BY_NAME", Short.class, searchQuery, searchQuery, firstResult, maxResults + 1);
+	}
+
+	@Override
+	public Map<String, String> getAuthorFollowed(int idUser) {
+		Map<String, String> map = new HashMap<String, String>();
+		
+		List<Short> list = dbm.getQueryResultList("SQL_USER_GET_FOLLOW_AUTHORIDS", Short.class, idUser);
+		
+		for(short item:list){
+			map.put(stringManager.getKey(item), item+"");
+		}
+		
+		return map;		
+	}
+
+	@Override
+	public Map<String, String> getLessonFollowed(int idUser) {
+		Map<String, String> map = new HashMap<String, String>();
+		
+		List<Integer> list = dbm.getQueryResultList("SQL_USER_GET_FOLLOW_LESSONIDS", Integer.class, idUser);
+		
+		for(int item:list){
+			map.put(stringManager.getKey(item), item+"");
+		}
+		
+		return map;
+	}
+
+	@Override
+	public boolean unfollowAuthor(int idUser, int idAuthor) {
+		return dbm.updateQuery("SQL_USER_REMOVE_FOLLOW_AUTHOR", idUser, idAuthor) >= 0;
+	}
+
+	@Override
+	public boolean followAuthor(int idUser, int idAuthor) {
+		return dbm.updateQuery("SQL_USER_ADD_FOLLOW_AUTHOR", idUser, idAuthor) >= 0;
+	}
+
+	@Override
+	public boolean followLesson(int idUser, int idLesson) {
+		return dbm.updateQuery("SQL_USER_ADD_FOLLOW_LESSON", idUser, idLesson) >= 0;
+	}
+
+	@Override
+	public boolean unfollowLesson(int idUser, int idLesson) {
+		return dbm.updateQuery("SQL_USER_REMOVE_FOLLOW_LESSON", idUser, idLesson) >= 0;
+	}
+
+	@Override
+	public List<Short> getAuthorFollowers(int idUser) {
+		return dbm.getQueryResultList("SQL_USER_GET_AUTHOR_FOLLOWERIDS", Short.class, idUser, idUser);
+	}
+
+	@Override
+	public List<Short> getLessonFollowers(int idLesson) {
+		return dbm.getQueryResultList("SQL_USER_GET_LESSON_FOLLOWERIDS", Short.class, idLesson, idLesson);
+	}
+
+	@Override
+	public List<Short> getTagFollowers(int idTag) {
+		return dbm.getQueryResultList("SQL_USER_GET_TAG_FOLLOWERIDS", Short.class, idTag);
 	}
 
 }
