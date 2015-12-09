@@ -75,6 +75,7 @@ public class UserProfileController extends AdminController {
 					boolean admin = requestManager.getBooleanParameter(request, Parameter.USER_ROLE_ADMIN);
 					boolean blockUser = requestManager.getBooleanParameter(request, Parameter.USER_BLOCK);
 					boolean unblockUser = requestManager.getBooleanParameter(request, Parameter.USER_UNBLOCK);
+					String extraInfo = stringManager.unescapeHTML(requestManager.getBlankParameter(request,Parameter.USER_EXTRA_INFO));
 					
 					if(!stringManager.isEmpty(firstname) && !stringManager.isEmpty(lastname)){
 						
@@ -92,6 +93,24 @@ public class UserProfileController extends AdminController {
 							}							
 							setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USERNAME_SAVED));			
 						}
+					}
+					else if(extraInfo != null){						
+						if(extraInfo.equals(profile.getExtraInfo())){
+							//No ha cambiado nada
+							setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES));						
+						}
+						else{
+							User modUser = userService.saveExtraInfo(profile, extraInfo);
+							
+							if(modUser != null){
+								profile = modUser;
+								setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USER_SAVED));
+							}
+							else{								
+								setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
+							}
+						}
+						
 					}
 					else if(!stringManager.isEmpty(newPassword)){
 						if(userService.validatePassword(profile, newPassword)){

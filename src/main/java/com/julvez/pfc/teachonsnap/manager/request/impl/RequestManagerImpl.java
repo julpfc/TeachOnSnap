@@ -40,6 +40,12 @@ public class RequestManagerImpl implements RequestManager {
 		}
 		return param;
 	}
+
+	@Override
+	public String getBlankParameter(HttpServletRequest request, Enum<?> parameter) {
+		return request.getParameter(parameter.toString());
+	}
+
 	
 	@Override
 	public boolean getBooleanParameter(HttpServletRequest request, Enum<?> parameter) {
@@ -153,5 +159,6 @@ public class RequestManagerImpl implements RequestManager {
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader(HTTP_HEADER_CONTENT_DISPOSITION, "attachment; filename=\""+fileName+"\"");		
 	}
+
 
 }

@@ -82,5 +82,7 @@ public interface UserService {
 	public List<User> getLessonFollowers(Lesson lesson);
 
 	public List<User> getTagFollowers(Tag tag);
-	
+
+	public User saveExtraInfo(User user, String extraInfo);
+		
 }

@@ -4,12 +4,14 @@
  <hibernate-mapping>
 	<sql-query name="SQL_USER_GET_USER">
 	    SELECT idUser,email,firstName,lastName,idLanguage,IFNULL(tuserauthor.idUser,0) as author,
-	    	IFNULL(tuseradmin.idUser,0) as admin,URIName, IFNULL(tuserbanned.idUser,0) as banned
+	    	IFNULL(tuseradmin.idUser,0) as admin,URIName, IFNULL(tuserbanned.idUser,0) as banned,
+	    	extraInfo
 	    FROM tuser
 	    LEFT JOIN tuserauthor USING (idUser)
 	    LEFT JOIN tuserauthoruri USING (idUser)
 	    LEFT JOIN tuseradmin USING (idUser)
 	    LEFT JOIN tuserbanned USING(idUser)
+	    LEFT JOIN tuserextrainfo USING(idUser)
 	    WHERE idUser=?
 	</sql-query>
 	<sql-query name="SQL_USER_GET_IDUSER_FROM_EMAIL">
@@ -187,5 +189,14 @@
 	    JOIN tusergroupmember tugm ON (idfollowergroup=idusergroup)	    
 	    WHERE tfgt.idTag = ?
 	    GROUP BY tugm.idUser;	       
+	</sql-query>
+	<sql-query name="SQL_USER_REMOVE_EXTRAINFO">
+	    DELETE FROM tuserextrainfo
+	    WHERE idUser = ?;	       
+	</sql-query>
+	<sql-query name="SQL_USER_SAVE_EXTRAINFO">
+	    INSERT INTO tuserextrainfo(idUser, extrainfo)
+	    VALUES(?, ?)
+	    ON DUPLICATE KEY UPDATE extrainfo = ?;	       
 	</sql-query>
 </hibernate-mapping>

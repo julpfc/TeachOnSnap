@@ -58,7 +58,8 @@ public enum Parameter {
 	OLD_PASSWORD("pwo"), 
 	NEW_PASSWORD("pwn"), 
 	FIRST_NAME("firstname"), 
-	LAST_NAME("lastname"), 
+	LAST_NAME("lastname"),
+	USER_EXTRA_INFO("extraInfo"),
 	
 	//Upload
 	UPLOAD_DOWNLOAD_INDEX("f"), 

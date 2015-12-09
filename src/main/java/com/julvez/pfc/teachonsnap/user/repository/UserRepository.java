@@ -72,6 +72,10 @@ public interface UserRepository {
 
 	public List<Short> getLessonFollowers(int idLesson);
 
-	public List<Short> getTagFollowers(int idTag);	
+	public List<Short> getTagFollowers(int idTag);
+
+	public void saveExtraInfo(int idUser, String extraInfo);
+
+	public void removeExtraInfo(int idUser);	
 
 }

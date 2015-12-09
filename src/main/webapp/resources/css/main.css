@@ -135,6 +135,10 @@ h1, h2{
 	color: #563D7C;
 }
 
+.author-avatar{
+	margin-right: 10px;
+}
+
 
 /* Tag cloud */
 .tags ul{			

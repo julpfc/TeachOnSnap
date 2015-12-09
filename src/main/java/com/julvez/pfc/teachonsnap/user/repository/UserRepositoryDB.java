@@ -225,4 +225,14 @@ public class UserRepositoryDB implements UserRepository {
 		return dbm.getQueryResultList("SQL_USER_GET_TAG_FOLLOWERIDS", Short.class, idTag);
 	}
 
+	@Override
+	public void saveExtraInfo(int idUser, String extraInfo) {
+		dbm.updateQuery("SQL_USER_SAVE_EXTRAINFO", idUser, extraInfo, extraInfo);		
+	}
+
+	@Override
+	public void removeExtraInfo(int idUser) {
+		dbm.updateQuery("SQL_USER_REMOVE_EXTRAINFO", idUser);		
+	}
+
 }

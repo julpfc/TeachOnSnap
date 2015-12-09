@@ -226,4 +226,16 @@ public class UserRepositoryDBCache implements UserRepository {
 		return (List<Short>)cache.executeImplCached(repoDB, idTag);
 	}
 
+	@Override
+	public void saveExtraInfo(int idUser, String extraInfo) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)},
+				new String[]{"getUser"}, idUser, extraInfo);		
+	}
+
+	@Override
+	public void removeExtraInfo(int idUser) {
+		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
+				new String[]{"getUser"}, idUser);
+	}
+
 }

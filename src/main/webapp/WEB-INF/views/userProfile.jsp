@@ -156,14 +156,35 @@
 				      	<input id="pwnMatch" type="hidden" class="form-control" value="<fmt:message key="user.profile.validator.matchpasswords" bundle="${profBundle}"/>">					      	
 					</div>
 			    </form>				
-			</div>		
+			</div>
+			<c:if test="${not empty profile}">	
+			<div class="alert alert-info col-sm-6" role="alert">
+					<label><fmt:message key="admin.user.extra" bundle="${adminBundle}"/>: </label>						
+				 	<span id="span-extra">
+				 		${fn:substring(fn:escapeXml(profile.extraInfo),0,30)}
+				 		${fn:length(fn:escapeXml(profile.extraInfo)) > 30?'...':''}
+						<a class="alert-link pull-right" onclick="return showEditExtra(true);"><fmt:message key="user.profile.show" bundle="${profBundle}"/></a>
+					</span>
+						<div id="div-extra" class="hidden">
+					<form id="extraForm" action="" method="POST">
+						<textarea name="extraInfo" class="form-control" maxlength="255" placeholder="<fmt:message key="admin.user.extra.info.placeholder" bundle="${adminBundle}"/>" required="required">${fn:escapeXml(profile.extraInfo)}</textarea>									
+						<fmt:message key="admin.user.extra.info.tip" bundle="${adminBundle}"/>															
+				      	<span class="pull-right">
+				        	<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+				        	<button class="btn btn-default" type="button" onclick="return showEditExtra(false);"><span class="glyphicon glyphicon-remove"></span></button>
+				      	</span>					      	
+					</form>
+					    </div>
+				</div>
+			</c:if>
 			<c:if test="${not empty userProfile.URIName}">
 				<div class="alert alert-default col-sm-6" role="alert">					
+					<label>&nbsp;</label>					
 				 	<span>
 						<a class="alert-link pull-left" href="/author/${profile.URIName}"><fmt:message key="admin.user.lessons" bundle="${adminBundle}"/></a>
 						<a class="alert-link pull-right" href="/drafts/${profile.id}"><fmt:message key="admin.user.drafts" bundle="${adminBundle}"/></a>
-					</span>					
-				</div>
+					</span>
+				 </div>
 			</c:if>	
 			<c:if test="${not empty profile}">
 				<div class="alert alert-warning col-sm-6" role="alert">					

@@ -545,6 +545,25 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return users;
-	}	
+	}
+
+	@Override
+	public User saveExtraInfo(User user, String extraInfo) {		
+		User retUser = null;
+			
+		if(user != null && extraInfo != null){
+			if(!stringManager.isEmpty(extraInfo)){
+				userRepository.saveExtraInfo(user.getId(), extraInfo);
+				user.setExtraInfo(extraInfo);
+				retUser = user;
+			}
+			else{
+				userRepository.removeExtraInfo(user.getId());
+				user.setExtraInfo(null);
+				retUser = user;
+			}
+		}
+		return retUser;
+	}		
 
 }

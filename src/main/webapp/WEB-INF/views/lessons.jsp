@@ -29,8 +29,9 @@
 		<div class="row">					
 			<div class="col-sm-7">
 				<c:forEach items="${lessons}" var="lesson" varStatus="loop">	
-					<c:if test="${loop.last}"><c:set var="authorId" value="${lesson.author.id}"/></c:if>
+					<c:if test="${loop.last}"><c:set var="author" value="${lesson.author}"/></c:if>
 					<div><c:set var="lessonID" value="[${lesson.id}]"/>
+						<span class="author-avatar pull-left"><img alt="avatar" src="https://www.gravatar.com/avatar/${lesson.author.MD5}?s=48&d=identicon" width="48" height="48"></span>
 	            		<h2 class="lesson-title"><a href="${lesson.draft?lesson.editURL:lesson.URL}">${fn:escapeXml(lesson.title)}</a>${not empty user.lessonFollowed[lessonID]?' <span class="glyphicon glyphicon-star"></span>':''}</h2>
 	            		<p class="lesson-meta">
 	            			<c:if test="${userLang.id != lesson.language.id}">
@@ -92,14 +93,17 @@
           		<c:if test="${not empty searchKeyword}">
 	          		<div class="sidebar">
 	            		<h4><fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}:</h4>
-	            		<span class="label label-info">${searchKeyword}</span>	            		
-	            		<c:if test="${not empty user && searchType eq 'author' && not empty authorId}">
+	            		<c:if test="${searchType eq 'author' && not empty author}">
+	            			<span class="author-avatar pull-left"><img alt="avatar" src="https://www.gravatar.com/avatar/${author.MD5}?s=48&d=identicon" width="48" height="48"></span>
+	            		</c:if>
+	            		<h3><span class="label label-info">${searchKeyword}</span></h3>	            		
+	            		<c:if test="${not empty user && searchType eq 'author' && not empty author}">
 	            			<c:choose>
 	            			<c:when test="${not empty user.authorFollowed[authorID]}">	            				
-	            				<a onclick="confirm('?unfollowAuthor=${authorId}','admin.group.follow.author.unfollow.confirm');"><button class="btn btn-xs btn-warning" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="admin.group.follow.author.unfollow" bundle="${adminBundle}"/></button></a>	            				
+	            				<a onclick="confirm('?unfollowAuthor=${author.id}','admin.group.follow.author.unfollow.confirm');"><button class="btn btn-xs btn-warning" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="admin.group.follow.author.unfollow" bundle="${adminBundle}"/></button></a>	            				
 	            			</c:when>
 	            			<c:otherwise>	            				
-		            			<a class="violetButton" onclick="confirm('?followAuthor=${authorId}','admin.group.follow.author.follow.confirm');"><button class="btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="admin.group.follow.author.follow" bundle="${adminBundle}"/></button></a>
+		            			<a class="violetButton" onclick="confirm('?followAuthor=${author.id}','admin.group.follow.author.follow.confirm');"><button class="btn btn-xs btn-primary" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="admin.group.follow.author.follow" bundle="${adminBundle}"/></button></a>
 	            			</c:otherwise>
 	            			</c:choose>
 	            		</c:if>           		

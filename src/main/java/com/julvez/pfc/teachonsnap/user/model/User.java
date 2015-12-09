@@ -20,6 +20,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private short idLanguage;
+	private String extraInfo;
 	
 	private boolean author;
 	private boolean admin;
@@ -99,7 +100,7 @@ public class User {
 				+ idLanguage + ", author=" + author + ", admin=" + admin
 				+ ", URIName=" + URIName + ", language=" + language 
 				+ ", bannedInfo=" + bannedInfo + ", authorFollowed=" + authorFollowed
-				+ ", lessonFollowed=" + lessonFollowed +"]";
+				+ ", lessonFollowed=" + lessonFollowed + ", extraInfo=" + extraInfo+"]";
 	}
 
 	public boolean isAuthor() {
@@ -178,6 +179,14 @@ public class User {
 
 	public void setBannedInfo(UserBannedInfo bannedInfo) {
 		this.bannedInfo = bannedInfo;
+	}
+
+	public String getExtraInfo() {
+		return extraInfo;
+	}
+
+	public void setExtraInfo(String extraInfo) {
+		this.extraInfo = extraInfo;
 	}
 	
 }
