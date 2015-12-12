@@ -80,9 +80,9 @@
 
         	<div class="col-sm-4 col-sm-offset-1">
           		<div class="sidebar tags">
-            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.heading"/></h4>
+            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.use.heading"/></h4>
             		<ul class="tags">
-            		<c:forEach items="${cloudTags}" var="cloudTag">
+            		<c:forEach items="${tagUseCloudTags}" var="cloudTag">
             			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
 		            </c:forEach>
 		            </ul>
@@ -94,7 +94,7 @@
             			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
 		            </c:forEach>
 		            </ul>
-          		</div>            		
+          		</div>          		           		
           		<div class="sidebar">
             		<h4>About <fmt:message key="app.name" /> <span class="glyphicon glyphicon-facetime-video"></span>
 		        	<span class="glyphicon glyphicon-book"></span></h4>

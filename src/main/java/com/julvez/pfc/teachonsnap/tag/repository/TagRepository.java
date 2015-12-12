@@ -13,7 +13,7 @@ public interface TagRepository {
 	
 	public List<Integer> getLessonTagIDs(int idLesson);
 	
-	public List<Object[]> getCloudTags();
+	public List<Object[]> getTagUseCloudTags();
 	
 	public List<Object[]> getAuthorCloudTags();
 	
@@ -28,5 +28,7 @@ public interface TagRepository {
 	public List<Integer> searchTag(String searchQuery, int firstResult);
 
 	public List<Integer> getTags(int firstResult);
+
+	public List<Integer> getTagSearchCloudTags();
 
 }

@@ -126,7 +126,7 @@ public class LessonController extends CommonController {
 					boolean hasNextPage = false;
 					
 					if(visit != null && !visit.isViewedLesson(lesson.getId())){
-						visit = visitService.saveLesson(visit, lesson);
+						visit = statsService.saveLesson(visit, lesson);
 						if(visit != null){
 							requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
 						}
@@ -142,10 +142,10 @@ public class LessonController extends CommonController {
 						requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 						
 						if(visit!= null && visit.getUser()!=null){
-							UserTestRank testRank = visitService.getUserTestRank(test.getId(), visit.getUser().getId());			
+							UserTestRank testRank = statsService.getUserTestRank(test.getId(), visit.getUser().getId());			
 							requestManager.setAttribute(request, Attribute.USERTESTRANK, testRank);
 						}
-						List<UserTestRank> testRanks = visitService.getTestRanks(test.getId());
+						List<UserTestRank> testRanks = statsService.getTestRanks(test.getId());
 						requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
 					}
 					

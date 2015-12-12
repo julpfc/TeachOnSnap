@@ -21,7 +21,7 @@
 	    FROM ttag	    	    
 	    WHERE idTag = ?
 	</sql-query>
-	<sql-query name="SQL_TAG_GET_CLOUDTAG_TAG">
+	<sql-query name="SQL_TAG_GET_CLOUDTAG_USE_TAG">
 		SELECT idTag,weight FROM (
 			SELECT 	idTag, COUNT(idlesson) AS weight
 			FROM tlessontag
@@ -74,5 +74,17 @@
 	    FROM ttag	
 	    ORDER BY tag    	    
 	    LIMIT ?,?;
+	</sql-query>	
+		<sql-query name="SQL_TAG_GET_CLOUDTAG_SEARCH_TAG">
+		SELECT idTag FROM (
+			SELECT 	idTag, COUNT(idVisit) AS weight
+			FROM tvisittag			
+			GROUP BY idtag
+			ORDER BY weight DESC
+			LIMIT ?
+		) AS t
+		JOIN ttag USING (idtag)
+		ORDER BY tag; 
+		;
 	</sql-query>	
 </hibernate-mapping>

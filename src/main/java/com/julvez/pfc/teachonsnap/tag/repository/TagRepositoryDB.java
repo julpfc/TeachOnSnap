@@ -33,9 +33,9 @@ public class TagRepositoryDB implements TagRepository {
 	}
 	
 	@Override
-	public List<Object[]> getCloudTags() {
+	public List<Object[]> getTagUseCloudTags() {
 		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);		
-		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_TAG", Object[].class, limit);		
+		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_USE_TAG", Object[].class, limit);		
 	}
 
 	@Override
@@ -83,5 +83,11 @@ public class TagRepositoryDB implements TagRepository {
 	public List<Integer> getTags(int firstResult) {
 		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
 		return (List<Integer>)dbm.getQueryResultList("SQL_TAG_GET_TAGIDS", Integer.class, firstResult, limit+1);
+	}
+
+	@Override
+	public List<Integer> getTagSearchCloudTags() {
+		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);		
+		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_SEARCH_TAG", Integer.class, limit);	
 	}
 }

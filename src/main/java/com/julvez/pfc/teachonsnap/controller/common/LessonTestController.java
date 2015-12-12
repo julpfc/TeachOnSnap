@@ -51,7 +51,7 @@ public class LessonTestController extends CommonController {
 			if(request.getMethod().equals("POST")){
 				UserLessonTest userTest = new UserLessonTest(test, request.getParameterMap());
 				
-				boolean saved = visitService.saveUserTest(visit, userTest);
+				boolean saved = statsService.saveUserTest(visit, userTest);
 				
 				if(saved){
 					setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USERTEST_SAVED));					
@@ -63,8 +63,8 @@ public class LessonTestController extends CommonController {
 				requestManager.setAttribute(request, Attribute.USERLESSONTEST_ANSWERS, userTest);
 			}			
 			
-			UserTestRank testRank = visitService.getUserTestRank(test.getId(), visit.getUser().getId());			
-			List<UserTestRank> testRanks = visitService.getTestRanks(test.getId());
+			UserTestRank testRank = statsService.getUserTestRank(test.getId(), visit.getUser().getId());			
+			List<UserTestRank> testRanks = statsService.getTestRanks(test.getId());
 			
 			requestManager.setAttribute(request, Attribute.USERTESTRANK, testRank);
 			requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);

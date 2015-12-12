@@ -80,11 +80,14 @@ public abstract class PagerController extends CommonController {
 			requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
 			
 			
-			List<CloudTag> cloudTags = tagService.getCloudTags();
+			List<CloudTag> tagUseCloudTags = tagService.getTagUseCloudTags();
 			List<CloudTag> authorCloudTags = tagService.getAuthorCloudTags();
+			List<CloudTag> tagSearchCloudTags = tagService.getTagSearchCloudTags();
+			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_TAG_SEARCH, tagSearchCloudTags);
 			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_AUTHOR, authorCloudTags);
-			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG, cloudTags);
+			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_TAG_USE, tagUseCloudTags);
 	
+			
 			requestManager.setAttribute(request, Attribute.LIST_LESSON, lessons);
 			
 			requestManager.setAttribute(request, Attribute.STRING_SEARCHTYPE,request.getServletPath().substring(1));
@@ -95,6 +98,8 @@ public abstract class PagerController extends CommonController {
 				requestManager.setAttribute(request, Attribute.STRING_SEARCHKEYWORD, searchKeyword);
 			}
 		    
+			saveStats(visit, searchURI, lessons);
+			
 		    request.getRequestDispatcher("/WEB-INF/views/lessons.jsp").forward(request, response);
 		}
 		else{
@@ -136,7 +141,9 @@ public abstract class PagerController extends CommonController {
 	
 	protected abstract List<Lesson> getLessons(String searchURI, int pageResult);
 	
-	protected abstract String getSearchKeyword(String searchURI,List<Lesson> lessons);	
+	protected abstract String getSearchKeyword(String searchURI, List<Lesson> lessons);	
+	
+	protected abstract void saveStats(Visit visit, String searchURI, List<Lesson> lessons);
 	
 
 }

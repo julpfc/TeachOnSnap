@@ -44,13 +44,13 @@ public class HomeController extends CommonController {
 			requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
 		}
 		
-		List<CloudTag> cloudTags = tagService.getCloudTags();
+		List<CloudTag> tagUseCloudTags = tagService.getTagUseCloudTags();
 		
 		List<CloudTag> authorCloudTags = tagService.getAuthorCloudTags();
 		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_AUTHOR, authorCloudTags);
 		
 		requestManager.setAttribute(request, Attribute.LIST_LESSON, lastLessons);
-		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG, cloudTags);
+		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_TAG_USE, tagUseCloudTags);
 		
 		request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);	 
 

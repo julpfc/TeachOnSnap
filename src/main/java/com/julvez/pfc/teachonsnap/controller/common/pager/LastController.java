@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.controller.common.PagerController;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.stats.model.Visit;
 
 public class LastController extends PagerController {
 
@@ -17,6 +18,11 @@ public class LastController extends PagerController {
 	@Override
 	protected String getSearchKeyword(String searchURI, List<Lesson> lessons) {		
 		return null;
+	}
+
+	@Override
+	protected void saveStats(Visit visit, String searchURI, List<Lesson> lessons) {
+		//No stats to save.		
 	}
 
 }

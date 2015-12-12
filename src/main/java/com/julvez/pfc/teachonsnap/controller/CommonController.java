@@ -42,7 +42,7 @@ public abstract class CommonController extends HttpServlet {
 	
 	protected LangService langService = LangServiceFactory.getService();
 	protected UserService userService = UserServiceFactory.getService();	
-	protected StatsService visitService = StatsServiceFactory.getService();
+	protected StatsService statsService = StatsServiceFactory.getService();
 	protected URLService urlService = URLServiceFactory.getService();
 	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
@@ -73,7 +73,7 @@ public abstract class CommonController extends HttpServlet {
 
 		if(visit == null){			
 			if(properties.getBooleanProperty(StatsPropertyName.ENABLE_ANON_VISIT_COUNTER)){
-				visit = visitService.createVisit(requestManager.getIP(request));
+				visit = statsService.createVisit(requestManager.getIP(request));
 				requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);						
 			}
 		}

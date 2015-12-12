@@ -11,6 +11,8 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.notify.NotifyService;
 import com.julvez.pfc.teachonsnap.notify.NotifyServiceFactory;
+import com.julvez.pfc.teachonsnap.stats.StatsService;
+import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.model.CloudTag;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
@@ -33,6 +35,7 @@ public class TagServiceImpl implements TagService {
 	private URLService urlService = URLServiceFactory.getService();
 	private TextService textService = TextServiceFactory.getService();
 	private NotifyService notifyService = NotifyServiceFactory.getService();
+	private StatsService statsService = StatsServiceFactory.getService();
 	
 	private TagRepository tagRepository = TagRepositoryFactory.getRepository();
 	
@@ -51,12 +54,12 @@ public class TagServiceImpl implements TagService {
 	}
 	
 	@Override
-	public List<Lesson> getLessonsFromTag(String tag,int firstResult) {
+	public List<Lesson> getLessonsFromTag(Tag tag,int firstResult) {
 		
 		List<Lesson> lessons = new ArrayList<Lesson>();
 		
 		if(tag != null){
-			List<Integer> ids = tagRepository.getLessonIDsFromTag(tag,firstResult);
+			List<Integer> ids = tagRepository.getLessonIDsFromTag(tag.getTag(),firstResult);
 			
 			for(int id:ids){
 				lessons.add(lessonService.getLesson(id));
@@ -81,10 +84,10 @@ public class TagServiceImpl implements TagService {
 	
 	
 	@Override
-	public List<CloudTag> getCloudTags() {
+	public List<CloudTag> getTagUseCloudTags() {
 		List<CloudTag> cloudTags = new ArrayList<CloudTag>();
 		
-		List<Object[]> result= tagRepository.getCloudTags();
+		List<Object[]> result= tagRepository.getTagUseCloudTags();
 				
 		int max=0;
 		int min=0;
@@ -278,5 +281,36 @@ public class TagServiceImpl implements TagService {
 		}
 		
 		return success;		
+	}
+
+	@Override
+	public Tag getTag(String tag) {
+		Tag ret = null;
+		
+		if(!stringManager.isEmpty(tag)){
+			int tagId = tagRepository.getTagID(tag);
+			ret = getTag(tagId);
+		}
+		return ret;
+	}
+
+	@Override
+	public List<CloudTag> getTagSearchCloudTags() {
+		List<CloudTag> cloudTags = new ArrayList<CloudTag>();
+		
+		List<Integer> ids = tagRepository.getTagSearchCloudTags();
+				
+		int max=0;
+		int min=0;
+		for(int id:ids){
+			Tag tag = getTag(id);			
+			short visits = (short)statsService.getTagViewsCount(tag);
+			if(visits > max) max = visits;
+			if(min == 0 || visits < min) min = visits;
+			
+			cloudTags.add(new CloudTag(tag, visits));
+		}
+		
+		return getCloudTagListNormalized(cloudTags,max,min);
 	}
 }

@@ -14,11 +14,14 @@ public class Visit {
 	
 	private List<Integer> viewedLessons;
 	
+	private List<Integer> viewedTags;
+	
 	public Visit(int idVisit) {
 		this.id = idVisit;
 		this.idLanguage = -1;
 		this.user = null;
 		viewedLessons = new ArrayList<Integer>();
+		viewedTags = new ArrayList<Integer>();
 	}
 
 	public int getId() {
@@ -57,7 +60,16 @@ public class Visit {
 	@Override
 	public String toString() {
 		return "Visit [id=" + id + ", idLanguage=" + idLanguage 
-				+ ", user=" + user	+ ", viewedLessons=" + viewedLessons + "]";
+				+ ", user=" + user	+ ", viewedLessons=" + viewedLessons 
+				+ ", viewedTags=" + viewedTags + "]";
+	}
+
+	public boolean isViewedTag(int idTag) {
+		return viewedTags.contains(idTag);
+	}
+
+	public void addViewedTag(int idTag) {
+		viewedTags.add(idTag);		
 	}	
 		
 }

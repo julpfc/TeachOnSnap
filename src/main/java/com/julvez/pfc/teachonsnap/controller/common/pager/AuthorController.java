@@ -87,5 +87,10 @@ public class AuthorController extends PagerController {
 			super.processController(request, response, visit, user);
 		}
 	}
+
+	@Override
+	protected void saveStats(Visit visit, String searchURI, List<Lesson> lessons) {
+		// TODO Ver si guardamos stats por autor		
+	}
 	
 }

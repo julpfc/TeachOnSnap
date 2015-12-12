@@ -58,6 +58,15 @@ public class StatsRepositoryDBCache implements StatsRepository {
 		return (List<Short>)cache.executeImplCached(repoDB, idLessonTest);
 	}
 
-	
+	@Override
+	public boolean saveTag(int idVisit, int idTag) {
+		boolean result = (boolean)cache.updateImplCached(repoDB, null, null, idVisit, idTag);
+		cache.incCacheValue("getTagViewsCount", stringManager.getKey(idTag));
+		return result;	
+	}
 
+	@Override
+	public int getTagViewsCount(int idTag) {
+		return (int)cache.executeImplCached(repoDB, idTag);
+	}
 }

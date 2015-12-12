@@ -22,4 +22,8 @@ public interface StatsRepository {
 
 	public List<Short> getUserIDsTestRank(int idLessonTest);
 
+	public boolean saveTag(int idVisit, int idTag);
+	
+	public int getTagViewsCount(int idTag);
+
 }

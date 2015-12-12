@@ -6,6 +6,7 @@ import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public interface StatsService {
@@ -21,5 +22,11 @@ public interface StatsService {
 	public UserTestRank getUserTestRank(int idLessonTest, int idUser);
 
 	public List<UserTestRank> getTestRanks(int idLessonTest);
+
+	public Visit saveTag(Visit visit, Tag tag);
+	
+	public int getTagViewsCount(Tag tag);
+	
+	public int getLessonViewsCount(Lesson lesson);
 
 }

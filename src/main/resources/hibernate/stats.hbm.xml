@@ -2,51 +2,51 @@
 <!DOCTYPE hibernate-mapping PUBLIC
  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
-	<sql-query name="SQL_VISIT_CREATE">
+	<sql-query name="SQL_STATS_CREATE">
 	    INSERT INTO tvisit(ip,`date`)
 	    VALUES (IFNULL(INET_ATON(?),0),NOW());       
 	</sql-query>	
-	<sql-query name="SQL_VISIT_SAVE_USER">
+	<sql-query name="SQL_STATS_SAVE_USER">
 	    INSERT IGNORE INTO tvisituser(idVisit,idUser)
 	    VALUES (?,?);       
 	</sql-query>
-	<sql-query name="SQL_VISIT_SAVE_LESSON">
+	<sql-query name="SQL_STATS_SAVE_LESSON">
 	    INSERT IGNORE INTO tvisitlesson(idVisit,idLesson)
 	    VALUES (?,?);       
 	</sql-query>
-	<sql-query name="SQL_VISIT_GET_LESSON_VIEWS_COUNT">
+	<sql-query name="SQL_STATS_GET_LESSON_VIEWS_COUNT">
 	    SELECT COUNT(idVisit) as lessonViews
 	    FROM tvisitlesson
 	    WHERE idLesson = ?
 	    GROUP BY idLesson;       
 	</sql-query>
-	<sql-query name="SQL_VISIT_GET_USERTEST_COUNT">
+	<sql-query name="SQL_STATS_GET_USERTEST_COUNT">
 	    SELECT COUNT(idVisitTest) as attempts
 	    FROM tvisittest
 	    JOIN tvisituser USING (idVisit)
 	    WHERE idLessonTest = ? AND idUser = ?
 	    GROUP BY idLessonTest, idUser;       
 	</sql-query>	
-	<sql-query name="SQL_VISIT_SAVE_USERTEST">
+	<sql-query name="SQL_STATS_SAVE_USERTEST">
 	    INSERT INTO tvisittest(idVisit, idLessonTest, points, `date`)
 	    VALUES (?,?,?,NOW());       
 	</sql-query>
-	<sql-query name="SQL_VISIT_SAVE_USERTEST_KO">
+	<sql-query name="SQL_STATS_SAVE_USERTEST_KO">
 	    INSERT IGNORE INTO tvisittestkos(idVisitTest, idQuestion)
 	    VALUES (?,?);       
 	</sql-query>
-	<sql-query name="SQL_VISIT_SAVE_USERTESTRANK">
+	<sql-query name="SQL_STATS_SAVE_USERTESTRANK">
 	    INSERT INTO tvisittestrank(idLessonTest, idUser, idVisitTest, attempts)
 	    VALUES (?,?,?,?)
 	    ON DUPLICATE KEY UPDATE idVisitTest = ?, attempts = ?;   
 	</sql-query>
-	<sql-query name="SQL_VISIT_GET_USERTESTRANK">
+	<sql-query name="SQL_STATS_GET_USERTESTRANK">
 	    SELECT idLessonTest, idUser, idVisitTest, attempts, points, `date`
 	    FROM tvisittestrank
 	    JOIN tvisittest USING (idvisittest, idLessonTest)
 	    WHERE idLessonTest = ? AND idUser = ?;   
 	</sql-query>
-	<sql-query name="SQL_VISIT_GET_USERIDS_TESTRANK">
+	<sql-query name="SQL_STATS_GET_USERIDS_TESTRANK">
 	    SELECT idUser
 	    FROM tvisittestrank
 	    JOIN tvisittest USING (idvisittest, idLessonTest)
@@ -54,4 +54,15 @@
 	    ORDER BY points DESC,attempts ASC,`date` DESC
 	    LIMIT ?;   
 	</sql-query>
+	<sql-query name="SQL_STATS_SAVE_TAG">
+	    INSERT IGNORE INTO tvisittag(idVisit,idTag)
+	    VALUES (?,?);       
+	</sql-query>
+		<sql-query name="SQL_STATS_GET_TAG_VIEWS_COUNT">
+	    SELECT COUNT(idVisit) as tagViews
+	    FROM tvisittag
+	    WHERE idTag = ?
+	    GROUP BY idTag;       
+	</sql-query>
+	
 </hibernate-mapping>

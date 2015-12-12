@@ -112,17 +112,27 @@
 	            		</c:if>           		
 	          		</div>        
           		</c:if> 
-          		<c:if test="${not empty cloudTags}">
+          		<c:if test="${not empty tagSearchCloudTags && searchType eq 'tag'}">
 	          		<div class="sidebar tags">
-	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.heading"/></h4>
+	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.search.heading"/></h4>
 	            		<ul class="tags">
-	            		<c:forEach items="${cloudTags}" var="cloudTag">
+	            		<c:forEach items="${tagSearchCloudTags}" var="cloudTag">
+	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+			            </c:forEach>
+			            </ul>
+	          		</div> 
+          		</c:if>
+          		<c:if test="${not empty tagUseCloudTags && searchType eq 'tag'}">
+	          		<div class="sidebar tags">
+	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.use.heading"/></h4>
+	            		<ul class="tags">
+	            		<c:forEach items="${tagUseCloudTags}" var="cloudTag">
 	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
 			            </c:forEach>
 			            </ul>
 	          		</div>  
           		</c:if>
-          		<c:if test="${not empty authorCloudTags}">
+          		<c:if test="${not empty authorCloudTags && searchType eq 'author'}">
 	          		<div class="sidebar tags">
 	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.author.heading"/></h4>
 	            		<ul class="tags">

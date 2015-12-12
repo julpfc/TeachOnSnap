@@ -65,10 +65,10 @@ public class PreviewLessonController extends CommonController {
 					requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 					
 					if(visit!= null && visit.getUser()!=null){
-						UserTestRank testRank = visitService.getUserTestRank(test.getId(), visit.getUser().getId());			
+						UserTestRank testRank = statsService.getUserTestRank(test.getId(), visit.getUser().getId());			
 						requestManager.setAttribute(request, Attribute.USERTESTRANK, testRank);
 					}
-					List<UserTestRank> testRanks = visitService.getTestRanks(test.getId());
+					List<UserTestRank> testRanks = statsService.getTestRanks(test.getId());
 					requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
 				}
 				

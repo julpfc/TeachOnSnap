@@ -34,7 +34,7 @@ public class TagRepositoryDBCache implements TagRepository {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getCloudTags() {
+	public List<Object[]> getTagUseCloudTags() {
 		return (List<Object[]>)cache.executeImplCached(repoDB, new Object[0]);
 	}
 
@@ -50,7 +50,8 @@ public class TagRepositoryDBCache implements TagRepository {
 				new String[]{"getLessonTagIDs"}, idLesson, tagIDs);
 		
 		cache.clearCache("getLessonIDsFromTag");
-		cache.clearCache("getCloudTags");			
+		cache.clearCache("getTagUseCloudTags");			
+		cache.clearCache("getTagSearchCloudTags");			
 	}
 
 	@Override
@@ -85,5 +86,11 @@ public class TagRepositoryDBCache implements TagRepository {
 	@SuppressWarnings("unchecked")
 	public List<Integer> getTags(int firstResult) {
 		return (List<Integer>)cache.executeImplCached(repoDB, firstResult);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Integer> getTagSearchCloudTags() {
+		return (List<Integer>)cache.executeImplCached(repoDB, new Object[0]);
 	}
 }

@@ -10,13 +10,15 @@ import com.julvez.pfc.teachonsnap.tag.model.TagFollowed;
 
 public interface TagService {
 
-	public List<Lesson> getLessonsFromTag(String tag, int firstResult);
+	public List<Lesson> getLessonsFromTag(Tag tag, int firstResult);
 	
 	public List<Tag> getLessonTags(int idLesson);
 	
 	public Tag getTag(int idTag);
+	public Tag getTag(String tag);
 	
-	public List<CloudTag> getCloudTags();
+	public List<CloudTag> getTagUseCloudTags();
+	public List<CloudTag> getTagSearchCloudTags();
 	
 	public List<CloudTag> getAuthorCloudTags();
 	
@@ -33,5 +35,6 @@ public interface TagService {
 	public List<Tag> searchTag(String searchQuery, int firstResult);
 
 	public boolean notifyLessonTagged(Lesson lesson, int idTag);
+
 
 }

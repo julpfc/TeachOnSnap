@@ -10,6 +10,7 @@ import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.stats.repository.StatsRepository;
 import com.julvez.pfc.teachonsnap.stats.repository.StatsRepositoryFactory;
+import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
@@ -18,7 +19,7 @@ public class StatsServiceImpl implements StatsService {
 
 	private static final String IP_NULL = "0.0.0.0";
 	
-	private StatsRepository visitRepository = StatsRepositoryFactory.getRepository();
+	private StatsRepository statsRepository = StatsRepositoryFactory.getRepository();
 	
 	private UserService userService = UserServiceFactory.getService();
 
@@ -30,7 +31,7 @@ public class StatsServiceImpl implements StatsService {
 			ip = IP_NULL;
 		}
 		
-		int idVisit = visitRepository.createVisit(ip);
+		int idVisit = statsRepository.createVisit(ip);
 		
 		if(idVisit>0){
 			visit = new Visit(idVisit);
@@ -42,7 +43,7 @@ public class StatsServiceImpl implements StatsService {
 	@Override
 	public Visit saveUser(Visit visit, User user) {
 		if(visit!=null && visit.getUser()==null && user!=null){
-			if(visitRepository.saveUser(visit.getId(), user.getId())){
+			if(statsRepository.saveUser(visit.getId(), user.getId())){
 				visit.setUser(user);
 			}else{
 				visit = null;
@@ -55,7 +56,7 @@ public class StatsServiceImpl implements StatsService {
 	public Visit saveLesson(Visit visit, Lesson lesson) {
 		if(visit!=null && lesson!=null){
 			if(!visit.isViewedLesson(lesson.getId())){
-				if(visitRepository.saveLesson(visit.getId(), lesson.getId())){										
+				if(statsRepository.saveLesson(visit.getId(), lesson.getId())){										
 					visit.addViewedLesson(lesson.getId());
 				}
 				else return null;				
@@ -72,7 +73,7 @@ public class StatsServiceImpl implements StatsService {
 			
 			boolean betterRank = !(testRank != null && testRank.getPoints()>=userTest.getPoints());
 			
-			saved = visitRepository.saveUserTest(visit, userTest, betterRank);
+			saved = statsRepository.saveUserTest(visit, userTest, betterRank);
 			
 		}
 		return saved;
@@ -83,7 +84,7 @@ public class StatsServiceImpl implements StatsService {
 		UserTestRank testRank = null;
 		
 		if(idLessonTest>0 && idUser>0){
-			testRank = visitRepository.getUserTestRank(idLessonTest, idUser);
+			testRank = statsRepository.getUserTestRank(idLessonTest, idUser);
 			if(testRank != null){
 				User user = userService.getUser(idUser);
 				testRank.setUser(user);
@@ -96,13 +97,47 @@ public class StatsServiceImpl implements StatsService {
 	public List<UserTestRank> getTestRanks(int idLessonTest) {
 		List<UserTestRank> testRanks = new ArrayList<UserTestRank>();
 		
-		List<Short> ids = visitRepository.getUserIDsTestRank(idLessonTest);
+		List<Short> ids = statsRepository.getUserIDsTestRank(idLessonTest);
 		
 		for(int id:ids){
 			testRanks.add(getUserTestRank(idLessonTest, id));
 		}
 		
 		return testRanks;
+	}
+
+	@Override
+	public Visit saveTag(Visit visit, Tag tag) {
+		if(visit!=null && tag!=null){
+			if(!visit.isViewedTag(tag.getId())){
+				if(statsRepository.saveTag(visit.getId(), tag.getId())){										
+					visit.addViewedTag(tag.getId());
+				}
+				else return null;				
+			}			
+		}
+		return visit;	}
+
+	@Override
+	public int getTagViewsCount(Tag tag) {
+		int count = -1;
+		
+		if(tag != null){
+			count = statsRepository.getTagViewsCount(tag.getId());
+		}
+		
+		return count;
+	}
+
+	@Override
+	public int getLessonViewsCount(Lesson lesson) {
+		int count = -1;
+		
+		if(lesson != null){
+			count = statsRepository.getLessonViewsCount(lesson.getId());
+		}
+		
+		return count;
 	}
 
 }
