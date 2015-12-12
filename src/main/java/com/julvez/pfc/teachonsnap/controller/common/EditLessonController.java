@@ -172,27 +172,27 @@ public class EditLessonController extends CommonController {
 										setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
 										success = false;
 									}
+								}	
+								//Y coger el nuevo (sólo si se ha eliminado el viejo)
+								if((remove && success && lesson.getIdLessonMedia() == -1) || (!remove && lesson.getIdLessonMedia() == -1)){
 									
-									//Y coger el nuevo (sólo si se ha eliminado el viejo)
-									if(lesson.getIdLessonMedia() == -1){
-									
-										FileMetadata file = getSubmittedFile(request, user);
-									
-										if(file!=null){		
-											int idMediaFile = mediaFileService.saveMediaFile(lesson, file);
-											if(idMediaFile>0){
-												//SI todo es correcto cargarse los temporales que no hemos usado
-												uploadService.removeTemporaryFiles(user);
-												lesson = lessonService.getLesson(lesson.getId());
-												changes = true;
-											}
-											else{
-												//Error, habia fichero pero no hemos podido guardarlo
-												success = false;
-												setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
-											}
+									FileMetadata file = getSubmittedFile(request, user);
+								
+									if(file!=null){		
+										int idMediaFile = mediaFileService.saveMediaFile(lesson, file);
+										if(idMediaFile>0){
+											//SI todo es correcto cargarse los temporales que no hemos usado
+											uploadService.removeTemporaryFiles(user);
+											lesson = lessonService.getLesson(lesson.getId());
+											changes = true;
+										}
+										else{
+											//Error, habia fichero pero no hemos podido guardarlo
+											success = false;
+											setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
 										}
 									}
+									
 								}							
 	
 							

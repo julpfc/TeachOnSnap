@@ -21,7 +21,7 @@
 	<c:if test="${not empty user}"><c:import url="./import/confirm.jsp"/></c:if>
 	<div class="content container-fluid">
 		<div>
-			<span class="author-avatar pull-left"><img alt="avatar" src="https://www.gravatar.com/avatar/${lesson.author.MD5}?s=48&d=identicon" width="48" height="48"></span>
+			<span class="author-avatar pull-left"><a href="${lesson.author.URL}"><img alt="avatar" src="https://www.gravatar.com/avatar/${lesson.author.MD5}?s=48&d=identicon" width="48" height="48"></a></span>
 			<c:set var="lessonID" value="[${lesson.id}]"/>
        		<h2 class="lesson-title">${fn:escapeXml(lesson.title)}${not empty user.lessonFollowed[lessonID]?' <span class="glyphicon glyphicon-star"></span>':''}</h2>       		 	
 			<p class="lesson-meta">
@@ -59,7 +59,10 @@
 						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
 											</c:forEach>
 										</audio>
-				     				</c:when>				     								     			
+				     				</c:when>
+				     				<c:when test="${lesson.mediaType == 'IMAGE'}">
+						     			<img class="img-thumbnail" id="lesson_media" alt="${firstMedia.filename}" src="${firstMedia.URL}"/>						     					
+						     		</c:when>				     								     			
 				     			</c:choose>
 				     		</div>  		
 					</c:if>												

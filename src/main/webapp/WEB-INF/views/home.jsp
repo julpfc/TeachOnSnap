@@ -33,7 +33,7 @@
 			<div class="col-sm-7">
 				<c:forEach items="${lessons}" var="lesson">					
 					<div> <c:set var="lessonID" value="[${lesson.id}]"/>
-						<span class="author-avatar pull-left"><img alt="avatar" src="https://www.gravatar.com/avatar/${lesson.author.MD5}?s=48&d=identicon" width="48" height="48"></span>
+						<span class="author-avatar pull-left"><a href="${lesson.author.URL}"><img alt="avatar" src="https://www.gravatar.com/avatar/${lesson.author.MD5}?s=48&d=identicon" width="48" height="48"></a></span>
 	            		<h2 class="lesson-title"><a href="${lesson.URL}">${fn:escapeXml(lesson.title)}</a>${not empty user.lessonFollowed[lessonID]?' <span class="glyphicon glyphicon-star"></span>':''}</h2>
 	            		<p class="lesson-meta">
 	            			<c:if test="${userLang.id != lesson.language.id}">
@@ -50,7 +50,10 @@
 			     				</c:when>
 			     				<c:when test="${lesson.mediaType == 'AUDIO'}">
 			     					<span class="glyphicon glyphicon-volume-up"></span> audio
-			     				</c:when>				     								     			
+			     				</c:when>
+			     				<c:when test="${lesson.mediaType == 'IMAGE'}">
+							     	<span class='glyphicon glyphicon-picture'></span> img
+							    </c:when>				     								     			
 			     			</c:choose>			     		
 							<c:if test="${lesson.testAvailable}">
 								<span class="glyphicon glyphicon-edit"></span> test

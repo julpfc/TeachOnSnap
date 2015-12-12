@@ -80,7 +80,10 @@
 								       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
 													</c:forEach>
 												</audio>
-						     				</c:when>				     								     			
+						     				</c:when>
+						     				<c:when test="${lesson.mediaType == 'IMAGE'}">
+						     					<img class="img-thumbnail" id="lesson_media" alt="${firstMedia.filename}" src="${firstMedia.URL}"/>						     					
+						     				</c:when>					     								     			
 						     			</c:choose>
 						     		</div>
 						     		<table id="media-files" class="table">
@@ -94,7 +97,10 @@
 							     				</c:when>
 							     				<c:when test="${lesson.mediaType == 'AUDIO'}">
 							     					<td><span class='glyphicon glyphicon-volume-up'></span></td>
-							     				</c:when>				     								     			
+							     				</c:when>
+							     				<c:when test="${lesson.mediaType == 'IMAGE'}">
+							     					<td><span class='glyphicon glyphicon-picture'></span></td>
+							     				</c:when>					     								     			
 						     				</c:choose>											
 											<td></td>
 										</tr> 
