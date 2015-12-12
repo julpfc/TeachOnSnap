@@ -4,9 +4,12 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONViews;
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 
 public class JSONManagerJackson implements JSONManager {
 
+	private LogManager logger = LogManagerFactory.getManager();
 
 	@Override
 	public <T> T JSON2Object(String json, Class<T> clazz) {
@@ -17,8 +20,7 @@ public class JSONManagerJackson implements JSONManager {
 			obj = mapper.readValue(json, clazz);
 		}
 		catch(Throwable t){
-			System.out.println("JSONManager: " + obj);
-			t.printStackTrace();
+			logger.error(t, "Error mapeando objeto: " + clazz);
 			obj = null;
 		}
 		return obj;
@@ -32,8 +34,7 @@ public class JSONManagerJackson implements JSONManager {
 			json = mapper.writeValueAsString(o);
 		}
 		catch(Throwable t){
-			System.out.println("JSONManager: " + json);
-			t.printStackTrace();
+			logger.error(t, "Error generando JSON del objeto: " + o);
 			json = null;
 		}
 		return json;
@@ -51,8 +52,7 @@ public class JSONManagerJackson implements JSONManager {
                     .readValue(json);					
 		}
 		catch(Throwable t){
-			System.out.println("JSONManager: " + obj);
-			t.printStackTrace();
+			logger.error(t, "Error mapeando objeto (simple): " + clazz);
 			obj = null;
 		}
 		return obj;
@@ -69,8 +69,7 @@ public class JSONManagerJackson implements JSONManager {
 		            .writeValueAsString(o);
 		}
 		catch(Throwable t){
-			System.out.println("JSONManager: " + json);
-			t.printStackTrace();
+			logger.error(t, "Error generando JSON del objeto (simple): " + o);
 			json = null;
 		}
 		return json;

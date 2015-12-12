@@ -17,6 +17,8 @@ import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -40,6 +42,7 @@ public class ChangePWController extends HttpServlet {
 		
 	private RequestManager requestManager = RequestManagerFactory.getManager();
 	private StringManager stringManager = StringManagerFactory.getManager();
+	private LogManager logger = LogManagerFactory.getManager();
 
 	/**
      * @see HttpServlet#HttpServlet()
@@ -52,6 +55,7 @@ public class ChangePWController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.addPrefix(this.getClass().getSimpleName());
 		request.setCharacterEncoding("UTF-8");
 		
 		String[] params = requestManager.splitParamsFromControllerURI(request);
@@ -72,8 +76,9 @@ public class ChangePWController extends HttpServlet {
 				requestManager.setAttribute(request, Attribute.USER, user);
 				requestManager.setAttribute(request, Attribute.STRING_HOST, host);
 				
-				//TODO Loguear la página en la que estamos	  
-				System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+				//Loguear la página en la que estamos
+				logger.info("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+				
 		
 				if(request.getMethod().equals("POST")){
 					String newPassword = requestManager.getParameter(request,Parameter.NEW_PASSWORD);
@@ -105,6 +110,7 @@ public class ChangePWController extends HttpServlet {
 			//Sin token -> Mandar a error 404
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 		}
+		logger.removePrefix();
 	}
 
 	/**

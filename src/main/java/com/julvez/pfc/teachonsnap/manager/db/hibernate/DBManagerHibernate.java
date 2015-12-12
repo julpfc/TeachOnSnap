@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,6 +14,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 public class DBManagerHibernate implements DBManager{
@@ -22,6 +23,8 @@ public class DBManagerHibernate implements DBManager{
 	private SessionFactory sessionFactory;
 	
 	private static final String LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
+	
+	private LogManager logger = LogManagerFactory.getManager();
     
     public DBManagerHibernate(){
     	sessionFactory = buildSessionFactory();
@@ -32,21 +35,21 @@ public class DBManagerHibernate implements DBManager{
             // Create the SessionFactory from hibernate.cfg.xml
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
-            System.out.println("Hibernate Configuration loaded");
+            logger.info("Hibernate Configuration loaded");
              
             //apply configuration property settings to StandardServiceRegistryBuilder
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            System.out.println("Hibernate serviceRegistry created");
+            logger.info("Hibernate serviceRegistry created");
              
             SessionFactory sessionFactory = configuration
                                 .buildSessionFactory(serviceRegistry);
              
             return sessionFactory;
         }
-        catch (Throwable ex) {
-            // Make sure you log the exception, as it might be swallowed
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
+        catch (Throwable t) {
+            // Make sure you log the exception, as it might be swallowed        	
+            logger.error(t, "Initial SessionFactory creation failed.");
+            throw new ExceptionInInitializerError(t);
         }
     }
     
@@ -67,12 +70,15 @@ public class DBManagerHibernate implements DBManager{
 		
 		for (Object queryParam : queryParams) {
 			query.setParameter(i++, queryParam);
-			//TODO el log falla si se mete una cadena con un ?
-			if(!queryParam.toString().contains("?"))
-				queryLog = queryLog.replaceFirst("\\?", queryParam.toString());
 		}
+
+		if(queryLog.toString().contains("?")){
+			queryLog = queryLog.replaceAll("\\?", "%s");
+		}
+		queryLog = String.format(queryLog, queryParams);			
 		
-		System.out.println("QueryLog: "+ queryLog);
+		logger.info(queryName +": " + queryLog);
+		
 				
 		return query;
 	}
@@ -90,9 +96,9 @@ public class DBManagerHibernate implements DBManager{
 			
 			endTransaction(true, sess);
 		}
-		catch (HibernateException e) {
-				System.out.println(e);
-				list = null;
+		catch (Throwable t) {
+			logger.error(t,"Error en consulta: " + queryName);
+			list = null;
 		}			
 		return list;
 	}
@@ -107,14 +113,14 @@ public class DBManagerHibernate implements DBManager{
 		
 		try{
 			SQLQuery query = getQuery(sess, queryName, entityClass, queryParams);			
-			
+			logger.startTimer();
 			resultados = query.list();
-			
-		} catch (HibernateException e) {
-			System.out.println(e);
+			logger.infoTime(resultados + " -> " + ((resultados!= null && resultados.size()>0)?resultados.get(0).getClass().getCanonicalName():"empty"));
+		} catch (Throwable t) {
+			logger.clearTimer();
+			logger.error(t, "Error en consulta: " + queryName);
 			resultados = null;
 		}		
-		System.out.println("QueryLog: -> "+ resultados + " -> " + (resultados.size()>0?resultados.get(0).getClass().getCanonicalName():"empty"));
 		return resultados;	
 	}
 
@@ -130,9 +136,9 @@ public class DBManagerHibernate implements DBManager{
 			
 			endTransaction(true, sess);
 		}
-		catch (HibernateException e) {
-				System.out.println(e);
-				result = null;
+		catch (Throwable t) {
+			logger.error(t, "Error en consulta: " + queryName);
+			result = null;
 		}			
 		return result;
 	}
@@ -146,13 +152,15 @@ public class DBManagerHibernate implements DBManager{
 		
 		try{
 			SQLQuery query = getQuery(sess, queryName, entityClass, queryParams);
+			logger.startTimer();
 			resultado = (T)query.uniqueResult();
+			logger.infoTime(resultado!=null?resultado.toString():null);
 		
-		} catch (HibernateException e) {
-			System.out.println(e);
+		} catch (Throwable t) {
+			logger.clearTimer();
+			logger.error(t, "Error en consulta: " + queryName);
 			resultado = null;
 		}		
-		System.out.println("QueryLog: -> "+ resultado);
 		return resultado;	
 	}
 
@@ -169,10 +177,10 @@ public class DBManagerHibernate implements DBManager{
 				      java.sql.DriverManager.deregisterDriver(driver);				     
 				   }
 			} 
-			System.out.println("DBManager: Cerrando conexiones");
+			logger.info("Cerrando conexiones");
 		}
 		catch(Throwable t){
-			System.out.println(t);
+			logger.error(t, "Error cerrando conexiones.");
 		}		
 	}
 
@@ -187,9 +195,9 @@ public class DBManagerHibernate implements DBManager{
 			
 			endTransaction(affectedRows>-1, sess);
 		}
-		catch (HibernateException e) {
-				System.out.println(e);
-				affectedRows = -1;
+		catch (Throwable t) {
+			logger.error(t, "Error en consulta: " + queryName);
+			affectedRows = -1;
 		}			
 		return affectedRows;
 	}
@@ -202,14 +210,14 @@ public class DBManagerHibernate implements DBManager{
 		
 		try{
 			SQLQuery query = getQuery(sess, queryName, null, queryParams);
-			
+			logger.startTimer();
 			affectedRows = query.executeUpdate();
 			
-		} catch (HibernateException e) {
-			System.out.println(e);		
+		} catch (Throwable t) {
+			logger.error(t, "Error en consulta: " + queryName);		
 			affectedRows = -1;
 		}		
-		System.out.println("QueryLog: Rows-> "+ affectedRows);
+		logger.infoTime("Rows-> "+ affectedRows);
 		return affectedRows;
 	}
 
@@ -260,9 +268,9 @@ public class DBManagerHibernate implements DBManager{
 			
 			endTransaction(lastInsertID>-1, sess);
 		}
-		catch (HibernateException e) {
-				System.out.println(e);
-				lastInsertID = -1;
+		catch (Throwable t) {
+			logger.error(t, "Error en consulta: " + queryName);
+			lastInsertID = -1;
 		}			
 		return lastInsertID;
 	}
@@ -275,10 +283,12 @@ public class DBManagerHibernate implements DBManager{
 		
 		try{
 			SQLQuery query = sess.createSQLQuery(LAST_INSERT_ID);
-			
-			lastInsertID = ((BigInteger)query.uniqueResult()).longValue();			
-		} catch (HibernateException e) {
-			System.out.println(e);		
+			logger.startTimer();
+			lastInsertID = ((BigInteger)query.uniqueResult()).longValue();
+			logger.infoTime("ID: " + lastInsertID);
+		} catch (Throwable t) {
+			logger.clearTimer();
+			logger.error(t, "Error recuperando LAST_INSERT_ID() ");		
 			lastInsertID = -1;
 		}		
 		return lastInsertID;
@@ -301,9 +311,9 @@ public class DBManagerHibernate implements DBManager{
 				lastInsertID = 0;
 			}
 		}
-		catch (HibernateException e) {
-				System.out.println(e);
-				lastInsertID = -1;
+		catch (Throwable t) {
+			logger.error(t, "Error en consulta: " + queryName);
+			lastInsertID = -1;			
 		}			
 		return lastInsertID;
 	}

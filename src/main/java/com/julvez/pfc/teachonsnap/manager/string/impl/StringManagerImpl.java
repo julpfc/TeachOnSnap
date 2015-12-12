@@ -1,9 +1,7 @@
 package com.julvez.pfc.teachonsnap.manager.string.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;
@@ -12,11 +10,15 @@ import java.util.List;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 
 
 public class StringManagerImpl implements StringManager {
 
+	private LogManager logger = LogManagerFactory.getManager();
+	
 	@Override
 	public boolean isEmpty(String string) {
 		return StringUtils.isBlank(string);		
@@ -80,8 +82,8 @@ public class StringManagerImpl implements StringManager {
 				}
 				output = sb.toString();
 			}
-			catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
+			catch (Throwable t) {
+				logger.error(t, "Error generando MD5: " + input);
 			}
 		} 
 		return output;
@@ -110,12 +112,11 @@ public class StringManagerImpl implements StringManager {
 
 	@Override
 	public String decodeURL(String urlEncoded) {
-		String decoded = null;
-		System.out.println(urlEncoded);		
+		String decoded = null;				
 		try {
 			decoded = URLDecoder.decode(urlEncoded, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		} catch (Throwable t) {
+			logger.error(t, "Error decodificando URLencoded: " + urlEncoded);
 		}
 		return decoded;
 	}

@@ -18,6 +18,8 @@ import com.julvez.pfc.teachonsnap.controller.model.Parameter;
 import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaType;
@@ -36,6 +38,7 @@ public class FileUploadController extends HttpServlet {
     
 	private RequestManager requestManager = RequestManagerFactory.getManager();
 	private JSONManager jsonManager = JSONManagerFactory.getManager();
+	private LogManager logger = LogManagerFactory.getManager();
 	
 	private UploadService uploadService = UploadServiceFactory.getService();
 	
@@ -57,9 +60,8 @@ public class FileUploadController extends HttpServlet {
     		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     	}
     	else{
-    		//TODO log
-    		System.out.println(request.getRequestURI()+"?"+request.getParameterMap());
-    		
+    		logger.info("####GET#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+    		    		
     		// 1. Get f from URL upload?f="?"
     		int downloadIndex = requestManager.getNumericParameter(request, Parameter.UPLOAD_DOWNLOAD_INDEX); 
     		
@@ -84,8 +86,8 @@ public class FileUploadController extends HttpServlet {
 	                output.close();
 	                input.close();
     			}
-    			catch (IOException e) {
-    				e.printStackTrace();
+    			catch (Throwable t) {
+    				logger.error(t, "Error descargando fichero: " + tempFile);    				
     			}
     		}
     		else{
@@ -167,19 +169,15 @@ public class FileUploadController extends HttpServlet {
 					MediaType mtype = uploadService.getMediaType(part.getContentType());
 					temp.setMediaType(mtype);
 					
-					if(mtype != null){
-						System.out.println("Upload.Part: "+temp);
+					if(mtype != null){						
+						logger.info("Upload.Part: "+temp);
 						files.add(temp);
 					}
 				}
 			}
 		 
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		} catch (ServletException e) {
-			
-			e.printStackTrace();
+		} catch (Throwable t) {			
+			logger.error(t, "Error subiendo fichero:");
 		}
 	 
 		return files;

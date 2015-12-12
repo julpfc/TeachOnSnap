@@ -9,6 +9,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.mail.MailManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
@@ -21,6 +23,7 @@ public class MailManagerJavaMail implements MailManager {
 	private static String JAVAMAIL_SMTP_STARTTLS = "mail.smtp.starttls.enable";
 	
 	private PropertyManager propertyManager = PropertyManagerFactory.getManager();
+	private LogManager logger = LogManagerFactory.getManager();
 	
 	@Override
 	public boolean send(String address, String subject, String body) {
@@ -54,13 +57,14 @@ public class MailManagerJavaMail implements MailManager {
 			message.setSubject(subject);
 			message.setText(body);
 
-			System.out.println("MailManager: Enviando mail a "+address + "[Subject=" + subject + "]");
+			logger.startTimer();
+			logger.info("MailManager: Enviando mail a "+address + "[Subject=" + subject + "]");
 			Transport.send(message);
-			System.out.println("MailManager: Mail enviado a  "+address + "[Subject=" + subject + "]");
+			logger.infoTime("MailManager: Mail enviado a  "+address + "[Subject=" + subject + "]");
 			
 		} 
 		catch (Throwable t) {
-			t.printStackTrace();
+			logger.error(t, "Error enviando mail: " + address + "[Subject=" + subject + "]");			
 			success = false;
 		}
 		return success;

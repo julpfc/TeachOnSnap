@@ -11,13 +11,17 @@ import com.julvez.pfc.teachonsnap.link.LinkService;
 import com.julvez.pfc.teachonsnap.link.model.Link;
 import com.julvez.pfc.teachonsnap.link.repository.LinkRepository;
 import com.julvez.pfc.teachonsnap.link.repository.LinkRepositoryFactory;
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
 public class LinkServiceImpl implements LinkService {
 
-	LinkRepository linkRepository = LinkRepositoryFactory.getRepository();
-	LessonService lessonService = LessonServiceFactory.getService();
+	private LinkRepository linkRepository = LinkRepositoryFactory.getRepository();
+	private LessonService lessonService = LessonServiceFactory.getService();
+	
+	private LogManager logger = LogManagerFactory.getManager();
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
@@ -92,7 +96,7 @@ public class LinkServiceImpl implements LinkService {
 			id = linkRepository.createLink(url,host);
 		}
 		catch(Throwable t){
-			t.printStackTrace();
+			logger.error(t,"Error transformando URL: " + url);			
 		}
 		return id; 
 		 

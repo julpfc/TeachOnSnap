@@ -1,16 +1,19 @@
 package com.julvez.pfc.teachonsnap.upload.repository;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
 
 public class UploadRepositoryMap implements UploadRepository {
 
+	private LogManager logger = LogManagerFactory.getManager();
+	
 	private Map<String, List<FileMetadata>> temporaryFileRepository = 
 			Collections.synchronizedMap(new HashMap<String, List<FileMetadata>>());
 
@@ -49,7 +52,7 @@ public class UploadRepositoryMap implements UploadRepository {
 			
 					userFiles = temporaryFileRepository.get(key);
 					
-					System.out.println("UploadRepositoryMap: creada "+key);
+					logger.info("Repositorio creado: "+key);
 				}
 			}
 		}
@@ -64,14 +67,13 @@ public class UploadRepositoryMap implements UploadRepository {
 				for(FileMetadata file:files){ 
 					try {
 						file.getContent().close();
-						System.out.println("UploadRepositoryMap: Cerrando fichero "+file);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.info("Cerrando fichero "+file);
+					} catch (Throwable t) {
+						logger.error(t, "Error cerrando fichero: " + file);
 					}
 				}
 			}			
-			System.out.println("UploadRepository: Todos los ficheros cerrados.");
+			logger.info("Todos los ficheros cerrados.");
 		}		
 	}
 
@@ -92,15 +94,14 @@ public class UploadRepositoryMap implements UploadRepository {
 			for(FileMetadata file:files){ 
 				try {
 					file.getContent().close();
-					System.out.println("UploadRepositoryMap: Cerrando fichero "+file);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.info("Cerrando fichero "+file);
+				} catch (Throwable t) {
+					logger.error(t, "Error cerrando fichero: " + file);
 				}
 			}
 					
 			files.clear(); 
-			System.out.println("UploadRepositoryMap: Ficheros cerrados del usuario "+idUser);
+			logger.info("Ficheros cerrados del usuario "+idUser);
 		}
 		
 	}

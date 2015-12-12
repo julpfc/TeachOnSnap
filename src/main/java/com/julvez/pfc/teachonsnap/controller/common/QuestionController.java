@@ -72,14 +72,9 @@ public class QuestionController extends CommonController {
 								String json = stringManager.unescapeHTML(requestManager.getParameter(request,Parameter.JSON));
 									
 								if(json!=null){
-									System.out.println("json="+json);
-										
 									Question jQuestion = jsonManager.JSON2Object(json, Question.class);
-										
-									System.out.println("jsonQ="+jQuestion);
 									
-									if(jQuestion!=null){
-										System.out.println("equals="+question.equals(jQuestion));
+									if(jQuestion!=null){										
 										if(question.equals(jQuestion)){
 											//No ha cambiado nada
 											setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.SAVE_NOCHANGES);
@@ -150,12 +145,8 @@ public class QuestionController extends CommonController {
 							String json = stringManager.unescapeHTML(requestManager.getParameter(request, Parameter.JSON));
 							
 							if(json!=null){
-								System.out.println("json="+json);
-									
 								Question jQuestion = jsonManager.JSON2SimpleObject(json, Question.class);
-									
-								System.out.println("jsonQ="+jQuestion);
-															
+								
 								if(jQuestion!=null){
 									
 									if(jQuestion.isFullFilled() && jQuestion.getAnswers().size() == test.getNumAnswers()){

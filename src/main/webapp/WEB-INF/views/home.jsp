@@ -76,10 +76,6 @@
 	        </div><!-- col -->
 
         	<div class="col-sm-4 col-sm-offset-1">
-          		<div class="sidebar">
-            		<h4>About</h4>
-            		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-          		</div>
           		<div class="sidebar tags">
             		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.heading"/></h4>
             		<ul class="tags">
@@ -96,6 +92,11 @@
 		            </c:forEach>
 		            </ul>
           		</div>            		
+          		<div class="sidebar">
+            		<h4>About <fmt:message key="app.name" /> <span class="glyphicon glyphicon-facetime-video"></span>
+		        	<span class="glyphicon glyphicon-book"></span></h4>
+            		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+          		</div>
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

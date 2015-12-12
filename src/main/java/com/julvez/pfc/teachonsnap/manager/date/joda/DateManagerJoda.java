@@ -5,10 +5,14 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import com.julvez.pfc.teachonsnap.manager.date.DateManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 
 public class DateManagerJoda implements DateManager {
 
 	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	
+	private LogManager logger = LogManagerFactory.getManager();
 
 	@Override
 	public String getCurrentDate() {
@@ -25,7 +29,7 @@ public class DateManagerJoda implements DateManager {
 			dtf = DateTimeFormat.forPattern(format);
 		}
 		catch(Throwable t){
-			t.printStackTrace();
+			logger.error(t, "Error formateando fecha actual: " + format);			
 		}
 		
 		if(dtf != null){

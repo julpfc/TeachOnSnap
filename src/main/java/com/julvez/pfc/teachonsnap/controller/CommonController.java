@@ -17,6 +17,8 @@ import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
@@ -44,6 +46,7 @@ public abstract class CommonController extends HttpServlet {
 	protected URLService urlService = URLServiceFactory.getService();
 	
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
+	protected LogManager logger = LogManagerFactory.getManager();
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
 	
 		
@@ -58,6 +61,8 @@ public abstract class CommonController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.addPrefix(this.getClass().getSimpleName());
+
 		//TODO Revisar si lo ponemos en más sitios
 		request.setCharacterEncoding("UTF-8");
 		
@@ -117,14 +122,14 @@ public abstract class CommonController extends HttpServlet {
 						
 			setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.NONE);
 			
-			//TODO Loguear la página en la que estamos	  
-			System.out.println("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+			logger.info("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 
 			processController(request, response, visit, user);
 			
 			//Guardamos la página después d eprocesarla para tener acceso a la página anterior
 			requestManager.setSessionAttribute(request, SessionAttribute.LAST_PAGE, request.getRequestURI());
 		}
+		logger.removePrefix();
 	}
 
 	/**

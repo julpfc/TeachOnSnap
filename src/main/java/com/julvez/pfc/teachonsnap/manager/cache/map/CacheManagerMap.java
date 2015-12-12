@@ -8,16 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
 public class CacheManagerMap implements CacheManager {
-
+	
 	//He quitado el static, supuestamente no afecta, vigilar cachés
 	private Map<String, Map<String, Object>> caches = 
 			Collections.synchronizedMap(new HashMap<String, Map<String, Object>>());
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
+	private LogManager logger = LogManagerFactory.getManager();
 	
 	@Override
 	public Object executeImplCached(Object impl, Object... params) {
@@ -32,8 +35,10 @@ public class CacheManagerMap implements CacheManager {
 		//TODO Revisar si sacamos el get la primera vez fuera y si es null ya sincronizamos
 		
 		synchronized (cache) {
-			result = cache.get(stringManager.getKey(params));	
-			System.out.println("Cache: "+methodName+stringManager.getKey(params)+"="+result);
+			result = cache.get(stringManager.getKey(params));
+			
+			logger.info(methodName+stringManager.getKey(params)+"="+result);
+			
 
 			if(result == null ){		
 				try{
@@ -51,8 +56,8 @@ public class CacheManagerMap implements CacheManager {
 						}
 					}
 				}
-				catch(Throwable t){
-					t.printStackTrace();
+				catch(Throwable t){					
+					logger.error(t, "Error ejecutando método de lectura: " + methodName + paramClasses);
 				}
 			}
 		}
@@ -146,7 +151,7 @@ public class CacheManagerMap implements CacheManager {
 				cache = caches.get(cacheName);
 				if(cache==null){
 					caches.put(cacheName, Collections.synchronizedMap(new HashMap<String, Object>()));
-					System.out.println("Cache: creada "+cacheName);
+					logger.info("Cache creada: "+cacheName);					
 				}			
 			}
 			cache = caches.get(cacheName);
@@ -175,8 +180,8 @@ public class CacheManagerMap implements CacheManager {
 					synchronized (cache) {
 						Object obj = cache.remove(cacheKeys[i]);
 						
-						if(obj!=null) {
-							System.out.println("CacheEliminada: "+cacheName+"["+cacheKeys[i]+"]");
+						if(obj!=null) {							
+							logger.info("CacheEliminada: "+cacheName+"["+cacheKeys[i]+"]");
 						}
 						else{
 							List<String> keys = new ArrayList<String>(cache.keySet());
@@ -184,7 +189,7 @@ public class CacheManagerMap implements CacheManager {
 							for(String key:keys){
 								if(key.startsWith(cacheKeys[i])){
 									cache.remove(key);
-									System.out.println("Cache2Eliminada: "+cacheName+"["+key+"]");
+									logger.info("Cache2Eliminada: "+cacheName+"["+key+"]");
 								}
 							}
 						}
@@ -193,8 +198,8 @@ public class CacheManagerMap implements CacheManager {
 				}
 			}
 		}
-		catch(Throwable t){
-			t.printStackTrace();
+		catch(Throwable t){			
+			logger.error(t, "Error ejecutando método de escritura: " + methodName + paramClasses);
 		}
 		
 		return result;
@@ -209,7 +214,7 @@ public class CacheManagerMap implements CacheManager {
 			
 			synchronized (cache) {
 				cache.clear();
-				System.out.println("CacheEliminadaTotal: "+cacheName);
+				logger.info("CacheEliminadaTotal: "+cacheName);
 			}
 		}
 	}
@@ -254,7 +259,7 @@ public class CacheManagerMap implements CacheManager {
 					cache.put(cacheKey, value);
 				}
 			}
-			System.out.println("CacheValueInc: "+cacheName+"["+cacheKey+"]++="+value);
+			logger.info("CacheValueInc: "+cacheName+"["+cacheKey+"]++="+value);
 		}
 		
 	}

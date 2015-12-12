@@ -2,6 +2,8 @@ package com.julvez.pfc.teachonsnap.upload.impl;
 
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaType;
 import com.julvez.pfc.teachonsnap.upload.UploadService;
 import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
@@ -12,6 +14,8 @@ import com.julvez.pfc.teachonsnap.user.model.User;
 public class UploadServiceImpl implements UploadService {
 	
 	private UploadRepository uploadRepository = UploadRepositoryFactory.getRepository();
+	
+	private LogManager logger = LogManagerFactory.getManager();
 
 	@Override
 	public FileMetadata getTemporaryFile(User user, int index) {
@@ -70,8 +74,9 @@ public class UploadServiceImpl implements UploadService {
 				try{
 					type = MediaType.valueOf(matches[0].toUpperCase());
 				}
-				catch(IllegalArgumentException iae){
-					iae.getStackTrace();
+				catch(Throwable t){
+					type = null;
+					logger.error(t, "Error reconociendo contentType: " + contentType);					
 				}
 			}
 		}		

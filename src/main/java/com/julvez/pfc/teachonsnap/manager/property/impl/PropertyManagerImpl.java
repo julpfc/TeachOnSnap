@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
@@ -11,6 +13,8 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 public class PropertyManagerImpl implements PropertyManager {
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
+	private LogManager logger = LogManagerFactory.getManager();
+	
 
 	private Properties properties;
 	private Integer lock = new Integer(0);
@@ -41,8 +45,8 @@ public class PropertyManagerImpl implements PropertyManager {
 						properties.load(is);
 						is.close();
 
-					} catch (Exception e) {
-						e.printStackTrace();
+					} catch (Throwable t) {
+						logger.error(t, "Error recuperando fichero de properties: " + DEFAULT_PROPERTIES_FILE);
 						properties = null;
 					}
 				}
