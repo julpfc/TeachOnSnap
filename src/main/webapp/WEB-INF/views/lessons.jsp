@@ -95,7 +95,7 @@
         	<div class="col-sm-4 col-sm-offset-1">
           		<c:if test="${not empty searchKeyword}">
 	          		<div class="sidebar">
-	            		<h4><fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}:</h4>
+	            		<h3><fmt:message key="search.by.${searchType}" bundle="${lessonsBundle}"/>:</h3>
 	            		<c:if test="${searchType eq 'author' && not empty author}">
 	            			<span class="author-avatar pull-left"><img alt="avatar" src="https://www.gravatar.com/avatar/${author.MD5}?s=48&d=identicon" width="48" height="48"></span>
 	            		</c:if>
@@ -112,6 +112,11 @@
 	            		</c:if>           		
 	          		</div>        
           		</c:if> 
+          		<c:if test="${empty searchKeyword && searchType eq 'last'}">
+          			<div class="sidebar">
+          				<h3><span class="glyphicon glyphicon-time"></span> <fmt:message key="last.ones" bundle="${lessonsBundle}"/></h3>
+          			</div>
+          		</c:if>
           		<c:if test="${not empty tagSearchCloudTags && searchType eq 'tag'}">
 	          		<div class="sidebar tags">
 	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.search.heading"/></h4>
@@ -122,7 +127,7 @@
 			            </ul>
 	          		</div> 
           		</c:if>
-          		<c:if test="${not empty tagUseCloudTags && searchType eq 'tag'}">
+          		<c:if test="${not empty tagUseCloudTags && ((searchType eq 'tag') || (searchType eq 'last'))}">
 	          		<div class="sidebar tags">
 	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.use.heading"/></h4>
 	            		<ul class="tags">
@@ -132,7 +137,7 @@
 			            </ul>
 	          		</div>  
           		</c:if>
-          		<c:if test="${not empty authorCloudTags && searchType eq 'author'}">
+          		<c:if test="${not empty authorCloudTags && ((searchType eq 'author') || (searchType eq 'last'))}">
 	          		<div class="sidebar tags">
 	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.author.heading"/></h4>
 	            		<ul class="tags">
