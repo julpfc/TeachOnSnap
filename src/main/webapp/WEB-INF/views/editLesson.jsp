@@ -326,6 +326,52 @@
 		     							</c:if>
 										<h5><span class="label label-info">${test.numAnswers}</span> <fmt:message key="lesson.test.numAnswers" bundle="${testBundle}"/></h5>																	
 										<h5><span class="label label-info">${test.numQuestions}</span> <fmt:message key="lesson.test.numQuestions" bundle="${testBundle}"/></h5>
+										&nbsp;
+										<c:if test="${not empty testRanks}">
+											<div class="sidebar">
+												<div class="panel panel-info">
+									        		<div class="panel-heading">
+									        			<fmt:message key="lesson.test.stats.results" bundle="${testBundle}"/>
+									        			<a href="/stats/test/${test.id}">
+											    			<button class="btn btn-primary btn-xs pull-right" type="button">											
+														 		<span class="glyphicon glyphicon-dashboard"></span>
+															 	<fmt:message key="lesson.test.stats.show" bundle="${testBundle}"/>			 	
+															</button>
+														</a>
+									        		</div>
+					
+									    			<div class="panel-body">
+										    			<table class="table">
+															<thead>
+																<tr>
+																	<th>#</th>
+																	<th><fmt:message key="lesson.test.highscores.name" bundle="${testBundle}"/></th>
+																	<th><fmt:message key="lesson.test.highscores.points" bundle="${testBundle}"/></th>										
+																</tr>
+															</thead>
+															<tbody>
+											    				<c:forEach items="${testRanks}" var="testRank" varStatus="loop">
+											    					<tr>
+											    						<td>
+											    							<c:choose>
+											    								<c:when test="${testRank.user.id == user.id}">
+											    									<label class="label label-info">${loop.index+1}</label>
+												    							</c:when>
+												    							<c:otherwise>
+												    								${loop.index+1}
+												    							</c:otherwise> 
+											    							</c:choose>
+											    						</td>
+											    						<td>${testRank.user.fullName}</td>
+											    						<td>${testRank.points} (${testRank.attempts})</td>
+											    					</tr>
+											    				</c:forEach>
+									    					</tbody>
+									    				</table>
+									    			</div>									    			
+									    		</div>
+											</div>
+										</c:if>	
 									</div>
 								</c:if>
 								<c:if test="${not empty test}">
@@ -353,7 +399,7 @@
 		     						</div>
 		     					</c:if>
 					    	</div>					
-						</div><!-- Test Panel -->							
+						</div><!-- Test Panel -->
 					</c:when>
 					<c:otherwise>
 						<!-- Save -->

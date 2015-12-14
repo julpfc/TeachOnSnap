@@ -4,6 +4,7 @@ public enum PageNameKey {
 	
 	LESSON("lesson.lesson.breadcrumb"), 
 	EDIT_LESSON("lesson.edit.breadcrumb"), 
+	LESSON_TEST("lesson.test.breadcrumb"),
 	NEW_LESSON_TEST("lesson.test.new.breadcrumb"), 
 	EDIT_LESSON_TEST("lesson.test.edit.breadcrumb"), 
 	NEW_QUESTION("lesson.test.question.new.breadcrumb"), 
@@ -24,7 +25,8 @@ public enum PageNameKey {
 	USER_FOLLOWS("user.follows.breadcrumb"), 
 	USER_FOLLOW_AUTHOR("user.follow.author.breadcrumb"),
 	USER_FOLLOW_AUTHOR_SEARCH_BY_EMAIL("user.follow.author.search.by.email.breadcrumb"), 
-	USER_FOLLOW_AUTHOR_SEARCH_BY_NAME("user.follow.author.search.by.name.breadcrumb");
+	USER_FOLLOW_AUTHOR_SEARCH_BY_NAME("user.follow.author.search.by.name.breadcrumb"), 
+	STATS_LESSON_TEST("stats.lesson.test.breadcrumb");
 	
 		 		
 	private final String key;

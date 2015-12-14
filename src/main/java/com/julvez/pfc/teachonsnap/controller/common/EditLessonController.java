@@ -33,6 +33,7 @@ import com.julvez.pfc.teachonsnap.media.model.MediaPropertyName;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
+import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
@@ -211,7 +212,6 @@ public class EditLessonController extends CommonController {
 						
 						List<MediaFile> medias = mediaFileService.getLessonMedias(lesson.getIdLessonMedia());
 						
-						LessonTest test = lessonTestService.getLessonTest(lesson);
 	
 						List<Page> pageStack = pageService.getEditLessonPageStack(lesson);
 						requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
@@ -221,8 +221,12 @@ public class EditLessonController extends CommonController {
 						requestManager.setAttribute(request, Attribute.LIST_TAG, tags);
 						requestManager.setAttribute(request, Attribute.LIST_LINK_MOREINFO, moreInfoLinks);
 						requestManager.setAttribute(request, Attribute.LIST_LINK_SOURCES, sourceLinks);
-						requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 						
+						LessonTest test = lessonTestService.getLessonTest(lesson);
+						requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
+							
+						List<UserTestRank> testRanks = statsService.getTestRanks(test.getId());
+						requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
 						
 						int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
 						requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);

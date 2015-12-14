@@ -1,7 +1,9 @@
 package com.julvez.pfc.teachonsnap.stats.repository;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserQuestion;
@@ -9,9 +11,9 @@ import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
+import com.julvez.pfc.teachonsnap.stats.model.StatsPropertyName;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
-import com.julvez.pfc.teachonsnap.stats.model.StatsPropertyName;
 
 public class StatsRepositoryDB implements StatsRepository {
 
@@ -126,5 +128,32 @@ public class StatsRepositoryDB implements StatsRepository {
 		
 		return count;
 	}
+
+	@Override
+	public int getStatsLessonTestNumTests(int idLessonTest) {
+		int numTests = 0;
+		BigInteger result = dbm.getQueryResultUnique("SQL_STATS_GET_STATS_LESSONTEST_NUM_VISIT_TESTS", BigInteger.class, idLessonTest);
+		
+		if(result!=null){
+			numTests = result.intValue();
+		}
+		
+		return numTests;
+	}
+
+	@Override
+	public Map<String, String> getStatsLessonTestQuestionKOs(int idLessonTest) {
+		Map<String, String> questionKOs = new HashMap<String, String>();
+		
+		List<Object[]> results = dbm.getQueryResultList("SQL_STATS_GET_STATS_LESSONTEST_QUESTION_KOS", Object[].class, idLessonTest);
+		
+		if(results != null){
+			for(Object[] obj:results){
+				questionKOs.put("["+ obj[0].toString() + "]", obj[1].toString());
+			}			
+		}
+		
+		return questionKOs;
+	}	
 	
 }

@@ -58,11 +58,25 @@
 	    INSERT IGNORE INTO tvisittag(idVisit,idTag)
 	    VALUES (?,?);       
 	</sql-query>
-		<sql-query name="SQL_STATS_GET_TAG_VIEWS_COUNT">
+	<sql-query name="SQL_STATS_GET_TAG_VIEWS_COUNT">
 	    SELECT COUNT(idVisit) as tagViews
 	    FROM tvisittag
 	    WHERE idTag = ?
 	    GROUP BY idTag;       
+	</sql-query>
+	<sql-query name="SQL_STATS_GET_STATS_LESSONTEST_NUM_VISIT_TESTS">
+	    SELECT COUNT(idVisitTest) as numTests
+		FROM teachonsnap.tvisittest		
+		WHERE idlessontest = ?
+		GROUP BY idLessonTest      
+	</sql-query>
+	<sql-query name="SQL_STATS_GET_STATS_LESSONTEST_QUESTION_KOS">
+	    SELECT idQuestion, COUNT(DISTINCT tko.idQuestion) as KOs
+		FROM teachonsnap.tvisittest
+		JOIN teachonsnap.tquestion USING(idLessonTest)
+		LEFT JOIN teachonsnap.tvisittestkos tko USING(idvisittest,idQuestion)
+		WHERE idlessontest = ?
+		GROUP BY idQuestion      
 	</sql-query>
 	
 </hibernate-mapping>

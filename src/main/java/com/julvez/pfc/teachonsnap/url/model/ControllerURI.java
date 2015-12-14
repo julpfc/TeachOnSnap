@@ -15,7 +15,8 @@ public enum ControllerURI {
 	ADMIN_GROUP_FOLLOW_AUTHOR("/admin/group/follow/author/"),
 	ADMIN_GROUP_FOLLOW_TAG("/admin/group/follow/tag/"), 
 	USER_FOLLOWS("/follow/"),
-	USER_FOLLOW_AUTHOR("/follow/author/");
+	USER_FOLLOW_AUTHOR("/follow/author/"), 
+	STATS_LESSON_TEST("/stats/test/");
 
 		 		
 	private final String URI;

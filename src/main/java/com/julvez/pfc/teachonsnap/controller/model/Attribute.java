@@ -56,7 +56,10 @@ public enum Attribute {
 	
 	//Follow
 	LIST_AUTHOR_FOLLOWED("authors"), 
-	LIST_TAG_FOLLOWED("followTags");
+	LIST_TAG_FOLLOWED("followTags"), 
+	
+	//Stats
+	STATSTEST("statsTest");
 
 	
 	private final String realName;

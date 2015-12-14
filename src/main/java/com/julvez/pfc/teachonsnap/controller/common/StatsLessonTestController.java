@@ -9,32 +9,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
-import com.julvez.pfc.teachonsnap.error.model.ErrorBean;
-import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
-import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.LessonTestService;
 import com.julvez.pfc.teachonsnap.lesson.test.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
+import com.julvez.pfc.teachonsnap.stats.StatsService;
+import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
+import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
-public class LessonTestController extends CommonController {
+public class StatsLessonTestController extends CommonController {
 
 	private static final long serialVersionUID = 3593648651182715069L;
 	
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	private PageService pageService = PageServiceFactory.getService();
+	private StatsService statsService = StatsServiceFactory.getService();
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
@@ -50,27 +50,11 @@ public class LessonTestController extends CommonController {
 			
 			LessonTest test = lessonTestService.getLessonTest(idLessonTest);
 			
-			if(test != null){
-						
+			if(test!=null){
 				Lesson lesson = lessonService.getLesson(test.getIdLesson());
-				
-				if(userService.isAllowedForLesson(user, lesson)){
-			
-					if(request.getMethod().equals("POST")){
-						UserLessonTest userTest = new UserLessonTest(test, request.getParameterMap());
-						
-						boolean saved = statsService.saveUserTest(visit, userTest);
-						
-						if(saved){
-							setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.USERTEST_SAVED));					
-						}
-						else{
-							setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
-						}
-						
-						requestManager.setAttribute(request, Attribute.USERLESSONTEST_ANSWERS, userTest);
-					}			
 					
+				if(userService.isAllowedForLesson(user, lesson)){
+
 					UserTestRank testRank = statsService.getUserTestRank(test.getId(), visit.getUser().getId());			
 					List<UserTestRank> testRanks = statsService.getTestRanks(test.getId());
 					
@@ -79,19 +63,24 @@ public class LessonTestController extends CommonController {
 					requestManager.setAttribute(request, Attribute.LESSON, lesson);
 					requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 					
-					List<Page> pageStack = pageService.getLessonTestPageStack(lesson, test);
+					List<Page> pageStack = pageService.getStatsLessonTestPageStack(lesson, test);
 					requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 					
-					String backPage = lesson.getURL();
-					requestManager.setAttribute(request, Attribute.STRING_BACKPAGE, backPage);
+					StatsLessonTest statsTest = statsService.getStatsLessonTest(test);
+					requestManager.setAttribute(request, Attribute.STATSTEST, statsTest);
 					
+					String backPage = lesson.getEditURL();
+					requestManager.setAttribute(request, Attribute.STRING_BACKPAGE, backPage);
+							
 				    request.getRequestDispatcher("/WEB-INF/views/test.jsp").forward(request, response);
 				}
 				else{
+					//No tienes permisos
 					response.sendError(HttpServletResponse.SC_FORBIDDEN);
-				}
+				}						
 			}
 			else{
+				//No se encontró el test
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
 		}

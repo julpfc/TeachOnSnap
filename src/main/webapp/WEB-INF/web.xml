@@ -215,6 +215,17 @@
 	<servlet>
 		<description>
   		</description>
+		<display-name>StatsLessonTestController</display-name>
+		<servlet-name>StatsLessonTestController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.StatsLessonTestController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StatsLessonTestController</servlet-name>
+		<url-pattern>/stats/test/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
 		<display-name>EditLessonTestController</display-name>
 		<servlet-name>EditLessonTestController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.EditLessonTestController</servlet-class>

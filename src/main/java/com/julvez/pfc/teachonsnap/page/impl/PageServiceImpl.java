@@ -23,7 +23,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(lesson!=null){
 			pages = new ArrayList<Page>(); 
-			page = new Page(PageNameKey.LESSON, lesson.getURL());
+			page = new Page(PageNameKey.LESSON, lesson.getTitle(), lesson.getURL());
 			pages.add(page);
 		}		
 		
@@ -255,6 +255,29 @@ public class PageServiceImpl implements PageService {
 					ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType);
 			pages.add(page);
 		}		
+		return pages;
+	}
+
+	@Override
+	public List<Page> getLessonTestPageStack(Lesson lesson, LessonTest test) {
+		List<Page> pages = getLessonPageStack(lesson);
+		
+		if(pages != null && test != null){
+			Page page = new Page(PageNameKey.LESSON_TEST, test.getURL());
+			pages.add(page);
+		}
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsLessonTestPageStack(Lesson lesson, LessonTest test) {
+		List<Page> pages = getEditLessonPageStack(lesson);
+		
+		if(pages != null && test!=null){
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_LESSON_TEST.toString() + test.getId());
+			pages.add(page);
+		}
+		else pages = null;
 		return pages;
 	}
 

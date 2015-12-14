@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.stats.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
@@ -48,8 +49,8 @@ public class StatsRepositoryDBCache implements StatsRepository {
 	public boolean saveUserTest(Visit visit, UserLessonTest userTest, boolean betterRank) {
 		return (boolean)cache.updateImplCached(repoDB, new String[]{
 				stringManager.getKey(userTest.getIdLessonTest(), visit.getUser().getId()),
-				stringManager.getKey(userTest.getIdLessonTest())}, 
-				new String[]{"getUserTestRank","getUserIDsTestRank"}, visit, userTest, betterRank);
+				stringManager.getKey(userTest.getIdLessonTest()),stringManager.getKey(userTest.getIdLessonTest()),stringManager.getKey(userTest.getIdLessonTest())}, 
+				new String[]{"getUserTestRank","getUserIDsTestRank","getStatsLessonTestNumTests", "getStatsLessonTestQuestionKOs"}, visit, userTest, betterRank);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -69,4 +70,17 @@ public class StatsRepositoryDBCache implements StatsRepository {
 	public int getTagViewsCount(int idTag) {
 		return (int)cache.executeImplCached(repoDB, idTag);
 	}
+
+	@Override
+	public int getStatsLessonTestNumTests(int idLessonTest) {
+		return (int)cache.executeImplCached(repoDB, idLessonTest);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Map<String, String> getStatsLessonTestQuestionKOs(int idLessonTest) {
+		return (Map<String, String>)cache.executeImplCached(repoDB, idLessonTest);
+	}
+
+	
 }

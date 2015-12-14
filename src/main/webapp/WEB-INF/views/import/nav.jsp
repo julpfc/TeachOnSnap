@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 <nav class="navbar ${not empty user?'navbar-inverse':'navbar-default'}" role="navigation">
@@ -110,7 +111,7 @@
 	      				<li><a><fmt:message key="${page.name}"/></a></li>	      				
 	      			</c:when>
 	      			<c:otherwise>
-	      				<li><a href="${page.link}"><fmt:message key="${page.name}"/><c:if test="${not empty page.extraName}">: <span class="label label-info navlabel">${page.extraName}</span></c:if></a></li>
+	      				<li><a href="${page.link}"><fmt:message key="${page.name}"/><c:if test="${not empty page.extraName}">: <span class="label label-info navlabel">${fn:escapeXml(page.extraName)}</span></c:if></a></li>
 	      			</c:otherwise>
 	      		</c:choose>	        	
 	        </c:forEach>	  		       

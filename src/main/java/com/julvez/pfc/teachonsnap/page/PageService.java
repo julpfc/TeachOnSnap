@@ -50,4 +50,8 @@ public interface PageService {
 	public List<Page> getUserFollowAuthorPageStack(User profile);
 	
 	public List<Page> getUserFollowAuthorSearchPageStack(User profile, String searchQuery, String searchType);
+
+	public List<Page> getLessonTestPageStack(Lesson lesson, LessonTest test);
+
+	public List<Page> getStatsLessonTestPageStack(Lesson lesson, LessonTest test);
 }

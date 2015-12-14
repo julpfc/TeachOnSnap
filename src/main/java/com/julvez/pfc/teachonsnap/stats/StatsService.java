@@ -3,7 +3,9 @@ package com.julvez.pfc.teachonsnap.stats;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
@@ -28,5 +30,7 @@ public interface StatsService {
 	public int getTagViewsCount(Tag tag);
 	
 	public int getLessonViewsCount(Lesson lesson);
+
+	public StatsLessonTest getStatsLessonTest(LessonTest test);
 
 }

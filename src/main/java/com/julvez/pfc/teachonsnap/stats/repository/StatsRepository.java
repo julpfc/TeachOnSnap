@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.stats.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
@@ -24,6 +25,10 @@ public interface StatsRepository {
 
 	public boolean saveTag(int idVisit, int idTag);
 	
-	public int getTagViewsCount(int idTag);
+	public int getTagViewsCount(int idTag);	
+
+	public int getStatsLessonTestNumTests(int idLessonTest);
+
+	public Map<String, String> getStatsLessonTestQuestionKOs(int idLessonTest);
 
 }

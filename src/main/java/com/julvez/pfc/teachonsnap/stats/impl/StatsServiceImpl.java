@@ -2,10 +2,13 @@ package com.julvez.pfc.teachonsnap.stats.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
+import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.stats.repository.StatsRepository;
@@ -138,6 +141,23 @@ public class StatsServiceImpl implements StatsService {
 		}
 		
 		return count;
+	}
+
+	@Override
+	public StatsLessonTest getStatsLessonTest(LessonTest test) {
+		StatsLessonTest statsTest = null;
+		
+		if(test != null){
+			int numTests = statsRepository.getStatsLessonTestNumTests(test.getId());
+			
+			if(numTests > 0){
+				Map<String, String> questionKOs = statsRepository.getStatsLessonTestQuestionKOs(test.getId());
+			
+				statsTest = new StatsLessonTest(test.getId(), numTests, questionKOs);
+			}
+		}
+		
+		return statsTest;
 	}
 
 }
