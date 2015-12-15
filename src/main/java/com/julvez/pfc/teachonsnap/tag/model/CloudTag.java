@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.tag.model;
 
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class CloudTag {
@@ -9,15 +10,21 @@ public class CloudTag {
 	private short weight;
 
 	public CloudTag(Tag tag,short weight){
-		this.tag=tag.getTag();
+		this.tag = tag.getTag();
 		this.URL = tag.getURL();
 		this.weight=weight;
 	}
 	
 	public CloudTag(User author,short weight){
-		this.tag=author.getFullName();
+		this.tag = author.getFullName();
 		this.URL = author.getURL();
 		this.weight=weight;
+	}
+	
+	public CloudTag(Lesson lesson, short weight){
+		this.tag = lesson.getTitle();
+		this.URL = lesson.getURL();
+		this.weight = weight;
 	}
 	
 	public String getTag() {

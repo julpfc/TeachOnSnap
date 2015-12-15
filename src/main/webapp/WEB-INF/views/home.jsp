@@ -94,7 +94,15 @@
             			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
 		            </c:forEach>
 		            </ul>
-          		</div>          		           		
+          		</div>
+          		<div class="sidebar">
+            		<h4><span class="glyphicon glyphicon-book"></span> <fmt:message key="cloudtag.lesson.heading"/></h4>
+            		<div class="list-group">
+            		<c:forEach items="${lessonCloudTags}" var="cloudTag" varStatus="loop">            			
+            			<a class="list-group-item list-group-item-warning" href="${cloudTag.URL}">${cloudTag.tag} <span class="badge">${loop.index + 1}</span></a>
+		            </c:forEach>
+		            </div>
+          		</div>
           		<div class="sidebar">
             		<h4>About <fmt:message key="app.name" /> <span class="glyphicon glyphicon-facetime-video"></span>
 		        	<span class="glyphicon glyphicon-book"></span></h4>

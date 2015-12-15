@@ -35,6 +35,7 @@ public enum Attribute {
 	LIST_CLOUDTAG_AUTHOR("authorCloudTags"),
 	LIST_CLOUDTAG_TAG_USE("tagUseCloudTags"),
 	LIST_CLOUDTAG_TAG_SEARCH("tagSearchCloudTags"),
+	LIST_CLOUDTAG_LESSON("lessonCloudTags"),
 	
 	//Pager
 	LIST_LESSON("lessons"),

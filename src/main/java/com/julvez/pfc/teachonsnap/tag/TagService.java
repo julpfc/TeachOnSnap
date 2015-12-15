@@ -22,6 +22,8 @@ public interface TagService {
 	
 	public List<CloudTag> getAuthorCloudTags();
 	
+	public List<CloudTag> getLessonViewCloudTags();
+	
 	public void addLessonTags(Lesson lesson, List<String> tags);
 
 	public boolean saveLessonTags(Lesson lesson, List<Tag> oldTags,	List<String> newTags);

@@ -83,10 +83,11 @@ public abstract class PagerController extends CommonController {
 			List<CloudTag> tagUseCloudTags = tagService.getTagUseCloudTags();
 			List<CloudTag> authorCloudTags = tagService.getAuthorCloudTags();
 			List<CloudTag> tagSearchCloudTags = tagService.getTagSearchCloudTags();
+			List<CloudTag> lessonCloudTags = tagService.getLessonViewCloudTags();
 			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_TAG_SEARCH, tagSearchCloudTags);
 			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_AUTHOR, authorCloudTags);
 			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_TAG_USE, tagUseCloudTags);
-	
+			requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_LESSON, lessonCloudTags);
 			
 			requestManager.setAttribute(request, Attribute.LIST_LESSON, lessons);
 			

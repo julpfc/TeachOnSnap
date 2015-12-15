@@ -15,8 +15,11 @@
 	    VALUES (?,?);       
 	</sql-query>
 	<sql-query name="SQL_STATS_GET_LESSON_VIEWS_COUNT">
-	    SELECT COUNT(idVisit) as lessonViews
-	    FROM tvisitlesson
+	    SELECT COALESCE( COUNT(DISTINCT tvs.idVisit)/7,COUNT(DISTINCT tvm.idVisit)/30,COUNT(DISTINCT tvt.idVisit)/datediff(now(),min(tvt.date))) as lessonViews
+	    FROM tvisitlesson tvl
+	    LEFT JOIN tvisit tvt USING(idvisit)
+		LEFT JOIN tvisit tvm ON tvm.idvisit = tvl.idvisit and tvm.date > date_sub(now(),INTERVAL 1 MONTH)
+		LEFT JOIN tvisit tvs ON tvs.idvisit = tvl.idvisit and tvs.date > date_sub(now(),INTERVAL 1 WEEK)
 	    WHERE idLesson = ?
 	    GROUP BY idLesson;       
 	</sql-query>
@@ -59,8 +62,11 @@
 	    VALUES (?,?);       
 	</sql-query>
 	<sql-query name="SQL_STATS_GET_TAG_VIEWS_COUNT">
-	    SELECT COUNT(idVisit) as tagViews
-	    FROM tvisittag
+	    SELECT COALESCE( COUNT(DISTINCT tvs.idVisit)/7,COUNT(DISTINCT tvm.idVisit)/30,COUNT(DISTINCT tvy.idVisit)/datediff(now(),min(tvy.date))) as tagViews
+	    FROM tvisittag tvt 
+	    LEFT JOIN tvisit tvy USING(idvisit)
+		LEFT JOIN tvisit tvm ON tvm.idvisit = tvt.idvisit and tvm.date > date_sub(now(),INTERVAL 1 MONTH)
+		LEFT JOIN tvisit tvs ON tvs.idvisit = tvt.idvisit and tvs.date > date_sub(now(),INTERVAL 1 WEEK)
 	    WHERE idTag = ?
 	    GROUP BY idTag;       
 	</sql-query>

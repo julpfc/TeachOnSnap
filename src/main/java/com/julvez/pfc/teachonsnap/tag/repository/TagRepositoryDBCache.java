@@ -93,4 +93,10 @@ public class TagRepositoryDBCache implements TagRepository {
 	public List<Integer> getTagSearchCloudTags() {
 		return (List<Integer>)cache.executeImplCached(repoDB, new Object[0]);
 	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Integer> getLessonViewCloudTags() {
+		return (List<Integer>)cache.executeImplCached(repoDB, new Object[0]);
+	}
 }

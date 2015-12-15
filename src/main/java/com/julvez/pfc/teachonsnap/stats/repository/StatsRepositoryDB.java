@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.stats.repository;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +39,10 @@ public class StatsRepositoryDB implements StatsRepository {
 	@Override
 	public int getLessonViewsCount(int idLesson) {
 		int count = 0;
-		BigInteger result = dbm.getQueryResultUnique("SQL_STATS_GET_LESSON_VIEWS_COUNT", BigInteger.class, idLesson);
+		BigDecimal result = dbm.getQueryResultUnique("SQL_STATS_GET_LESSON_VIEWS_COUNT", BigDecimal.class, idLesson);
 		
 		if(result!=null){
-			count = result.intValue();
+			count = result.multiply(BigDecimal.valueOf(100)).intValue();
 		}
 		
 		return count;
@@ -120,10 +121,10 @@ public class StatsRepositoryDB implements StatsRepository {
 	@Override
 	public int getTagViewsCount(int idTag) {
 		int count = 0;
-		BigInteger result = dbm.getQueryResultUnique("SQL_STATS_GET_TAG_VIEWS_COUNT", BigInteger.class, idTag);
+		BigDecimal result = dbm.getQueryResultUnique("SQL_STATS_GET_TAG_VIEWS_COUNT", BigDecimal.class, idTag);
 		
 		if(result!=null){
-			count = result.intValue();
+			count = result.multiply(BigDecimal.valueOf(100)).intValue();
 		}
 		
 		return count;

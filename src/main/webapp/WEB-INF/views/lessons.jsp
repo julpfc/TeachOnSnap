@@ -15,10 +15,10 @@
 	<c:import url="./import/head_bootstrap.jsp"/>
 	<c:choose> 
 		<c:when test="${not empty searchKeyword}">
-			<title><fmt:message key="app.name"/> - <fmt:message key="search.by" bundle="${lessonsBundle}"/> ${searchType}: ${searchKeyword}</title>
+			<title><fmt:message key="app.name"/> - <fmt:message key="search.by.${searchType}" bundle="${lessonsBundle}"/>: ${searchKeyword}</title>
 		</c:when>
 		<c:otherwise>
-			<title><fmt:message key="app.name"/> - <fmt:message key="last.ones" bundle="${lessonsBundle}"/></title>
+			<title><fmt:message key="app.name"/> - <fmt:message key="search.by.last" bundle="${lessonsBundle}"/></title>
 		</c:otherwise>
 	</c:choose>
 </head>
@@ -114,7 +114,7 @@
           		</c:if> 
           		<c:if test="${empty searchKeyword && searchType eq 'last'}">
           			<div class="sidebar">
-          				<h3><span class="glyphicon glyphicon-time"></span> <fmt:message key="last.ones" bundle="${lessonsBundle}"/></h3>
+          				<h3><span class="glyphicon glyphicon-time"></span> <fmt:message key="search.by.last" bundle="${lessonsBundle}"/></h3>
           			</div>
           		</c:if>
           		<c:if test="${not empty tagSearchCloudTags && searchType eq 'tag'}">
@@ -145,7 +145,15 @@
 	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
 			            </c:forEach>
 			            </ul>
-	          		</div>    
+	          		</div>
+	          		<div class="sidebar">
+	            		<h4><span class="glyphicon glyphicon-book"></span> <fmt:message key="cloudtag.lesson.heading"/></h4>
+	            		<div class="list-group">
+	            		<c:forEach items="${lessonCloudTags}" var="cloudTag" varStatus="loop">            			
+	            			<a class="list-group-item list-group-item-warning" href="${cloudTag.URL}">${cloudTag.tag} <span class="badge">${loop.index + 1}</span></a>
+			            </c:forEach>
+		            </div>
+          		</div>    
 	          	</c:if>     	 		          		
         	</div><!-- sidebar -->
 		</div><!-- /.row -->

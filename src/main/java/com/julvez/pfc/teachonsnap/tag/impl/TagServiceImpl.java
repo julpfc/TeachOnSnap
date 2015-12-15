@@ -313,4 +313,25 @@ public class TagServiceImpl implements TagService {
 		
 		return getCloudTagListNormalized(cloudTags,max,min);
 	}
+	
+	@Override
+	public List<CloudTag> getLessonViewCloudTags() {
+		List<CloudTag> cloudTags = new ArrayList<CloudTag>();
+		
+		List<Integer> ids = tagRepository.getLessonViewCloudTags();
+		
+		int max=0;
+		int min=0;
+		for(int id:ids){
+			Lesson lesson = lessonService.getLesson(id);			
+			short visits = (short)statsService.getLessonViewsCount(lesson);
+			if(visits > max) max = visits;
+			if(min == 0 || visits < min) min = visits;
+			
+			cloudTags.add(new CloudTag(lesson, visits));
+		}
+		
+		return getCloudTagListNormalized(cloudTags,max,min);
+	}
+
 }

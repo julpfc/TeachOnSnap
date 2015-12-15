@@ -90,7 +90,7 @@ public class AuthorController extends PagerController {
 
 	@Override
 	protected void saveStats(Visit visit, String searchURI, List<Lesson> lessons) {
-		// TODO Ver si guardamos stats por autor		
+		// No stats for searched Author. Maybe in the future (see TagController for reference)
 	}
 	
 }

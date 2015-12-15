@@ -31,4 +31,6 @@ public interface TagRepository {
 
 	public List<Integer> getTagSearchCloudTags();
 
+	public List<Integer> getLessonViewCloudTags();
+
 }

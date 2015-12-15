@@ -38,5 +38,5 @@ public interface LessonService {
 	public List<Lesson> getLessonDraftsFromUser(User user, int firstResult);
 
 	public List<Lesson> getLessonsFromIDs(Map<String, String> lessonFollowed);	
-	
+
 }

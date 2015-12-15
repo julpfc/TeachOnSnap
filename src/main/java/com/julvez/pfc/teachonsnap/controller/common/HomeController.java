@@ -32,7 +32,6 @@ public class HomeController extends CommonController {
 	@Override
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
-		// TODO TOP de lessons (más vistas, activas)
 		
 		List<Lesson> lastLessons = lessonService.getLastLessons(0);
 				
@@ -51,6 +50,9 @@ public class HomeController extends CommonController {
 		
 		requestManager.setAttribute(request, Attribute.LIST_LESSON, lastLessons);
 		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_TAG_USE, tagUseCloudTags);
+		
+		List<CloudTag> lessonCloudTags = tagService.getLessonViewCloudTags();
+		requestManager.setAttribute(request, Attribute.LIST_CLOUDTAG_LESSON, lessonCloudTags);
 		
 		request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);	 
 
