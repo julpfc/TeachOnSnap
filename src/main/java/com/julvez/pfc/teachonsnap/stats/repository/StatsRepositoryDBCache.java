@@ -8,6 +8,7 @@ import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 
@@ -29,7 +30,12 @@ public class StatsRepositoryDBCache implements StatsRepository {
 
 	@Override
 	public boolean saveLesson(int idVisit, int idLesson) {
-		boolean result = (boolean)cache.updateImplCached(repoDB, null, null, idVisit, idLesson);
+		boolean result = (boolean)cache.updateImplCached(repoDB, 
+				new String[]{stringManager.getKey(idLesson),stringManager.getKey(idLesson),
+				stringManager.getKey(idLesson),stringManager.getKey(idLesson),stringManager.getKey(idLesson),stringManager.getKey(idLesson)}, 
+				new String[]{"getLessonVisitsLastMonth","getLessonVisitsLastYear",
+				"getAuthorVisitsLastMonth","getAuthorVisitsLastYear","getAuthorLessonsVisitsLastMonth",
+				"getAuthorLessonsVisitsLastYear"}, idVisit, idLesson);
 		cache.incCacheValue("getLessonViewsCount", stringManager.getKey(idLesson));
 		return result;
 	}
@@ -80,6 +86,42 @@ public class StatsRepositoryDBCache implements StatsRepository {
 	@SuppressWarnings("unchecked")
 	public Map<String, String> getStatsLessonTestQuestionKOs(int idLessonTest) {
 		return (Map<String, String>)cache.executeImplCached(repoDB, idLessonTest);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getLessonVisitsLastMonth(int idLesson) {		
+		return (List<StatsData>)cache.executeImplCached(repoDB, idLesson);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getLessonVisitsLastYear(int idLesson) {
+		return (List<StatsData>)cache.executeImplCached(repoDB, idLesson);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getAuthorVisitsLastMonth(int idUser) {
+		return (List<StatsData>)cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getAuthorVisitsLastYear(int idUser) {
+		return (List<StatsData>)cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getAuthorLessonsVisitsLastMonth(int idUser) {
+		return (List<StatsData>)cache.executeImplCached(repoDB, idUser);		
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getAuthorLessonsVisitsLastYear(int idUser) {
+		return (List<StatsData>)cache.executeImplCached(repoDB, idUser);
 	}
 
 	

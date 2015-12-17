@@ -224,9 +224,11 @@ public class EditLessonController extends CommonController {
 						
 						LessonTest test = lessonTestService.getLessonTest(lesson);
 						requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
-							
-						List<UserTestRank> testRanks = statsService.getTestRanks(test.getId());
-						requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
+						
+						if(test != null){
+							List<UserTestRank> testRanks = statsService.getTestRanks(test.getId());
+							requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
+						}
 						
 						int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
 						requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);

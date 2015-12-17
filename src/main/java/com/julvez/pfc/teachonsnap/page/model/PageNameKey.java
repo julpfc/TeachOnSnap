@@ -26,7 +26,11 @@ public enum PageNameKey {
 	USER_FOLLOW_AUTHOR("user.follow.author.breadcrumb"),
 	USER_FOLLOW_AUTHOR_SEARCH_BY_EMAIL("user.follow.author.search.by.email.breadcrumb"), 
 	USER_FOLLOW_AUTHOR_SEARCH_BY_NAME("user.follow.author.search.by.name.breadcrumb"), 
-	STATS_LESSON_TEST("stats.lesson.test.breadcrumb");
+	STATS_LESSON_TEST("stats.lesson.test.breadcrumb"), 
+	STATS_LESSON_MONTH("stats.lesson.month.breadcrumb"), 
+	STATS_LESSON_YEAR("stats.lesson.year.breadcrumb"), 
+	STATS_AUTHOR_MONTH("stats.author.month.breadcrumb"), 
+	STATS_AUTHOR_YEAR("stats.author.year.breadcrumb");
 	
 		 		
 	private final String key;

@@ -286,7 +286,16 @@
 									 	</c:otherwise>
 									 </c:choose>										 	
 	     						</div>		     					
-					    	</div>					
+					    	<div class="panel-footer">
+					    		<a href="/stats/lesson/month/${lesson.id}">
+											    			<button class="btn btn-primary btn-xs pull-right" type="button">											
+														 		<span class="glyphicon glyphicon-dashboard"></span>
+															 	<fmt:message key="lesson.stats.show" bundle="${editLessonBundle}"/>			 	
+															</button>
+														</a>
+														&nbsp;
+					    	</div>				
+					    	</div>	
 						</div><!-- Publish Panel -->
 					
 						<!-- Test Panel -->

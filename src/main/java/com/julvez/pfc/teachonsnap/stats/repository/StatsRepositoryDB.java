@@ -2,16 +2,19 @@ package com.julvez.pfc.teachonsnap.stats.repository;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserQuestion;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
+import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsPropertyName;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
@@ -155,6 +158,42 @@ public class StatsRepositoryDB implements StatsRepository {
 		}
 		
 		return questionKOs;
+	}
+
+	@Override
+	public List<StatsData> getLessonVisitsLastMonth(int idLesson) {
+		return dbm.getQueryResultList("SQL_STATS_GET_LESSON_VISITS_LASTMONTH_STATSDATA", StatsData.class, idLesson);
+	}
+
+	@Override
+	public List<StatsData> getLessonVisitsLastYear(int idLesson) {
+		return dbm.getQueryResultList("SQL_STATS_GET_LESSON_VISITS_LASTYEAR_STATSDATA", StatsData.class, idLesson);
+	}
+
+	@Override
+	public List<StatsData> getAuthorVisitsLastMonth(int idUser) {
+		return dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_VISITS_LASTMONTH_STATSDATA", StatsData.class, idUser);
+	}
+
+	@Override
+	public List<StatsData> getAuthorVisitsLastYear(int idUser) {
+		return dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_VISITS_LASTYEAR_STATSDATA", StatsData.class, idUser);
+	}
+
+	@Override
+	public List<StatsData> getAuthorLessonsVisitsLastMonth(int idUser) {
+		int limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
+		List<StatsData> stats = dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONS_VISITS_LASTMONTH_STATSDATA", StatsData.class, idUser, limit);
+		Collections.reverse(stats);
+		return stats; 
+	}
+
+	@Override
+	public List<StatsData> getAuthorLessonsVisitsLastYear(int idUser) {
+		int limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
+		List<StatsData> stats = dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONS_VISITS_LASTYEAR_STATSDATA", StatsData.class, idUser, limit);
+		Collections.reverse(stats);
+		return stats; 
 	}	
 	
 }

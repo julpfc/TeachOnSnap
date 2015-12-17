@@ -60,7 +60,12 @@ public enum Attribute {
 	LIST_TAG_FOLLOWED("followTags"), 
 	
 	//Stats
-	STATSTEST("statsTest");
+	STATSTEST("statsTest"), 
+	LIST_STATS_DATA("stats"), 
+	LIST_STATS_EXTRA("statsExtra"),
+	STRING_STATS_TYPE("statsType"), 
+	STRING_STATS_CSV("statsCSV"), 
+	STRING_STATS_EXTRA_CSV("statsExtraCSV");
 
 	
 	private final String realName;

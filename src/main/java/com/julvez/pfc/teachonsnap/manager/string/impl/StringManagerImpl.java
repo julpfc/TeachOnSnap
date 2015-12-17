@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.manager.string.impl;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
@@ -151,5 +152,17 @@ public class StringManagerImpl implements StringManager {
 		}		
 		
 		return list;
+	}
+
+	@Override
+	public String encodeURL(String url) {
+		String encoded = null;				
+		try {
+			encoded = URLEncoder.encode(url, "UTF-8");
+		} catch (Throwable t) {
+			logger.error(t, "Error codificando URLencoded: " + url);
+		}
+		return encoded;
+
 	}
 }

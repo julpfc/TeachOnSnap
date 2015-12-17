@@ -7,7 +7,10 @@ import java.util.Map;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
+import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
@@ -23,6 +26,8 @@ public class StatsServiceImpl implements StatsService {
 	private static final String IP_NULL = "0.0.0.0";
 	
 	private StatsRepository statsRepository = StatsRepositoryFactory.getRepository();
+	
+	private StringManager stringManager = StringManagerFactory.getManager(); 
 	
 	private UserService userService = UserServiceFactory.getService();
 
@@ -158,6 +163,93 @@ public class StatsServiceImpl implements StatsService {
 		}
 		
 		return statsTest;
+	}
+
+	@Override
+	public List<StatsData> getLessonVisitsLastMonth(Lesson lesson) {
+		List<StatsData> stats = null;
+		
+		if(lesson != null){
+			stats = statsRepository.getLessonVisitsLastMonth(lesson.getId());
+		}
+		
+		return stats;
+	}
+
+	@Override
+	public List<StatsData> getLessonVisitsLastYear(Lesson lesson) {
+		List<StatsData> stats = null;
+		
+		if(lesson != null){
+			stats = statsRepository.getLessonVisitsLastYear(lesson.getId());
+		}
+		
+		return stats;
+	}
+
+	@Override
+	public List<StatsData> getAuthorVisitsLastMonth(User profile) {
+		List<StatsData> stats = null;
+		
+		if(profile != null){
+			stats = statsRepository.getAuthorVisitsLastMonth(profile.getId());
+		}
+		
+		return stats;
+
+	}
+
+	@Override
+	public List<StatsData> getAuthorVisitsLastYear(User profile) {
+		List<StatsData> stats = null;
+		
+		if(profile != null){
+			stats = statsRepository.getAuthorVisitsLastYear(profile.getId());
+		}
+		
+		return stats;
+	}
+
+	@Override
+	public List<StatsData> getAuthorLessonsVisitsLastMonth(User profile) {
+		List<StatsData> stats = null;
+		
+		if(profile != null){
+			stats = statsRepository.getAuthorLessonsVisitsLastMonth(profile.getId());
+		}
+		
+		return stats;
+	}
+
+	@Override
+	public List<StatsData> getAuthorLessonsVisitsLastYear(User profile) {
+		List<StatsData> stats = null;
+		
+		if(profile != null){
+			stats = statsRepository.getAuthorLessonsVisitsLastYear(profile.getId());
+		}
+		
+		return stats;
+	}
+
+	@Override
+	public String getCSVFromStats(List<StatsData> stats) {
+		String csv = null;
+		
+		if(stats != null){
+			int i = 0;
+			csv = "";
+			for(StatsData stat:stats){
+				csv = csv + stat.getKey() + ";" + stat.getValue();
+				if(i<stats.size()){
+					csv = csv + "\n";
+				}
+				i++;
+			}
+			csv = stringManager.encodeURL(csv);
+		}
+		
+		return csv;
 	}
 
 }

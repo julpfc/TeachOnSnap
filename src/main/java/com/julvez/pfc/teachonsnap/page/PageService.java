@@ -54,4 +54,10 @@ public interface PageService {
 	public List<Page> getLessonTestPageStack(Lesson lesson, LessonTest test);
 
 	public List<Page> getStatsLessonTestPageStack(Lesson lesson, LessonTest test);
+
+	public List<Page> getStatsLessonPageStack(Lesson lesson, String statsType);
+
+	public List<Page> getStatsAuthorPageStack(User profile, String statsType);
+
+	public List<Page> getStatsAuthorLessonPageStack(Lesson lesson, String statsType);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
@@ -32,5 +33,19 @@ public interface StatsService {
 	public int getLessonViewsCount(Lesson lesson);
 
 	public StatsLessonTest getStatsLessonTest(LessonTest test);
+
+	public List<StatsData> getLessonVisitsLastMonth(Lesson lesson);
+
+	public List<StatsData> getLessonVisitsLastYear(Lesson lesson);
+
+	public List<StatsData> getAuthorVisitsLastMonth(User profile);
+
+	public List<StatsData> getAuthorVisitsLastYear(User profile);
+
+	public List<StatsData> getAuthorLessonsVisitsLastMonth(User profile);
+
+	public List<StatsData> getAuthorLessonsVisitsLastYear(User profile);
+
+	public String getCSVFromStats(List<StatsData> stats);
 
 }

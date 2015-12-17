@@ -281,4 +281,60 @@ public class PageServiceImpl implements PageService {
 		return pages;
 	}
 
+	@Override
+	public List<Page> getStatsLessonPageStack(Lesson lesson, String statsType) {
+		List<Page> pages = getEditLessonPageStack(lesson);
+		
+		if(pages != null && statsType!=null && lesson!=null){
+			Page page = null;
+			if("month".equalsIgnoreCase(statsType)){
+				page = new Page(PageNameKey.STATS_LESSON_MONTH, ControllerURI.STATS_LESSON_MONTH.toString() + lesson.getId());
+			}
+			else{
+				page = new Page(PageNameKey.STATS_LESSON_YEAR, ControllerURI.STATS_LESSON_YEAR.toString() + lesson.getId());
+			}
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsAuthorPageStack(User profile, String statsType) {
+		List<Page> pages = new ArrayList<Page>();
+		
+		if(pages != null && statsType!=null && profile!=null){
+			Page page = null;
+			if("month".equalsIgnoreCase(statsType)){
+				page = new Page(PageNameKey.STATS_AUTHOR_MONTH, profile.getFullName(), ControllerURI.STATS_AUTHOR_MONTH.toString() + profile.getId());
+			}
+			else{
+				page = new Page(PageNameKey.STATS_AUTHOR_YEAR, profile.getFullName(), ControllerURI.STATS_AUTHOR_YEAR.toString() + profile.getId());
+			}
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsAuthorLessonPageStack(Lesson lesson, String statsType) {
+		List<Page> pages = new ArrayList<Page>();
+		
+		if(pages != null && statsType!=null && lesson != null){
+			pages = getStatsAuthorPageStack(lesson.getAuthor(),statsType);
+			
+			Page page = null;
+			if("month".equalsIgnoreCase(statsType)){
+				page = new Page(PageNameKey.STATS_LESSON_MONTH, lesson.getTitle(), ControllerURI.STATS_AUTHOR_LESSON_MONTH.toString() + lesson.getId());
+			}
+			else{
+				page = new Page(PageNameKey.STATS_LESSON_YEAR, lesson.getTitle(), ControllerURI.STATS_AUTHOR_LESSON_YEAR.toString() + lesson.getId());
+			}
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;		
+	}
+
 }

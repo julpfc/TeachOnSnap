@@ -226,6 +226,37 @@
 	<servlet>
 		<description>
   		</description>
+		<display-name>StatsController</display-name>
+		<servlet-name>StatsController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.StatsController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/author/year/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/author/month/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/lesson/month/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/lesson/year/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/author/lesson/month/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/author/lesson/year/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
 		<display-name>EditLessonTestController</display-name>
 		<servlet-name>EditLessonTestController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.EditLessonTestController</servlet-class>

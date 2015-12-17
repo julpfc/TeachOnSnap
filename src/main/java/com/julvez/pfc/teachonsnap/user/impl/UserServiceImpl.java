@@ -51,21 +51,23 @@ public class UserServiceImpl implements UserService {
 		if(idUser>0){
 			user = userRepository.getUser(idUser);
 		
-			user.setLanguage(langService.getLanguage(user.getIdLanguage()));
-			user.setMD5(stringManager.generateMD5(user.getEmail()));
-			if(user.isBanned()){
-				UserBannedInfo bannedInfo = userRepository.getUserBannedInfo(idUser);
-				if(bannedInfo != null){
-					bannedInfo.setAdmin(getUser(bannedInfo.getIdAdmin()));
+			if(user != null){
+				user.setLanguage(langService.getLanguage(user.getIdLanguage()));
+				user.setMD5(stringManager.generateMD5(user.getEmail()));
+				if(user.isBanned()){
+					UserBannedInfo bannedInfo = userRepository.getUserBannedInfo(idUser);
+					if(bannedInfo != null){
+						bannedInfo.setAdmin(getUser(bannedInfo.getIdAdmin()));
+					}
+					user.setBannedInfo(bannedInfo);
 				}
-				user.setBannedInfo(bannedInfo);
-			}
 			
-			Map<String, String> authorFollowed = userRepository.getAuthorFollowed(user.getId());
-			user.setAuthorFollowed(authorFollowed);
-
-			Map<String, String> lessonFollowed = userRepository.getLessonFollowed(user.getId());
-			user.setLessonFollowed(lessonFollowed);
+				Map<String, String> authorFollowed = userRepository.getAuthorFollowed(user.getId());
+				user.setAuthorFollowed(authorFollowed);
+	
+				Map<String, String> lessonFollowed = userRepository.getLessonFollowed(user.getId());
+				user.setLessonFollowed(lessonFollowed);
+			}
 		}
 		return user;
 	}

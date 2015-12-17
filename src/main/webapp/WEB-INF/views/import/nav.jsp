@@ -71,6 +71,7 @@
 		            	<c:if test="${user.author}">
 		            		<li><a href="${user.URL}"><fmt:message key="nav.menu.user.lessons"/></a></li>
 		            		<li><a href="${user.draftsURL}"><fmt:message key="nav.menu.user.lessons.draft"/></a></li>
+		            		<li><a href="/stats/author/month/${user.id}"><fmt:message key="nav.menu.user.stats"/></a></li>
 		            		<li class="divider"></li>
 		            	</c:if>
 		            	<c:if test="${not empty user.authorFollowed || not empty user.lessonFollowed}">		            		

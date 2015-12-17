@@ -24,10 +24,12 @@ public interface StringManager {
 	public String convertToHTMLParagraph(String string);
 
 	public String decodeURL(String urlEncoded);
+	public String encodeURL(String url);
 
 	public String escapeHTML(String string);
 
 	public String unescapeHTML(String string);
 
 	public List<String> split(String string, String splitter);
+
 }
