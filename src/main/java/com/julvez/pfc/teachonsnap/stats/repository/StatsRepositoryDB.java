@@ -194,6 +194,16 @@ public class StatsRepositoryDB implements StatsRepository {
 		List<StatsData> stats = dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONS_VISITS_LASTYEAR_STATSDATA", StatsData.class, idUser, limit);
 		Collections.reverse(stats);
 		return stats; 
+	}
+
+	@Override
+	public List<StatsData> getAuthorLessonMediaVisitsLastMonth(int idUser) {
+		return dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONMEDIA_VISITS_LASTMONTH_STATSDATA", StatsData.class, idUser);
+	}
+
+	@Override
+	public List<StatsData> getAuthorLessonMediaVisitsLastYear(int idUser) {
+		return dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONMEDIA_VISITS_LASTYEAR_STATSDATA", StatsData.class, idUser);
 	}	
 	
 }

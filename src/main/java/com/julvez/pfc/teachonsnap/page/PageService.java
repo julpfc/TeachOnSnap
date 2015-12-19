@@ -6,6 +6,7 @@ import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.Question;
 import com.julvez.pfc.teachonsnap.page.model.Page;
+import com.julvez.pfc.teachonsnap.stats.model.StatsType;
 import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
@@ -53,11 +54,15 @@ public interface PageService {
 
 	public List<Page> getLessonTestPageStack(Lesson lesson, LessonTest test);
 
+	public List<Page> getStatsTestPageStack(Lesson lesson, LessonTest test);
+
+	public List<Page> getStatsLessonPageStack(Lesson lesson, StatsType statsType);
+
+	public List<Page> getStatsAuthorPageStack(User profile, StatsType statsType);
+
+	public List<Page> getStatsAuthorLessonPageStack(Lesson lesson, StatsType statsType);
+
+	public List<Page> getStatsAuthorLessonTestPageStack(Lesson lesson, LessonTest test);
+
 	public List<Page> getStatsLessonTestPageStack(Lesson lesson, LessonTest test);
-
-	public List<Page> getStatsLessonPageStack(Lesson lesson, String statsType);
-
-	public List<Page> getStatsAuthorPageStack(User profile, String statsType);
-
-	public List<Page> getStatsAuthorLessonPageStack(Lesson lesson, String statsType);
 }

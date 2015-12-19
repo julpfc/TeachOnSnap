@@ -19,6 +19,7 @@ import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
+import com.julvez.pfc.teachonsnap.url.model.SearchType;
 import com.julvez.pfc.teachonsnap.user.group.UserGroupService;
 import com.julvez.pfc.teachonsnap.user.group.UserGroupServiceFactory;
 import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
@@ -109,7 +110,7 @@ public class FollowAuthorController extends AdminController {
 					String searchType = requestManager.getParameter(request, Parameter.SEARCH_TYPE);
 					
 					if(!stringManager.isEmpty(searchQuery) && !stringManager.isEmpty(searchType)){
-						if(!"email".equals(searchType.toLowerCase()) && !"name".equals(searchType.toLowerCase())){
+						if(!SearchType.EMAIL.equals(searchType) && !SearchType.NAME.equals(searchType)){
 							searchQuery = null;
 							searchType = null;
 						}					
@@ -126,10 +127,10 @@ public class FollowAuthorController extends AdminController {
 					List<User> users = null;
 					List<User> authorFollowings = groupService.getAuthorFollowings(profile);
 					
-					if(searchType != null && "email".equals(searchType.toLowerCase())){
+					if(searchType != null && SearchType.EMAIL.equals(searchType)){
 						users = userService.searchAuthorsByEmail(searchQuery, pageResult);
 					}
-					else if(searchType != null && "name".equals(searchType.toLowerCase())){
+					else if(searchType != null && SearchType.NAME.equals(searchType)){
 						users = userService.searchAuthorsByName(searchQuery, pageResult);
 					}
 					else{

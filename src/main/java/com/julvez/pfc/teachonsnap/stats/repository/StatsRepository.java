@@ -44,4 +44,8 @@ public interface StatsRepository {
 
 	public List<StatsData> getAuthorLessonsVisitsLastYear(int idUser);
 
+	public List<StatsData> getAuthorLessonMediaVisitsLastMonth(int idUser);
+
+	public List<StatsData> getAuthorLessonMediaVisitsLastYear(int idUser);
+
 }

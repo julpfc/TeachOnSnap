@@ -25,6 +25,7 @@ import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
 import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class StatsLessonTestController extends CommonController {
@@ -63,13 +64,36 @@ public class StatsLessonTestController extends CommonController {
 					requestManager.setAttribute(request, Attribute.LESSON, lesson);
 					requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
 					
-					List<Page> pageStack = pageService.getStatsLessonTestPageStack(lesson, test);
-					requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 					
 					StatsLessonTest statsTest = statsService.getStatsLessonTest(test);
 					requestManager.setAttribute(request, Attribute.STATSTEST, statsTest);
 					
-					String backPage = lesson.getEditURL();
+					ControllerURI uri = ControllerURI.getURIFromPath(request.getServletPath());
+					
+					String backPage = null;
+					List<Page> pageStack = null;
+					
+					if(uri != null){
+						switch (uri) {
+						case STATS_AUTHOR_LESSON_TEST:
+							backPage = ControllerURI.STATS_AUTHOR_LESSON_MONTH.toString() + lesson.getId();
+							pageStack = pageService.getStatsAuthorLessonTestPageStack(lesson, test);
+							break;
+						case STATS_LESSON_TEST:
+							backPage = ControllerURI.STATS_LESSON_MONTH.toString() + lesson.getId();
+							pageStack = pageService.getStatsLessonTestPageStack(lesson, test);
+							break;
+						
+						case STATS_TEST:
+							backPage = lesson.getEditURL();
+							pageStack = pageService.getStatsTestPageStack(lesson, test);
+							break;
+						
+						default:
+							break;						
+						}
+					}
+					requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 					requestManager.setAttribute(request, Attribute.STRING_BACKPAGE, backPage);
 							
 				    request.getRequestDispatcher("/WEB-INF/views/test.jsp").forward(request, response);

@@ -48,4 +48,8 @@ public interface StatsService {
 
 	public String getCSVFromStats(List<StatsData> stats);
 
+	public List<StatsData> getAuthorLessonMediaVisitsLastMonth(User profile);
+
+	public List<StatsData> getAuthorLessonMediaVisitsLastYear(User profile);
+
 }

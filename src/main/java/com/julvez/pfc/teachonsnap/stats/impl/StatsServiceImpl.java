@@ -252,4 +252,26 @@ public class StatsServiceImpl implements StatsService {
 		return csv;
 	}
 
+	@Override
+	public List<StatsData> getAuthorLessonMediaVisitsLastMonth(User profile) {
+		List<StatsData> stats = null;
+		
+		if(profile != null){
+			stats = statsRepository.getAuthorLessonMediaVisitsLastMonth(profile.getId());
+		}
+		
+		return stats;
+	}
+
+	@Override
+	public List<StatsData> getAuthorLessonMediaVisitsLastYear(User profile) {
+		List<StatsData> stats = null;
+		
+		if(profile != null){
+			stats = statsRepository.getAuthorLessonMediaVisitsLastYear(profile.getId());
+		}
+		
+		return stats;
+	}
+
 }

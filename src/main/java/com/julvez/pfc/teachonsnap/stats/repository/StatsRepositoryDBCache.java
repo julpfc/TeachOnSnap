@@ -32,10 +32,11 @@ public class StatsRepositoryDBCache implements StatsRepository {
 	public boolean saveLesson(int idVisit, int idLesson) {
 		boolean result = (boolean)cache.updateImplCached(repoDB, 
 				new String[]{stringManager.getKey(idLesson),stringManager.getKey(idLesson),
-				stringManager.getKey(idLesson),stringManager.getKey(idLesson),stringManager.getKey(idLesson),stringManager.getKey(idLesson)}, 
+				stringManager.getKey(idLesson),stringManager.getKey(idLesson),stringManager.getKey(idLesson),
+				stringManager.getKey(idLesson),stringManager.getKey(idLesson),stringManager.getKey(idLesson)}, 
 				new String[]{"getLessonVisitsLastMonth","getLessonVisitsLastYear",
 				"getAuthorVisitsLastMonth","getAuthorVisitsLastYear","getAuthorLessonsVisitsLastMonth",
-				"getAuthorLessonsVisitsLastYear"}, idVisit, idLesson);
+				"getAuthorLessonsVisitsLastYear","getAuthorLessonMediaVisitsLastMonth","getAuthorLessonMediaVisitsLastYear"}, idVisit, idLesson);
 		cache.incCacheValue("getLessonViewsCount", stringManager.getKey(idLesson));
 		return result;
 	}
@@ -121,6 +122,18 @@ public class StatsRepositoryDBCache implements StatsRepository {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<StatsData> getAuthorLessonsVisitsLastYear(int idUser) {
+		return (List<StatsData>)cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getAuthorLessonMediaVisitsLastMonth(int idUser) {
+		return (List<StatsData>)cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getAuthorLessonMediaVisitsLastYear(int idUser) {
 		return (List<StatsData>)cache.executeImplCached(repoDB, idUser);
 	}
 

@@ -162,4 +162,34 @@
 		ORDER BY COUNT(tv.idVisit) DESC
 		LIMIT ?;       
 	</sql-query>
+	<sql-query name="SQL_STATS_GET_AUTHOR_LESSONMEDIA_VISITS_LASTMONTH_STATSDATA">
+	    SELECT IFNULL(mediatype,'TEXT') as 'key', COUNT(tv.idVisit) as 'value', IFNULL(tmt.idMediaType,0) as id
+    	FROM tvisit tv 
+		JOIN tvisitlesson tvl USING(idvisit)
+		JOIN tlesson tl USING(idLesson)
+		LEFT JOIN (
+			tlessonmedia tlm
+			JOIN tmediafile tmf USING(idLessonMedia)		
+			JOIN tmediamimetype tmm USING(idMediaMimetype)		
+			JOIN tmediatype tmt USING(idMediatype)
+		) USING(idLesson)
+		WHERE idUser = ? AND tv.date > date_sub(now(),INTERVAL 30 DAY)  
+		GROUP BY tmt.idMediaType
+		ORDER BY COUNT(tv.idVisit) DESC;
+	</sql-query>
+	<sql-query name="SQL_STATS_GET_AUTHOR_LESSONMEDIA_VISITS_LASTYEAR_STATSDATA">
+	    SELECT IFNULL(mediatype,'TEXT') as 'key', COUNT(tv.idVisit) as 'value', IFNULL(tmt.idMediaType,0) as id
+    	FROM tvisit tv 
+		JOIN tvisitlesson tvl USING(idvisit)
+		JOIN tlesson tl USING(idLesson)
+		LEFT JOIN ( 
+			tlessonmedia tlm
+			JOIN tmediafile tmf USING(idLessonMedia)		
+			JOIN tmediamimetype tmm USING(idMediaMimetype)		
+			JOIN tmediatype tmt USING(idMediatype)
+		) USING(idLesson)
+		WHERE idUser = ? AND tv.date > date_sub(now(),INTERVAL 12 MONTH)  
+		GROUP BY tmt.idMediaType
+		ORDER BY COUNT(tv.idVisit) DESC;       
+	</sql-query>
 </hibernate-mapping>

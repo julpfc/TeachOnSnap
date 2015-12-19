@@ -10,6 +10,7 @@ import com.julvez.pfc.teachonsnap.lesson.test.model.Question;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.page.model.PageNameKey;
+import com.julvez.pfc.teachonsnap.stats.model.StatsType;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
@@ -270,11 +271,11 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
-	public List<Page> getStatsLessonTestPageStack(Lesson lesson, LessonTest test) {
+	public List<Page> getStatsTestPageStack(Lesson lesson, LessonTest test) {
 		List<Page> pages = getEditLessonPageStack(lesson);
 		
 		if(pages != null && test!=null){
-			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_LESSON_TEST.toString() + test.getId());
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_TEST.toString() + test.getId());
 			pages.add(page);
 		}
 		else pages = null;
@@ -282,12 +283,12 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
-	public List<Page> getStatsLessonPageStack(Lesson lesson, String statsType) {
+	public List<Page> getStatsLessonPageStack(Lesson lesson, StatsType statsType) {
 		List<Page> pages = getEditLessonPageStack(lesson);
 		
 		if(pages != null && statsType!=null && lesson!=null){
 			Page page = null;
-			if("month".equalsIgnoreCase(statsType)){
+			if(StatsType.MONTH == statsType){
 				page = new Page(PageNameKey.STATS_LESSON_MONTH, ControllerURI.STATS_LESSON_MONTH.toString() + lesson.getId());
 			}
 			else{
@@ -300,12 +301,12 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
-	public List<Page> getStatsAuthorPageStack(User profile, String statsType) {
+	public List<Page> getStatsAuthorPageStack(User profile, StatsType statsType) {
 		List<Page> pages = new ArrayList<Page>();
 		
 		if(pages != null && statsType!=null && profile!=null){
 			Page page = null;
-			if("month".equalsIgnoreCase(statsType)){
+			if(StatsType.MONTH == statsType){
 				page = new Page(PageNameKey.STATS_AUTHOR_MONTH, profile.getFullName(), ControllerURI.STATS_AUTHOR_MONTH.toString() + profile.getId());
 			}
 			else{
@@ -318,14 +319,14 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
-	public List<Page> getStatsAuthorLessonPageStack(Lesson lesson, String statsType) {
+	public List<Page> getStatsAuthorLessonPageStack(Lesson lesson, StatsType statsType) {
 		List<Page> pages = new ArrayList<Page>();
 		
 		if(pages != null && statsType!=null && lesson != null){
 			pages = getStatsAuthorPageStack(lesson.getAuthor(),statsType);
 			
 			Page page = null;
-			if("month".equalsIgnoreCase(statsType)){
+			if(StatsType.MONTH == statsType){
 				page = new Page(PageNameKey.STATS_LESSON_MONTH, lesson.getTitle(), ControllerURI.STATS_AUTHOR_LESSON_MONTH.toString() + lesson.getId());
 			}
 			else{
@@ -335,6 +336,30 @@ public class PageServiceImpl implements PageService {
 		}
 		else pages = null;
 		return pages;		
+	}
+
+	@Override
+	public List<Page> getStatsAuthorLessonTestPageStack(Lesson lesson, LessonTest test) {
+		List<Page> pages = getStatsAuthorLessonPageStack(lesson, StatsType.MONTH);
+		
+		if(pages != null && test!=null && lesson!=null){
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_AUTHOR_LESSON_TEST.toString() + test.getId());
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsLessonTestPageStack(Lesson lesson, LessonTest test) {
+		List<Page> pages = getStatsLessonPageStack(lesson, StatsType.MONTH);
+		
+		if(pages != null && test!=null && lesson!=null){
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_LESSON_TEST.toString() + test.getId());
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
 	}
 
 }

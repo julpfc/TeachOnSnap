@@ -223,6 +223,14 @@
 		<servlet-name>StatsLessonTestController</servlet-name>
 		<url-pattern>/stats/test/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsLessonTestController</servlet-name>
+		<url-pattern>/stats/lesson/test/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsLessonTestController</servlet-name>
+		<url-pattern>/stats/author/lesson/test/*</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<description>
   		</description>

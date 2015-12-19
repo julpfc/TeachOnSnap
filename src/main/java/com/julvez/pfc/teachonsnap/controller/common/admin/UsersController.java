@@ -20,6 +20,7 @@ import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.url.model.SearchType;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 
@@ -154,7 +155,7 @@ public class UsersController extends AdminController {
 				String searchType = requestManager.getParameter(request, Parameter.SEARCH_TYPE);
 				
 				if(!stringManager.isEmpty(searchQuery) && !stringManager.isEmpty(searchType)){
-					if(!"email".equals(searchType.toLowerCase()) && !"name".equals(searchType.toLowerCase())){
+					if(!SearchType.EMAIL.equals(searchType) && !SearchType.NAME.equals(searchType)){
 						searchQuery = null;
 						searchType = null;
 					}					
@@ -169,10 +170,10 @@ public class UsersController extends AdminController {
 									
 				List<User> users = null;
 				
-				if(searchType != null && "email".equals(searchType.toLowerCase())){
+				if(searchType != null && SearchType.EMAIL.equals(searchType)){
 					users = userService.searchUsersByEmail(searchQuery, pageResult);
 				}
-				else if(searchType != null && "name".equals(searchType.toLowerCase())){
+				else if(searchType != null && SearchType.NAME.equals(searchType)){
 					users = userService.searchUsersByName(searchQuery, pageResult);
 				}
 				else{

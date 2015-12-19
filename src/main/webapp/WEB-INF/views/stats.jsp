@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.stats" var="statsBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
 <!DOCTYPE html>
@@ -33,11 +34,23 @@
      				&nbsp;
      				<c:set var="statsNextType" value="${statsType eq 'year'?'month':'year'}"/>     			
 	     			<c:if test="${not empty lesson}">
+	     				<div class="pull-right">
 	     				<a href="/stats/${empty profile?'':'author/'}lesson/${statsNextType}/${lesson.id}">
-	     					<button class="btn btn-primary btn-xs pull-right" type="button">											
+	     					<button class="btn btn-primary btn-xs " type="button">											
 								<span class="glyphicon glyphicon-dashboard"></span>	<fmt:message key="stats.show.${statsNextType}" bundle="${statsBundle}"/>			 	
 							</button>
-						</a>
+						</a> 
+						</div>
+						<c:if test="${not empty test}">
+							<div class="pull-left">
+							<a href="/stats/${empty profile?'':'author/'}lesson/test/${test.id}">
+								<button class="btn btn-primary btn-xs" type="button">											
+									<span class="glyphicon glyphicon-dashboard"></span>
+									<fmt:message key="lesson.test.stats.show" bundle="${testBundle}"/>			 	
+								</button>
+							</a>
+							</div>
+						</c:if>
 					</c:if>	     			
 					<c:if test="${empty lesson && not empty profile}">
 	     				<a href="/stats/author/${statsNextType}/${profile.id}">
@@ -70,7 +83,7 @@
 						<c:if test="${not empty lesson}">
 							<label for="myLineChart"><fmt:message key="stats.lesson.views.to" bundle="${statsBundle}"/> <span class="label label-info">${fn:escapeXml(lesson.title)}</span> <fmt:message key="stats.in.last.${statsType}" bundle="${statsBundle}"/></label>
 						</c:if>
-						<canvas id="myLineChart"></canvas>
+						<canvas id="myLineChart"></canvas>						
 						<p class="help-block">
 							<fmt:message key="stats.export.csv.tip" bundle="${statsBundle}"/>
 							<a download="data.csv" href="data:text/csv;charset=utf-8,${statsCSV}">
@@ -78,6 +91,18 @@
 							</a>
 		    			</p>					
 					</div>
+					<c:if test="${not empty statsExtra2}">
+						<div class="alert col-sm-10 col-sm-offset-1">						
+							<label for="myPieChart"><fmt:message key="stats.lesson.views.media.dist" bundle="${statsBundle}"/> <span class="label label-info">${fn:escapeXml(profile.fullName)}</span> <fmt:message key="stats.in.last.${statsType}" bundle="${statsBundle}"/></label>
+							<canvas id="myPieChart"></canvas>						
+							<p class="help-block">
+								<fmt:message key="stats.export.csv.tip" bundle="${statsBundle}"/>
+								<a download="data.csv" href="data:text/csv;charset=utf-8,${statsExtra2CSV}">
+									<button type="button" class="btn btn-success btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span> <fmt:message key="stats.export.csv" bundle="${statsBundle}"/></button>
+								</a>
+		    				</p>					
+						</div>
+					</c:if>
 				</div>
 				<div class="panel-footer">
 					<nav>
@@ -128,6 +153,10 @@
 			var statsType = "${statsType}";
 			var barIDs = {};
 			<c:forEach var="stat" items="${statsExtra}" varStatus="loop">barIDs['${fn:substring(fn:escapeXml(stat.key),0,50)}${fn:length(fn:escapeXml(stat.key)) > 50?'...':''}']=${stat.id};</c:forEach>
+			
+			var dataPie = [
+				<c:forEach var="stat" items="${statsExtra2}" varStatus="loop">{value: ${stat.value},color:"rgba(86,62,124,${(10-loop.index*2)/10})",highlight: "rgba(86,62,124,${(9-loop.index*2)/10})",label:"${fn:substring(fn:escapeXml(stat.key),0,50)}${fn:length(fn:escapeXml(stat.key)) > 50?'...':''}"}${loop.last?'':','}</c:forEach>
+			];
 		</c:if>
 		
 		//-->
