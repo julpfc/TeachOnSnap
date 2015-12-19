@@ -20,6 +20,8 @@ public class StatsRepositoryDBCache implements StatsRepository {
 
 	@Override
 	public int createVisit(String ip) {
+		cache.clearCache("getVisitsLastMonth");
+		cache.clearCache("getVisitsLastYear");
 		return (int)cache.updateImplCached(repoDB, null, null, ip);		
 	}
 
@@ -38,6 +40,10 @@ public class StatsRepositoryDBCache implements StatsRepository {
 				"getAuthorVisitsLastMonth","getAuthorVisitsLastYear","getAuthorLessonsVisitsLastMonth",
 				"getAuthorLessonsVisitsLastYear","getAuthorLessonMediaVisitsLastMonth","getAuthorLessonMediaVisitsLastYear"}, idVisit, idLesson);
 		cache.incCacheValue("getLessonViewsCount", stringManager.getKey(idLesson));
+		cache.clearCache("getLessonsVisitsLastMonth");
+		cache.clearCache("getLessonsVisitsLastYear");
+		cache.clearCache("getAuthorsVisitsLastMonth");
+		cache.clearCache("getAuthorsVisitsLastYear");
 		return result;
 	}
 
@@ -137,5 +143,40 @@ public class StatsRepositoryDBCache implements StatsRepository {
 		return (List<StatsData>)cache.executeImplCached(repoDB, idUser);
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getVisitsLastMonth() {
+		return (List<StatsData>)cache.executeImplCached(repoDB);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getVisitsLastYear() {
+		return (List<StatsData>)cache.executeImplCached(repoDB);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getLessonsVisitsLastMonth() {
+		return (List<StatsData>)cache.executeImplCached(repoDB);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getLessonsVisitsLastYear() {
+		return (List<StatsData>)cache.executeImplCached(repoDB);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getAuthorsVisitsLastMonth() {
+		return (List<StatsData>)cache.executeImplCached(repoDB);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<StatsData> getAuthorsVisitsLastYear() {
+		return (List<StatsData>)cache.executeImplCached(repoDB);
+	}
 	
 }

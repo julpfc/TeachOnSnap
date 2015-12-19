@@ -274,4 +274,34 @@ public class StatsServiceImpl implements StatsService {
 		return stats;
 	}
 
+	@Override
+	public List<StatsData> getVisitsLastMonth() {		
+		return statsRepository.getVisitsLastMonth();
+	}
+
+	@Override
+	public List<StatsData> getVisitsLastYear() {		
+		return statsRepository.getVisitsLastYear();
+	}
+
+	@Override
+	public List<StatsData> getLessonsVisitsLastMonth() {
+		return statsRepository.getLessonsVisitsLastMonth();
+	}
+
+	@Override
+	public List<StatsData> getLessonsVisitsLastYear() {
+		return statsRepository.getLessonsVisitsLastYear();
+	}
+
+	@Override
+	public List<StatsData> getAuthorsVisitsLastMonth() {
+		return statsRepository.getAuthorsVisitsLastMonth();
+	}
+
+	@Override
+	public List<StatsData> getAuthorsVisitsLastYear() {
+		return statsRepository.getAuthorsVisitsLastYear();
+	}
+
 }

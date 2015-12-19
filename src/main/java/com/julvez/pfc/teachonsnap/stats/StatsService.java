@@ -52,4 +52,16 @@ public interface StatsService {
 
 	public List<StatsData> getAuthorLessonMediaVisitsLastYear(User profile);
 
+	public List<StatsData> getVisitsLastMonth();
+
+	public List<StatsData> getVisitsLastYear();
+
+	public List<StatsData> getLessonsVisitsLastMonth();
+
+	public List<StatsData> getLessonsVisitsLastYear();
+
+	public List<StatsData> getAuthorsVisitsLastMonth();
+
+	public List<StatsData> getAuthorsVisitsLastYear();
+
 }

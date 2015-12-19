@@ -192,4 +192,66 @@
 		GROUP BY tmt.idMediaType
 		ORDER BY COUNT(tv.idVisit) DESC;       
 	</sql-query>
+	<sql-query name="SQL_STATS_GET_VISITS_LASTMONTH_STATSDATA">
+	    SELECT date(fillDateTrick.key) as 'key', COUNT(tv.idVisit) as 'value', -1 as id
+    	FROM     	
+    	(SELECT adddate(date(date_sub(now(),INTERVAL 29 DAY)), @num\:=@num+1) as 'key'
+			FROM tlesson, (select @num\:=-1) num  
+			LIMIT 30
+		) as fillDateTrick    	
+    	LEFT JOIN tvisit tv ON date(fillDateTrick.key)=date(tv.date) AND tv.date > date_sub(now(),INTERVAL 30 DAY)
+		GROUP BY DATE(fillDateTrick.key);       
+	</sql-query>
+	<sql-query name="SQL_STATS_GET_VISITS_LASTYEAR_STATSDATA">
+	    SELECT concat(YEAR(fillDateTrick.key),'/',MONTH(fillDateTrick.key)) as 'key', COUNT(tv.idVisit) as 'value', -1 as id
+    	FROM     	
+    	(SELECT adddate(date(date_sub(now(),INTERVAL 11 MONTH)), INTERVAL @num\:=@num+1 MONTH) as 'key'
+			FROM tlesson, (select @num\:=-1) num  
+			LIMIT 12
+		) as fillDateTrick    	
+    	LEFT JOIN tvisit tv ON MONTH(fillDateTrick.key)=MONTH(tv.date) AND tv.date > date_sub(now(),INTERVAL 12 MONTH)
+		GROUP BY YEAR(fillDateTrick.key),MONTH(fillDateTrick.key);       
+	</sql-query>
+	<sql-query name="SQL_STATS_GET_LESSONS_VISITS_LASTMONTH_STATSDATA">
+	    SELECT title as 'key', COUNT(tv.idVisit) as 'value', tvl.idLesson as id
+    	FROM tvisit tv 
+		JOIN tvisitlesson tvl USING(idvisit)
+		JOIN tlesson tl USING(idLesson)		
+		WHERE tv.date > date_sub(now(),INTERVAL 30 DAY)  
+		GROUP BY tvl.idlesson
+		ORDER BY COUNT(tv.idVisit) DESC
+		LIMIT ?;       
+	</sql-query>
+	<sql-query name="SQL_STATS_GET_LESSONS_VISITS_LASTYEAR_STATSDATA">
+	    SELECT title as 'key', COUNT(tv.idVisit) as 'value', tvl.idLesson as id
+    	FROM tvisit tv 
+		JOIN tvisitlesson tvl USING(idvisit)
+		JOIN tlesson tl USING(idLesson)		
+		WHERE tv.date > date_sub(now(),INTERVAL 12 MONTH)  
+		GROUP BY tvl.idlesson
+		ORDER BY COUNT(tv.idVisit) DESC
+		LIMIT ?;       
+	</sql-query>
+	<sql-query name="SQL_STATS_GET_AUTHORS_VISITS_LASTMONTH_STATSDATA">
+	    SELECT concat(firstName,' ',lastName) as 'key', COUNT(tv.idVisit) as 'value', idUser as id
+    	FROM tvisit tv 
+		JOIN tvisitlesson tvl USING(idvisit)
+		JOIN tlesson tl USING(idLesson)
+		JOIN tuser USING(idUser)		
+		WHERE tv.date > date_sub(now(),INTERVAL 30 DAY)  
+		GROUP BY idUser
+		ORDER BY COUNT(tv.idVisit) DESC
+		LIMIT ?;       
+	</sql-query>
+	<sql-query name="SQL_STATS_GET_AUTHORS_VISITS_LASTYEAR_STATSDATA">
+	    SELECT concat(firstName,' ',lastName) as 'key', COUNT(tv.idVisit) as 'value', idUser as id
+    	FROM tvisit tv 
+		JOIN tvisitlesson tvl USING(idvisit)
+		JOIN tlesson tl USING(idLesson)
+		JOIN tuser USING(idUser)		
+		WHERE tv.date > date_sub(now(),INTERVAL 12 MONTH)  
+		GROUP BY idUser
+		ORDER BY COUNT(tv.idVisit) DESC
+		LIMIT ?;       
+	</sql-query>
 </hibernate-mapping>

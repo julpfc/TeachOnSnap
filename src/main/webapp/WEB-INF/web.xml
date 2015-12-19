@@ -231,6 +231,14 @@
 		<servlet-name>StatsLessonTestController</servlet-name>
 		<url-pattern>/stats/author/lesson/test/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsLessonTestController</servlet-name>
+		<url-pattern>/stats/admin/author/lesson/test/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsLessonTestController</servlet-name>
+		<url-pattern>/stats/admin/lesson/test/*</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<description>
   		</description>
@@ -261,6 +269,45 @@
 	<servlet-mapping>
 		<servlet-name>StatsController</servlet-name>
 		<url-pattern>/stats/author/lesson/year/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/admin/author/year/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/admin/author/month/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/admin/lesson/month/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/admin/lesson/year/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/admin/author/lesson/month/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StatsController</servlet-name>
+		<url-pattern>/stats/admin/author/lesson/year/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
+		<display-name>AdminStatsController</display-name>
+		<servlet-name>AdminStatsController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.StatsController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminStatsController</servlet-name>
+		<url-pattern>/admin/stats/year/*</url-pattern>		
+	</servlet-mapping>	
+	<servlet-mapping>
+		<servlet-name>AdminStatsController</servlet-name>
+		<url-pattern>/admin/stats/month/*</url-pattern>		
 	</servlet-mapping>
 	<servlet>
 		<description>

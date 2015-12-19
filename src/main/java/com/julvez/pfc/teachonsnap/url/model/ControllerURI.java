@@ -15,6 +15,8 @@ public enum ControllerURI {
 	ADMIN_GROUP_FOLLOWS("/admin/group/follow/"), 
 	ADMIN_GROUP_FOLLOW_AUTHOR("/admin/group/follow/author/"),
 	ADMIN_GROUP_FOLLOW_TAG("/admin/group/follow/tag/"), 
+	ADMIN_STATS_MONTH("/admin/stats/month/"),
+	ADMIN_STATS_YEAR("/admin/stats/year/"),
 	USER_FOLLOWS("/follow/"),
 	USER_FOLLOW_AUTHOR("/follow/author/"), 
 	STATS_TEST("/stats/test/"),
@@ -25,7 +27,15 @@ public enum ControllerURI {
 	STATS_AUTHOR_MONTH("/stats/author/month/"),
 	STATS_AUTHOR_YEAR("/stats/author/year/"), 
 	STATS_AUTHOR_LESSON_MONTH("/stats/author/lesson/month/"), 
-	STATS_AUTHOR_LESSON_YEAR("/stats/author/lesson/year/");
+	STATS_AUTHOR_LESSON_YEAR("/stats/author/lesson/year/"), 
+	STATS_ADMIN_AUTHOR_LESSON_TEST("/stats/admin/author/lesson/test/"),
+	STATS_ADMIN_LESSON_TEST("/stats/admin/lesson/test/"),
+	STATS_ADMIN_LESSON_MONTH("/stats/admin/lesson/month/"),
+	STATS_ADMIN_LESSON_YEAR("/stats/admin/lesson/year/"),
+	STATS_ADMIN_AUTHOR_MONTH("/stats/admin/author/month/"),
+	STATS_ADMIN_AUTHOR_YEAR("/stats/admin/author/year/"), 
+	STATS_ADMIN_AUTHOR_LESSON_MONTH("/stats/admin/author/lesson/month/"), 
+	STATS_ADMIN_AUTHOR_LESSON_YEAR("/stats/admin/author/lesson/year/");
 
 		 		
 	private final String URI;

@@ -6,6 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.stats" var="statsBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 
 <!DOCTYPE html>
@@ -181,8 +182,8 @@
 				<div class="alert alert-default col-sm-6" role="alert">					
 					<label>&nbsp;</label>					
 				 	<span>
-						<a class="alert-link pull-left" href="/author/${profile.URIName}"><fmt:message key="admin.user.lessons" bundle="${adminBundle}"/></a>
-						<a class="alert-link pull-right" href="/drafts/${profile.id}"><fmt:message key="admin.user.drafts" bundle="${adminBundle}"/></a>
+						<a class="alert-link pull-left" href="/author/${userProfile.URIName}"><fmt:message key="admin.user.lessons" bundle="${adminBundle}"/></a>
+						<a class="alert-link pull-right" href="/drafts/${userProfile.id}"><fmt:message key="admin.user.drafts" bundle="${adminBundle}"/></a>
 					</span>
 				 </div>
 			</c:if>	
@@ -211,13 +212,22 @@
 			</c:if>
 			<c:if test="${not empty userProfile.authorFollowed || not empty userProfile.lessonFollowed}">
 				<div class="alert alert-info col-sm-6" role="alert">					
-				 	<label>Seguimientos: </label>
-			 		<span class="label label-info">${fn:length(userProfile.authorFollowed)} autores</span>			 		
-			 		<span class="label label-warning">${fn:length(userProfile.lessonFollowed)} lecciones</span>
+				 	<label><fmt:message key="user.follow.heading" bundle="${profBundle}"/>: </label>
+			 		<span class="label label-info">${fn:length(userProfile.authorFollowed)} <fmt:message key="user.author.follows" bundle="${profBundle}"/></span>			 		
+			 		<span class="label label-warning">${fn:length(userProfile.lessonFollowed)} <fmt:message key="user.lesson.follows" bundle="${profBundle}"/></span>
 			 		<span class="pull-right">				        	
 				    	<a class="alert-link pull-right" href="/follow/${userProfile.id}"><fmt:message key="user.profile.follow" bundle="${profBundle}"/></a>
 				     </span>
 				</div>
+			</c:if>
+			<c:if test="${not empty userProfile.URIName}">
+				<div class="alert alert-default col-sm-6" role="alert">					
+					<label>&nbsp;</label>					
+				 	<span>
+						<a class="alert-link pull-left" href="/stats/author/month/${userProfile.id}"><fmt:message key="stats.show.month" bundle="${statsBundle}"/></a>
+						<a class="alert-link pull-right" href="/stats/author/year/${userProfile.id}"><fmt:message key="stats.show.year" bundle="${statsBundle}"/></a>
+					</span>
+				 </div>
 			</c:if>		
 		</div><!-- /.row -->
 		<div class="row">

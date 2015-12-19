@@ -35,7 +35,7 @@
      				<c:set var="statsNextType" value="${statsType eq 'year'?'month':'year'}"/>     			
 	     			<c:if test="${not empty lesson}">
 	     				<div class="pull-right">
-	     				<a href="/stats/${empty profile?'':'author/'}lesson/${statsNextType}/${lesson.id}">
+	     				<a href="/stats/${empty statsAdmin?'':'admin/'}${empty profile?'':'author/'}lesson/${statsNextType}/${lesson.id}">
 	     					<button class="btn btn-primary btn-xs " type="button">											
 								<span class="glyphicon glyphicon-dashboard"></span>	<fmt:message key="stats.show.${statsNextType}" bundle="${statsBundle}"/>			 	
 							</button>
@@ -43,7 +43,7 @@
 						</div>
 						<c:if test="${not empty test}">
 							<div class="pull-left">
-							<a href="/stats/${empty profile?'':'author/'}lesson/test/${test.id}">
+							<a href="/stats/${empty statsAdmin?'':'admin/'}${empty profile?'':'author/'}lesson/test/${test.id}">
 								<button class="btn btn-primary btn-xs" type="button">											
 									<span class="glyphicon glyphicon-dashboard"></span>
 									<fmt:message key="lesson.test.stats.show" bundle="${testBundle}"/>			 	
@@ -53,7 +53,7 @@
 						</c:if>
 					</c:if>	     			
 					<c:if test="${empty lesson && not empty profile}">
-	     				<a href="/stats/author/${statsNextType}/${profile.id}">
+	     				<a href="/stats/${empty statsAdmin?'':'admin/'}author/${statsNextType}/${profile.id}">
 	     					<button class="btn btn-primary btn-xs pull-right" type="button">											
 								<span class="glyphicon glyphicon-dashboard"></span>	<fmt:message key="stats.show.${statsNextType}" bundle="${statsBundle}"/>
 							</button>
@@ -104,14 +104,16 @@
 						</div>
 					</c:if>
 				</div>
-				<div class="panel-footer">
-					<nav>
-						<ul class="pager">
-							<li><a href="${empty backPage?lastPage:backPage}"><span class="glyphicon glyphicon-chevron-left"></span>
-					 		<fmt:message key="pager.back"/></a></li>						 						
-						</ul>
-					</nav>	
-     			</div>
+				<c:if test="${not empty backPage}">
+					<div class="panel-footer">
+						<nav>
+							<ul class="pager">
+								<li><a href="${backPage}"><span class="glyphicon glyphicon-chevron-left"></span>
+						 		<fmt:message key="pager.back"/></a></li>						 						
+							</ul>
+						</nav>	
+	     			</div>
+				</c:if>
    			</div>
 		</div><!-- /.row -->		
 	 </div><!-- /.container -->		
@@ -134,7 +136,7 @@
 		        }
 		    ]
 		};
-		<c:if test="${not empty profile}">
+		<c:if test="${not empty statsExtra}">
 			var dataBar = {
 			    labels: [<c:forEach var="stat" items="${statsExtra}" varStatus="loop">"${fn:substring(fn:escapeXml(stat.key),0,50)}${fn:length(fn:escapeXml(stat.key)) > 50?'...':''}"${loop.last?'':','}</c:forEach>],
 			    datasets: [
@@ -150,7 +152,9 @@
 			    ]
 			};			
 		
+			var statsAdmin = "${statsAdmin}";
 			var statsType = "${statsType}";
+			
 			var barIDs = {};
 			<c:forEach var="stat" items="${statsExtra}" varStatus="loop">barIDs['${fn:substring(fn:escapeXml(stat.key),0,50)}${fn:length(fn:escapeXml(stat.key)) > 50?'...':''}']=${stat.id};</c:forEach>
 			

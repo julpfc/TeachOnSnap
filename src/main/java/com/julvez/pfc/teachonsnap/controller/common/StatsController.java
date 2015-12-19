@@ -58,93 +58,137 @@ public class StatsController extends CommonController {
 				List<StatsData> statsExtra2 = null;
 				List<Page> pageStack = null;
 				StatsType statsType = null;
+				String admin = null;
 				String backPage = null; 
 				boolean error = false;
 				
 				switch (uri) {
-				case STATS_LESSON_MONTH:
-				case STATS_LESSON_YEAR:
-				case STATS_AUTHOR_LESSON_MONTH:
-				case STATS_AUTHOR_LESSON_YEAR:
-					Lesson lesson = lessonService.getLesson(id);
-					
-					if(lesson != null){
-						if(uri == ControllerURI.STATS_LESSON_MONTH || uri == ControllerURI.STATS_AUTHOR_LESSON_MONTH){
-							stats = statsService.getLessonVisitsLastMonth(lesson);							
-							statsType = StatsType.MONTH;
-						}
-						else{
-							stats = statsService.getLessonVisitsLastYear(lesson);
-							statsType = StatsType.YEAR;
-						}
+					case STATS_LESSON_MONTH:
+					case STATS_LESSON_YEAR:
+					case STATS_AUTHOR_LESSON_MONTH:
+					case STATS_AUTHOR_LESSON_YEAR:
+					case STATS_ADMIN_LESSON_MONTH:
+					case STATS_ADMIN_LESSON_YEAR:
+					case STATS_ADMIN_AUTHOR_LESSON_YEAR:
+					case STATS_ADMIN_AUTHOR_LESSON_MONTH:
+						Lesson lesson = lessonService.getLesson(id);
 						
-						if(lesson.isTestAvailable()){
-							LessonTest test = testService.getLessonTest(lesson);
-							requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
-						}
-						requestManager.setAttribute(request, Attribute.LESSON, lesson);						
-						
-						if(uri == ControllerURI.STATS_AUTHOR_LESSON_YEAR || uri == ControllerURI.STATS_AUTHOR_LESSON_MONTH){
-							pageStack = pageService.getStatsAuthorLessonPageStack(lesson, statsType);
-							
-							if(StatsType.MONTH == statsType){
-								backPage = ControllerURI.STATS_AUTHOR_MONTH.toString() + lesson.getAuthor().getId();
+						if(userService.isAllowedForLesson(user, lesson)){
+							if(uri == ControllerURI.STATS_LESSON_MONTH || uri == ControllerURI.STATS_AUTHOR_LESSON_MONTH 
+									|| uri == ControllerURI.STATS_ADMIN_LESSON_MONTH || uri == ControllerURI.STATS_ADMIN_AUTHOR_LESSON_MONTH){
+								stats = statsService.getLessonVisitsLastMonth(lesson);							
+								statsType = StatsType.MONTH;
 							}
 							else{
-								backPage = ControllerURI.STATS_AUTHOR_YEAR.toString() + lesson.getAuthor().getId();
+								stats = statsService.getLessonVisitsLastYear(lesson);
+								statsType = StatsType.YEAR;
 							}
-							requestManager.setAttribute(request, Attribute.USER_PROFILE, lesson.getAuthor());
+							
+							if(lesson.isTestAvailable()){
+								LessonTest test = testService.getLessonTest(lesson);
+								requestManager.setAttribute(request, Attribute.LESSONTEST_QUESTIONS, test);
+							}
+							requestManager.setAttribute(request, Attribute.LESSON, lesson);						
+							
+							if(uri == ControllerURI.STATS_AUTHOR_LESSON_YEAR || uri == ControllerURI.STATS_AUTHOR_LESSON_MONTH){
+								pageStack = pageService.getStatsAuthorLessonPageStack(lesson, statsType);
+								
+								if(StatsType.MONTH == statsType){
+									backPage = ControllerURI.STATS_AUTHOR_MONTH.toString() + lesson.getAuthor().getId();
+								}
+								else{
+									backPage = ControllerURI.STATS_AUTHOR_YEAR.toString() + lesson.getAuthor().getId();
+								}
+								requestManager.setAttribute(request, Attribute.USER_PROFILE, lesson.getAuthor());
+							}
+							else if(uri == ControllerURI.STATS_ADMIN_AUTHOR_LESSON_YEAR || uri == ControllerURI.STATS_ADMIN_AUTHOR_LESSON_MONTH){
+								pageStack = pageService.getStatsAdminAuthorLessonPageStack(lesson, statsType);
+								admin = "admin";
+								
+								if(StatsType.MONTH == statsType){
+									backPage = ControllerURI.STATS_ADMIN_AUTHOR_MONTH.toString() + lesson.getAuthor().getId();
+								}
+								else{
+									backPage = ControllerURI.STATS_ADMIN_AUTHOR_YEAR.toString() + lesson.getAuthor().getId();
+								}
+								requestManager.setAttribute(request, Attribute.USER_PROFILE, lesson.getAuthor());
+							}
+							else if(uri == ControllerURI.STATS_ADMIN_LESSON_YEAR || uri == ControllerURI.STATS_ADMIN_LESSON_MONTH){
+								admin = "admin";
+								pageStack = pageService.getStatsAdminLessonPageStack(lesson, statsType);
+								
+								if(StatsType.MONTH == statsType){
+									backPage = ControllerURI.ADMIN_STATS_MONTH.toString();
+								}
+								else{
+									backPage = ControllerURI.ADMIN_STATS_YEAR.toString();
+								}								
+							}
+							else{
+								pageStack = pageService.getStatsLessonPageStack(lesson, statsType);
+								backPage = ControllerURI.LESSON_EDIT.toString() + lesson.getId();
+							}
 						}
 						else{
-							pageStack = pageService.getStatsLessonPageStack(lesson, statsType);
-							backPage = ControllerURI.LESSON_EDIT.toString() + lesson.getId();
+							error = true;
+							response.sendError(HttpServletResponse.SC_FORBIDDEN);
 						}
-					}
-					else{
-						error = true;
-						response.sendError(HttpServletResponse.SC_NOT_FOUND);
-					}
-					break;				
-				case STATS_AUTHOR_MONTH:
-				case STATS_AUTHOR_YEAR:
-					User profile = null;
-					profile = userService.getUser(id);
-					if(profile != null){
-						if(uri == ControllerURI.STATS_AUTHOR_MONTH){
-							stats = statsService.getAuthorVisitsLastMonth(profile);
-							statsExtra = statsService.getAuthorLessonsVisitsLastMonth(profile);
-							statsExtra2 = statsService.getAuthorLessonMediaVisitsLastMonth(profile);
-							statsType = StatsType.MONTH;
+						break;				
+					case STATS_AUTHOR_MONTH:
+					case STATS_AUTHOR_YEAR:
+					case STATS_ADMIN_AUTHOR_MONTH:
+					case STATS_ADMIN_AUTHOR_YEAR:
+						User profile = null;
+						profile = userService.getUser(id);
+						if(profile != null && (user.getId() == profile.getId() || user.isAdmin())){
+							if(uri == ControllerURI.STATS_AUTHOR_MONTH || uri == ControllerURI.STATS_ADMIN_AUTHOR_MONTH){
+								stats = statsService.getAuthorVisitsLastMonth(profile);
+								statsExtra = statsService.getAuthorLessonsVisitsLastMonth(profile);
+								statsExtra2 = statsService.getAuthorLessonMediaVisitsLastMonth(profile);
+								statsType = StatsType.MONTH;
+							}
+							else{
+								stats = statsService.getAuthorVisitsLastYear(profile);
+								statsExtra = statsService.getAuthorLessonsVisitsLastYear(profile);
+								statsExtra2 = statsService.getAuthorLessonMediaVisitsLastYear(profile);
+								statsType = StatsType.YEAR;
+							}
+						
+							requestManager.setAttribute(request, Attribute.USER_PROFILE, profile);
+							
+							if(uri == ControllerURI.STATS_ADMIN_AUTHOR_MONTH || uri == ControllerURI.STATS_ADMIN_AUTHOR_YEAR){
+								pageStack = pageService.getStatsAdminAuthorPageStack(profile, statsType);
+								admin = "admin";
+								
+								if(statsType == StatsType.MONTH){
+									backPage = ControllerURI.ADMIN_STATS_MONTH.toString();
+								}
+								else{
+									backPage = ControllerURI.ADMIN_STATS_YEAR.toString();
+								}											
+							}
+							else{
+								pageStack = pageService.getStatsAuthorPageStack(profile, statsType);
+							}
+							
 						}
 						else{
-							stats = statsService.getAuthorVisitsLastYear(profile);
-							statsExtra = statsService.getAuthorLessonsVisitsLastYear(profile);
-							statsExtra2 = statsService.getAuthorLessonMediaVisitsLastYear(profile);
-							statsType = StatsType.YEAR;
+							error = true;
+							response.sendError(HttpServletResponse.SC_FORBIDDEN);
 						}
-					
-						requestManager.setAttribute(request, Attribute.USER_PROFILE, profile);
-						
-						pageStack = pageService.getStatsAuthorPageStack(profile, statsType);
-						
-					}
-					else{
+						break;
+		
+					default:
 						error = true;
-						response.sendError(HttpServletResponse.SC_NOT_FOUND);
-					}
-					break;
-	
-				default:
-					error = true;
-					response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-					break;
+						response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+						break;
 				}
 				
-				String statsCSV = statsService.getCSVFromStats(stats);
-				String statsExtraCSV = statsService.getCSVFromStats(statsExtra);
-				String statsExtra2CSV = statsService.getCSVFromStats(statsExtra2);
-
 				if(!error){
+					String statsCSV = statsService.getCSVFromStats(stats);
+					String statsExtraCSV = statsService.getCSVFromStats(statsExtra);
+					String statsExtra2CSV = statsService.getCSVFromStats(statsExtra2);
+
 					requestManager.setAttribute(request, Attribute.STRING_STATS_TYPE, statsType.toString());
 					requestManager.setAttribute(request, Attribute.STRING_BACKPAGE, backPage);
 					requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
@@ -154,6 +198,8 @@ public class StatsController extends CommonController {
 					requestManager.setAttribute(request, Attribute.STRING_STATS_EXTRA_2_CSV, statsExtra2CSV);
 					requestManager.setAttribute(request, Attribute.LIST_STATS_EXTRA, statsExtra);
 					requestManager.setAttribute(request, Attribute.LIST_STATS_EXTRA_2, statsExtra2);
+					requestManager.setAttribute(request, Attribute.STRING_STATS_ADMIN, admin);
+				
 					request.getRequestDispatcher("/WEB-INF/views/stats.jsp").forward(request, response);
 				}
 				

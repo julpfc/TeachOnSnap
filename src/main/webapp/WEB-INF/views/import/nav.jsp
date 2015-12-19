@@ -62,6 +62,8 @@
 			            <ul class="dropdown-menu" role="menu">
 			            	<li><a href="/admin/users/"><fmt:message key="nav.menu.admin.users"/></a></li>			            	                
 			            	<li><a href="/admin/groups/"><fmt:message key="nav.menu.admin.groups"/></a></li>
+			            	<li class="divider"></li>
+			            	<li><a href="/admin/stats/month/"><fmt:message key="nav.menu.admin.stats"/></a></li>
 						</ul>
 			        </li>
 			   	</c:if>

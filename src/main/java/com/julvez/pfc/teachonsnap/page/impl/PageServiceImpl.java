@@ -362,4 +362,102 @@ public class PageServiceImpl implements PageService {
 		return pages;
 	}
 
+	@Override
+	public List<Page> getAdminStatsPageStack(StatsType statsType) {
+		List<Page> pages = new ArrayList<Page>();
+		
+		if(pages != null && statsType!=null){
+			Page page = null;
+			if(StatsType.MONTH == statsType){
+				page = new Page(PageNameKey.ADMIN_STATS_MONTH, ControllerURI.ADMIN_STATS_MONTH.toString());
+			}
+			else{
+				page = new Page(PageNameKey.ADMIN_STATS_YEAR, ControllerURI.ADMIN_STATS_YEAR.toString());
+			}
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsAdminAuthorLessonTestPageStack(Lesson lesson, LessonTest test) {
+		List<Page> pages = getStatsAdminAuthorLessonPageStack(lesson, StatsType.MONTH);
+		
+		if(pages != null && test!=null && lesson!=null){
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_ADMIN_AUTHOR_LESSON_TEST.toString() + test.getId());
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsAdminLessonTestPageStack(Lesson lesson, LessonTest test) {
+		List<Page> pages = getStatsAdminLessonPageStack(lesson, StatsType.MONTH);
+		
+		if(pages != null && test!=null && lesson!=null){
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_ADMIN_LESSON_TEST.toString() + test.getId());
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsAdminAuthorPageStack(User profile, StatsType statsType) {
+		List<Page> pages = getAdminStatsPageStack(statsType);
+		
+		if(pages != null && statsType!=null && profile!=null){
+			Page page = null;
+			if(StatsType.MONTH == statsType){
+				page = new Page(PageNameKey.STATS_AUTHOR_MONTH, profile.getFullName(), ControllerURI.STATS_ADMIN_AUTHOR_MONTH.toString() + profile.getId());
+			}
+			else{
+				page = new Page(PageNameKey.STATS_AUTHOR_YEAR, profile.getFullName(), ControllerURI.STATS_ADMIN_AUTHOR_YEAR.toString() + profile.getId());
+			}
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsAdminAuthorLessonPageStack(Lesson lesson,	StatsType statsType) {
+		List<Page> pages = new ArrayList<Page>();
+		
+		if(pages != null && statsType!=null && lesson != null){
+			pages = getStatsAdminAuthorPageStack(lesson.getAuthor(),statsType);
+			
+			Page page = null;
+			if(StatsType.MONTH == statsType){
+				page = new Page(PageNameKey.STATS_LESSON_MONTH, lesson.getTitle(), ControllerURI.STATS_ADMIN_AUTHOR_LESSON_MONTH.toString() + lesson.getId());
+			}
+			else{
+				page = new Page(PageNameKey.STATS_LESSON_YEAR, lesson.getTitle(), ControllerURI.STATS_ADMIN_AUTHOR_LESSON_YEAR.toString() + lesson.getId());
+			}
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
+	@Override
+	public List<Page> getStatsAdminLessonPageStack(Lesson lesson, StatsType statsType) {
+		List<Page> pages = getAdminStatsPageStack(statsType);
+		
+		if(pages != null && statsType!=null && lesson!=null){
+			Page page = null;
+			if(StatsType.MONTH == statsType){
+				page = new Page(PageNameKey.STATS_LESSON_MONTH, ControllerURI.STATS_ADMIN_LESSON_MONTH.toString() + lesson.getId());
+			}
+			else{
+				page = new Page(PageNameKey.STATS_LESSON_YEAR, ControllerURI.STATS_ADMIN_LESSON_YEAR.toString() + lesson.getId());
+			}
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
 }

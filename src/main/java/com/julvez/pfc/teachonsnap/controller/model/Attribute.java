@@ -67,7 +67,8 @@ public enum Attribute {
 	STRING_STATS_CSV("statsCSV"), 
 	STRING_STATS_EXTRA_CSV("statsExtraCSV"), 
 	LIST_STATS_EXTRA_2("statsExtra2"),
-	STRING_STATS_EXTRA_2_CSV("statsExtra2CSV");
+	STRING_STATS_EXTRA_2_CSV("statsExtra2CSV"), 
+	STRING_STATS_ADMIN("statsAdmin");
 
 	
 	private final String realName;

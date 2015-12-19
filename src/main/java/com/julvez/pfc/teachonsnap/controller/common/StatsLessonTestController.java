@@ -83,7 +83,14 @@ public class StatsLessonTestController extends CommonController {
 							backPage = ControllerURI.STATS_LESSON_MONTH.toString() + lesson.getId();
 							pageStack = pageService.getStatsLessonTestPageStack(lesson, test);
 							break;
-						
+						case STATS_ADMIN_AUTHOR_LESSON_TEST:
+							backPage = ControllerURI.STATS_ADMIN_AUTHOR_LESSON_MONTH.toString() + lesson.getId();
+							pageStack = pageService.getStatsAdminAuthorLessonTestPageStack(lesson, test);
+							break;
+						case STATS_ADMIN_LESSON_TEST:
+							backPage = ControllerURI.STATS_ADMIN_LESSON_MONTH.toString() + lesson.getId();
+							pageStack = pageService.getStatsAdminLessonTestPageStack(lesson, test);
+							break;
 						case STATS_TEST:
 							backPage = lesson.getEditURL();
 							pageStack = pageService.getStatsTestPageStack(lesson, test);

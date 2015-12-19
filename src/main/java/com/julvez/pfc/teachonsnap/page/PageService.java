@@ -65,4 +65,16 @@ public interface PageService {
 	public List<Page> getStatsAuthorLessonTestPageStack(Lesson lesson, LessonTest test);
 
 	public List<Page> getStatsLessonTestPageStack(Lesson lesson, LessonTest test);
+
+	public List<Page> getAdminStatsPageStack(StatsType statsType);
+
+	public List<Page> getStatsAdminAuthorLessonTestPageStack(Lesson lesson, LessonTest test);
+
+	public List<Page> getStatsAdminLessonTestPageStack(Lesson lesson, LessonTest test);
+
+	public List<Page> getStatsAdminAuthorPageStack(User profile, StatsType statsType);
+
+	public List<Page> getStatsAdminAuthorLessonPageStack(Lesson lesson, StatsType statsType);
+
+	public List<Page> getStatsAdminLessonPageStack(Lesson lesson, StatsType statsType);
 }
