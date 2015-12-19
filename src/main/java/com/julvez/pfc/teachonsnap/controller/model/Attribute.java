@@ -54,6 +54,8 @@ public enum Attribute {
 	//Error
 	INT_ERROR_STATUS_CODE("javax.servlet.error.status_code"), 
 	THROWABLE_ERROR_EXCEPTION("javax.servlet.error.exception"),
+	STRING_ERROR_STATUS_CODE("statusCode"),
+	STRING_ERROR_EXCEPTION_NAME("exceptionName"),
 	
 	//Follow
 	LIST_AUTHOR_FOLLOWED("authors"), 

@@ -108,7 +108,6 @@ public abstract class CommonController extends HttpServlet {
 		requestManager.setAttribute(request, Attribute.USER, user);
 		requestManager.setAttribute(request, Attribute.STRING_HOST, host);
 		
-		
 		// Si es zona restringida pedimos login
 		if(user==null && isPrivateZone()){
 			setErrorSession(request, ErrorType.ERR_LOGIN, ErrorMessageKey.NONE);
@@ -123,7 +122,7 @@ public abstract class CommonController extends HttpServlet {
 			setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.NONE);
 			
 			logger.info("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
-
+			
 			processController(request, response, visit, user);
 			
 			//Guardamos la página después d eprocesarla para tener acceso a la página anterior

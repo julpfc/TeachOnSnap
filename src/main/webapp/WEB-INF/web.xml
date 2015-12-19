@@ -8,7 +8,7 @@
 		<listener-class>com.julvez.pfc.teachonsnap.listener.TeachOnSnapServletContextListener</listener-class>
 	</listener>
 	<error-page>		
-		<location>/error</location>
+		<location>/error/</location>
 	</error-page>	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
@@ -19,7 +19,7 @@
   		</description>
 		<display-name>ErrorController</display-name>
 		<servlet-name>ErrorController</servlet-name>
-		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.ErrorController</servlet-class>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.ErrorController</servlet-class>
 	</servlet>
 	<servlet-mapping> 
 		<servlet-name>ErrorController</servlet-name>
