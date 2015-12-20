@@ -71,10 +71,13 @@ public class DBManagerHibernate implements DBManager{
 		for (Object queryParam : queryParams) {
 			query.setParameter(i++, queryParam);
 		}
-
-		if(queryLog.toString().contains("?")){
+		if(queryLog.contains("%")){
+			queryLog = queryLog.replaceAll("%", "%%");
+		}
+		if(queryLog.contains("?")){
 			queryLog = queryLog.replaceAll("\\?", "%s");
 		}
+
 		queryLog = String.format(queryLog, queryParams);			
 		
 		logger.info(queryName +": " + queryLog);

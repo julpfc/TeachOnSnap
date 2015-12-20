@@ -203,7 +203,7 @@
 		GROUP BY DATE(fillDateTrick.key);       
 	</sql-query>
 	<sql-query name="SQL_STATS_GET_VISITS_LASTYEAR_STATSDATA">
-	    SELECT concat(YEAR(fillDateTrick.key),'/',MONTH(fillDateTrick.key)) as 'key', COUNT(tv.idVisit) as 'value', -1 as id
+	    SELECT DATE_FORMAT(fillDateTrick.key,'%Y/%m') as 'key', COUNT(tv.idVisit) as 'value', -1 as id
     	FROM     	
     	(SELECT adddate(date(date_sub(now(),INTERVAL 11 MONTH)), INTERVAL @num\:=@num+1 MONTH) as 'key'
 			FROM tlesson, (select @num\:=-1) num  
