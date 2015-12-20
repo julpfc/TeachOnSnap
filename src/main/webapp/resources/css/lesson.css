@@ -59,3 +59,7 @@
 .comment-meta a{
 	color: inherit;
 }
+
+.lesson-media audio{
+	width: 100%;
+}

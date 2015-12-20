@@ -52,6 +52,9 @@
 						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
 											</c:forEach>
 										</video>   
+				     			<c:if test="${not empty user}">
+				     				<footer><p class="text-right sidebar"><a download="${firstMedia.filename}" href="${firstMedia.URL}"><span class="glyphicon glyphicon-download"></span> <fmt:message key="lesson.media.download" bundle="${lessonBundle}"/></a></p></footer>
+				     			</c:if>				     			
 				     				</c:when>
 				     				<c:when test="${lesson.mediaType == 'AUDIO'}">
 				     					<audio src="${firstMedia.URL}" id="lesson_media" controls="controls">
@@ -59,6 +62,9 @@
 						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
 											</c:forEach>
 										</audio>
+				     			<c:if test="${not empty user}">
+				     				<footer><p class="text-right sidebar"><a download="${firstMedia.filename}" href="${firstMedia.URL}"><span class="glyphicon glyphicon-download"></span> <fmt:message key="lesson.media.download" bundle="${lessonBundle}"/></a></p></footer>
+				     			</c:if>				     			
 				     				</c:when>
 				     				<c:when test="${lesson.mediaType == 'IMAGE'}">
 						     			<img class="img-thumbnail" id="lesson_media" alt="${firstMedia.filename}" src="${firstMedia.URL}"/>						     					
