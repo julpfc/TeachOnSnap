@@ -66,10 +66,7 @@ public enum Attribute {
 	LIST_STATS_DATA("stats"), 
 	LIST_STATS_EXTRA("statsExtra"),
 	STRING_STATS_TYPE("statsType"), 
-	STRING_STATS_CSV("statsCSV"), 
-	STRING_STATS_EXTRA_CSV("statsExtraCSV"), 
 	LIST_STATS_EXTRA_2("statsExtra2"),
-	STRING_STATS_EXTRA_2_CSV("statsExtra2CSV"), 
 	STRING_STATS_ADMIN("statsAdmin");
 
 	

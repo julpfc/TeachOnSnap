@@ -69,7 +69,7 @@
 			    			</p>	
 							<canvas id="myBarChart"></canvas>					
 							<p class="help-block">
-								<a download="data.csv" href="data:text/csv;charset=utf-8,${statsExtraCSV}">
+								<a href="?export=1">
 									<button type="button" class="btn btn-success btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span> <fmt:message key="stats.export.csv" bundle="${statsBundle}"/></button>
 								</a>
 								 <fmt:message key="stats.export.csv.tip" bundle="${statsBundle}"/>
@@ -86,7 +86,7 @@
 						<canvas id="myLineChart"></canvas>						
 						<p class="help-block">
 							<fmt:message key="stats.export.csv.tip" bundle="${statsBundle}"/>
-							<a download="data.csv" href="data:text/csv;charset=utf-8,${statsCSV}">
+							<a href="?export=0">
 								<button type="button" class="btn btn-success btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span> <fmt:message key="stats.export.csv" bundle="${statsBundle}"/></button>
 							</a>
 		    			</p>					
@@ -97,7 +97,7 @@
 							<canvas id="myPieChart"></canvas>						
 							<p class="help-block">
 								<fmt:message key="stats.export.csv.tip" bundle="${statsBundle}"/>
-								<a download="data.csv" href="data:text/csv;charset=utf-8,${statsExtra2CSV}">
+								<a href="?export=2">
 									<button type="button" class="btn btn-success btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span> <fmt:message key="stats.export.csv" bundle="${statsBundle}"/></button>
 								</a>
 		    				</p>					

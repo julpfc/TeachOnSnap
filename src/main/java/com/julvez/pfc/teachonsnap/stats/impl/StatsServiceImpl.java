@@ -7,8 +7,6 @@ import java.util.Map;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
@@ -26,8 +24,6 @@ public class StatsServiceImpl implements StatsService {
 	private static final String IP_NULL = "0.0.0.0";
 	
 	private StatsRepository statsRepository = StatsRepositoryFactory.getRepository();
-	
-	private StringManager stringManager = StringManagerFactory.getManager(); 
 	
 	private UserService userService = UserServiceFactory.getService();
 
@@ -245,8 +241,7 @@ public class StatsServiceImpl implements StatsService {
 					csv = csv + "\n";
 				}
 				i++;
-			}
-			csv = stringManager.encodeURL(csv);
+			}			
 		}
 		
 		return csv;

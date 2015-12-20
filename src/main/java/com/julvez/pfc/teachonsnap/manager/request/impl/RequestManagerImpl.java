@@ -1,5 +1,7 @@
 package com.julvez.pfc.teachonsnap.manager.request.impl;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
@@ -17,6 +21,7 @@ public class RequestManagerImpl implements RequestManager {
 	private static final String HTTP_HEADER_CONTENT_DISPOSITION = "content-disposition";
 	
 	private StringManager stringManager = StringManagerFactory.getManager();
+	private LogManager logger = LogManagerFactory.getManager();
 	
 	@Override
 	public String[] splitParamsFromControllerURI(HttpServletRequest request) {
@@ -160,5 +165,27 @@ public class RequestManagerImpl implements RequestManager {
 		response.setHeader(HTTP_HEADER_CONTENT_DISPOSITION, "attachment; filename=\""+fileName+"\"");		
 	}
 
+	@Override
+	public void downloadFile(HttpServletResponse response, String contentType, String fileName, InputStream input) {
+		if(contentType != null && fileName != null && input!=null && response!=null){
+		
+			try {        
+				setFileMetadataHeaders(response, contentType, fileName);
+	
+	            OutputStream output = response.getOutputStream();
+	            byte[] buffer = new byte[1024*10];
+	
+	            for (int length = 0; (length = input.read(buffer)) > 0;) {
+	                output.write(buffer, 0, length);
+	            }
+	
+	            output.close();
+	            input.close();
+			}
+			catch (Throwable t) {
+				logger.error(t, "Error descargando fichero CSV");    				
+			}
+		}			
+	}
 
 }

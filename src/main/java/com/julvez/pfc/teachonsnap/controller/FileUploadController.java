@@ -1,8 +1,6 @@
 package com.julvez.pfc.teachonsnap.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -68,27 +66,8 @@ public class FileUploadController extends HttpServlet {
     		if(downloadIndex >= 0){
     			// 2. Get the file of index "f" from the list "files"
     			FileMetadata tempFile = uploadService.getTemporaryFile(user, downloadIndex);
-	 
-    			try {        
-    				// 3. Set the response content type = file content type
-    				// 4. Set header Content-disposition
-    				requestManager.setFileMetadataHeaders(response, tempFile.getFileType(), tempFile.getFileName());
-	 
-    				// 5. Copy file inputstream to response outputstream
-    				InputStream input = tempFile.getContent();
-	                OutputStream output = response.getOutputStream();
-	                byte[] buffer = new byte[1024*10];
-	 
-	                for (int length = 0; (length = input.read(buffer)) > 0;) {
-	                    output.write(buffer, 0, length);
-	                }
-	 
-	                output.close();
-	                input.close();
-    			}
-    			catch (Throwable t) {
-    				logger.error(t, "Error descargando fichero: " + tempFile);    				
-    			}
+
+    			requestManager.downloadFile(response, tempFile.getFileType(), tempFile.getFileName(), tempFile.getContent());
     		}
     		else{
     			String list = requestManager.getParameter(request, Parameter.UPLOAD_LIST);

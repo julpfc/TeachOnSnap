@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.manager.request;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,8 @@ public interface RequestManager {
 	
 	public String getPartFilename(Part part);
 	
-	public void setFileMetadataHeaders(HttpServletResponse response, String contentType, String fileName);	
+	public void setFileMetadataHeaders(HttpServletResponse response, String contentType, String fileName);
+	
+	public void downloadFile(HttpServletResponse response, String contentType, String fileName, InputStream input);	
 	
 }

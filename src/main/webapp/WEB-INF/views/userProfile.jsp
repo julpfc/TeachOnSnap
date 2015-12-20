@@ -158,6 +158,22 @@
 					</div>
 			    </form>				
 			</div>
+			<c:if test="${empty profile}">	
+			<div class="alert alert-info col-sm-6" role="alert">
+					<label><fmt:message key="user.profile.avatar" bundle="${profBundle}"/>: </label>						
+				 	<span id="span-avatar">
+				 		<span class="author-avatar"><img alt="avatar" src="https://www.gravatar.com/avatar/${user.MD5}?s=20&d=identicon" width="20" height="20"></span>
+						<a class="alert-link pull-right" onclick="return showEditAvatar(true);"><fmt:message key="user.profile.edit" bundle="${profBundle}"/></a>
+					</span>
+					<div id="div-avatar" class="hidden">
+					<span class="author-avatar pull-left"><img alt="avatar" src="https://www.gravatar.com/avatar/${user.MD5}?s=60&d=identicon" width="60" height="60"></span>															
+						<fmt:message key="user.profile.avatar.tip" bundle="${profBundle}"/> <a href="https://es.gravatar.com">Gravatar <span class="glyphicon glyphicon-new-window"></span></a>
+				      	<span class="pull-right">				        	
+				        	<button class="btn btn-default" type="button" onclick="return showEditAvatar(false);"><span class="glyphicon glyphicon-chevron-up"></span></button>
+				      	</span>
+					</div>
+				</div>
+			</c:if>
 			<c:if test="${not empty profile}">	
 			<div class="alert alert-info col-sm-6" role="alert">
 					<label><fmt:message key="admin.user.extra" bundle="${adminBundle}"/>: </label>						
