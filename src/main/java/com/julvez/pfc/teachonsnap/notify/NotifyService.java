@@ -8,6 +8,4 @@ public interface NotifyService {
 	
 	boolean info(User user, String subject, String message);
 	
-	boolean info(User user, String subject, String message, String optionalURL);
-
 }

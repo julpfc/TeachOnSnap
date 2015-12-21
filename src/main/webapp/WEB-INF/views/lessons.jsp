@@ -122,7 +122,7 @@
 	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.search.heading"/></h4>
 	            		<ul class="tags">
 	            		<c:forEach items="${tagSearchCloudTags}" var="cloudTag">
-	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${fn:escapeXml(cloudTag.tag)}</a></li>
 			            </c:forEach>
 			            </ul>
 	          		</div> 
@@ -132,7 +132,7 @@
 	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.use.heading"/></h4>
 	            		<ul class="tags">
 	            		<c:forEach items="${tagUseCloudTags}" var="cloudTag">
-	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${fn:escapeXml(cloudTag.tag)}</a></li>
 			            </c:forEach>
 			            </ul>
 	          		</div>  
@@ -142,7 +142,7 @@
 	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.author.heading"/></h4>
 	            		<ul class="tags">
 	            		<c:forEach items="${authorCloudTags}" var="cloudTag">
-	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${cloudTag.tag}</a></li>
+	            			<li class="tags tag${cloudTag.weight}"><a href="${cloudTag.URL}">${fn:escapeXml(cloudTag.tag)}</a></li>
 			            </c:forEach>
 			            </ul>
 	          		</div>
@@ -150,7 +150,7 @@
 	            		<h4><span class="glyphicon glyphicon-book"></span> <fmt:message key="cloudtag.lesson.heading"/></h4>
 	            		<div class="list-group">
 	            		<c:forEach items="${lessonCloudTags}" var="cloudTag" varStatus="loop">            			
-	            			<a class="list-group-item list-group-item-warning" href="${cloudTag.URL}">${cloudTag.tag} <span class="badge">${loop.index + 1}</span></a>
+	            			<a class="list-group-item list-group-item-warning" href="${cloudTag.URL}">${fn:escapeXml(cloudTag.tag)} <span class="badge">${loop.index + 1}</span></a>
 			            </c:forEach>
 		            </div>
           		</div>    

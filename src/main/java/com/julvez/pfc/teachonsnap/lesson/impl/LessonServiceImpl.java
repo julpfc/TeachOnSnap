@@ -138,7 +138,7 @@ public class LessonServiceImpl implements LessonService{
 			String subject = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.NEW_LESSON_SUBJECT, lesson.getTitle());
 			String message = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.NEW_LESSON_MESSAGE, url);
 			
-			success = notifyService.info(lesson.getAuthor(), subject, message, lesson.getURL());
+			success = notifyService.info(lesson.getAuthor(), subject, message);
 		}
 		
 		return success;		
@@ -154,7 +154,7 @@ public class LessonServiceImpl implements LessonService{
 			String subject = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.MODIFIED_LESSON_SUBJECT, lesson.getTitle());
 			String message = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.MODIFIED_LESSON_MESSAGE, url);
 			
-			success = notifyService.info(lesson.getAuthor(), subject, message, lesson.getURL());
+			success = notifyService.info(lesson.getAuthor(), subject, message);
 
 			if(!lesson.isDraft()){
 				List<User> followers = userService.getLessonFollowers(lesson);
@@ -162,7 +162,7 @@ public class LessonServiceImpl implements LessonService{
 					for(User follower:followers){
 						subject = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.MODIFIED_LESSON_SUBJECT, lesson.getTitle());
 						message = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.MODIFIED_LESSON_MESSAGE, url);
-						notifyService.info(follower, subject, message, lesson.getURL());
+						notifyService.info(follower, subject, message);
 					}
 				}
 			}
@@ -272,7 +272,8 @@ public class LessonServiceImpl implements LessonService{
 				for(User follower:followers){
 					String subject = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.PUBLISHED_LESSON_SUBJECT, lesson.getTitle(), lesson.getAuthor().getFullName());
 					String message = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.PUBLISHED_LESSON_MESSAGE, url, lesson.getAuthor().getFullName());
-					success = notifyService.info(follower, subject, message, lesson.getURL());
+					
+					success = notifyService.info(follower, subject, message);
 				}
 			}				
 		}

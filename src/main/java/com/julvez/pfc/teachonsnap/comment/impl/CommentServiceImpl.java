@@ -22,7 +22,7 @@ import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class CommentServiceImpl implements CommentService {
-
+ 
 	private CommentRepository commentRepository = CommentRepositoryFactory.getRepository();
 	private UserService userService = UserServiceFactory.getService();
 	private LessonService lessonService = LessonServiceFactory.getService();
@@ -126,7 +126,7 @@ public class CommentServiceImpl implements CommentService {
 					if(follower.getId()!= author.getId()){ //No notificar al autor del comentario
 						String subject = textService.getLocalizedText(follower.getLanguage(),CommentMessageKey.NEW_COMMENT_SUBJECT, lesson.getTitle());
 						String message = textService.getLocalizedText(follower.getLanguage(),CommentMessageKey.NEW_COMMENT_MESSAGE, url, author.getFullName(), lesson.getTitle());
-						notifyService.info(follower, subject, message, lesson.getURL());
+						notifyService.info(follower, subject, message);
 					}
 				}
 			}
@@ -151,7 +151,7 @@ public class CommentServiceImpl implements CommentService {
 			if(parentAuthor.getId() != author.getId()){ //No notificar al autor del comentario
 				String subject = textService.getLocalizedText(parentAuthor.getLanguage(),CommentMessageKey.REPLY_COMMENT_SUBJECT, lesson.getTitle());
 				String message = textService.getLocalizedText(parentAuthor.getLanguage(),CommentMessageKey.REPLY_COMMENT_MESSAGE, url, author.getFullName(), lesson.getTitle());
-				notifyService.info(parentAuthor, subject, message, lesson.getURL());				
+				notifyService.info(parentAuthor, subject, message);				
 			}		
 		}
 		

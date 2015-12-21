@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
 			String subject = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_SUBJECT);
 			String message = textService.getLocalizedText(user.getLanguage(),UserMessageKey.CHANGE_PASSWORD_MESSAGE, url);
 			
-			success = notifyService.info(user, subject, message, url);
+			success = notifyService.info(user, subject, message);
 		}
 		
 		return success;

@@ -27,6 +27,15 @@ public class MailManagerJavaMail implements MailManager {
 	
 	@Override
 	public boolean send(String address, String subject, String body) {
+		return send(address, subject, body, false);
+	}
+
+	@Override
+	public boolean sendHTML(String address, String subject, String body) {
+		return send(address, subject, body, true);
+	}
+	
+	private boolean send(String address, String subject, String body, boolean isHTML) {
 		
 		boolean success = true;
 
@@ -51,11 +60,16 @@ public class MailManagerJavaMail implements MailManager {
 		);
 
 		try {
-			Message message = new MimeMessage(session);
+			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(propertyManager.getProperty(MailPropertyName.JAVAMAIL_SENDER)));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(address));
 			message.setSubject(subject);
-			message.setText(body);
+			if(isHTML){
+				message.setContent(body, "text/html; charset=utf-8");
+			}
+			else{
+				message.setText(body);
+			}
 
 			logger.startTimer();
 			logger.info("MailManager: Enviando mail a "+address + "[Subject=" + subject + "]");

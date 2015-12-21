@@ -34,6 +34,5 @@ public interface RequestManager {
 	
 	public void setFileMetadataHeaders(HttpServletResponse response, String contentType, String fileName);
 	
-	public void downloadFile(HttpServletResponse response, String contentType, String fileName, InputStream input);	
-	
+	public void downloadFile(HttpServletResponse response, String contentType, String fileName, InputStream input);
 }

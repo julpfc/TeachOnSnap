@@ -274,7 +274,7 @@ public class TagServiceImpl implements TagService {
 				for(User follower:followers){
 					String subject = textService.getLocalizedText(follower.getLanguage(),TagMessageKey.LESSON_TAGGED_SUBJECT, lesson.getTitle(), tag.getTag());
 					String message = textService.getLocalizedText(follower.getLanguage(),TagMessageKey.LESSON_TAGGED_MESSAGE, url, tag.getTag(), lesson.getTitle());
-					notifyService.info(follower, subject, message, lesson.getURL());					
+					notifyService.info(follower, subject, message);					
 				}
 			}
 		
