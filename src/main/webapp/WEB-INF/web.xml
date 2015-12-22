@@ -415,6 +415,22 @@
 		<url-pattern>/upload/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
+    	<servlet-name>browserconfigXML</servlet-name>
+    	<jsp-file>/WEB-INF/views/favicon/browserconfigXML.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+    	<servlet-name>browserconfigXML</servlet-name>
+    	<url-pattern>/resources/favicon/browserconfig.xml</url-pattern>
+	</servlet-mapping>
+	<servlet>
+    	<servlet-name>manifestJSON</servlet-name>
+    	<jsp-file>/WEB-INF/views/favicon/manifestJSON.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+    	<servlet-name>manifestJSON</servlet-name>
+    	<url-pattern>/resources/favicon/manifest.json</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<description>
   	</description>
 		<display-name>HomeController</display-name>

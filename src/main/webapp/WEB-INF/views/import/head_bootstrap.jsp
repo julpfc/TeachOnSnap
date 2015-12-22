@@ -31,7 +31,7 @@
 	<link rel="manifest" href="${host}/resources/favicon/manifest.json">
 	<link rel="shortcut icon" href="${host}/resources/favicon/favicon.ico">
 	<meta name="msapplication-TileColor" content="#6f5499">
-	<meta name="msapplication-TileImage" content="${host}/resources/favicon/mstile-144x144.png">
-	<meta name="msapplication-config" content="/pruebaContexto/resources/favicon/browserconfig.xml">
+	<meta name="msapplication-TileImage" content="${pageContext.request.contextPath}/resources/favicon/mstile-144x144.png">
+	<meta name="msapplication-config" content="${pageContext.request.contextPath}/resources/favicon/browserconfig.xml">
 	<meta name="theme-color" content="#6f5499">
 	 
