@@ -91,7 +91,7 @@
 		msg['admin.group.follow.tag.unfollow.confirm'] = "<fmt:message key="admin.group.follow.tag.unfollow.confirm" bundle="${adminBundle}"/>";
 		//-->
 	</script>
-	<script src="/resources/js/followTag.js"></script>	
-	<script src="/resources/js/confirm.js"></script>	
+	<script src="${host}/resources/js/followTag.js"></script>	
+	<script src="${host}/resources/js/confirm.js"></script>	
 </body>
 </html>

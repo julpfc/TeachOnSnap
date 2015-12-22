@@ -32,6 +32,13 @@ public class LessonTest {
 	@JsonView(JSONViews.Simple.class)
 	List<Question> questions;
 
+	@Transient
+	private String url;
+	@Transient
+	private String editURL;
+	@Transient
+	private String questionURL;
+
 
 
 	@Override
@@ -97,17 +104,23 @@ public class LessonTest {
 	public void setDraft(boolean draft) {
 		this.draft = draft;
 	}
+	
+	public void setURLs(String testURL, String editURL, String questionURL){
+		this.url = testURL;
+		this.editURL = editURL;
+		this.questionURL = questionURL;
+	}
 
 	public String getURL() {
-		return "/test/"+id;
+		return url + id;
 	}
 	
 	public String getEditURL() {
-		return "/test/edit/"+id;
+		return editURL + id;
 	}
 
 	public String getNewQuestionURL() {
-		return "/test/question/"+id;
+		return questionURL + id;
 	}
 
 }

@@ -11,11 +11,15 @@ import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.page.model.PageNameKey;
 import com.julvez.pfc.teachonsnap.stats.model.StatsType;
+import com.julvez.pfc.teachonsnap.url.URLService;
+import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class PageServiceImpl implements PageService {
+	
+	private URLService urlService = URLServiceFactory.getService();
 
 	@Override
 	public List<Page> getLessonPageStack(Lesson lesson) {
@@ -96,7 +100,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && searchQuery!=null && searchType!=null){
 			Page page = new Page("email".equalsIgnoreCase(searchType)?PageNameKey.ADMIN_USERS_SEARCH_BY_EMAIL:PageNameKey.ADMIN_USERS_SEARCH_BY_NAME, 
-					ControllerURI.ADMIN_USER_MANAGER + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType);
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_USER_MANAGER + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType));
 			pages.add(page);
 		}
 		else pages = null;
@@ -106,7 +110,7 @@ public class PageServiceImpl implements PageService {
 	@Override
 	public List<Page> getAdminUsersPageStack() {
 		List<Page> pages = new ArrayList<Page>();
-		Page page = new Page(PageNameKey.ADMIN_USERS, ControllerURI.ADMIN_USER_MANAGER.toString());
+		Page page = new Page(PageNameKey.ADMIN_USERS, urlService.getAbsoluteURL(ControllerURI.ADMIN_USER_MANAGER.toString()));
 		pages.add(page);
 				
 		return pages;
@@ -117,7 +121,7 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = getAdminUsersPageStack();
 		
 		if(pages != null && profile != null){
-			Page page = new Page(PageNameKey.ADMIN_USER_PROFILE, ControllerURI.ADMIN_USER_PROFILE.toString() + profile.getId() + "/");
+			Page page = new Page(PageNameKey.ADMIN_USER_PROFILE, urlService.getAbsoluteURL(ControllerURI.ADMIN_USER_PROFILE.toString() + profile.getId() + "/"));
 			pages.add(page);
 		}
 		else pages = null;
@@ -130,7 +134,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && searchQuery!=null){
 			Page page = new Page(PageNameKey.ADMIN_GROUPS_SEARCH_BY_NAME,
-					ControllerURI.ADMIN_GROUP_MANAGER + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery);
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_MANAGER + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery));
 			pages.add(page);
 		}
 		else pages = null;
@@ -140,7 +144,7 @@ public class PageServiceImpl implements PageService {
 	@Override
 	public List<Page> getAdminGroupsPageStack() {
 		List<Page> pages = new ArrayList<Page>();
-		Page page = new Page(PageNameKey.ADMIN_GROUPS, ControllerURI.ADMIN_GROUP_MANAGER.toString());
+		Page page = new Page(PageNameKey.ADMIN_GROUPS, urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_MANAGER.toString()));
 		pages.add(page);
 				
 		return pages;
@@ -152,7 +156,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && profile != null){
 			Page page = new Page(PageNameKey.ADMIN_GROUP_PROFILE, profile.getGroupName(),
-					ControllerURI.ADMIN_GROUP_PROFILE.toString() + profile.getId() + "/");
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_PROFILE.toString() + profile.getId() + "/"));
 			pages.add(page);
 		}
 		else pages = null;
@@ -165,7 +169,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && profile != null){
 			Page page = new Page(PageNameKey.ADMIN_GROUP_FOLLOWS, 
-					ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId() + "/");
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId() + "/"));
 			pages.add(page);
 		}
 		else pages = null;
@@ -178,7 +182,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && profile != null){
 			Page page = new Page(PageNameKey.ADMIN_GROUP_FOLLOW_AUTHOR, 
-					ControllerURI.ADMIN_GROUP_FOLLOW_AUTHOR.toString() + profile.getId() + "/");
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOW_AUTHOR.toString() + profile.getId() + "/"));
 			pages.add(page);
 		}
 		else pages = null;
@@ -191,7 +195,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && searchQuery!=null && searchType!=null && profile != null){
 			Page page = new Page("email".equalsIgnoreCase(searchType)?PageNameKey.ADMIN_GROUP_FOLLOW_AUTHOR_SEARCH_BY_EMAIL:PageNameKey.ADMIN_GROUP_FOLLOW_AUTHOR_SEARCH_BY_NAME, 
-					ControllerURI.ADMIN_GROUP_FOLLOW_AUTHOR.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType);
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOW_AUTHOR.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType));
 			pages.add(page);
 		}		
 		return pages;
@@ -203,7 +207,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && profile != null){
 			Page page = new Page(PageNameKey.ADMIN_GROUP_FOLLOW_TAG, 
-					ControllerURI.ADMIN_GROUP_FOLLOW_TAG.toString() + profile.getId() + "/");
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOW_TAG.toString() + profile.getId() + "/"));
 			pages.add(page);
 		}
 		else pages = null;
@@ -216,7 +220,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && searchQuery!=null && profile != null){
 			Page page = new Page(PageNameKey.ADMIN_GROUP_FOLLOW_TAG_SEARCH, 
-					ControllerURI.ADMIN_GROUP_FOLLOW_TAG.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery);
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOW_TAG.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery));
 			pages.add(page);
 		}		
 		return pages;
@@ -227,7 +231,7 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = new ArrayList<Page>();
 		
 		if(profile != null){
-			Page page = new Page(PageNameKey.USER_FOLLOWS, ControllerURI.USER_FOLLOWS.toString() + profile.getId() + "/");
+			Page page = new Page(PageNameKey.USER_FOLLOWS, urlService.getAbsoluteURL(ControllerURI.USER_FOLLOWS.toString() + profile.getId() + "/"));
 			pages.add(page);
 		}
 		else pages = null;
@@ -240,7 +244,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && profile != null){
 			Page page = new Page(PageNameKey.USER_FOLLOW_AUTHOR, 
-					ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() + "/");
+					urlService.getAbsoluteURL(ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() + "/"));
 			pages.add(page);
 		}
 		else pages = null;
@@ -253,7 +257,7 @@ public class PageServiceImpl implements PageService {
 		
 		if(pages != null && searchQuery!=null && searchType!=null && profile != null){
 			Page page = new Page("email".equalsIgnoreCase(searchType)?PageNameKey.USER_FOLLOW_AUTHOR_SEARCH_BY_EMAIL:PageNameKey.USER_FOLLOW_AUTHOR_SEARCH_BY_NAME, 
-					ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType);
+					urlService.getAbsoluteURL(ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() + "/" + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType));
 			pages.add(page);
 		}		
 		return pages;
@@ -275,7 +279,7 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = getEditLessonPageStack(lesson);
 		
 		if(pages != null && test!=null){
-			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_TEST.toString() + test.getId());
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, urlService.getAbsoluteURL(ControllerURI.STATS_TEST.toString() + test.getId()));
 			pages.add(page);
 		}
 		else pages = null;
@@ -289,10 +293,10 @@ public class PageServiceImpl implements PageService {
 		if(pages != null && statsType!=null && lesson!=null){
 			Page page = null;
 			if(StatsType.MONTH == statsType){
-				page = new Page(PageNameKey.STATS_LESSON_MONTH, ControllerURI.STATS_LESSON_MONTH.toString() + lesson.getId());
+				page = new Page(PageNameKey.STATS_LESSON_MONTH, urlService.getAbsoluteURL(ControllerURI.STATS_LESSON_MONTH.toString() + lesson.getId()));
 			}
 			else{
-				page = new Page(PageNameKey.STATS_LESSON_YEAR, ControllerURI.STATS_LESSON_YEAR.toString() + lesson.getId());
+				page = new Page(PageNameKey.STATS_LESSON_YEAR, urlService.getAbsoluteURL(ControllerURI.STATS_LESSON_YEAR.toString() + lesson.getId()));
 			}
 			pages.add(page);
 		}
@@ -307,10 +311,10 @@ public class PageServiceImpl implements PageService {
 		if(pages != null && statsType!=null && profile!=null){
 			Page page = null;
 			if(StatsType.MONTH == statsType){
-				page = new Page(PageNameKey.STATS_AUTHOR_MONTH, profile.getFullName(), ControllerURI.STATS_AUTHOR_MONTH.toString() + profile.getId());
+				page = new Page(PageNameKey.STATS_AUTHOR_MONTH, profile.getFullName(), urlService.getAbsoluteURL(ControllerURI.STATS_AUTHOR_MONTH.toString() + profile.getId()));
 			}
 			else{
-				page = new Page(PageNameKey.STATS_AUTHOR_YEAR, profile.getFullName(), ControllerURI.STATS_AUTHOR_YEAR.toString() + profile.getId());
+				page = new Page(PageNameKey.STATS_AUTHOR_YEAR, profile.getFullName(), urlService.getAbsoluteURL(ControllerURI.STATS_AUTHOR_YEAR.toString() + profile.getId()));
 			}
 			pages.add(page);
 		}
@@ -327,10 +331,10 @@ public class PageServiceImpl implements PageService {
 			
 			Page page = null;
 			if(StatsType.MONTH == statsType){
-				page = new Page(PageNameKey.STATS_LESSON_MONTH, lesson.getTitle(), ControllerURI.STATS_AUTHOR_LESSON_MONTH.toString() + lesson.getId());
+				page = new Page(PageNameKey.STATS_LESSON_MONTH, lesson.getTitle(), urlService.getAbsoluteURL(ControllerURI.STATS_AUTHOR_LESSON_MONTH.toString() + lesson.getId()));
 			}
 			else{
-				page = new Page(PageNameKey.STATS_LESSON_YEAR, lesson.getTitle(), ControllerURI.STATS_AUTHOR_LESSON_YEAR.toString() + lesson.getId());
+				page = new Page(PageNameKey.STATS_LESSON_YEAR, lesson.getTitle(), urlService.getAbsoluteURL(ControllerURI.STATS_AUTHOR_LESSON_YEAR.toString() + lesson.getId()));
 			}
 			pages.add(page);
 		}
@@ -343,7 +347,7 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = getStatsAuthorLessonPageStack(lesson, StatsType.MONTH);
 		
 		if(pages != null && test!=null && lesson!=null){
-			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_AUTHOR_LESSON_TEST.toString() + test.getId());
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, urlService.getAbsoluteURL(ControllerURI.STATS_AUTHOR_LESSON_TEST.toString() + test.getId()));
 			pages.add(page);
 		}
 		else pages = null;
@@ -355,7 +359,7 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = getStatsLessonPageStack(lesson, StatsType.MONTH);
 		
 		if(pages != null && test!=null && lesson!=null){
-			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_LESSON_TEST.toString() + test.getId());
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, urlService.getAbsoluteURL(ControllerURI.STATS_LESSON_TEST.toString() + test.getId()));
 			pages.add(page);
 		}
 		else pages = null;
@@ -369,10 +373,10 @@ public class PageServiceImpl implements PageService {
 		if(pages != null && statsType!=null){
 			Page page = null;
 			if(StatsType.MONTH == statsType){
-				page = new Page(PageNameKey.ADMIN_STATS_MONTH, ControllerURI.ADMIN_STATS_MONTH.toString());
+				page = new Page(PageNameKey.ADMIN_STATS_MONTH, urlService.getAbsoluteURL(ControllerURI.ADMIN_STATS_MONTH.toString()));
 			}
 			else{
-				page = new Page(PageNameKey.ADMIN_STATS_YEAR, ControllerURI.ADMIN_STATS_YEAR.toString());
+				page = new Page(PageNameKey.ADMIN_STATS_YEAR, urlService.getAbsoluteURL(ControllerURI.ADMIN_STATS_YEAR.toString()));
 			}
 			pages.add(page);
 		}
@@ -385,7 +389,7 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = getStatsAdminAuthorLessonPageStack(lesson, StatsType.MONTH);
 		
 		if(pages != null && test!=null && lesson!=null){
-			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_ADMIN_AUTHOR_LESSON_TEST.toString() + test.getId());
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_AUTHOR_LESSON_TEST.toString() + test.getId()));
 			pages.add(page);
 		}
 		else pages = null;
@@ -397,7 +401,7 @@ public class PageServiceImpl implements PageService {
 		List<Page> pages = getStatsAdminLessonPageStack(lesson, StatsType.MONTH);
 		
 		if(pages != null && test!=null && lesson!=null){
-			Page page = new Page(PageNameKey.STATS_LESSON_TEST, ControllerURI.STATS_ADMIN_LESSON_TEST.toString() + test.getId());
+			Page page = new Page(PageNameKey.STATS_LESSON_TEST, urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_LESSON_TEST.toString() + test.getId()));
 			pages.add(page);
 		}
 		else pages = null;
@@ -411,10 +415,10 @@ public class PageServiceImpl implements PageService {
 		if(pages != null && statsType!=null && profile!=null){
 			Page page = null;
 			if(StatsType.MONTH == statsType){
-				page = new Page(PageNameKey.STATS_AUTHOR_MONTH, profile.getFullName(), ControllerURI.STATS_ADMIN_AUTHOR_MONTH.toString() + profile.getId());
+				page = new Page(PageNameKey.STATS_AUTHOR_MONTH, profile.getFullName(), urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_AUTHOR_MONTH.toString() + profile.getId()));
 			}
 			else{
-				page = new Page(PageNameKey.STATS_AUTHOR_YEAR, profile.getFullName(), ControllerURI.STATS_ADMIN_AUTHOR_YEAR.toString() + profile.getId());
+				page = new Page(PageNameKey.STATS_AUTHOR_YEAR, profile.getFullName(), urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_AUTHOR_YEAR.toString() + profile.getId()));
 			}
 			pages.add(page);
 		}
@@ -431,10 +435,10 @@ public class PageServiceImpl implements PageService {
 			
 			Page page = null;
 			if(StatsType.MONTH == statsType){
-				page = new Page(PageNameKey.STATS_LESSON_MONTH, lesson.getTitle(), ControllerURI.STATS_ADMIN_AUTHOR_LESSON_MONTH.toString() + lesson.getId());
+				page = new Page(PageNameKey.STATS_LESSON_MONTH, lesson.getTitle(), urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_AUTHOR_LESSON_MONTH.toString() + lesson.getId()));
 			}
 			else{
-				page = new Page(PageNameKey.STATS_LESSON_YEAR, lesson.getTitle(), ControllerURI.STATS_ADMIN_AUTHOR_LESSON_YEAR.toString() + lesson.getId());
+				page = new Page(PageNameKey.STATS_LESSON_YEAR, lesson.getTitle(), urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_AUTHOR_LESSON_YEAR.toString() + lesson.getId()));
 			}
 			pages.add(page);
 		}
@@ -449,10 +453,10 @@ public class PageServiceImpl implements PageService {
 		if(pages != null && statsType!=null && lesson!=null){
 			Page page = null;
 			if(StatsType.MONTH == statsType){
-				page = new Page(PageNameKey.STATS_LESSON_MONTH, ControllerURI.STATS_ADMIN_LESSON_MONTH.toString() + lesson.getId());
+				page = new Page(PageNameKey.STATS_LESSON_MONTH, urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_LESSON_MONTH.toString() + lesson.getId()));
 			}
 			else{
-				page = new Page(PageNameKey.STATS_LESSON_YEAR, ControllerURI.STATS_ADMIN_LESSON_YEAR.toString() + lesson.getId());
+				page = new Page(PageNameKey.STATS_LESSON_YEAR, urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_LESSON_YEAR.toString() + lesson.getId()));
 			}
 			pages.add(page);
 		}

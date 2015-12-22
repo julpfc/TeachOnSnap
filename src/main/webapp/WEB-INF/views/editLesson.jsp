@@ -47,7 +47,7 @@
 			    		<c:forEach items="${languages}" var="lang" varStatus="loop">
 				    		<span>  
 								<input type="radio" name="lang" id="radioLessonLang${lang.language}" value="${lang.id}" ${(lesson!=null)?(lang.id == lesson.language.id?'checked="checked"':''):(lang.id == userLang.id?'checked="checked"':'')} required />
-								<img alt="${lang.language}" src="/resources/img/ico/flag_${lang.language}.jpg"/>
+								<img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/>
 							</span>						
 			    		</c:forEach>			    												    					    	
 			    	</div>
@@ -132,7 +132,7 @@
 									<tr><td><fmt:message key="lesson.form.media.select" bundle="${editLessonBundle}"/></td></tr>										
 								</table>															
 				   				<span class="btn btn-default btn-file">
-									<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload" name="files" data-url="/upload/"/>
+									<fmt:message key="lesson.form.media.browse" bundle="${editLessonBundle}"/> <input type="file" id="fileupload" name="files" data-url="${host}/upload/"/>
 								</span>								
 	  						</div>
 	  					</div>				  	
@@ -287,7 +287,7 @@
 									 </c:choose>										 	
 	     						</div>		     					
 					    	<div class="panel-footer">
-					    		<a href="/stats/lesson/month/${lesson.id}">
+					    		<a href="${host}/stats/lesson/month/${lesson.id}">
 											    			<button class="btn btn-primary btn-xs pull-right" type="button">											
 														 		<span class="glyphicon glyphicon-dashboard"></span>
 															 	<fmt:message key="lesson.stats.show" bundle="${editLessonBundle}"/>			 	
@@ -341,7 +341,7 @@
 												<div class="panel panel-info">
 									        		<div class="panel-heading">
 									        			<fmt:message key="lesson.test.stats.results" bundle="${testBundle}"/>
-									        			<a href="/stats/test/${test.id}">
+									        			<a href="${host}/stats/test/${test.id}">
 											    			<button class="btn btn-primary btn-xs pull-right" type="button">											
 														 		<span class="glyphicon glyphicon-dashboard"></span>
 															 	<fmt:message key="lesson.test.stats.show" bundle="${testBundle}"/>			 	
@@ -437,9 +437,9 @@
 	
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>
-	<script src="/resources/js/ext/jquery.ui.widget.js"></script>
-	<script src="/resources/js/ext/jquery.iframe-transport.js"></script>
-	<script src="/resources/js/ext/jquery.fileupload.js"></script>	
+	<script src="${host}/resources/js/ext/jquery.ui.widget.js"></script>
+	<script src="${host}/resources/js/ext/jquery.iframe-transport.js"></script>
+	<script src="${host}/resources/js/ext/jquery.fileupload.js"></script>	
 	<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 		<script type="text/javascript">
 		<!--	    
@@ -457,10 +457,11 @@
 				
 		var acceptedFileTypes = [<c:forEach items="${acceptedFileTypes}" var="type" varStatus="loop">${loop.index > 0?",":""}"${type}"</c:forEach>];
 		var maxFileSize = ${maxUploadFileSize};
+		var appHost = "${host}";
 		//-->
 	</script>
-	<script src="/resources/js/editLesson.js"></script>
-	<script src="/resources/js/confirm.js"></script>
+	<script src="${host}/resources/js/editLesson.js"></script>
+	<script src="${host}/resources/js/confirm.js"></script>
 	
 	
 </body>

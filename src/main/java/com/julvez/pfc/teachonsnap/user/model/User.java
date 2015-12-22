@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
-import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 
 @Entity
 public class User {
@@ -42,6 +41,10 @@ public class User {
 	
 	@Transient
 	private Map<String,String> lessonFollowed;
+	@Transient
+	private String authorURL;
+	@Transient
+	private String draftsURL;
 		
 	
 	public Map<String, String> getAuthorFollowed() {
@@ -147,14 +150,19 @@ public class User {
 		return firstName+" "+lastName;
 	}
 	
+	public void setURLs(String authorURL, String draftsURL){
+		this.authorURL = authorURL;
+		this.draftsURL = draftsURL;
+	}
+	
 	public String getURL() {
 		if(URIName!=null)
-			return "/author/"+URIName;
+			return authorURL + URIName;
 		else return "#";		
 	}
 	
 	public String getDraftsURL() {
-		return ControllerURI.LESSON_DRAFTS_BY_USER.toString() + id;				
+		return draftsURL + id;				
 	}
 
 	public boolean isAdmin() {

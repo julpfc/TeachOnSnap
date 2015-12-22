@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class MediaFile {
@@ -20,6 +21,9 @@ public class MediaFile {
 	@Enumerated(EnumType.STRING)
 	private MediaType mediaType;
 
+	@Transient
+	private String url;
+	
 	@Override
 	public String toString() {
 		return "MediaFile [id=" + id + ", idLessonMedia=" + idLessonMedia
@@ -58,8 +62,12 @@ public class MediaFile {
 		this.mimetype = mimetype;
 	}
 	
+	public void setURLs(String url){
+		this.url = url;
+	}
+	
 	public String getURL(){
-		return "/resources/media/"+idLessonMedia+"/"+id+"/"+filename;
+		return url + idLessonMedia + "/" + id +"/" + filename;
 	}
 
 	public MediaType getMediaType() {

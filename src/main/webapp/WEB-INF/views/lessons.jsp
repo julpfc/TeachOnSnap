@@ -35,7 +35,7 @@
 	            		<h2 class="lesson-title"><a href="${lesson.draft?lesson.editURL:lesson.URL}">${fn:escapeXml(lesson.title)}</a>${not empty user.lessonFollowed[lessonID]?' <span class="glyphicon glyphicon-star"></span>':''}</h2>
 	            		<p class="lesson-meta">
 	            			<c:if test="${userLang.id != lesson.language.id}">
-	            				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
+	            				<img alt="${lesson.language.language}" src="${host}/resources/img/ico/flag_${lesson.language.language}.jpg"/>
 	            			</c:if>	            			 
 	            			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/>
 	            			 <fmt:message key="lesson.meta.author.by"/><c:set var="authorID" value="[${lesson.author.id}]"/>
@@ -82,7 +82,7 @@
 							<li><a href="${nextPage}"><span class="glyphicon glyphicon-chevron-left"></span>
 							 <fmt:message key="pager.previous"/></a></li>
 						</c:if>
-						<li><a href="/"><span class="glyphicon glyphicon-home"></span>
+						<li><a href="${host}/"><span class="glyphicon glyphicon-home"></span>
 						 <fmt:message key="pager.home"/></a></li>
 						<c:if test="${not empty prevPage && not empty lessons}">
 							<li><a href="${prevPage}"><span class="glyphicon glyphicon-chevron-right"></span>
@@ -169,7 +169,7 @@
 			//-->
 		</script>
 			
-		<script src="/resources/js/confirm.js"></script>
+		<script src="${host}/resources/js/confirm.js"></script>
 	</c:if>
 </body>
 </html>

@@ -40,7 +40,7 @@
                 </div>
 				<nav>
 					<ul class="pager">
-						<li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>						
+						<li><a href="${host}/"><span class="glyphicon glyphicon-home"></span> Home</a></li>						
 					</ul>
 				</nav>	
 	        </div><!-- col -->
@@ -54,8 +54,8 @@
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<!-- script used for audio/video/gif recording -->
-    <script src="//cdn.webrtc-experiment.com/RecordRTC.js"> </script>
-	<script src="/resources/js/record.js"></script>
+    <script src="http://cdn.webrtc-experiment.com/RecordRTC.js"> </script>
+	<script src="${host}/resources/js/record.js"></script>
 	
 </body>
 </html>

@@ -32,10 +32,10 @@ public class TagServiceImpl implements TagService {
 
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private UserService userService = UserServiceFactory.getService();
-	private URLService urlService = URLServiceFactory.getService();
 	private TextService textService = TextServiceFactory.getService();
 	private NotifyService notifyService = NotifyServiceFactory.getService();
 	private StatsService statsService = StatsServiceFactory.getService();
+	private URLService urlService = URLServiceFactory.getService();
 	
 	private TagRepository tagRepository = TagRepositoryFactory.getRepository();
 	
@@ -49,6 +49,8 @@ public class TagServiceImpl implements TagService {
 			tag = tagRepository.getTag(idTag);
 			String md5 = stringManager.generateMD5(tag.getTag());
 			tag.setMD5(md5);
+			
+			tag.setURLs(urlService.getTagURL());
 		}
 		return tag;
 	}
@@ -269,7 +271,7 @@ public class TagServiceImpl implements TagService {
 			List<User> followers = userService.getTagFollowers(tag);
 			
 			if(followers != null){
-				String url = urlService.getAbsoluteURL(lesson.getURL());
+				String url = lesson.getURL();
 
 				for(User follower:followers){
 					String subject = textService.getLocalizedText(follower.getLanguage(),TagMessageKey.LESSON_TAGGED_SUBJECT, lesson.getTitle(), tag.getTag());

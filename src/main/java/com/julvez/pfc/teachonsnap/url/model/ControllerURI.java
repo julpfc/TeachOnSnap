@@ -7,7 +7,14 @@ public enum ControllerURI {
 	LESSON_DRAFTS_BY_USER("/drafts/"), 
 	LESSON("/lesson/"), 
 	LESSON_PREVIEW("/preview/"), 
-	LESSON_EDIT("/lesson/edit/"),
+	LESSON_EDIT("/lesson/edit/"), 
+	LESSON_COMMENT("/lesson/comment/"), 
+	LESSON_TEST_NEW("/test/new/"),
+	LESSON_TEST("/test/"),
+	LESSON_TEST_EDIT("/test/edit/"),
+	LESSON_TEST_QUESTION("/test/question/"),
+	AUTHOR("/author/"),
+	TAG("/tag/"),
 	ADMIN_USER_MANAGER("/admin/users/"), 
 	ADMIN_USER_PROFILE("/admin/user/"), 
 	ADMIN_GROUP_MANAGER("/admin/groups/"),
@@ -35,7 +42,8 @@ public enum ControllerURI {
 	STATS_ADMIN_AUTHOR_MONTH("/stats/admin/author/month/"),
 	STATS_ADMIN_AUTHOR_YEAR("/stats/admin/author/year/"), 
 	STATS_ADMIN_AUTHOR_LESSON_MONTH("/stats/admin/author/lesson/month/"), 
-	STATS_ADMIN_AUTHOR_LESSON_YEAR("/stats/admin/author/lesson/year/");
+	STATS_ADMIN_AUTHOR_LESSON_YEAR("/stats/admin/author/lesson/year/"),
+	RESOURCES_MEDIA("/resources/media/");
 
 		 		
 	private final String URI;

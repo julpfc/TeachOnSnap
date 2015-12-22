@@ -56,10 +56,10 @@
 	      						</thead>
 	      						<tbody>
 		        					<c:forEach items="${groups}" var="group"> 		
-		  								<tr onclick="window.location='/admin/group/${group.id}'">			  								
+		  								<tr onclick="window.location='${host}/admin/group/${group.id}'">			  								
 			  								<td>${fn:escapeXml(group.groupName)}</td>
 			  								<td><span class="badge">${fn:length(group.users)}</span></td>
-		  									<td><a href="/admin/group/${group.id}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.groups.edit" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a></td>
+		  									<td><a href="${host}/admin/group/${group.id}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.groups.edit" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a></td>
 		  								</tr>
 									</c:forEach>	
 	      						</tbody>
@@ -109,6 +109,6 @@
 	 </div><!-- /.container -->		
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>	
-	<script src="/resources/js/adminGroups.js"></script>
+	<script src="${host}/resources/js/adminGroups.js"></script>
 </body>
 </html>

@@ -13,8 +13,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">
-      	<span><img src="/resources/favicon/apple-touch-icon-precomposed.png" width="22" height="22"/></span>
+      <a class="navbar-brand" href="${host}/">
+      	<span><img src="${host}/resources/favicon/apple-touch-icon-precomposed.png" width="22" height="22"/></span>
       	<fmt:message key="app.name"/></a>
     </div>
 
@@ -27,13 +27,13 @@
         <li class="dropdown">
         	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="nav.menu.explore"/> <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-            	<li><a href="/last/"><fmt:message key="nav.menu.explore.lastVideos"/></a></li>                
+            	<li><a href="${host}/last/"><fmt:message key="nav.menu.explore.lastVideos"/></a></li>                
                 <li class="divider"></li>
                 <li><a href="#" data-toggle="modal" data-target="#about"><fmt:message key="nav.menu.explore.about"/></a></li>                
 			</ul>
         </li>
         <c:if test="${user.author}">
-        	<li><a href="/lesson/new/"><fmt:message key="nav.menu.upload"/> <span class="glyphicon glyphicon-cloud-upload"></span></a></li>
+        	<li><a href="${host}/lesson/new/"><fmt:message key="nav.menu.upload"/> <span class="glyphicon glyphicon-cloud-upload"></span></a></li>
         </c:if>        
       </ul>
       <ul class="nav navbar-nav navbar-right">      	
@@ -41,13 +41,13 @@
 			<c:when test="${empty user}">
 				<li class="dropdown">
 		        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		        		<img alt="${userLang.language}" src="/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
+		        		<img alt="${userLang.language}" src="${host}/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
 		       		</a>
 		            <ul class="dropdown-menu" role="menu">
 		            	<c:forEach items="${languages}" var="lang" varStatus="loop">
 		            		<fmt:setLocale value="${lang.language}"/>
 		            		<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-		            		<li><a href="?changeLang=${lang.language}"><img alt="${lang.language}" src="/resources/img/ico/flag_${lang.language}.jpg"/> <fmt:message key="nav.menu.lang"/></a></li>		            	
+		            		<li><a href="?changeLang=${lang.language}"><img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/> <fmt:message key="nav.menu.lang"/></a></li>		            	
 		            	</c:forEach>
 		            	<fmt:setLocale value="${userLang.language}"/>
 		            	<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
@@ -60,10 +60,10 @@
 	        	 	<li class="dropdown">
 			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="nav.menu.admin"/> <span class="caret"></span></a>
 			            <ul class="dropdown-menu" role="menu">
-			            	<li><a href="/admin/users/"><fmt:message key="nav.menu.admin.users"/></a></li>			            	                
-			            	<li><a href="/admin/groups/"><fmt:message key="nav.menu.admin.groups"/></a></li>
+			            	<li><a href="${host}/admin/users/"><fmt:message key="nav.menu.admin.users"/></a></li>			            	                
+			            	<li><a href="${host}/admin/groups/"><fmt:message key="nav.menu.admin.groups"/></a></li>
 			            	<li class="divider"></li>
-			            	<li><a href="/admin/stats/month/"><fmt:message key="nav.menu.admin.stats"/></a></li>
+			            	<li><a href="${host}/admin/stats/month/"><fmt:message key="nav.menu.admin.stats"/></a></li>
 						</ul>
 			        </li>
 			   	</c:if>
@@ -73,31 +73,31 @@
 		            	<c:if test="${user.author}">
 		            		<li><a href="${user.URL}"><fmt:message key="nav.menu.user.lessons"/></a></li>
 		            		<li><a href="${user.draftsURL}"><fmt:message key="nav.menu.user.lessons.draft"/></a></li>
-		            		<li><a href="/stats/author/month/${user.id}"><fmt:message key="nav.menu.user.stats"/></a></li>
+		            		<li><a href="${host}/stats/author/month/${user.id}"><fmt:message key="nav.menu.user.stats"/></a></li>
 		            		<li class="divider"></li>
 		            	</c:if>
 		            	<c:if test="${not empty user.authorFollowed || not empty user.lessonFollowed}">		            		
-		            		<li><a href="/follow/"><fmt:message key="nav.menu.user.follow"/></a></li>
+		            		<li><a href="${host}/follow/"><fmt:message key="nav.menu.user.follow"/></a></li>
 		            		<li class="divider"></li>
 		            	</c:if>
-		            	<li><a href="/profile/"><fmt:message key="nav.menu.user.profile"/></a></li>                
+		            	<li><a href="${host}/profile/"><fmt:message key="nav.menu.user.profile"/></a></li>                
 					</ul>
 		        </li>
 		        <li class="dropdown">
 		        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		        		<img alt="${userLang.language}" src="/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
+		        		<img alt="${userLang.language}" src="${host}/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
 		       		</a>		           
 					<ul class="dropdown-menu" role="menu">
 		            	<c:forEach items="${languages}" var="lang" varStatus="loop">
 		            		<fmt:setLocale value="${lang.language}"/>    
 		            		<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>        	
-		            		<li><a href="?changeLang=${lang.language}"><img alt="${lang.language}" src="/resources/img/ico/flag_${lang.language}.jpg"/> <fmt:message key="nav.menu.lang"/></a></li>		            	
+		            		<li><a href="?changeLang=${lang.language}"><img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/> <fmt:message key="nav.menu.lang"/></a></li>		            	
 		            	</c:forEach>
 		            	<fmt:setLocale value="${userLang.language}"/>
 		            	<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
 					</ul>
 		        </li>
-        		<li><a href="/login/?logout=1"><fmt:message key="nav.menu.logout"/> <span class="glyphicon glyphicon-log-out"></span></a></li>
+        		<li><a href="${host}/login/?logout=1"><fmt:message key="nav.menu.logout"/> <span class="glyphicon glyphicon-log-out"></span></a></li>
         	</c:otherwise>
         </c:choose>
       </ul>

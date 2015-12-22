@@ -67,6 +67,8 @@ public class UserServiceImpl implements UserService {
 	
 				Map<String, String> lessonFollowed = userRepository.getLessonFollowed(user.getId());
 				user.setLessonFollowed(lessonFollowed);
+				
+				user.setURLs(urlService.getAuthorURL(), urlService.getAuthorDraftsURL());
 			}
 		}
 		return user;

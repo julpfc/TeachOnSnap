@@ -57,7 +57,7 @@ public class GroupFollowController extends AdminController {
 					List<Tag> tagFollowings = groupService.getTagFollowings(profile);					
 					requestManager.setAttribute(request, Attribute.LIST_TAG, tagFollowings);
 					
-					String backPage = ControllerURI.ADMIN_GROUP_PROFILE.toString() + profile.getId();					
+					String backPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_PROFILE.toString() + profile.getId());					
 					requestManager.setAttribute(request, Attribute.STRING_BACKPAGE, backPage);
 					
 					request.getRequestDispatcher("/WEB-INF/views/adminGroupFollow.jsp").forward(request, response);

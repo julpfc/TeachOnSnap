@@ -61,7 +61,7 @@
 		<div class="row">
 			<nav>
 				<ul class="pager">
-					<li><a href="/"><span class="glyphicon glyphicon-home"></span>
+					<li><a href="${host}/"><span class="glyphicon glyphicon-home"></span>
 			 		<fmt:message key="pager.home"/></a></li>						 						
 				</ul>
 			</nav>

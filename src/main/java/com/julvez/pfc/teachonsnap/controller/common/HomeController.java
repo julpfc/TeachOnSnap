@@ -38,7 +38,7 @@ public class HomeController extends CommonController {
 		if(lastLessons.size()>MAX_RESULTS_PAGE){			
 			lastLessons.remove(MAX_RESULTS_PAGE);		
 			
-			String nextPage = ControllerURI.LESSONS_BY_LAST.toString() + MAX_RESULTS_PAGE;
+			String nextPage = urlService.getAbsoluteURL(ControllerURI.LESSONS_BY_LAST.toString() + MAX_RESULTS_PAGE);
 			
 			requestManager.setAttribute(request, Attribute.STRING_NEXTPAGE, nextPage);
 		}

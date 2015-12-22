@@ -15,8 +15,6 @@ import com.julvez.pfc.teachonsnap.notify.NotifyService;
 import com.julvez.pfc.teachonsnap.notify.NotifyServiceFactory;
 import com.julvez.pfc.teachonsnap.text.TextService;
 import com.julvez.pfc.teachonsnap.text.TextServiceFactory;
-import com.julvez.pfc.teachonsnap.url.URLService;
-import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
@@ -26,7 +24,6 @@ public class CommentServiceImpl implements CommentService {
 	private CommentRepository commentRepository = CommentRepositoryFactory.getRepository();
 	private UserService userService = UserServiceFactory.getService();
 	private LessonService lessonService = LessonServiceFactory.getService();
-	private URLService urlService = URLServiceFactory.getService();
 	private TextService textService = TextServiceFactory.getService();
 	private NotifyService notifyService = NotifyServiceFactory.getService();
 	
@@ -118,7 +115,7 @@ public class CommentServiceImpl implements CommentService {
 			Lesson lesson = lessonService.getLesson(idLesson);
 			User author = userService.getUser(comment.getIdUser());
 			
-			String url = urlService.getAbsoluteURL(lesson.getURL());
+			String url = lesson.getURL();
 
 			List<User> followers = userService.getLessonFollowers(lesson);
 			if(followers != null){
@@ -146,7 +143,7 @@ public class CommentServiceImpl implements CommentService {
 			Comment parentComment = getComment(idParentComment);
 			User parentAuthor = userService.getUser(parentComment.getIdUser());
 			
-			String url = urlService.getAbsoluteURL(lesson.getURL());
+			String url = lesson.getURL();
 
 			if(parentAuthor.getId() != author.getId()){ //No notificar al autor del comentario
 				String subject = textService.getLocalizedText(parentAuthor.getLanguage(),CommentMessageKey.REPLY_COMMENT_SUBJECT, lesson.getTitle());

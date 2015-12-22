@@ -149,7 +149,7 @@
     </div><!-- /.container -->		
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>	
-	<script src="/resources/js/ext/form2js.js"></script>
-	<script src="/resources/js/question.js"></script>	
+	<script src="${host}/resources/js/ext/form2js.js"></script>
+	<script src="${host}/resources/js/question.js"></script>	
 </body>
 </html>

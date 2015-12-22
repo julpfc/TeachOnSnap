@@ -25,7 +25,7 @@
      				&nbsp;
      				<c:set var="statsNextType" value="${statsType eq 'year'?'month':'year'}"/>     			
 	     			<div class="pull-right">
-	     				<a href="/admin/stats/${statsNextType}/">
+	     				<a href="${host}/admin/stats/${statsNextType}/">
 	     					<button class="btn btn-primary btn-xs " type="button">											
 								<span class="glyphicon glyphicon-dashboard"></span>	<fmt:message key="stats.show.${statsNextType}" bundle="${statsBundle}"/>			 	
 							</button>
@@ -128,6 +128,7 @@
 			};			
 		
 		var statsType = "${statsType}";
+		var appHost = "${host}";
 		var barIDs = {};
 		<c:forEach var="stat" items="${statsExtra}" varStatus="loop">barIDs['${fn:substring(fn:escapeXml(stat.key),0,50)}${fn:length(fn:escapeXml(stat.key)) > 50?'...':''}']=${stat.id};</c:forEach>
 		
@@ -137,7 +138,7 @@
 		//-->
 	</script>	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-	<script src="/resources/js/ext/Chart.HorizontalBar.js"></script>
- 	<script src="/resources/js/adminStats.js"></script>
+	<script src="${host}/resources/js/ext/Chart.HorizontalBar.js"></script>
+ 	<script src="${host}/resources/js/adminStats.js"></script>
 </body>
 </html>

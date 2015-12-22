@@ -62,7 +62,7 @@
 	      					</thead>
 	      					<tbody>
 		        			<c:forEach items="${users}" var="profile"> 		
-		  						<tr onclick="window.location='/admin/user/${profile.id}'" class="${profile.banned?'danger':(profile.admin?'warning':(profile.author?'info':''))}">
+		  						<tr onclick="window.location='${host}/admin/user/${profile.id}'" class="${profile.banned?'danger':(profile.admin?'warning':(profile.author?'info':''))}">
 			  						<td>
 			  							<c:if test="${profile.banned}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.banned" bundle="${adminBundle}"/>" class="glyphicon glyphicon-ban-circle"></span></c:if>
 			  							<c:if test="${not profile.banned && profile.admin}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.user.admin" bundle="${adminBundle}"/>" class="glyphicon glyphicon-wrench"></span></c:if>
@@ -129,7 +129,7 @@
 		    								<c:forEach items="${languages}" var="lang" varStatus="loop">
 			    								<span>  
 													<input type="radio" name="lang" id="radioLessonLang${lang.language}" value="${lang.id}" required />
-													<img alt="${lang.language}" src="/resources/img/ico/flag_${lang.language}.jpg"/>
+													<img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/>
 												</span>						
 		    								</c:forEach>
 										</li>
@@ -167,7 +167,7 @@
 		    						<c:forEach items="${languages}" var="lang" varStatus="loop">
 			    						<span>  
 											<input type="radio" name="lang" id="radioLessonLang${lang.language}" value="${lang.id}" required />
-											<img alt="${lang.language}" src="/resources/img/ico/flag_${lang.language}.jpg"/>
+											<img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/>
 										</span>						
 		    						</c:forEach>
 								</li>
@@ -200,6 +200,6 @@
 	 </div><!-- /.container -->		
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>	
-	<script src="/resources/js/adminUsers.js"></script>	
+	<script src="${host}/resources/js/adminUsers.js"></script>	
 </body>
 </html>

@@ -35,7 +35,7 @@
      				<c:set var="statsNextType" value="${statsType eq 'year'?'month':'year'}"/>     			
 	     			<c:if test="${not empty lesson}">
 	     				<div class="pull-right">
-	     				<a href="/stats/${empty statsAdmin?'':'admin/'}${empty profile?'':'author/'}lesson/${statsNextType}/${lesson.id}">
+	     				<a href="${host}/stats/${empty statsAdmin?'':'admin/'}${empty profile?'':'author/'}lesson/${statsNextType}/${lesson.id}">
 	     					<button class="btn btn-primary btn-xs " type="button">											
 								<span class="glyphicon glyphicon-dashboard"></span>	<fmt:message key="stats.show.${statsNextType}" bundle="${statsBundle}"/>			 	
 							</button>
@@ -43,7 +43,7 @@
 						</div>
 						<c:if test="${not empty test}">
 							<div class="pull-left">
-							<a href="/stats/${empty statsAdmin?'':'admin/'}${empty profile?'':'author/'}lesson/test/${test.id}">
+							<a href="${host}/stats/${empty statsAdmin?'':'admin/'}${empty profile?'':'author/'}lesson/test/${test.id}">
 								<button class="btn btn-primary btn-xs" type="button">											
 									<span class="glyphicon glyphicon-dashboard"></span>
 									<fmt:message key="lesson.test.stats.show" bundle="${testBundle}"/>			 	
@@ -53,7 +53,7 @@
 						</c:if>
 					</c:if>	     			
 					<c:if test="${empty lesson && not empty profile}">
-	     				<a href="/stats/${empty statsAdmin?'':'admin/'}author/${statsNextType}/${profile.id}">
+	     				<a href="${host}/stats/${empty statsAdmin?'':'admin/'}author/${statsNextType}/${profile.id}">
 	     					<button class="btn btn-primary btn-xs pull-right" type="button">											
 								<span class="glyphicon glyphicon-dashboard"></span>	<fmt:message key="stats.show.${statsNextType}" bundle="${statsBundle}"/>
 							</button>
@@ -162,11 +162,11 @@
 				<c:forEach var="stat" items="${statsExtra2}" varStatus="loop">{value: ${stat.value},color:"rgba(86,62,124,${(10-loop.index*2)/10})",highlight: "rgba(86,62,124,${(9-loop.index*2)/10})",label:"${fn:substring(fn:escapeXml(stat.key),0,50)}${fn:length(fn:escapeXml(stat.key)) > 50?'...':''}"}${loop.last?'':','}</c:forEach>
 			];
 		</c:if>
-		
+		var appHost = "${host}";
 		//-->
 	</script>	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-	<script src="/resources/js/ext/Chart.HorizontalBar.js"></script>
- 	<script src="/resources/js/stats.js"></script>
+	<script src="${host}/resources/js/ext/Chart.HorizontalBar.js"></script>
+ 	<script src="${host}/resources/js/stats.js"></script>
 </body>
 </html>

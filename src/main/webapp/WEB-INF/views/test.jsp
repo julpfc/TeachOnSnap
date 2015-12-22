@@ -180,7 +180,7 @@
 	</form>	
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>
-	<script src="/resources/js/test.js"></script>
+	<script src="${host}/resources/js/test.js"></script>
 	
 </body>
 </html>

@@ -11,7 +11,6 @@ import javax.persistence.Transient;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.media.model.MediaType;
-import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 @Entity
@@ -36,6 +35,17 @@ public class Lesson {
 	private User author;
 	@Transient
 	private Language language;
+	
+	@Transient
+	private String url;
+	@Transient
+	private String previewURL;
+	@Transient
+	private String editURL;
+	@Transient
+	private String commentURL;
+	@Transient
+	private String newTestURL;
 	
 	
 	@Override
@@ -95,23 +105,31 @@ public class Lesson {
 		URIname = uRIname;
 	}
 	
+	public void setURLs(String lessonURL, String previewURL, String editURL, String commentURL, String newTestURL){
+		this.url = lessonURL;
+		this.previewURL = previewURL;
+		this.editURL = editURL;
+		this.commentURL = commentURL;
+		this.newTestURL = newTestURL;
+	}
+	
 	public String getURL() {
 		if(draft){
-			return ControllerURI.LESSON_PREVIEW.toString() + id;
+			return previewURL + id;
 		}
-		else return ControllerURI.LESSON + URIname;
+		else return url + URIname;
 	}
 	
 	public String getEditURL() {
-		return "/lesson/edit/"+id;
+		return editURL + id;
 	}
 	
 	public String getCommentURL() {
-		return "/lesson/comment/"+URIname;
+		return commentURL + URIname;
 	}
 	
 	public String getNewTestURL() {
-		return "/test/new/"+id;
+		return newTestURL + id;
 	}
 	
 	public User getAuthor() {

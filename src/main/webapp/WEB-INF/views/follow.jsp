@@ -40,16 +40,16 @@
 		  							<td>
 		  								<c:choose>
 											<c:when test="${user.admin}">
-		  										<a href="/admin/user/${author.id}">
+		  										<a href="${host}/admin/user/${author.id}">
 		  										<span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.show.user" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a>
 											</c:when>
 											<c:otherwise>
-		  										<a href="/author/${author.URIName}">
+		  										<a href="${host}/author/${author.URIName}">
 		  										<span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.show.user" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a>
 											</c:otherwise>		  								
 		  								</c:choose>
 		  								</td>
-		  							<td><a onclick="confirm('/follow/author/${profile.id}?unfollowAuthor=${author.id}','admin.group.follow.author.unfollow.confirm');"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.follow.author.unfollow" bundle="${adminBundle}"/>" class="glyphicon glyphicon-remove"></span></a></td>	  							  							
+		  							<td><a onclick="confirm('${host}/follow/author/${profile.id}?unfollowAuthor=${author.id}','admin.group.follow.author.unfollow.confirm');"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.follow.author.unfollow" bundle="${adminBundle}"/>" class="glyphicon glyphicon-remove"></span></a></td>	  							  							
 		  						</tr>
 							</c:forEach>	
 	      					</tbody>
@@ -59,7 +59,7 @@
 					
 				</div>
 				<div class="panel-footer violetButton">			    			
-					<a href="/follow/author/${profile.id}"><button class="btn btn-primary btn-xs pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="admin.group.follow.add.author" bundle="${adminBundle}"/></button></a>		    						
+					<a href="${host}/follow/author/${profile.id}"><button class="btn btn-primary btn-xs pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="admin.group.follow.add.author" bundle="${adminBundle}"/></button></a>		    						
 		    		&nbsp;		    								
      			</div>     
      		</div>     		
@@ -85,7 +85,7 @@
   										<a href="${lesson.URL}">
   										<span data-toggle="tooltip" data-placement="top" title="<fmt:message key="user.follow.show.lesson" bundle="${profBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a>
 									</td>
-		  							<td><a onclick="confirm('/follow/lesson/${profile.id}?unfollowLesson=${lesson.id}','user.follow.lesson.unfollow.confirm');"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="user.follow.lesson.unfollow" bundle="${profBundle}"/>" class="glyphicon glyphicon-remove"></span></a></td>	  							  							
+		  							<td><a onclick="confirm('${host}/follow/lesson/${profile.id}?unfollowLesson=${lesson.id}','user.follow.lesson.unfollow.confirm');"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="user.follow.lesson.unfollow" bundle="${profBundle}"/>" class="glyphicon glyphicon-remove"></span></a></td>	  							  							
 		  						</tr>
 							</c:forEach>	
 	      					</tbody>
@@ -95,7 +95,7 @@
 					
 				</div>
 				<div class="panel-footer violetButton">			    			
-					<a href="/last/"><button class="btn btn-primary btn-xs pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="user.follow.add.lesson" bundle="${profBundle}"/></button></a>		    						
+					<a href="${host}/last/"><button class="btn btn-primary btn-xs pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="user.follow.add.lesson" bundle="${profBundle}"/></button></a>		    						
 		    		&nbsp;		    								
      			</div>     
      		</div>     		
@@ -119,8 +119,8 @@
 		msg['user.follow.lesson.unfollow.confirm'] = 		"<fmt:message key="user.follow.lesson.unfollow.confirm" bundle="${profBundle}"/>";
 		//-->
 	</script>
-	<script src="/resources/js/adminGroup.js"></script>	
-	<script src="/resources/js/confirm.js"></script>	
+	<script src="${host}/resources/js/adminGroup.js"></script>	
+	<script src="${host}/resources/js/confirm.js"></script>	
 	
 </body>
 </html>

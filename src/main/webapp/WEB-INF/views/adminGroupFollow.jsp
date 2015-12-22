@@ -36,8 +36,8 @@
 		        			<c:forEach items="${users}" var="profile"> 		
 		  						<tr>
 			  						<td>${fn:escapeXml(profile.fullName)}</td>
-		  							<td><a href="/admin/user/${profile.id}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.show.user" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a></td>
-		  							<td><a onclick="confirm('/admin/group/follow/author/?unfollowAuthor=${profile.id}','admin.group.follow.author.unfollow.confirm');"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.follow.author.unfollow" bundle="${adminBundle}"/>" class="glyphicon glyphicon-remove"></span></a></td>	  							  							
+		  							<td><a href="${host}/admin/user/${profile.id}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.show.user" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a></td>
+		  							<td><a onclick="confirm('${host}/admin/group/follow/author/?unfollowAuthor=${profile.id}','admin.group.follow.author.unfollow.confirm');"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.follow.author.unfollow" bundle="${adminBundle}"/>" class="glyphicon glyphicon-remove"></span></a></td>	  							  							
 		  						</tr>
 							</c:forEach>	
 	      					</tbody>
@@ -47,7 +47,7 @@
 					
 				</div>
 				<div class="panel-footer violetButton">			    			
-					<a href="/admin/group/follow/author/${group.id}"><button class="btn btn-primary btn-sm pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="admin.group.follow.add.author" bundle="${adminBundle}"/></button></a>		    						
+					<a href="${host}/admin/group/follow/author/${group.id}"><button class="btn btn-primary btn-sm pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="admin.group.follow.add.author" bundle="${adminBundle}"/></button></a>		    						
 		    		&nbsp;		    								
      			</div>     
      		</div>     		
@@ -65,7 +65,7 @@
 					<c:if test="${not empty tags}">					
 						<h2>					
             			<c:forEach items="${tags}" var="tag">
-            				<a onclick="confirm('/admin/group/follow/tag/?unfollowTag=${tag.id}','admin.group.follow.tag.unfollow.confirm');">
+            				<a onclick="confirm('${host}/admin/group/follow/tag/?unfollowTag=${tag.id}','admin.group.follow.tag.unfollow.confirm');">
             					<span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.follow.tag.unfollow" bundle="${adminBundle}"/>" class="label label-info">${fn:escapeXml(tag.tag)}</span>            					
             				</a>  							
 			            </c:forEach>
@@ -74,7 +74,7 @@
 					
 				</div>
 				<div class="panel-footer violetButton">			    			
-					<a href="/admin/group/follow/tag/${group.id}"><button class="btn btn-primary btn-sm pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="admin.group.follow.add.tag" bundle="${adminBundle}"/></button></a>		    						
+					<a href="${host}/admin/group/follow/tag/${group.id}"><button class="btn btn-primary btn-sm pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="admin.group.follow.add.tag" bundle="${adminBundle}"/></button></a>		    						
 		    		&nbsp;		    								
      			</div>     
      		</div>     		
@@ -98,8 +98,8 @@
 		msg['admin.group.follow.tag.unfollow.confirm'] = "<fmt:message key="admin.group.follow.tag.unfollow.confirm" bundle="${adminBundle}"/>";
 		//-->
 	</script>
-	<script src="/resources/js/adminGroup.js"></script>	
-	<script src="/resources/js/confirm.js"></script>	
+	<script src="${host}/resources/js/adminGroup.js"></script>	
+	<script src="${host}/resources/js/confirm.js"></script>	
 	
 </body>
 </html>

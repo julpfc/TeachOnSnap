@@ -10,10 +10,14 @@ import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lesson.test.model.Question;
 import com.julvez.pfc.teachonsnap.lesson.test.repository.LessonTestRepository;
 import com.julvez.pfc.teachonsnap.lesson.test.repository.LessonTestRepositoryFactory;
+import com.julvez.pfc.teachonsnap.url.URLService;
+import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 
 public class LessonTestServiceImpl implements LessonTestService {
 
 	private LessonTestRepository lessonTestRepository = LessonTestRepositoryFactory.getRepository();
+	
+	private URLService urlService = URLServiceFactory.getService();
 	
 	@Override
 	public LessonTest getLessonTest(Lesson lesson) {
@@ -45,6 +49,7 @@ public class LessonTestServiceImpl implements LessonTestService {
 					}
 					test.setQuestions(questions);
 				}
+				test.setURLs(urlService.getLessonTestURL(), urlService.getLessonTestEditURL(), urlService.getLessonTestNewQuestionURL());
 			}
 		}
 		return test;

@@ -33,7 +33,7 @@
 					</span>			
 				</c:if>
 				<c:if test="${userLang.id != lesson.language.id}">
-     				<img alt="${lesson.language.language}" src="/resources/img/ico/flag_${lesson.language.language}.jpg"/>
+     				<img alt="${lesson.language.language}" src="${host}/resources/img/ico/flag_${lesson.language.language}.jpg"/>
      			</c:if>	            			 
       			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/><c:set var="authorID" value="[${lesson.author.id}]"/>
       			 <fmt:message key="lesson.meta.author.by"/> <a href="${lesson.author.URL}">${lesson.author.fullName}${not empty user.authorFollowed[authorID]?' <span class="glyphicon glyphicon-star"></span>':''}</a>
@@ -282,7 +282,7 @@
 	
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>
-	<script src="/resources/js/lesson.js"></script>
+	<script src="${host}/resources/js/lesson.js"></script>
 	<c:if test="${not empty user}">
 		<script type="text/javascript">
 			<!--	    
@@ -292,7 +292,7 @@
 			//-->
 		</script>
 			
-		<script src="/resources/js/confirm.js"></script>
+		<script src="${host}/resources/js/confirm.js"></script>
 	</c:if>
 </body>
 </html>

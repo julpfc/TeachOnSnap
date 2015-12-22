@@ -25,7 +25,7 @@
        				<fmt:message key="app.name"/>
        			</h2>
      		 </div> 
-    		<form action="https://${host}/login/" method="post" class="form-signin" role="form" id="loginForm" >
+    		<form action="${host}/login/" method="post" class="form-signin" role="form" id="loginForm" >
 	      		<div class="modal-body">
 	      			<h2 class="form-signin-heading"><fmt:message key="login.form.title" bundle="${loginBundle}"/></h2>
 	        		<label for="inputEmail" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>
@@ -33,7 +33,7 @@
 			    	<label for="inputPassword" class="sr-only"><fmt:message key="login.form.password" bundle="${loginBundle}"/></label>
 			    	<input type="password" name="password" id="inputPassword" class="form-control" placeholder="<fmt:message key="login.form.password" bundle="${loginBundle}"/>" required>			    	 
 			    	<c:if test="${pageContext.request.scheme eq 'http'}">			    	
-			    		<a href="https://${host}/profile"><span class="glyphicon glyphicon-lock"></span> <fmt:message key="login.form.securelogin" bundle="${loginBundle}"/></a>
+			    		<a href="${host}/profile"><span class="glyphicon glyphicon-lock"></span> <fmt:message key="login.form.securelogin" bundle="${loginBundle}"/></a>
 			   		</c:if>
 		    	</div> 
       			<a data-toggle="collapse" href="#collapseForgotPass" aria-expanded="false" aria-controls="collapseForgotPass"><fmt:message key="login.form.forgotpass" bundle="${loginBundle}"/></a>
@@ -42,7 +42,7 @@
 	        		<button class="btn btn-primary" type="submit"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></button>
 	      		</div>      			
 		  	</form>	  
-		  	<form action="https://${host}/login/" method="post" class="form-signin" role="form">
+		  	<form action="${host}/login/" method="post" class="form-signin" role="form">
 	    		<div class="collapse" id="collapseForgotPass">
 					<div class="well">
 						<label for="inputEmailRemind" class="sr-only"><fmt:message key="login.form.email" bundle="${loginBundle}"/></label>
@@ -69,7 +69,7 @@
        				<fmt:message key="app.name"/>
        			</h2>
      		 </div> 
-    		<form action="https://${host}/login/" method="post" class="form-signin" role="form">		  		    	
+    		<form action="${host}/login/" method="post" class="form-signin" role="form">		  		    	
     			<div class="modal-body">
 	      			<h2 class="form-signin-heading"><fmt:message key="nav.menu.register"/></h2>
 			    	<label for="inputFirstName" class="sr-only"><fmt:message key="user.profile.firstname" bundle="${profBundle}"/></label>

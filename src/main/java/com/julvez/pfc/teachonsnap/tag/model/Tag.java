@@ -15,6 +15,8 @@ public class Tag {
 	@Transient
 	private String MD5;
 	
+	@Transient
+	private String url;
 
 	@Override
 	public String toString() {
@@ -37,8 +39,12 @@ public class Tag {
 		this.tag = tag;
 	}	
 	
+	public void setURLs(String url){
+		this.url = url;
+	}
+	
 	public String getURL() {
-		return "/tag/" + tag;
+		return url + tag;
 	}
 	
 	public void setMD5(String md5) {

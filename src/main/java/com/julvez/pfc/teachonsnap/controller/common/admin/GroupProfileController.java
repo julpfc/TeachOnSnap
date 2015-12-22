@@ -66,7 +66,7 @@ public class GroupProfileController extends AdminController {
 						setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
 					}
 					error = true;
-					response.sendRedirect(ControllerURI.ADMIN_GROUP_MANAGER.toString());
+					response.sendRedirect(urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_MANAGER.toString()));
 					
 				}
 				else if(removeUser != null){
@@ -80,7 +80,7 @@ public class GroupProfileController extends AdminController {
 						setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
 					}
 					error = true;
-					response.sendRedirect(ControllerURI.ADMIN_GROUP_PROFILE.toString() + profile.getId());
+					response.sendRedirect(urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_PROFILE.toString() + profile.getId()));
 					
 				}
 				else if(request.getMethod().equals("POST")){
@@ -129,7 +129,7 @@ public class GroupProfileController extends AdminController {
 					List<Page> pageStack = pageService.getAdminGroupProfilePageStack(profile);				
 					requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 					
-					requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, ControllerURI.ADMIN_GROUP_MANAGER.toString());
+					requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_MANAGER.toString()));
 					
 					requestManager.setAttribute(request, Attribute.USERGROUP, profile);
 					request.getRequestDispatcher("/WEB-INF/views/adminGroup.jsp").forward(request, response);

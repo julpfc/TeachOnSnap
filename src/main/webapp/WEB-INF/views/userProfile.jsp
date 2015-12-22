@@ -198,8 +198,8 @@
 				<div class="alert alert-default col-sm-6" role="alert">					
 					<label>&nbsp;</label>					
 				 	<span>
-						<a class="alert-link pull-left" href="/author/${userProfile.URIName}"><fmt:message key="admin.user.lessons" bundle="${adminBundle}"/></a>
-						<a class="alert-link pull-right" href="/drafts/${userProfile.id}"><fmt:message key="admin.user.drafts" bundle="${adminBundle}"/></a>
+						<a class="alert-link pull-left" href="${host}/author/${userProfile.URIName}"><fmt:message key="admin.user.lessons" bundle="${adminBundle}"/></a>
+						<a class="alert-link pull-right" href="${host}/drafts/${userProfile.id}"><fmt:message key="admin.user.drafts" bundle="${adminBundle}"/></a>
 					</span>
 				 </div>
 			</c:if>	
@@ -216,7 +216,7 @@
 					<div id="div-groups" class="hidden">
 						<ul class="list-group">
 						<c:forEach items="${groups}" var="group">
-							<li class="list-group-item"><a href="/admin/group/${group.id}">${group.groupName} <span class="badge pull-right">${fn:length(group.users)}</span></a></li>
+							<li class="list-group-item"><a href="${host}/admin/group/${group.id}">${group.groupName} <span class="badge pull-right">${fn:length(group.users)}</span></a></li>
 						</c:forEach>
 						</ul>
 				      	<span class="pull-right">				        	
@@ -232,7 +232,7 @@
 			 		<span class="label label-info">${fn:length(userProfile.authorFollowed)} <fmt:message key="user.author.follows" bundle="${profBundle}"/></span>			 		
 			 		<span class="label label-warning">${fn:length(userProfile.lessonFollowed)} <fmt:message key="user.lesson.follows" bundle="${profBundle}"/></span>
 			 		<span class="pull-right">				        	
-				    	<a class="alert-link pull-right" href="/follow/${userProfile.id}"><fmt:message key="user.profile.follow" bundle="${profBundle}"/></a>
+				    	<a class="alert-link pull-right" href="${host}/follow/${userProfile.id}"><fmt:message key="user.profile.follow" bundle="${profBundle}"/></a>
 				     </span>
 				</div>
 			</c:if>
@@ -240,8 +240,8 @@
 				<div class="alert alert-default col-sm-6" role="alert">					
 					<label>&nbsp;</label>					
 				 	<span>
-						<a class="alert-link pull-left" href="/stats/author/month/${userProfile.id}"><fmt:message key="stats.show.month" bundle="${statsBundle}"/></a>
-						<a class="alert-link pull-right" href="/stats/author/year/${userProfile.id}"><fmt:message key="stats.show.year" bundle="${statsBundle}"/></a>
+						<a class="alert-link pull-left" href="${host}/stats/author/month/${userProfile.id}"><fmt:message key="stats.show.month" bundle="${statsBundle}"/></a>
+						<a class="alert-link pull-right" href="${host}/stats/author/year/${userProfile.id}"><fmt:message key="stats.show.year" bundle="${statsBundle}"/></a>
 					</span>
 				 </div>
 			</c:if>		
@@ -257,6 +257,6 @@
 	 </div><!-- /.container -->		
 	<c:import url="./import/footer.jsp"/>
 	<c:import url="./import/js_bootstrap.jsp"/>	
-	<script src="/resources/js/userProfile.js"></script>	
+	<script src="${host}/resources/js/userProfile.js"></script>	
 </body>
 </html>

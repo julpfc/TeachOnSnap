@@ -65,7 +65,7 @@ public class LessonController extends CommonController {
 		if(params!=null && params.length>0){
 			
 			String lessonURI= params[0];
-			
+
 			Lesson lesson = lessonService.getLessonFromURI(lessonURI);
 			
 			if(lesson!=null){

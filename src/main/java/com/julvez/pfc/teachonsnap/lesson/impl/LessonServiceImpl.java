@@ -62,6 +62,10 @@ public class LessonServiceImpl implements LessonService{
 			if(lesson!=null){
 				lesson.setAuthor(userService.getUser(lesson.getIdUser()));
 				lesson.setLanguage(langService.getLanguage(lesson.getIdLanguage()));
+				
+				lesson.setURLs(urlService.getLessonURL(), urlService.getLessonPreviewURL(),
+						urlService.getLessonEditURL(), urlService.getLessonCommentURL(), 
+						urlService.getLessonNewTestURL());
 			}
 		}
 		return lesson;
@@ -134,7 +138,7 @@ public class LessonServiceImpl implements LessonService{
 		boolean success = false;
 		
 		if(lesson != null){
-			String url = urlService.getAbsoluteURL(lesson.getURL());
+			String url = lesson.getURL();
 			String subject = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.NEW_LESSON_SUBJECT, lesson.getTitle());
 			String message = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.NEW_LESSON_MESSAGE, url);
 			
@@ -150,7 +154,7 @@ public class LessonServiceImpl implements LessonService{
 		boolean success = false;
 		
 		if(lesson != null){
-			String url = urlService.getAbsoluteURL(lesson.getURL());
+			String url = lesson.getURL();
 			String subject = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.MODIFIED_LESSON_SUBJECT, lesson.getTitle());
 			String message = textService.getLocalizedText(lesson.getAuthor().getLanguage(),LessonMessageKey.MODIFIED_LESSON_MESSAGE, url);
 			
@@ -267,7 +271,7 @@ public class LessonServiceImpl implements LessonService{
 			
 			if(followers != null){			
 				
-				String url = urlService.getAbsoluteURL(lesson.getURL());
+				String url = lesson.getURL();
 				
 				for(User follower:followers){
 					String subject = textService.getLocalizedText(follower.getLanguage(),LessonMessageKey.PUBLISHED_LESSON_SUBJECT, lesson.getTitle(), lesson.getAuthor().getFullName());

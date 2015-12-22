@@ -23,11 +23,13 @@ public class RequestManagerImpl implements RequestManager {
 	private StringManager stringManager = StringManagerFactory.getManager();
 	private LogManager logger = LogManagerFactory.getManager();
 	
+	
 	@Override
 	public String[] splitParamsFromControllerURI(HttpServletRequest request) {
 		String[] params = null;
-		String req = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
-				
+		
+		String req = request.getRequestURI().replaceFirst(request.getServletContext().getContextPath(),"").replaceFirst(request.getServletPath()+"/", "");
+		
 		if(req.contains("/")){
 			params = req.split("/");
 		}

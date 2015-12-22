@@ -15,12 +15,12 @@ function reloadUploadedFiles(data) {
 	    				.append($('<td/>').html("<input type='radio' name='index' value='"+index+"' required "+((index==len-1)?"checked='checked'":'')+"/>"))
 	                    .append($('<td/>').text(file.fileName))
 	                    .append($('<td/>').html("<span class='glyphicon glyphicon-"+((file.fileType.match('video\/.*')!=null)?"film":((file.fileType.match('audio\/.*')!=null)?"volume-up":"picture"))+"'></span>"))
-	                    .append($('<td/>').html("<span class='glyphicon glyphicon-remove' onclick=$.ajax('/upload/?r="+index+"').done(function(data){reloadUploadedFiles(data);})></span>"))
+	                    .append($('<td/>').html("<span class='glyphicon glyphicon-remove' onclick=$.ajax('"+appHost"/upload/?r="+index+"').done(function(data){reloadUploadedFiles(data);})></span>"))
 	        );
 	    	uploadedFiles.append(
 	    			$('<tr/>')
 	    				.append($('<td/>'))
-	                    .append($('<td/>').html("<a href='/upload/?f="+index+"'>"+msg['lesson.form.media.download']+"</a>"))
+	                    .append($('<td/>').html("<a href='"+appHost+"/upload/?f="+index+"'>"+msg['lesson.form.media.download']+"</a>"))
 	                    .append($('<td/>').text((file.fileSize/1024/1024).toFixed(2)))
 	                    .append($('<td/>').text("MB"))
 	    	);

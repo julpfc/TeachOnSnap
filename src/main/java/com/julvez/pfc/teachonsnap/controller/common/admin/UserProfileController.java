@@ -63,7 +63,7 @@ public class UserProfileController extends AdminController {
 					}
 					
 					error = true;
-					response.sendRedirect(ControllerURI.ADMIN_USER_PROFILE.toString() + "/" + profile.getId() + "/");
+					response.sendRedirect(urlService.getAbsoluteURL(ControllerURI.ADMIN_USER_PROFILE.toString() + "/" + profile.getId() + "/"));
 				}
 				
 				else if(request.getMethod().equals("POST")){
@@ -196,7 +196,7 @@ public class UserProfileController extends AdminController {
 					List<Page> pageStack = pageService.getAdminUserProfilePageStack(profile);				
 					requestManager.setAttribute(request, Attribute.LIST_PAGE_STACK, pageStack);
 					
-					requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, ControllerURI.ADMIN_USER_MANAGER.toString());
+					requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, urlService.getAbsoluteURL(ControllerURI.ADMIN_USER_MANAGER.toString()));
 					
 					requestManager.setAttribute(request, Attribute.USER_PROFILE, profile);
 					request.getRequestDispatcher("/WEB-INF/views/userProfile.jsp").forward(request, response);

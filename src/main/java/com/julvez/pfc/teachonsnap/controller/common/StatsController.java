@@ -107,10 +107,10 @@ public class StatsController extends CommonController {
 								pageStack = pageService.getStatsAuthorLessonPageStack(lesson, statsType);
 								
 								if(StatsType.MONTH == statsType){
-									backPage = ControllerURI.STATS_AUTHOR_MONTH.toString() + lesson.getAuthor().getId();
+									backPage = urlService.getAbsoluteURL(ControllerURI.STATS_AUTHOR_MONTH.toString() + lesson.getAuthor().getId());
 								}
 								else{
-									backPage = ControllerURI.STATS_AUTHOR_YEAR.toString() + lesson.getAuthor().getId();
+									backPage = urlService.getAbsoluteURL(ControllerURI.STATS_AUTHOR_YEAR.toString() + lesson.getAuthor().getId());
 								}
 								requestManager.setAttribute(request, Attribute.USER_PROFILE, lesson.getAuthor());
 							}
@@ -119,10 +119,10 @@ public class StatsController extends CommonController {
 								admin = "admin";
 								
 								if(StatsType.MONTH == statsType){
-									backPage = ControllerURI.STATS_ADMIN_AUTHOR_MONTH.toString() + lesson.getAuthor().getId();
+									backPage = urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_AUTHOR_MONTH.toString() + lesson.getAuthor().getId());
 								}
 								else{
-									backPage = ControllerURI.STATS_ADMIN_AUTHOR_YEAR.toString() + lesson.getAuthor().getId();
+									backPage = urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_AUTHOR_YEAR.toString() + lesson.getAuthor().getId());
 								}
 								requestManager.setAttribute(request, Attribute.USER_PROFILE, lesson.getAuthor());
 							}
@@ -131,15 +131,15 @@ public class StatsController extends CommonController {
 								pageStack = pageService.getStatsAdminLessonPageStack(lesson, statsType);
 								
 								if(StatsType.MONTH == statsType){
-									backPage = ControllerURI.ADMIN_STATS_MONTH.toString();
+									backPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_STATS_MONTH.toString());
 								}
 								else{
-									backPage = ControllerURI.ADMIN_STATS_YEAR.toString();
+									backPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_STATS_YEAR.toString());
 								}								
 							}
 							else if(!error){
 								pageStack = pageService.getStatsLessonPageStack(lesson, statsType);
-								backPage = ControllerURI.LESSON_EDIT.toString() + lesson.getId();
+								backPage = urlService.getAbsoluteURL(ControllerURI.LESSON_EDIT.toString() + lesson.getId());
 							}
 						}
 						else{
@@ -213,10 +213,10 @@ public class StatsController extends CommonController {
 								admin = "admin";
 								
 								if(statsType == StatsType.MONTH){
-									backPage = ControllerURI.ADMIN_STATS_MONTH.toString();
+									backPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_STATS_MONTH.toString());
 								}
 								else{
-									backPage = ControllerURI.ADMIN_STATS_YEAR.toString();
+									backPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_STATS_YEAR.toString());
 								}											
 							}
 							else if(!error){

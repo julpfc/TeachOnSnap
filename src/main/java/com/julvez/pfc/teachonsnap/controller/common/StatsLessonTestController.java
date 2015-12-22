@@ -76,19 +76,19 @@ public class StatsLessonTestController extends CommonController {
 					if(uri != null){
 						switch (uri) {
 						case STATS_AUTHOR_LESSON_TEST:
-							backPage = ControllerURI.STATS_AUTHOR_LESSON_MONTH.toString() + lesson.getId();
+							backPage = urlService.getAbsoluteURL(ControllerURI.STATS_AUTHOR_LESSON_MONTH.toString() + lesson.getId());
 							pageStack = pageService.getStatsAuthorLessonTestPageStack(lesson, test);
 							break;
 						case STATS_LESSON_TEST:
-							backPage = ControllerURI.STATS_LESSON_MONTH.toString() + lesson.getId();
+							backPage = urlService.getAbsoluteURL(ControllerURI.STATS_LESSON_MONTH.toString() + lesson.getId());
 							pageStack = pageService.getStatsLessonTestPageStack(lesson, test);
 							break;
 						case STATS_ADMIN_AUTHOR_LESSON_TEST:
-							backPage = ControllerURI.STATS_ADMIN_AUTHOR_LESSON_MONTH.toString() + lesson.getId();
+							backPage = urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_AUTHOR_LESSON_MONTH.toString() + lesson.getId());
 							pageStack = pageService.getStatsAdminAuthorLessonTestPageStack(lesson, test);
 							break;
 						case STATS_ADMIN_LESSON_TEST:
-							backPage = ControllerURI.STATS_ADMIN_LESSON_MONTH.toString() + lesson.getId();
+							backPage = urlService.getAbsoluteURL(ControllerURI.STATS_ADMIN_LESSON_MONTH.toString() + lesson.getId());
 							pageStack = pageService.getStatsAdminLessonTestPageStack(lesson, test);
 							break;
 						case STATS_TEST:

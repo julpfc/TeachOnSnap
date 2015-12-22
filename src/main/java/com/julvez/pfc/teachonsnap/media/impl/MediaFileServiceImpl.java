@@ -16,6 +16,8 @@ import com.julvez.pfc.teachonsnap.media.model.MediaType;
 import com.julvez.pfc.teachonsnap.media.repository.MediaFileRepository;
 import com.julvez.pfc.teachonsnap.media.repository.MediaFileRepositoryFactory;
 import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
+import com.julvez.pfc.teachonsnap.url.URLService;
+import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 
 public class MediaFileServiceImpl implements MediaFileService {
 
@@ -24,9 +26,17 @@ public class MediaFileServiceImpl implements MediaFileService {
 	private PropertyManager properties = PropertyManagerFactory.getManager();
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
+	private URLService urlService = URLServiceFactory.getService();
+	
 	@Override
 	public List<MediaFile> getLessonMedias(int idLessonMedia) {
-		List<MediaFile> medias = mediaFileRepository.getLessonMedias(idLessonMedia);		
+		List<MediaFile> medias = mediaFileRepository.getLessonMedias(idLessonMedia);	
+		
+		if(medias != null){
+			for(MediaFile media:medias){
+				media.setURLs(urlService.getMediaFileURL());
+			}
+		}
 		return medias;
 	}
 

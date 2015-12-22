@@ -190,8 +190,8 @@
 		msg['lesson.test.unpublish.confirm'] = 			"<fmt:message key="lesson.test.unpublish.confirm" bundle="${testBundle}"/>";		 
 		//-->
 	</script>
-	<script src="/resources/js/editTest.js"></script>
-	<script src="/resources/js/confirm.js"></script>
+	<script src="${host}/resources/js/editTest.js"></script>
+	<script src="${host}/resources/js/confirm.js"></script>
 	
 </body>
 </html>

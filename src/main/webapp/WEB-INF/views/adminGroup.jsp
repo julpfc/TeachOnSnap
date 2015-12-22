@@ -70,7 +70,7 @@
 			  						</td>
 			  						<td>${fn:escapeXml(profile.fullName)}</td>
 		  							<td>${profile.email}</td>
-		  							<td><a href="/admin/user/${profile.id}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.show.user" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a></td>
+		  							<td><a href="${host}/admin/user/${profile.id}"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.show.user" bundle="${adminBundle}"/>" class="glyphicon glyphicon-eye-open"></span></a></td>
 		  							<td><a onclick="confirm('?removeUser=${profile.id}','admin.group.remove.user.confirm');"><span data-toggle="tooltip" data-placement="top" title="<fmt:message key="admin.group.remove.user" bundle="${adminBundle}"/>" class="glyphicon glyphicon-remove"></span></a></td>	  							  							
 		  						</tr>
 		  						<c:set var="emailList" value="${emailList}${empty emailList?'':','}${profile.email}"/>
@@ -108,7 +108,7 @@
   					</div>
      			</div>     
      		</div>     		
-     		<a href="/admin/group/follow/${group.id}"><button class="btn btn-info pull-right" type="button"><span class="glyphicon glyphicon-star"></span> Gestionar seguimientos</button></a>     			
+     		<a href="${host}/admin/group/follow/${group.id}"><button class="btn btn-info pull-right" type="button"><span class="glyphicon glyphicon-star"></span> Gestionar seguimientos</button></a>     			
      	</div><!-- /.row -->     	
 		<div class="row">
 			<nav>
@@ -129,8 +129,8 @@
 		msg['admin.group.remove.confirm'] = 		"<fmt:message key="admin.group.remove.confirm" bundle="${adminBundle}"/>";
 		//-->
 	</script>
-	<script src="/resources/js/adminGroup.js"></script>	
-	<script src="/resources/js/confirm.js"></script>	
+	<script src="${host}/resources/js/adminGroup.js"></script>	
+	<script src="${host}/resources/js/confirm.js"></script>	
 	
 </body>
 </html>

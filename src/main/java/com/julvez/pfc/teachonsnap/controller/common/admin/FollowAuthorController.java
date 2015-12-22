@@ -75,7 +75,7 @@ public class FollowAuthorController extends AdminController {
 						else{
 							setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
 						}		
-						response.sendRedirect(ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId());
+						response.sendRedirect(urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId()));
 					}
 					else{
 						response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -98,7 +98,7 @@ public class FollowAuthorController extends AdminController {
 						else{
 							setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
 						}		
-						response.sendRedirect(ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId());
+						response.sendRedirect(urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId()));
 					}
 					else{
 						response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -168,9 +168,9 @@ public class FollowAuthorController extends AdminController {
 					requestManager.setAttribute(request, Attribute.STRING_PREVPAGE, prevPage);
 					
 					
-					String backPage = ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId();
+					String backPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOWS.toString() + profile.getId());
 					if(searchQuery != null){
-						backPage = ControllerURI.ADMIN_GROUP_FOLLOW_AUTHOR.toString() + profile.getId();
+						backPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_GROUP_FOLLOW_AUTHOR.toString() + profile.getId());
 					}
 					requestManager.setAttribute(request, Attribute.STRING_BACKPAGE, backPage);
 					
