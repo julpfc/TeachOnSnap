@@ -88,9 +88,7 @@ public class ErrorController extends HttpServlet{
 			requestManager.setAttribute(request, Attribute.STRING_ERROR_STATUS_CODE, statusCode);
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
-
-		logger.removePrefix();
+		request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);		
 	}
 	
 }

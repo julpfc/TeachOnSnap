@@ -429,7 +429,7 @@
 	<servlet-mapping>
     	<servlet-name>manifestJSON</servlet-name>
     	<url-pattern>/resources/favicon/manifest.json</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping>	
 	<servlet>
 		<description>
   	</description>
