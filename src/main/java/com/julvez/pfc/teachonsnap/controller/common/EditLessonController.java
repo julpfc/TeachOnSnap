@@ -200,6 +200,11 @@ public class EditLessonController extends CommonController {
 								if(success){
 									if(changes){
 										lessonService.notifyLessonModified(lesson);
+										if(!lesson.isDraft()){
+											//Actualizamos fecha de publicación si se modifica (republicamos)											
+											lessonService.republish(lesson);
+											lesson = lessonService.getLesson(lesson.getId());
+										}
 										setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.LESSON_SAVED));
 									}
 									else{

@@ -23,10 +23,10 @@
 	<sql-query name="SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR">
 	    SELECT idLesson
 	    FROM tlesson
-	    JOIN tlessononline USING(idlesson)
+	    JOIN tlessononline lo USING(idlesson)
 	    JOIN tuserauthoruri USING(iduser)
 	    WHERE tuserauthoruri.URIName = ?
-	    ORDER BY idLesson DESC
+	    ORDER BY lo.date DESC
 	    LIMIT ?,?
 	</sql-query>	
 	<sql-query name="SQL_LESSON_GET_DRAFT_LESSONIDS_FROM_USER">
@@ -46,8 +46,8 @@
 	<sql-query name="SQL_LESSON_GET_LASTLESSONIDS">
 	    SELECT idLesson
 	    FROM tlesson
-	    JOIN tlessononline USING(idlesson)
-	    ORDER BY idLesson DESC	    
+	    JOIN tlessononline lo USING(idlesson)
+	    ORDER BY lo.date DESC	    
 	    LIMIT ?,?
 	</sql-query>
 	<sql-query name="SQL_LESSON_GET_LESSONMEDIAS">
@@ -81,8 +81,9 @@
 	    WHERE idLesson = ?   
 	</sql-query>
 	<sql-query name="SQL_LESSON_PUBLISH">
-	    INSERT IGNORE INTO tlessononline(idLesson, date)	    
-	    VALUES(?, now())   
+	    INSERT INTO tlessononline(idLesson, date)	    
+	    VALUES(?, now()) 
+	    ON DUPLICATE KEY UPDATE date = now();   
 	</sql-query>
 	<sql-query name="SQL_LESSON_UNPUBLISH">
 	    DELETE FROM tlessononline	    

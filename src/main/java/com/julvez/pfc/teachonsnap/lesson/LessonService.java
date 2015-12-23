@@ -32,11 +32,13 @@ public interface LessonService {
 	public Lesson saveLessonTitle(Lesson lesson, String title);
 
 	public void publish(Lesson lesson);
+	public void republish(Lesson lesson);	
 
 	public void unpublish(Lesson lesson);
 
 	public List<Lesson> getLessonDraftsFromUser(User user, int firstResult);
 
-	public List<Lesson> getLessonsFromIDs(Map<String, String> lessonFollowed);	
+	public List<Lesson> getLessonsFromIDs(Map<String, String> lessonFollowed);
+
 
 }

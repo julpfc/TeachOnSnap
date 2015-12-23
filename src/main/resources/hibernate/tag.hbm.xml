@@ -5,10 +5,10 @@
 	<sql-query name="SQL_TAG_GET_LESSONIDS_FROM_TAG">
 	    SELECT idLesson
 	    FROM tlessontag
-	    JOIN tlessononline USING(idlesson)
+	    JOIN tlessononline lo USING(idlesson)
 	    JOIN ttag USING(idTag)
 	    WHERE tag = ?
-	    ORDER BY idLesson DESC
+	    ORDER BY lo.date DESC
 	    LIMIT ?,?
 	</sql-query>
 	<sql-query name="SQL_TAG_GET_LESSONTAGIDS">

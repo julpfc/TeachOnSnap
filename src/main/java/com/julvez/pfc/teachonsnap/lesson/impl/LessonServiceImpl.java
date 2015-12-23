@@ -214,6 +214,13 @@ public class LessonServiceImpl implements LessonService{
 			notifyLessonModified(lesson);
 		}		
 	}
+	
+	@Override
+	public void republish(Lesson lesson) {
+		if(lesson != null && lesson.getId() > 0 && !lesson.isDraft()){
+			lessonRepository.publish(lesson.getId());
+		}		
+	}
 
 
 	@Override
