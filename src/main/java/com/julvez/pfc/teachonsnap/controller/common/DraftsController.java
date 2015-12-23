@@ -17,6 +17,7 @@ import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class DraftsController extends CommentController {
@@ -59,17 +60,18 @@ public class DraftsController extends CommentController {
 						String nextPage = null;
 						if(hasNextPage){
 							if(searchURI == null)
-								nextPage = request.getServletPath()+"/"+(pageResult+MAX_RESULTS_PAGE);
+								nextPage = urlService.getAbsoluteURL(ControllerURI.LESSON_DRAFTS_BY_USER.toString() + (pageResult+MAX_RESULTS_PAGE));
 							else
-								nextPage = request.getServletPath()+"/"+searchURI+"/"+(pageResult+MAX_RESULTS_PAGE);
+								nextPage = urlService.getAbsoluteURL(ControllerURI.LESSON_DRAFTS_BY_USER.toString() +searchURI + "/" + (pageResult+MAX_RESULTS_PAGE));
 						}
 						
 						String prevPage = null;
 						if(pageResult>0){
 							if(searchURI == null)
-								prevPage = request.getServletPath()+"/";
+								prevPage = urlService.getAbsoluteURL(ControllerURI.LESSON_DRAFTS_BY_USER.toString());
 							else
-								prevPage = request.getServletPath()+"/"+searchURI+"/";
+								prevPage = urlService.getAbsoluteURL(ControllerURI.LESSON_DRAFTS_BY_USER.toString() + searchURI + "/");
+							
 							if(pageResult>MAX_RESULTS_PAGE){
 								prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);
 							}

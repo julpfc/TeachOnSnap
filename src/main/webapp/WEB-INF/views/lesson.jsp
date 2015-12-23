@@ -37,6 +37,7 @@
      			</c:if>	            			 
       			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/><c:set var="authorID" value="[${lesson.author.id}]"/>
       			 <fmt:message key="lesson.meta.author.by"/> <a href="${lesson.author.URL}">${lesson.author.fullName}${not empty user.authorFollowed[authorID]?' <span class="glyphicon glyphicon-star"></span>':''}</a>
+   				 <a href="#comments"><span class="glyphicon glyphicon-comment"></span></a>
    			</p>
        	</div>
 		<div class="row">
@@ -186,7 +187,7 @@
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
 		<c:if test="${not lesson.draft}">
-			<div class="row">
+			<div id="comments" class="row">
 				<div class="col-sm-8 col-sm-offset-2">
 					<h3 class="comments-section">
 						<span class="glyphicon glyphicon-comment"></span> 

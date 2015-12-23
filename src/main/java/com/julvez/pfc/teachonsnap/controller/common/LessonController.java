@@ -38,6 +38,7 @@ import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class LessonController extends CommonController {
@@ -161,12 +162,12 @@ public class LessonController extends CommonController {
 					
 					String nextPage = null;
 					if(hasNextPage){
-						nextPage = request.getServletPath()+"/"+lessonURI+"/"+(pageResult+MAX_COMMENTS_PAGE);
+						nextPage = urlService.getAbsoluteURL(ControllerURI.LESSON.toString() + lessonURI + "/" + (pageResult+MAX_COMMENTS_PAGE));
 					}
 					
 					String prevPage = null;
 					if(pageResult>0){
-						prevPage = request.getServletPath()+"/"+lessonURI;
+						prevPage = urlService.getAbsoluteURL(ControllerURI.LESSON.toString() + lessonURI);
 						if(pageResult>MAX_COMMENTS_PAGE){
 							prevPage = prevPage + "/" + (pageResult-MAX_COMMENTS_PAGE);
 						}

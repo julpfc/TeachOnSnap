@@ -21,6 +21,7 @@ import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.tag.TagService;
 import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.CloudTag;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 public abstract class PagerController extends CommonController {
@@ -45,9 +46,11 @@ public abstract class PagerController extends CommonController {
 
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
+		ControllerURI controllerURI = ControllerURI.getURIFromPath(request.getServletPath());
+		
 		int pageResult = getPageResult(params);
 		
-		if(pageResult >= 0){
+		if(pageResult >= 0 && controllerURI != null){
 			boolean hasNextPage = false;
 			String searchURI = getSearchURI(params);
 					
@@ -61,17 +64,18 @@ public abstract class PagerController extends CommonController {
 			String nextPage = null;
 			if(hasNextPage){
 				if(searchURI == null)
-					nextPage = request.getServletPath()+"/"+(pageResult+MAX_RESULTS_PAGE);
+					nextPage = urlService.getAbsoluteURL(controllerURI.toString() + (pageResult+MAX_RESULTS_PAGE));
 				else
-					nextPage = request.getServletPath()+"/"+searchURI+"/"+(pageResult+MAX_RESULTS_PAGE);
+					nextPage = urlService.getAbsoluteURL(controllerURI.toString() + searchURI + "/" + (pageResult+MAX_RESULTS_PAGE));
 			}
 			
 			String prevPage = null;
 			if(pageResult>0){
 				if(searchURI == null)
-					prevPage = request.getServletPath()+"/";
+					prevPage = urlService.getAbsoluteURL(controllerURI.toString());
 				else
-					prevPage = request.getServletPath()+"/"+searchURI+"/";
+					prevPage = urlService.getAbsoluteURL(controllerURI.toString() + searchURI + "/");
+				
 				if(pageResult>MAX_RESULTS_PAGE){
 					prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);
 				}
@@ -91,7 +95,7 @@ public abstract class PagerController extends CommonController {
 			
 			requestManager.setAttribute(request, Attribute.LIST_LESSON, lessons);
 			
-			requestManager.setAttribute(request, Attribute.STRING_SEARCHTYPE,request.getServletPath().substring(1));
+			requestManager.setAttribute(request, Attribute.STRING_SEARCHTYPE, request.getServletPath().substring(1));
 			
 			String searchKeyword = getSearchKeyword(searchURI,lessons);
 			

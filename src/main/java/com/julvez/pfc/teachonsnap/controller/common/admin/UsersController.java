@@ -20,6 +20,7 @@ import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.url.model.SearchType;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
@@ -188,7 +189,7 @@ public class UsersController extends AdminController {
 				
 				String nextPage = null;
 				if(hasNextPage){
-					nextPage = request.getServletPath()+"/"+(pageResult+MAX_RESULTS_PAGE);
+					nextPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_USER_MANAGER.toString() + (pageResult+MAX_RESULTS_PAGE));
 					if(searchType != null){
 						nextPage = nextPage + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType;
 					}
@@ -196,7 +197,7 @@ public class UsersController extends AdminController {
 				
 				String prevPage = null;
 				if(pageResult>0){				
-					prevPage = request.getServletPath()+"/";
+					prevPage = urlService.getAbsoluteURL(ControllerURI.ADMIN_USER_MANAGER.toString());
 					
 					if(pageResult>MAX_RESULTS_PAGE){
 						prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);

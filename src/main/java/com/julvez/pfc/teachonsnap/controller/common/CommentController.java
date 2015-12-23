@@ -33,7 +33,13 @@ public class CommentController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
-		String lessonURI = request.getRequestURI().replaceFirst(request.getServletPath()+"/", "");
+		String[] params = requestManager.splitParamsFromControllerURI(request); 
+		
+		String lessonURI = null;
+		
+		if(params != null && params.length>0){
+			lessonURI = params[0];
+		}
 		
 		Lesson lesson = lessonService.getLessonFromURI(lessonURI);
 		

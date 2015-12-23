@@ -1,4 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setLocale value="${userLang.language}"/>
+<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
  <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -15,3 +18,12 @@
     <c:if test="${not empty errorMessageKey}">
     	<script src="${host}/resources/js/alert.js"></script>
     </c:if>
+    
+    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+	<script type="text/javascript">
+    	window.cookieconsent_options = {
+    			"message":"<fmt:message key='cookie.consent.message'/>","dismiss":"<fmt:message key='cookie.consent.accept'/>","learnMore":"More info","link":null,"theme":"dark-bottom"};
+	</script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+	<!-- End Cookie Consent plugin -->
+    

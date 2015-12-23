@@ -149,7 +149,7 @@ public class FollowAuthorController extends CommonController {
 					
 					String nextPage = null;
 					if(hasNextPage){
-						nextPage = request.getServletPath()+"/"+profile.getId()+"/"+(pageResult+MAX_RESULTS_PAGE);
+						nextPage = urlService.getAbsoluteURL(ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() +"/" + (pageResult+MAX_RESULTS_PAGE));
 						if(searchType != null){
 							nextPage = nextPage + "?" + Parameter.SEARCH_QUERY + "=" + searchQuery + "&" + Parameter.SEARCH_TYPE + "=" + searchType;
 						}
@@ -157,7 +157,7 @@ public class FollowAuthorController extends CommonController {
 					
 					String prevPage = null;
 					if(pageResult>0){				
-						prevPage = request.getServletPath()+"/"+profile.getId()+"/";
+						prevPage = urlService.getAbsoluteURL(ControllerURI.USER_FOLLOW_AUTHOR.toString() + profile.getId() + "/");
 						
 						if(pageResult>MAX_RESULTS_PAGE){
 							prevPage = prevPage + (pageResult-MAX_RESULTS_PAGE);
