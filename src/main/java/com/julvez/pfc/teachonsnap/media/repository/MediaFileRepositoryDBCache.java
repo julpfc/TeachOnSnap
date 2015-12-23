@@ -38,9 +38,9 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 	public int saveMediaFile(int idLesson, FileMetadata file,
 			MediaFileRepositoryPath repoPath, short idMediaMimeType) {
 		
-		int id =(int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
-				new String[]{"getLesson"}, idLesson, file, repoPath, idMediaMimeType);
-					
+		int id =(int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson), stringManager.getKey(repoPath.getId())}, 
+				new String[]{"getLesson","getRepositorySize"}, idLesson, file, repoPath, idMediaMimeType);
+		cache.clearCache("getAuthorQuotaUsed");
 		return id;
 	}
 
@@ -56,8 +56,19 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 
 	@Override
 	public boolean removeMediaFiles(int idLesson, ArrayList<MediaFile> medias, MediaFileRepositoryPath repoPath) {
-		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
-				new String[]{"getLesson"}, idLesson, medias, repoPath);
+		cache.clearCache("getAuthorQuotaUsed");
+		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson), stringManager.getKey(repoPath.getId())}, 
+				new String[]{"getLesson","getRepositorySize"}, idLesson, medias, repoPath);
+	}
+
+	@Override
+	public long getAuthorQuotaUsed(int idUser) {
+		return (long)cache.executeImplCached(repoDB, idUser);
+	}
+
+	@Override
+	public long getRepositorySize(short idMediaRepository) {
+		return (long)cache.executeImplCached(repoDB, idMediaRepository);
 	}
 	
 	

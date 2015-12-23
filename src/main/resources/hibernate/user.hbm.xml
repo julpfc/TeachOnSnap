@@ -199,4 +199,8 @@
 	    VALUES(?, ?)
 	    ON DUPLICATE KEY UPDATE extrainfo = ?;	       
 	</sql-query>
+	<sql-query name="SQL_USER_GET_ADMINS">
+	    SELECT idUser
+	    FROM tuseradmin;	       
+	</sql-query>
 </hibernate-mapping>

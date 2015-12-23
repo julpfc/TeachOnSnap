@@ -118,13 +118,15 @@ public class UserRepositoryDBCache implements UserRepository {
 	@Override
 	public void saveAdmin(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
-				new String[]{"getUser"}, idUser);				
+				new String[]{"getUser"}, idUser);
+		cache.clearCache("getAdmins");
 	}
 
 	@Override
 	public void removeAdmin(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
-				new String[]{"getUser"}, idUser);		
+				new String[]{"getUser"}, idUser);
+		cache.clearCache("getAdmins");
 	}
 
 	@Override
@@ -236,6 +238,12 @@ public class UserRepositoryDBCache implements UserRepository {
 	public void removeExtraInfo(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
 				new String[]{"getUser"}, idUser);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Short> getAdmins() {
+		return (List<Short>) cache.executeImplCached(repoDB);
 	}
 
 }

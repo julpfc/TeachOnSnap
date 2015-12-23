@@ -76,6 +76,8 @@ public interface UserRepository {
 
 	public void saveExtraInfo(int idUser, String extraInfo);
 
-	public void removeExtraInfo(int idUser);	
+	public void removeExtraInfo(int idUser);
+
+	public List<Short> getAdmins();	
 
 }

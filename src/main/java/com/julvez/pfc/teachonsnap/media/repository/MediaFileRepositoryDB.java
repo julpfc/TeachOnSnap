@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.media.repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 
 	@Override
 	public short getDefaultRepositoryID() {
-		int id = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_DEFAULT_REPOSITORY);
+		long id = properties.getNumericProperty(MediaPropertyName.DEFAULT_REPOSITORY);
 		
 		if(id == -1){
 			id=1;
@@ -57,7 +58,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 		int idLessonMedia = createLessonMedia(session, idLesson);
 		
 		if(idLessonMedia>0){
-			int fileSize = Integer.parseInt(file.getFileSize());
+			long fileSize = Long.parseLong(file.getFileSize());
 			idMediaFile = createMediaFile(session, idLessonMedia, repoPath.getId(), idMediaMimeType, file.getFileName(), fileSize);
 			
 			if(idMediaFile>0){
@@ -84,7 +85,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 	}
 
 	private int createMediaFile(Object session, int idLessonMedia,
-			short idMediaRepository, short idMediaMimeType, String fileName, int fileSize) {
+			short idMediaRepository, short idMediaMimeType, String fileName, long fileSize) {
 		return (int)dbm.insertQueryAndGetLastInserID_NoCommit(session,"SQL_MEDIA_CREATE_MEDIAFILE", idLessonMedia,
 				idMediaRepository, idMediaMimeType, fileName, fileSize);
 	}
@@ -144,6 +145,28 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 		}
 		
 		return affectedRows >= 0;
+	}
+
+	@Override
+	public long getAuthorQuotaUsed(int idUser) {
+		long quota = -1;
+		BigDecimal result = dbm.getQueryResultUnique("SQL_MEDIA_GET_AUTHOR_QUOTA_USED", BigDecimal.class, idUser);
+		
+		if(result!=null){
+			quota = result.longValue();
+		}
+		return quota;
+	}
+
+	@Override
+	public long getRepositorySize(short idMediaRepository) {
+		long size = -1;
+		BigDecimal result = dbm.getQueryResultUnique("SQL_MEDIA_GET_REPOSITORY_SIZE_USED", BigDecimal.class, idMediaRepository);
+		
+		if(result!=null){
+			size = result.longValue();
+		}
+		return size;		
 	}
 
 }

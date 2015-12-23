@@ -33,13 +33,13 @@ public class LessonRepositoryDB implements LessonRepository {
 
 	@Override
 	public List<Integer> getLastLessonIDs(int firstResult) {
-		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_LESSON_GET_LASTLESSONIDS", Integer.class, firstResult, maxResults + 1);
 	}
 
 	@Override
 	public List<Integer> getLessonIDsFromAuthor(String author,int firstResult) {
-		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_LESSON_GET_LESSONIDS_FROM_AUTHOR", Integer.class, author,firstResult, maxResults + 1);						
 	}
 
@@ -88,7 +88,7 @@ public class LessonRepositoryDB implements LessonRepository {
 
 	@Override
 	public List<Integer> getDraftLessonIDsFromUser(int idUser, int firstResult) {
-		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_LESSON_GET_DRAFT_LESSONIDS_FROM_USER", Integer.class, idUser, firstResult, maxResults + 1);
 	}
 

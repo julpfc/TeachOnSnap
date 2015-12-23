@@ -15,7 +15,7 @@ function reloadUploadedFiles(data) {
 	    				.append($('<td/>').html("<input type='radio' name='index' value='"+index+"' required "+((index==len-1)?"checked='checked'":'')+"/>"))
 	                    .append($('<td/>').text(file.fileName))
 	                    .append($('<td/>').html("<span class='glyphicon glyphicon-"+((file.fileType.match('video\/.*')!=null)?"film":((file.fileType.match('audio\/.*')!=null)?"volume-up":"picture"))+"'></span>"))
-	                    .append($('<td/>').html("<span class='glyphicon glyphicon-remove' onclick=$.ajax('"+appHost"/upload/?r="+index+"').done(function(data){reloadUploadedFiles(data);})></span>"))
+	                    .append($('<td/>').html("<span class='glyphicon glyphicon-remove' onclick=$.ajax('"+appHost+"/upload/?r="+index+"').done(function(data){reloadUploadedFiles(data);})></span>"))
 	        );
 	    	uploadedFiles.append(
 	    			$('<tr/>')
@@ -130,7 +130,7 @@ $(document).ready(function() {
 		confirm('javascript:removeMedia();','lesson.form.media.remove.confirm');
 	});
 	
-	$.ajax("/upload/?l=1").done(function(data){reloadUploadedFiles(data);});	
+	$.ajax(appHost + "/upload/?l=1").done(function(data){reloadUploadedFiles(data);});	
 	
 });
 

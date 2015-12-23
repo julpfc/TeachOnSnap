@@ -54,7 +54,7 @@ public class LessonController extends CommonController {
 	private StringManager stringManager = StringManagerFactory.getManager();
 	private PropertyManager properties = PropertyManagerFactory.getManager();
 
-	protected final int MAX_COMMENTS_PAGE = properties.getNumericProperty(CommentPropertyName.MAX_PAGE_COMMENTS);
+	protected final int MAX_COMMENTS_PAGE = (int)properties.getNumericProperty(CommentPropertyName.MAX_PAGE_COMMENTS);
 
 	@Override
 	protected void processController(HttpServletRequest request,

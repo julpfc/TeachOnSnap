@@ -39,7 +39,7 @@ public class FollowTagController extends AdminController {
 
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
-	private final int MAX_RESULTS_PAGE = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
+	private final int MAX_RESULTS_PAGE = (int)properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
 
 	
 	@Override

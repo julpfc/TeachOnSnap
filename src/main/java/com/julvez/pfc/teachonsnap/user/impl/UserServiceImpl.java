@@ -568,6 +568,19 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return retUser;
+	}
+
+	@Override
+	public List<User> getAdmins() {
+		List<User> users = new ArrayList<User>();
+		
+		List<Short> ids = userRepository.getAdmins();
+		
+		for(short id:ids){
+			users.add(getUser(id));
+		}
+		
+		return users;
 	}		
 
 }

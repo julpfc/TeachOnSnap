@@ -19,7 +19,7 @@ public class CommentRepositoryDB implements CommentRepository {
 	
 	@Override
 	public List<Integer> getCommentIDs(int idLesson, int firstResult) {
-		int maxResults = properties.getNumericProperty(CommentPropertyName.MAX_PAGE_COMMENTS);
+		long maxResults = properties.getNumericProperty(CommentPropertyName.MAX_PAGE_COMMENTS);
 		return dbm.getQueryResultList("SQL_COMMENT_GET_COMMENTIDS", Integer.class, idLesson, firstResult, maxResults + 1);
 	}
 

@@ -27,7 +27,7 @@ public class HomeController extends CommonController {
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private TagService tagService = TagServiceFactory.getService();
 
-	private final int MAX_RESULTS_PAGE = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+	private final int MAX_RESULTS_PAGE = (int)properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 	
 	@Override
 	protected void processController(HttpServletRequest request,

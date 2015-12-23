@@ -29,6 +29,7 @@
 	<link rel="icon" type="image/png" href="${host}/resources/favicon/favicon-96x96.png" sizes="96x96">
 	<link rel="icon" type="image/png" href="${host}/resources/favicon/favicon-16x16.png" sizes="16x16">
 	<link rel="manifest" href="${host}/resources/favicon/manifest.json">
+	<link rel="mask-icon" href="${host}/resources/favicon/safari-pinned-tab.svg" color="#6f5499">
 	<link rel="shortcut icon" href="${host}/resources/favicon/favicon.ico">
 	<meta name="msapplication-TileColor" content="#6f5499">
 	<meta name="msapplication-TileImage" content="${pageContext.request.contextPath}/resources/favicon/mstile-144x144.png">

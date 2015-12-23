@@ -13,7 +13,7 @@ public enum Attribute {
 	LIST_PAGE_STACK("pageStack"),
 	
 	//Upload
-	INT_MAX_UPLOAD_FILE_SIZE("maxUploadFileSize"),
+	LONG_MAX_UPLOAD_FILE_SIZE("maxUploadFileSize"),
 	LIST_STRING_MEDIATYPE("acceptedFileTypes"),
 
 	//Lesson

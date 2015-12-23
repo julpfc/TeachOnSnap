@@ -47,8 +47,8 @@ public class NewLessonController extends CommonController {
 	protected void processController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
 		if(user.isAuthor()){
-			int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
-			requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);
+			long maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
+			requestManager.setAttribute(request, Attribute.LONG_MAX_UPLOAD_FILE_SIZE, maxFileSize);
 			
 			List<String> acceptedFileTypes = mediaFileService.getAcceptedFileTypes();
 			requestManager.setAttribute(request, Attribute.LIST_STRING_MEDIATYPE, acceptedFileTypes);

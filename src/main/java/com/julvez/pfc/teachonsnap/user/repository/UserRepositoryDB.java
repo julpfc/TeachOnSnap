@@ -91,19 +91,19 @@ public class UserRepositoryDB implements UserRepository {
 
 	@Override
 	public List<Short> getUsers(int firstResult) {
-		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_USER_GET_USERIDS", Short.class, firstResult, maxResults + 1);
 	}
 
 	@Override
 	public List<Short> searchUsersByEmail(String searchQuery, int firstResult) {
-		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_USER_SEARCH_USERIDS_BY_EMAIL", Short.class, searchQuery, firstResult, maxResults + 1);
 	}
 
 	@Override
 	public List<Short> searchUsersByName(String searchQuery, int firstResult) {
-		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_USER_SEARCH_USERIDS_BY_NAME", Short.class, searchQuery, searchQuery, firstResult, maxResults + 1);
 	}
 
@@ -148,19 +148,19 @@ public class UserRepositoryDB implements UserRepository {
 
 	@Override
 	public List<Short> getAuthors(int firstResult) {
-		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_USER_GET_AUTHORIDS", Short.class, firstResult, maxResults + 1);
 	}
 
 	@Override
 	public List<Short> searchAuthorsByEmail(String searchQuery, int firstResult) {
-		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_USER_SEARCH_AUTHORIDS_BY_EMAIL", Short.class, searchQuery, firstResult, maxResults + 1);
 	}
 
 	@Override
 	public List<Short> searchAuthorsByName(String searchQuery, int firstResult) {
-		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_USER_SEARCH_AUTHORIDS_BY_NAME", Short.class, searchQuery, searchQuery, firstResult, maxResults + 1);
 	}
 
@@ -233,6 +233,11 @@ public class UserRepositoryDB implements UserRepository {
 	@Override
 	public void removeExtraInfo(int idUser) {
 		dbm.updateQuery("SQL_USER_REMOVE_EXTRAINFO", idUser);		
+	}
+
+	@Override
+	public List<Short> getAdmins() {
+		return dbm.getQueryResultList("SQL_USER_GET_ADMINS", Short.class, new Object[0]);
 	}
 
 }

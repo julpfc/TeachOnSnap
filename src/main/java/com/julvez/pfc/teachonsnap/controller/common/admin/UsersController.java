@@ -32,7 +32,7 @@ public class UsersController extends AdminController {
 
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
-	private final int MAX_RESULTS_PAGE = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+	private final int MAX_RESULTS_PAGE = (int)properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 	
 	@Override
 	protected void processAdminController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user)

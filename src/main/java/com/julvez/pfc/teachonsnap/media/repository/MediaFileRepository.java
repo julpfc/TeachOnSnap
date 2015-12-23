@@ -23,5 +23,9 @@ public interface MediaFileRepository {
 	public short createMimeTypeID(MediaType mediaType, String fileType, String fileName);
 
 	public boolean removeMediaFiles(int idLesson, ArrayList<MediaFile> medias, MediaFileRepositoryPath repoPath);
+
+	public long getAuthorQuotaUsed(int idUser);
+
+	public long getRepositorySize(short idMediaRepository);
 		
 }

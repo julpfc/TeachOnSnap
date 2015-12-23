@@ -27,7 +27,7 @@ public class DraftsController extends CommentController {
 	protected StringManager stringManager = StringManagerFactory.getManager();
 	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
-	protected final int MAX_RESULTS_PAGE = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+	protected final int MAX_RESULTS_PAGE = (int)properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 
 	
 	@Override

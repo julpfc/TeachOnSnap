@@ -21,17 +21,7 @@ public class PropertyManagerImpl implements PropertyManager {
 	
 	@Override
 	public String getProperty(Enum<?> propertyName) {
-		String property = null;
-		
-		if(propertyName!=null){
-			if(properties == null){
-				loadDefaultProperties();
-			}
-			if(properties!=null){
-				property = properties.getProperty(propertyName.toString());
-			}
-		}
-		return property;
+		return getProperty(propertyName, null);
 	}
 
 	private void loadDefaultProperties() {
@@ -55,21 +45,57 @@ public class PropertyManagerImpl implements PropertyManager {
 	}
 
 	@Override
-	public int getNumericProperty(Enum<?> propertyName) {
-		int ret = -1;
-		String prop = getProperty(propertyName);
+	public long getNumericProperty(Enum<?> propertyName) {
+		return getNumericProperty(propertyName, null);
+	}
+
+	@Override
+	public boolean getBooleanProperty(Enum<?> propertyName) {
+		return getBooleanProperty(propertyName, null);
+	}
+
+	@Override
+	public List<String> getListProperty(Enum<?> propertyName) {
+		return getListProperty(propertyName, null);
+	}
+
+	@Override
+	public String getProperty(Enum<?> propertyName, String propertyNameExtension) {
+		String property = null;
+		
+		if(propertyName!=null){
+			if(properties == null){
+				loadDefaultProperties();
+			}
+			if(properties!=null){
+				String propertyKey = propertyName.toString();
+				
+				if(!stringManager.isEmpty(propertyNameExtension)){
+					propertyKey = propertyKey + propertyNameExtension;
+				}
+				property = properties.getProperty(propertyKey);
+			}
+		}
+		return property;
+	}
+
+	@Override
+	public long getNumericProperty(Enum<?> propertyName, String propertyNameExtension) {
+		long ret = -1;
+		String prop = getProperty(propertyName, propertyNameExtension);
 		
 		if(stringManager.isNumeric(prop)){
-			ret = Integer.parseInt(prop);
+			ret = Long.parseLong(prop);
 		}
 		return ret; 
 	}
 
 	@Override
-	public boolean getBooleanProperty(Enum<?> propertyName) {
+	public boolean getBooleanProperty(Enum<?> propertyName,
+			String propertyNameExtension) {
 		boolean ret = false;
 		
-		String prop = getProperty(propertyName);
+		String prop = getProperty(propertyName, propertyNameExtension);
 		
 		ret = stringManager.isTrue(prop);
 		
@@ -77,10 +103,11 @@ public class PropertyManagerImpl implements PropertyManager {
 	}
 
 	@Override
-	public List<String> getListProperty(Enum<?> propertyName) {
+	public List<String> getListProperty(Enum<?> propertyName,
+			String propertyNameExtension) {
 		List<String> list = null;
 		
-		String prop = getProperty(propertyName);
+		String prop = getProperty(propertyName, propertyNameExtension);
 		
 		list = stringManager.split(prop, ",");		
 		

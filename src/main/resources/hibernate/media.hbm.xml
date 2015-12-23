@@ -40,4 +40,16 @@
 	    DELETE FROM tlessonmedia
 		WHERE idLessonMedia = ?;
 	</sql-query>
+	<sql-query name="SQL_MEDIA_GET_REPOSITORY_SIZE_USED">
+	    SELECT SUM(filesize) 
+	    FROM tmediafile
+	    WHERE idmediarepository = ?;
+	</sql-query>
+	<sql-query name="SQL_MEDIA_GET_AUTHOR_QUOTA_USED">
+	    SELECT SUM(filesize) 
+	    FROM tmediafile
+	    JOIN tlessonmedia USING(idLessonMedia)
+	    JOIN tlesson USING(idLesson)
+	    WHERE iduser = ?;
+	</sql-query>
 </hibernate-mapping>

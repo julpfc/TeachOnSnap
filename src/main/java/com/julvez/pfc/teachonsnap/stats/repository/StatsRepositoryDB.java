@@ -111,7 +111,7 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	@Override
 	public List<Short> getUserIDsTestRank(int idLessonTest) {
-		int limit = properties.getNumericProperty(StatsPropertyName.LIMIT_USER_RANKING);
+		long limit = properties.getNumericProperty(StatsPropertyName.LIMIT_USER_RANKING);
 		
 		return dbm.getQueryResultList("SQL_STATS_GET_USERIDS_TESTRANK", Short.class, idLessonTest, limit);
 	}
@@ -182,7 +182,7 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	@Override
 	public List<StatsData> getAuthorLessonsVisitsLastMonth(int idUser) {
-		int limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
+		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
 		List<StatsData> stats = dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONS_VISITS_LASTMONTH_STATSDATA", StatsData.class, idUser, limit);
 		Collections.reverse(stats);
 		return stats; 
@@ -190,7 +190,7 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	@Override
 	public List<StatsData> getAuthorLessonsVisitsLastYear(int idUser) {
-		int limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
+		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
 		List<StatsData> stats = dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONS_VISITS_LASTYEAR_STATSDATA", StatsData.class, idUser, limit);
 		Collections.reverse(stats);
 		return stats; 
@@ -218,7 +218,7 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	@Override
 	public List<StatsData> getLessonsVisitsLastMonth() {
-		int limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		List<StatsData> stats =  dbm.getQueryResultList("SQL_STATS_GET_LESSONS_VISITS_LASTMONTH_STATSDATA", StatsData.class, limit);
 		Collections.reverse(stats);
 		return stats;
@@ -226,7 +226,7 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	@Override
 	public List<StatsData> getLessonsVisitsLastYear() {
-		int limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		List<StatsData> stats =  dbm.getQueryResultList("SQL_STATS_GET_LESSONS_VISITS_LASTYEAR_STATSDATA", StatsData.class, limit);
 		Collections.reverse(stats);
 		return stats;
@@ -234,7 +234,7 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	@Override
 	public List<StatsData> getAuthorsVisitsLastMonth() {
-		int limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		List<StatsData> stats =  dbm.getQueryResultList("SQL_STATS_GET_AUTHORS_VISITS_LASTMONTH_STATSDATA", StatsData.class, limit);
 		Collections.reverse(stats);
 		return stats;
@@ -242,7 +242,7 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	@Override
 	public List<StatsData> getAuthorsVisitsLastYear() {
-		int limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		List<StatsData> stats =  dbm.getQueryResultList("SQL_STATS_GET_AUTHORS_VISITS_LASTYEAR_STATSDATA", StatsData.class, limit);
 		Collections.reverse(stats);
 		return stats;

@@ -84,5 +84,7 @@ public interface UserService {
 	public List<User> getTagFollowers(Tag tag);
 
 	public User saveExtraInfo(User user, String extraInfo);
+
+	public List<User> getAdmins();
 		
 }

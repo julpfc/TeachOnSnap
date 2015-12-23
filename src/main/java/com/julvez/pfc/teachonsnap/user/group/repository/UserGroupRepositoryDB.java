@@ -16,13 +16,13 @@ public class UserGroupRepositoryDB implements UserGroupRepository {
 	
 	@Override
 	public List<Short> getGroups(int firstResult) {
-		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_USERGROUP_GET_GROUPIDS", Short.class, firstResult, maxResults + 1);
 	}
 
 	@Override
 	public List<Short> searchGroupsByName(String searchQuery, int firstResult) {
-		int maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_USERGROUP_SEARCH_GROUPIDS_BY_NAME", Short.class, searchQuery, firstResult, maxResults + 1);
 	}
 

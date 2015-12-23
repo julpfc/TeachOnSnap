@@ -18,7 +18,7 @@ public class TagRepositoryDB implements TagRepository {
 	
 	@Override
 	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
-		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
+		long maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		return dbm.getQueryResultList("SQL_TAG_GET_LESSONIDS_FROM_TAG", Integer.class, tag,firstResult, maxResults + 1);
 	}
 
@@ -34,13 +34,13 @@ public class TagRepositoryDB implements TagRepository {
 	
 	@Override
 	public List<Object[]> getTagUseCloudTags() {
-		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);		
+		long limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);		
 		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_USE_TAG", Object[].class, limit);		
 	}
 
 	@Override
 	public List<Object[]> getAuthorCloudTags() {
-		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
+		long limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
 		return dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_AUTHOR", Object[].class, limit);		
 	}
 	
@@ -75,25 +75,25 @@ public class TagRepositoryDB implements TagRepository {
 
 	@Override
 	public List<Integer> searchTag(String searchQuery, int firstResult) {
-		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
+		long limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
 		return (List<Integer>)dbm.getQueryResultList("SQL_TAG_SEARCH_TAGIDS", Integer.class, searchQuery, firstResult, limit+1);
 	}
 
 	@Override
 	public List<Integer> getTags(int firstResult) {
-		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
+		long limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
 		return (List<Integer>)dbm.getQueryResultList("SQL_TAG_GET_TAGIDS", Integer.class, firstResult, limit+1);
 	}
 
 	@Override
 	public List<Integer> getTagSearchCloudTags() {
-		int limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);		
+		long limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);		
 		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_SEARCH_TAGIDS", Integer.class, limit);	
 	}
 
 	@Override
 	public List<Integer> getLessonViewCloudTags() {
-		int maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
+		long maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
 		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_VIEW_LESSONIDS", Integer.class, maxResults);	
 	}
 }

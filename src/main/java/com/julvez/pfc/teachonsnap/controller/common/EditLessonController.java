@@ -170,7 +170,7 @@ public class EditLessonController extends CommonController {
 										changes = true;
 									}
 									else{
-										setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
+										setAttributeErrorBean(request,  new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
 										success = false;
 									}
 								}	
@@ -190,7 +190,7 @@ public class EditLessonController extends CommonController {
 										else{
 											//Error, habia fichero pero no hemos podido guardarlo
 											success = false;
-											setErrorSession(request, ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR);
+											setAttributeErrorBean(request, new ErrorBean(ErrorType.ERR_SAVE, ErrorMessageKey.SAVE_ERROR));
 										}
 									}
 									
@@ -230,8 +230,8 @@ public class EditLessonController extends CommonController {
 							requestManager.setAttribute(request, Attribute.LIST_USERTESTRANKS, testRanks);
 						}
 						
-						int maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
-						requestManager.setAttribute(request, Attribute.INT_MAX_UPLOAD_FILE_SIZE, maxFileSize);
+						long maxFileSize = properties.getNumericProperty(MediaPropertyName.MEDIAFILE_MAX_SIZE);
+						requestManager.setAttribute(request, Attribute.LONG_MAX_UPLOAD_FILE_SIZE, maxFileSize);
 						
 						List<String> acceptedFileTypes = mediaFileService.getAcceptedFileTypes();
 						requestManager.setAttribute(request, Attribute.LIST_STRING_MEDIATYPE, acceptedFileTypes);
