@@ -180,7 +180,7 @@ public class DBManagerHibernate implements DBManager{
 				      java.sql.DriverManager.deregisterDriver(driver);				     
 				   }
 			} 
-			logger.info("Cerrando conexiones");
+			logger.info("Conexiones cerradas");
 		}
 		catch(Throwable t){
 			logger.error(t, "Error cerrando conexiones.");

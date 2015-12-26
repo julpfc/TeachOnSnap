@@ -58,6 +58,8 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.addPrefix(this.getClass().getSimpleName());
+		logger.addPrefix(requestManager.getSessionID(request));
+		
 		User user = null;
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 		
@@ -81,7 +83,7 @@ public class LoginController extends HttpServlet {
 						if(!user.isBanned()){
 							//Login OK
 							if(visit == null){
-								visit = visitService.createVisit(requestManager.getIP(request));							
+								visit = visitService.createVisit(requestManager.getIP(request));	
 							}
 							
 							Visit visitu = visitService.saveUser(visit,user);
@@ -197,8 +199,7 @@ public class LoginController extends HttpServlet {
 		// GOTO LastPage
 		
 		if(lastPage==null) lastPage = requestService.getHomeURL();
-		response.sendRedirect(lastPage);
-		logger.removePrefix();
+		response.sendRedirect(lastPage);		
 	}
 
 	/**

@@ -48,7 +48,7 @@
 				     			<c:set var="firstMedia" value="${medias[0]}"/>				     			
 				     			<c:choose>
 				     				<c:when test="${lesson.mediaType == 'VIDEO'}">
-						     			<video src="${firstMedia.URL}" id="lesson_media" controls="controls" poster="" height="auto" width="100%">
+						     			<video src="${firstMedia.URL}" id="lesson_media" controls="controls" height="auto" width="100%">
 							     			<c:forEach items="${medias}" var="media">		
 						       					<source src="${media.URL}" type="${media.mimetype}"/>							    							
 											</c:forEach>

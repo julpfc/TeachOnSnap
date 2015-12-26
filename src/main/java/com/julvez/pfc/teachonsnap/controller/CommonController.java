@@ -62,13 +62,15 @@ public abstract class CommonController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.addPrefix(this.getClass().getSimpleName());
+		logger.addPrefix(requestManager.getSessionID(request));
 		
 		// Por bug de tomcat debido al uso de ISO-Latin1 (ver memoria)
 		request.setCharacterEncoding("UTF-8");
 		
+		logger.info("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+
 		String acceptLang = requestManager.getRequestLanguage(request);
 		
-		//TODO revisar todos los métodos control interno de errores
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 
 		if(visit == null){			
@@ -86,7 +88,7 @@ public abstract class CommonController extends HttpServlet {
 		User user = null;
 		
 		if(visit != null){
-		
+			
 			visit.setIdLanguage(userLang.getId());
 			requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
 
@@ -121,14 +123,14 @@ public abstract class CommonController extends HttpServlet {
 						
 			setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.NONE);
 			
-			logger.info("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 			
 			processController(request, response, visit, user);
 			
+			
 			//Guardamos la página después d eprocesarla para tener acceso a la página anterior
 			requestManager.setSessionAttribute(request, SessionAttribute.LAST_PAGE, request.getRequestURI());
-		}
-		logger.removePrefix();
+		}		
+		logger.info("####END#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 	}
 
 	/**

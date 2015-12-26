@@ -52,7 +52,7 @@ public class UploadRepositoryMap implements UploadRepository {
 			
 					userFiles = temporaryFileRepository.get(key);
 					
-					logger.info("Repositorio creado: "+key);
+					logger.debug("Repositorio creado: "+key);
 				}
 			}
 		}
@@ -67,7 +67,7 @@ public class UploadRepositoryMap implements UploadRepository {
 				for(FileMetadata file:files){ 
 					try {
 						file.getContent().close();
-						logger.info("Cerrando fichero "+file);
+						logger.debug("Cerrando fichero "+file);
 					} catch (Throwable t) {
 						logger.error(t, "Error cerrando fichero: " + file);
 					}
@@ -94,7 +94,7 @@ public class UploadRepositoryMap implements UploadRepository {
 			for(FileMetadata file:files){ 
 				try {
 					file.getContent().close();
-					logger.info("Cerrando fichero "+file);
+					logger.debug("Cerrando fichero "+file);
 				} catch (Throwable t) {
 					logger.error(t, "Error cerrando fichero: " + file);
 				}

@@ -49,7 +49,11 @@ public class FileUploadController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	logger.addPrefix(this.getClass().getSimpleName());
-		User user = null;
+    	logger.addPrefix(requestManager.getSessionID(request));
+    	
+    	logger.info("####GET#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+
+    	User user = null;
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 		if(visit!=null) user = visit.getUser();
     	
@@ -58,7 +62,6 @@ public class FileUploadController extends HttpServlet {
     		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     	}
     	else{
-    		logger.info("####GET#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
     		    		
     		// 1. Get f from URL upload?f="?"
     		int downloadIndex = requestManager.getNumericParameter(request, Parameter.UPLOAD_DOWNLOAD_INDEX); 
@@ -96,8 +99,8 @@ public class FileUploadController extends HttpServlet {
     				}    		
     			}
     		}
-    	}
-    	logger.removePrefix();
+    	}   
+    	logger.info("####END#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
     }
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -105,7 +108,10 @@ public class FileUploadController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		logger.addPrefix(this.getClass().getSimpleName());
+		logger.addPrefix(requestManager.getSessionID(request));
 				
+		logger.info("####POST#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+
 		User user = null;
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 		if(visit!=null) user = visit.getUser();
@@ -115,7 +121,6 @@ public class FileUploadController extends HttpServlet {
     		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     	}
     	else{
-    		logger.info("####POST#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
     		uploadService.addTemporaryFiles(user, getUploadFiles(request));
     		
     		List<FileMetadata> files = uploadService.getTemporaryFiles(user);
@@ -128,8 +133,8 @@ public class FileUploadController extends HttpServlet {
 	        String outJSON = jsonManager.object2JSON(files);
 
 	        response.getOutputStream().write(outJSON.getBytes("UTF-8"));
-    	}
-    	logger.removePrefix();
+    	} 
+    	logger.info("####END#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 	}
 	
 	private List<FileMetadata> getUploadFiles(HttpServletRequest request) {
@@ -154,7 +159,7 @@ public class FileUploadController extends HttpServlet {
 					temp.setMediaType(mtype);
 					
 					if(mtype != null){						
-						logger.info("Upload.Part: "+temp);
+						logger.debug("Upload.Part: "+temp);
 						files.add(temp);
 					}
 				}

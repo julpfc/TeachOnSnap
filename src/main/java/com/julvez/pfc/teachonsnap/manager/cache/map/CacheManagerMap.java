@@ -37,7 +37,7 @@ public class CacheManagerMap implements CacheManager {
 		synchronized (cache) {
 			result = cache.get(stringManager.getKey(params));
 			
-			logger.info(methodName+stringManager.getKey(params)+"="+result);
+			logger.debug(methodName+stringManager.getKey(params)+"="+result);
 			
 
 			if(result == null ){		
@@ -151,7 +151,7 @@ public class CacheManagerMap implements CacheManager {
 				cache = caches.get(cacheName);
 				if(cache==null){
 					caches.put(cacheName, Collections.synchronizedMap(new HashMap<String, Object>()));
-					logger.info("Cache creada: "+cacheName);					
+					logger.debug("Cache creada: "+cacheName);					
 				}			
 			}
 			cache = caches.get(cacheName);
@@ -181,7 +181,7 @@ public class CacheManagerMap implements CacheManager {
 						Object obj = cache.remove(cacheKeys[i]);
 						
 						if(obj!=null) {							
-							logger.info("CacheEliminada: "+cacheName+"["+cacheKeys[i]+"]");
+							logger.debug("CacheEliminada: "+cacheName+"["+cacheKeys[i]+"]");
 						}
 						else{
 							List<String> keys = new ArrayList<String>(cache.keySet());
@@ -189,7 +189,7 @@ public class CacheManagerMap implements CacheManager {
 							for(String key:keys){
 								if(key.startsWith(cacheKeys[i])){
 									cache.remove(key);
-									logger.info("Cache2Eliminada: "+cacheName+"["+key+"]");
+									logger.debug("Cache2Eliminada: "+cacheName+"["+key+"]");
 								}
 							}
 						}
@@ -214,7 +214,7 @@ public class CacheManagerMap implements CacheManager {
 			
 			synchronized (cache) {
 				cache.clear();
-				logger.info("CacheEliminadaTotal: "+cacheName);
+				logger.debug("CacheEliminadaTotal: "+cacheName);
 			}
 		}
 	}
@@ -259,7 +259,7 @@ public class CacheManagerMap implements CacheManager {
 					cache.put(cacheKey, value);
 				}
 			}
-			logger.info("CacheValueInc: "+cacheName+"["+cacheKey+"]++="+value);
+			logger.debug("CacheValueInc: "+cacheName+"["+cacheKey+"]++="+value);
 		}
 		
 	}

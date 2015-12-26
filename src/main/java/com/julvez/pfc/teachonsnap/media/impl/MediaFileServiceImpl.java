@@ -103,7 +103,7 @@ public class MediaFileServiceImpl implements MediaFileService {
 			
 			if(exceeded){
 				notifyQuotaExceeded(author, maxQuota, quotaUsed, newFileSize);
-				logger.info("Se superó la cuota del usuario " + author + " maxQuota=" + maxQuota + " quotaUsed=" + quotaUsed + " newFileSize=" + newFileSize);
+				logger.error("Se superó la cuota del usuario " + author + " maxQuota=" + maxQuota + " quotaUsed=" + quotaUsed + " newFileSize=" + newFileSize);
 			}
 		}		
 		
@@ -129,7 +129,7 @@ public class MediaFileServiceImpl implements MediaFileService {
 			
 			if(full){
 				notifyRepositoryFull(idMediaRepository, maxRepoSize, repoSizeUsed, newFileSize);
-				logger.info("Se superó el tamaño máximo del repositorio " + idMediaRepository + " maxRepoSize=" + maxRepoSize + " repoSizeUsed=" + repoSizeUsed + " newFileSize=" + newFileSize);
+				logger.error("Se superó el tamaño máximo del repositorio " + idMediaRepository + " maxRepoSize=" + maxRepoSize + " repoSizeUsed=" + repoSizeUsed + " newFileSize=" + newFileSize);
 			}
 		}
 		return full;

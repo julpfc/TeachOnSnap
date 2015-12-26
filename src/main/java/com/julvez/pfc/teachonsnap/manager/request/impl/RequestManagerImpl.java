@@ -190,4 +190,9 @@ public class RequestManagerImpl implements RequestManager {
 		}			
 	}
 
+	@Override
+	public String getSessionID(HttpServletRequest request) {
+		return request.getSession(true).getId().substring(0,10);
+	}
+
 }

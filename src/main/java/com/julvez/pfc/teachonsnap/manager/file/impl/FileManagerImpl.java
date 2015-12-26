@@ -20,7 +20,7 @@ public class FileManagerImpl implements FileManager {
 			File file = new File(path+fileName);
 			Files.createDirectories(filePath.toPath());			
 			
-			logger.info("Copiando fichero: "+file.toPath());
+			logger.debug("Copiando fichero: "+file.toPath());
 			Files.copy(inputStream, file.toPath());
 			
 			inputStream.close();

@@ -56,8 +56,13 @@ public class ChangePWController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.addPrefix(this.getClass().getSimpleName());
+		logger.addPrefix(requestManager.getSessionID(request));
+				
 		request.setCharacterEncoding("UTF-8");
 		
+		//Loguear la página en la que estamos
+		logger.info("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		if(params!=null && params.length>0){
@@ -76,8 +81,6 @@ public class ChangePWController extends HttpServlet {
 				requestManager.setAttribute(request, Attribute.USER, user);
 				requestManager.setAttribute(request, Attribute.STRING_HOST, host);
 				
-				//Loguear la página en la que estamos
-				logger.info("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 				
 		
 				if(request.getMethod().equals("POST")){
@@ -110,7 +113,8 @@ public class ChangePWController extends HttpServlet {
 			//Sin token -> Mandar a error 404
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 		}
-		logger.removePrefix();
+		logger.info("####END#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
+		
 	}
 
 	/**
