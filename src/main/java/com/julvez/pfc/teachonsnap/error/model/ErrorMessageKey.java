@@ -54,7 +54,11 @@ public enum ErrorMessageKey {
 	SAVE_DUPLICATE_ERROR_GROUP("save.duplicate.error.group"), 
 	GROUP_SAVED("group.saved"),
 	GROUP_USERS_ADDED("group.users.added"), 
-	GROUP_DELETED("group.deleted");
+	GROUP_DELETED("group.deleted"), 
+	
+	//Broadcast
+	BROADCAST_SENT("broadcast.sent"), 
+	BROADCAST_ERROR("broadcast.error");
 		 		
 	private final String key;
  

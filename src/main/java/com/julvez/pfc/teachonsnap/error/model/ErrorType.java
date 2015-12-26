@@ -8,7 +8,8 @@ public enum ErrorType {
 	ERR_SAVE_DUPLICATE,
 	ERR_REMOVE, 
 	ERR_INVALID_INPUT, 
-	ERR_BANNED;
+	ERR_BANNED, 
+	ERR_SEND;
 	
 	@Override
 	public String toString() {

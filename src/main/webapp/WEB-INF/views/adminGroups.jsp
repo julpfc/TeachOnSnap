@@ -81,6 +81,9 @@
 					
 				</div>
 				<div class="panel-footer">
+					<span class="pull-left">
+	     				<a href="${host}/admin/broadcast/"><button class="btn btn-warning btn-sm" type="button"><span class="glyphicon glyphicon-bullhorn"></span> <fmt:message key="admin.group.broadcast.heading" bundle="${adminBundle}"/></button></a>	     			
+	     			</span>
 					 <c:if test="${empty param['searchQuery']}">
 					 	<form action="" method="post" role="form">
 			    			<div class="col-sm-5 col-sm-offset-7 input-group violetButton">

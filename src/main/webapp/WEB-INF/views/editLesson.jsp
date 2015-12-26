@@ -460,8 +460,8 @@
 		var appHost = "${host}";
 		//-->
 	</script>
-	<script src="${host}/resources/js/editLesson.js"></script>
 	<script src="${host}/resources/js/confirm.js"></script>
+	<script src="${host}/resources/js/editLesson.js"></script>
 	
 	
 </body>

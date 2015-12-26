@@ -84,4 +84,49 @@ public class MailManagerJavaMail implements MailManager {
 		return success;
 	}
 
+	@Override
+	public boolean broadcastHTML(String addresses, String subject, String body) {
+		boolean success = true;
+
+		Properties props = new Properties();
+		props.put(JAVAMAIL_SMTP_HOST,propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_HOST));
+		props.put(JAVAMAIL_SMTP_PORT,propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_PORT));
+		
+		boolean auth = propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_USER)!=null;
+		props.put(JAVAMAIL_SMTP_AUTH,auth?"true":"false");
+		
+		props.put(JAVAMAIL_SMTP_STARTTLS, propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_STARTTLS));
+		
+		Session session = Session.getInstance(props,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(
+						propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_USER), 
+						propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_PASS)
+					);
+				}
+			}
+		);
+
+		try {			
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(propertyManager.getProperty(MailPropertyName.JAVAMAIL_SENDER)));
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_USER)));
+			message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(addresses));
+			message.setSubject(subject);
+			message.setContent(body, "text/html; charset=utf-8");
+			
+			logger.startTimer();
+			logger.info("MailManager: Enviando mail a "+addresses + "[Subject=" + subject + "]");
+			Transport.send(message);
+			logger.infoTime("MailManager: Mail enviado a  "+addresses + "[Subject=" + subject + "]");
+			
+		} 
+		catch (Throwable t) {
+			logger.error(t, "Error enviando mail: " + addresses + "[Subject=" + subject + "]");			
+			success = false;
+		}
+		return success;
+	}
+
 }

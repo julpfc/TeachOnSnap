@@ -72,7 +72,11 @@ public enum Parameter {
 	FOLLOW_TAG("followTag"), 
 	UNFOLLOW_TAG("unfollowTag"), 
 	FOLLOW_LESSON("followLesson"),
-	UNFOLLOW_LESSON("unfollowLesson");
+	UNFOLLOW_LESSON("unfollowLesson"), 
+	
+	//Broadcast
+	BROADCAST_MESSAGE("broadcastMessage"), 
+	BROADCAST_SUBJECT("broadcastSubject");
 
 		 		
 	private final String realName;

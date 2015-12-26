@@ -24,6 +24,7 @@ public enum ControllerURI {
 	ADMIN_GROUP_FOLLOW_TAG("/admin/group/follow/tag/"), 
 	ADMIN_STATS_MONTH("/admin/stats/month/"),
 	ADMIN_STATS_YEAR("/admin/stats/year/"),
+	ADMIN_BROADCAST("/admin/broadcast/"),
 	USER_FOLLOWS("/follow/"),
 	USER_FOLLOW_AUTHOR("/follow/author/"), 
 	STATS_TEST("/stats/test/"),

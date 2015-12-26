@@ -63,6 +63,8 @@
 			            	<li><a href="${host}/admin/users/"><fmt:message key="nav.menu.admin.users"/></a></li>			            	                
 			            	<li><a href="${host}/admin/groups/"><fmt:message key="nav.menu.admin.groups"/></a></li>
 			            	<li class="divider"></li>
+			            	<li><a href="${host}/admin/broadcast/"><fmt:message key="nav.menu.admin.broadcast"/></a></li>
+			            	<li class="divider"></li>
 			            	<li><a href="${host}/admin/stats/month/"><fmt:message key="nav.menu.admin.stats"/></a></li>
 						</ul>
 			        </li>

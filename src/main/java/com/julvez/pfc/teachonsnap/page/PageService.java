@@ -77,4 +77,6 @@ public interface PageService {
 	public List<Page> getStatsAdminAuthorLessonPageStack(Lesson lesson, StatsType statsType);
 
 	public List<Page> getStatsAdminLessonPageStack(Lesson lesson, StatsType statsType);
+
+	public List<Page> getAdminBroadcastGroupPageStack(UserGroup profile);
 }

@@ -464,4 +464,17 @@ public class PageServiceImpl implements PageService {
 		return pages;
 	}
 
+	@Override
+	public List<Page> getAdminBroadcastGroupPageStack(UserGroup profile) {
+		List<Page> pages = getAdminGroupProfilePageStack(profile);
+		
+		if(pages != null && profile != null){
+			Page page = new Page(PageNameKey.ADMIN_BROADCAST_GROUP, 
+					urlService.getAbsoluteURL(ControllerURI.ADMIN_BROADCAST.toString() + profile.getId() + "/"));
+			pages.add(page);
+		}
+		else pages = null;
+		return pages;
+	}
+
 }

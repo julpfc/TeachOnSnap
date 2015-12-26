@@ -107,8 +107,17 @@
   						<fmt:message key="admin.group.add.user.multiple.tip" bundle="${adminBundle}"/>
   					</div>
      			</div>     
-     		</div>     		
-     		<a href="${host}/admin/group/follow/${group.id}"><button class="btn btn-info pull-right" type="button"><span class="glyphicon glyphicon-star"></span> Gestionar seguimientos</button></a>     			
+     		</div> 
+     		<div class="alert alert-default">
+	     		<span class="pull-right">
+	     			<a href="${host}/admin/group/follow/${group.id}"><button class="btn btn-info btn-sm" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="admin.group.follow.heading" bundle="${adminBundle}"/></button></a>     		    			
+	     		</span>
+	     		<span class="pull-right">
+	     			<a href="${host}/admin/broadcast/${group.id}"><button class="btn btn-warning btn-sm" type="button"><span class="glyphicon glyphicon-bullhorn"></span> <fmt:message key="admin.group.broadcast.button" bundle="${adminBundle}"/></button></a>
+	     			&nbsp;
+	     		</span>
+     			&nbsp;
+     		</div>    		
      	</div><!-- /.row -->     	
 		<div class="row">
 			<nav>

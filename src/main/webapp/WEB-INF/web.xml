@@ -72,6 +72,17 @@
 	<servlet>
 		<description>
   		</description>
+		<display-name>AdminBroadcastController</display-name>
+		<servlet-name>AdminBroadcastController</servlet-name>
+		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.BroadcastController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminBroadcastController</servlet-name>
+		<url-pattern>/admin/broadcast/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+  		</description>
 		<display-name>AdminGroupsController</display-name>
 		<servlet-name>AdminGroupsController</servlet-name>
 		<servlet-class>com.julvez.pfc.teachonsnap.controller.common.admin.GroupsController</servlet-class>

@@ -32,7 +32,8 @@ public enum PageNameKey {
 	STATS_LESSON_MONTH("stats.lesson.month.breadcrumb"), 
 	STATS_LESSON_YEAR("stats.lesson.year.breadcrumb"), 
 	STATS_AUTHOR_MONTH("stats.author.month.breadcrumb"), 
-	STATS_AUTHOR_YEAR("stats.author.year.breadcrumb");
+	STATS_AUTHOR_YEAR("stats.author.year.breadcrumb"), 
+	ADMIN_BROADCAST_GROUP("admin.broadcast.group.breadcrumb");
 	
 		 		
 	private final String key;
