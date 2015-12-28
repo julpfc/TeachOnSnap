@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.url.model;
 
 public enum ControllerURI {
 
+	HOME("/"),
 	CHANGE_PASSWORD("/changepw/"), 
 	LESSONS_BY_LAST("/last/"),
 	LESSON_DRAFTS_BY_USER("/drafts/"), 

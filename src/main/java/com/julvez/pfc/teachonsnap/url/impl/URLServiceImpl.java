@@ -15,26 +15,39 @@ import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class URLServiceImpl implements URLService {
 
-	private static final String PROTOCOL = "https://";
-	
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
 	protected RequestManager requestManager = RequestManagerFactory.getManager();
 
 	@Override
+	public String getProtocol() {
+		String defaultProtocol = "https://";
+		String protocol = properties.getProperty(URLPropertyName.TEACHONSNAP_PROTOCOL);
+		
+		if(protocol != null){
+			if(!protocol.contains("://")){
+				protocol = protocol + "://"; 
+			}		
+		}
+		else{
+			protocol = defaultProtocol;
+		}
+			
+		return protocol;
+	}
+	
+	@Override
 	public String getHost() {
-		return PROTOCOL + properties.getProperty(URLPropertyName.TEACHONSNAP_HOST);		
+		return getProtocol() + properties.getProperty(URLPropertyName.TEACHONSNAP_HOST);		
 	}
 
 	@Override
 	public String getAbsoluteURL(String relativeURL) {
-		return PROTOCOL +  properties.getProperty(URLPropertyName.TEACHONSNAP_HOST) + relativeURL;
+		return getHost() + relativeURL;
 	}
 
 	@Override
 	public String getHomeURL() {		
-		String context = "/";
-
-		return PROTOCOL +  properties.getProperty(URLPropertyName.TEACHONSNAP_HOST) + context;
+		return getHost() + ControllerURI.HOME;
 	}
 
 	@Override
@@ -192,6 +205,5 @@ public class URLServiceImpl implements URLService {
 		}
 		else return null;
 	}
-	
 
 }

@@ -9,6 +9,8 @@ import com.julvez.pfc.teachonsnap.user.model.User;
 
 public interface URLService {
 
+	public String getProtocol();
+	
 	public String getHost();
 	
 	public String getAbsoluteURL(String relativeURL);

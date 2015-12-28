@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
@@ -33,7 +34,7 @@
 			    	<label for="inputPassword" class="sr-only"><fmt:message key="login.form.password" bundle="${loginBundle}"/></label>
 			    	<input type="password" name="password" id="inputPassword" class="form-control" placeholder="<fmt:message key="login.form.password" bundle="${loginBundle}"/>" required>			    	 
 			    	<c:if test="${pageContext.request.scheme eq 'http'}">			    	
-			    		<a href="${host}/profile"><span class="glyphicon glyphicon-lock"></span> <fmt:message key="login.form.securelogin" bundle="${loginBundle}"/></a>
+			    		<a href="${fn:replace(host,'http://','https://')}/profile"><span class="glyphicon glyphicon-lock"></span> <fmt:message key="login.form.securelogin" bundle="${loginBundle}"/></a>
 			   		</c:if>
 		    	</div> 
       			<a data-toggle="collapse" href="#collapseForgotPass" aria-expanded="false" aria-controls="collapseForgotPass"><fmt:message key="login.form.forgotpass" bundle="${loginBundle}"/></a>
