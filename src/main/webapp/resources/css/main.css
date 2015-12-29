@@ -309,3 +309,8 @@ button.close{
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
+/* Cookie consent customization*/
+a.cc_btn.cc_btn_accept_all{
+	background-color: #CDBFE3;
+}
