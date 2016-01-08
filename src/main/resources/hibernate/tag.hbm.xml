@@ -77,7 +77,9 @@
 	</sql-query>	
 	<sql-query name="SQL_TAG_GET_CLOUDTAG_SEARCH_TAGIDS">
 		SELECT idTag FROM (
-			SELECT 	idTag, COALESCE( COUNT(DISTINCT tvs.idVisit)/7,COUNT(DISTINCT tvm.idVisit)/30,COUNT(DISTINCT tvy.idVisit)/datediff(now(),min(tvy.date))) AS weight
+			SELECT 	idTag, COALESCE( IF(tvs.idVisit IS NULL,NULL, COUNT(DISTINCT tvs.idVisit)/7),
+									IF(tvm.idVisit IS NULL,NULL, COUNT(DISTINCT tvm.idVisit)/30),
+									COUNT(DISTINCT tvy.idVisit)/datediff(now(),min(tvy.date))) AS weight
 			FROM tvisittag	tvt
 			LEFT JOIN tvisit tvy USING(idvisit)
 			LEFT JOIN tvisit tvm ON tvm.idvisit = tvt.idvisit and tvm.date > date_sub(now(),INTERVAL 1 MONTH)
@@ -93,7 +95,9 @@
 	</sql-query>		
 	<sql-query name="SQL_TAG_GET_CLOUDTAG_VIEW_LESSONIDS">
 		SELECT idLesson FROM (
-			SELECT 	idLesson, COALESCE( COUNT(DISTINCT tvs.idVisit)/7,COUNT(DISTINCT tvm.idVisit)/30,COUNT(DISTINCT tvy.idVisit)/datediff(now(),min(tvy.date))) AS weight
+			SELECT 	idLesson, COALESCE( IF(tvs.idVisit IS NULL,NULL,COUNT(DISTINCT tvs.idVisit)/7),
+										IF(tvm.idVisit IS NULL,NULL,COUNT(DISTINCT tvm.idVisit)/30),
+										COUNT(DISTINCT tvy.idVisit)/datediff(now(),min(tvy.date))) AS weight
 			FROM tvisitlesson tvt
 			LEFT JOIN tvisit tvy USING(idvisit)
 			LEFT JOIN tvisit tvm ON tvm.idvisit = tvt.idvisit and tvm.date > date_sub(now(),INTERVAL 1 MONTH)
