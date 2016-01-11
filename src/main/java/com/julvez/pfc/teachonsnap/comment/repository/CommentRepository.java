@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.comment.model.Comment;
 import com.julvez.pfc.teachonsnap.comment.model.CommentPropertyName;
+import com.julvez.pfc.teachonsnap.user.model.User;
 
 /**
  * Repository to access/modify data related to comments.
  * <p>
- * To be used only by the CommentService's implementation *
+ * To be used only by the {@link CommentService}'s implementation
  */
 public interface CommentRepository {
 	
@@ -18,6 +19,7 @@ public interface CommentRepository {
 	 * @param idLesson Lesson to get the comments from
 	 * @param firstResult first comment from the pagination should start.
 	 * @return a list of Comment IDs
+	 * @see Lesson
 	 */
 	public List<Integer> getCommentIDs(int idLesson, int firstResult);
 
@@ -34,6 +36,9 @@ public interface CommentRepository {
 	 * @param idUser comment's author
 	 * @param commentBody comment body
 	 * @return the new comment ID
+	 * @see Comment
+	 * @see User
+	 * @see Lesson
 	 */
 	public int createComment(int idLesson, int idUser, String commentBody);
 
@@ -41,6 +46,7 @@ public interface CommentRepository {
 	 * Associates a comment with the parent comment which answers to
 	 * @param idComment Answer comment
 	 * @param idParentComment Parent comment
+	 * @see Comment
 	 */
 	public void saveCommentParent(int idComment, int idParentComment);
 
@@ -48,6 +54,7 @@ public interface CommentRepository {
 	 * Modify the comment's body with a new text
 	 * @param idComment Comment which is modified
 	 * @param commentBody New comment's body
+	 * @see Comment
 	 */
 	public void saveCommentBody(int idComment, String commentBody);
 
@@ -56,12 +63,15 @@ public interface CommentRepository {
 	 * @param idComment Comment to be blocked
 	 * @param idAdmin Administrator user who blocks the comment
 	 * @param reason Reason to block this comment, specified by the administrator
+	 * @see Comment
+	 * @see User
 	 */
 	public void blockComment(int idComment, int idAdmin, String reason);
 
 	/**
 	 * Unblocks a previously blocked comment
 	 * @param idComment Blocked comment to be unblocked
+	 * @see Comment
 	 */
 	public void unblockComment(int idComment);
 

@@ -6,6 +6,11 @@ import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 
+/**
+ * Repository implementation to access/modify data from a Database
+ * <p>
+ * {@link DBManager} is used to provide database access
+ */
 public class LangRepositoryDB implements LangRepository {
 
 	private DBManager dbm = DBManagerFactory.getDBManager();	

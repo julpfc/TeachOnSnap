@@ -16,7 +16,8 @@ public interface CommentService {
 	 * number of comments allowed for a page {@link CommentPropertyName}, it will paginate them. 
 	 * @param idLesson a lesson id to look for comments
 	 * @param firstResult first comment from the pagination should start.
-	 * @return comments list for this lesson, pagination starts at the firstResult element 
+	 * @return comments list for this lesson, pagination starts at the firstResult element	 * 
+	 * @see Lesson
 	 */
 	public List<Comment> getComments(int idLesson, int firstResult);
 	
@@ -34,6 +35,9 @@ public interface CommentService {
 	 * @param commentBody comment body
 	 * @param idParentComment Parent comment this comment answers to, if present (idParentComment>0)
 	 * @return the new comment created
+	 * @see Comment
+	 * @see Lesson
+	 * @see User
 	 */
 	public Comment createComment(int idLesson, int idUser, String commentBody, int idParentComment);
 	
@@ -42,6 +46,8 @@ public interface CommentService {
 	 * @param idComment Comment to be modified
 	 * @param idUser User who pretends to modify the comment
 	 * @param commentBody Comment body
+	 * @see User
+	 * @see Comment
 	 */
 	public void saveCommentBody(int idComment, int idUser, String commentBody);
 	
@@ -50,6 +56,7 @@ public interface CommentService {
 	 * @param idComment Comment to be blocked
 	 * @param admin Administrator user who blocks the comment
 	 * @param reason Reason to block this comment, specified by the administrator
+	 * @see Comment
 	 */
 	public void blockComment(int idComment, User admin, String reason);
 	
@@ -57,6 +64,7 @@ public interface CommentService {
 	 * Unblocks a previously blocked comment, can only be called by an administrator user
 	 * @param idComment Blocked comment to be unblocked
 	 * @param admin Adminsitrator user who unblock the comment
+	 * @see Comment
 	 */
 	public void unblockComment(int idComment, User admin);
 
@@ -65,6 +73,7 @@ public interface CommentService {
 	 * @param idLesson Lesson which receives a new comment
 	 * @param comment
 	 * @return true if all followers(users) are notified correctly
+	 * @see Lesson
 	 */
 	public boolean notifyComment(int idLesson, Comment comment);
 	
@@ -74,6 +83,7 @@ public interface CommentService {
 	 * @param comment Answer to the parent comment
 	 * @param idParentComment Parent comment, which author will be notified
 	 * @return true if the parent comment's author is notified correctly
+	 * @see Lesson
 	 */
 	public boolean notifyParentComment(int idLesson, Comment comment, int idParentComment);
 }

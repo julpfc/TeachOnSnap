@@ -10,7 +10,7 @@ import javax.persistence.Transient;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 /**
- * Entity Comment. Describes a comment wrote by an user in a lesson. 
+ * Entity. Describes a comment wrote by an user in a lesson. 
  * It can be as a response to a previous comment (parent comment).
  * Author can edit the comment, or can be blocked/banned by an administrator.
  * 
@@ -49,6 +49,7 @@ public class Comment {
 	
 	/**
 	 * @return Comment's author ID
+	 * @see User
 	 */
 	public int getIdUser() {
 		return idUser;
@@ -57,6 +58,7 @@ public class Comment {
 	/**
 	 * For completition purpose only. Not to be used to modify the object.
 	 * @param idUser Comment's auhtor ID
+	 * @see User
 	 */
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
@@ -115,7 +117,7 @@ public class Comment {
 	}
 	
 	/**
-	 * @return comment's author
+	 * @return comment's author	 * 
 	 */
 	public User getUser() {
 		return user;
@@ -123,7 +125,7 @@ public class Comment {
 	
 	/**
 	 * Sets the Comment's author object
-	 * @param user Comment's author
+	 * @param user Comment's author	 * 
 	 */
 	public void setUser(User user) {
 		this.user = user;
