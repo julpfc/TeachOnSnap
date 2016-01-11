@@ -8,6 +8,13 @@ import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
+/**
+ * Repository implementation to access/modify data from a Database through a cache.
+ * <p>
+ * A repository database implementation ({@link CommentRepositoryDB}) is used to provide the database layer under the cache.
+ * <p>
+ * {@link CacheManager} is used to provide a cache system
+ */
 public class CommentRepositoryDBCache implements CommentRepository {
 
 	private CommentRepositoryDB repoDB = new CommentRepositoryDB();
@@ -54,6 +61,5 @@ public class CommentRepositoryDBCache implements CommentRepository {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idComment)}, 
 				new String[]{"getComment"}, idComment);		
 	}
-
 
 }

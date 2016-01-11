@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.user.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -523,13 +524,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getLessonFollowers(Lesson lesson) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
+		//If valid lesson and it's published
 		if(lesson != null && !lesson.isDraft()){
+			//get lesson followers from repo
 			List<Short> ids = userRepository.getLessonFollowers(lesson.getId());
 		
-			for(short id:ids){
-				users.add(getUser(id));
+			//fill in followers(User) list if no repo error from IDs list
+			if(ids != null){
+				users = new ArrayList<User>();
+				for(short id:ids){
+					users.add(getUser(id));
+				}
 			}
 		}
 		
