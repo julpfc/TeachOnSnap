@@ -102,12 +102,7 @@
             			<a class="list-group-item list-group-item-warning" href="${cloudTag.URL}">${fn:escapeXml(cloudTag.tag)} <span class="badge">${loop.index + 1}</span></a>
 		            </c:forEach>
 		            </div>
-          		</div>
-          		<div class="sidebar">
-            		<h4>About <fmt:message key="app.name" /> <span class="glyphicon glyphicon-facetime-video"></span>
-		        	<span class="glyphicon glyphicon-book"></span></h4>
-            		<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-          		</div>
+          		</div>          		
         	</div><!-- sidebar -->
 		</div><!-- /.row -->
     </div><!-- /.container -->

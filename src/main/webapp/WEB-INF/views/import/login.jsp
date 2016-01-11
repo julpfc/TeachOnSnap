@@ -102,6 +102,7 @@
      		 </div> 
     		<div class="modal-body form-signin">      			
       			<div class="form-signin"><fmt:message key="about"/></div>		    	
+      			<div class="form-signin"><fmt:message key="about.glyphicons"/><a href="http://glyphicons.com">Glyphicons.com</a></div>
     		</div>
    		</div>
 	</div>	
