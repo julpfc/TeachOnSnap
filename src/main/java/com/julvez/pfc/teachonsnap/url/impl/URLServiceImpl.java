@@ -13,6 +13,10 @@ import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.url.model.URLPropertyName;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
+/**
+ * Implementation of the URLService interface, uses athe application properties 
+ * file to get default parameters.
+ */
 public class URLServiceImpl implements URLService {
 
 	protected PropertyManager properties = PropertyManagerFactory.getManager();
@@ -23,6 +27,7 @@ public class URLServiceImpl implements URLService {
 		String defaultProtocol = "https://";
 		String protocol = properties.getProperty(URLPropertyName.TEACHONSNAP_PROTOCOL);
 		
+		//Default protocol is used in case no protocol is defined on properties file.
 		if(protocol != null){
 			if(!protocol.contains("://")){
 				protocol = protocol + "://"; 
