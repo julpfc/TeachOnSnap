@@ -1,6 +1,5 @@
 package com.julvez.pfc.teachonsnap.comment.model;
 
-
 /**
  * Enumeration with the properties names related to comments.
  * <p>
