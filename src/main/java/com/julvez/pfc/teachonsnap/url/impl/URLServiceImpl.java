@@ -3,9 +3,6 @@ package com.julvez.pfc.teachonsnap.url.impl;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
-import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.url.URLService;
@@ -14,13 +11,24 @@ import com.julvez.pfc.teachonsnap.url.model.URLPropertyName;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 /**
- * Implementation of the URLService interface, uses athe application properties 
+ * Implementation of the URLService interface, uses the application properties 
  * file to get default parameters.
  */
 public class URLServiceImpl implements URLService {
 
-	protected PropertyManager properties = PropertyManagerFactory.getManager();
-	protected RequestManager requestManager = RequestManagerFactory.getManager();
+	/** Property manager providing access to properties files */
+	private PropertyManager properties;
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param properties Property manager providing access to properties files
+	 */
+	public URLServiceImpl(PropertyManager properties) {
+		if(properties == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.properties = properties;
+	}
 
 	@Override
 	public String getProtocol() {

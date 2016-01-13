@@ -12,6 +12,7 @@ public enum SearchType {
 	/** Search by email */
 	EMAIL("email");
 
+	/** Type value */
 	private final String type;
  
 	private SearchType(String uri) {

@@ -137,6 +137,7 @@ public enum ControllerURI {
 	/** Static resources/media URI */
 	RESOURCES_MEDIA("/resources/media/");
 
+	/** Relative URI to the controller */
 	private final String URI;
  
 	private ControllerURI(String uri) {

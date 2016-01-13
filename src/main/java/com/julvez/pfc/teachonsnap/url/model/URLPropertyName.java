@@ -14,6 +14,7 @@ public enum URLPropertyName {
 	/**	Application protocol (http, https, ...) */
 	TEACHONSNAP_PROTOCOL("teachonsnap.protocol");
 	
+	/** Real property name on the properties file */
 	private final String realName;
  
 	private URLPropertyName(String property) {

@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.url;
 
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.url.impl.URLServiceImpl;
 
 /**
@@ -10,6 +11,7 @@ import com.julvez.pfc.teachonsnap.url.impl.URLServiceImpl;
  * getService() method.
  */
 public class URLServiceFactory {
+	/** Singleton reference to the service */
 	private static URLService service;
 	
 	/**
@@ -17,7 +19,7 @@ public class URLServiceFactory {
 	 */
 	public static URLService getService(){
 		if(service==null){
-			service = new URLServiceImpl();
+			service = new URLServiceImpl(PropertyManagerFactory.getManager());
 		}
 		return service;
 	}
