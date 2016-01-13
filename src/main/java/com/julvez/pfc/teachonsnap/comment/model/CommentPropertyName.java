@@ -10,6 +10,7 @@ public enum CommentPropertyName {
 	/**	Pagination limit for comments. Max number of comments in a page. */
 	MAX_PAGE_COMMENTS("pager.max.page.comments");
 	
+	/** Real property name on the properties file */
 	private final String realName;
  
 	private CommentPropertyName(String property) {

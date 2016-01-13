@@ -8,16 +8,11 @@ import com.julvez.pfc.teachonsnap.comment.CommentService;
 import com.julvez.pfc.teachonsnap.comment.model.Comment;
 import com.julvez.pfc.teachonsnap.comment.model.CommentMessageKey;
 import com.julvez.pfc.teachonsnap.comment.repository.CommentRepository;
-import com.julvez.pfc.teachonsnap.comment.repository.CommentRepositoryFactory;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
-import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.notify.NotifyService;
-import com.julvez.pfc.teachonsnap.notify.NotifyServiceFactory;
 import com.julvez.pfc.teachonsnap.text.TextService;
-import com.julvez.pfc.teachonsnap.text.TextServiceFactory;
 import com.julvez.pfc.teachonsnap.user.UserService;
-import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 
@@ -27,14 +22,41 @@ import com.julvez.pfc.teachonsnap.user.model.User;
  */
 public class CommentServiceImpl implements CommentService {
 	
-	private CommentRepository commentRepository = CommentRepositoryFactory.getRepository();
+	/** Repository than provides data access/modification */
+	private CommentRepository commentRepository;
 	
-	private UserService userService = UserServiceFactory.getService();
-	private LessonService lessonService = LessonServiceFactory.getService();
-	private TextService textService = TextServiceFactory.getService();
-	private NotifyService notifyService = NotifyServiceFactory.getService();
-	
-	
+	/** Provides the functionality to work with users. */
+	private UserService userService;
+	/** Provides the functionality to work with lessons. */
+	private LessonService lessonService;
+	/** Provides the functionality to work with localized texts. */
+	private TextService textService;
+	/** Provides the functionality to work with notifications. */
+	private NotifyService notifyService;
+		
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param commentRepository Repository than provides data access/modification
+	 * @param userService Provides the functionality to work with users.
+	 * @param lessonService Provides the functionality to work with lessons.
+	 * @param textService Provides the functionality to work with localized texts.
+	 * @param notifyService Provides the functionality to work with notifications.
+	 */
+	public CommentServiceImpl(CommentRepository commentRepository,
+			UserService userService, LessonService lessonService,
+			TextService textService, NotifyService notifyService) {
+		
+		if(commentRepository == null || userService == null || lessonService == null
+				|| textService == null || notifyService == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.commentRepository = commentRepository;
+		this.userService = userService;
+		this.lessonService = lessonService;
+		this.textService = textService;
+		this.notifyService = notifyService;
+	}
+
 	@Override
 	public List<Comment> getComments(int idLesson, int firstResult) {
 		List<Comment> comments = Collections.emptyList();

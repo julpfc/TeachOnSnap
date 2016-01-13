@@ -5,11 +5,8 @@ import java.util.List;
 import com.julvez.pfc.teachonsnap.comment.model.Comment;
 import com.julvez.pfc.teachonsnap.comment.model.CommentPropertyName;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
 /**
  * Repository implementation to access/modify data from a Database
@@ -17,11 +14,31 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
  * {@link DBManager} is used to provide database access
  */
 public class CommentRepositoryDB implements CommentRepository {
-
-	private DBManager dbm = DBManagerFactory.getDBManager();
-	private StringManager stringManager = StringManagerFactory.getManager();
-	private PropertyManager properties = PropertyManagerFactory.getManager();
 	
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;
+		
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
+	
+	/** Property manager providing access to properties files */
+	private PropertyManager properties;
+			
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 * @param stringManager String manager providing string manipulation utilities
+	 * @param properties Property manager providing access to properties files
+	 */
+	public CommentRepositoryDB(DBManager dbm, StringManager stringManager, PropertyManager properties) {
+		if(dbm == null || stringManager == null || properties == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+		this.stringManager = stringManager;
+		this.properties = properties;
+	}
+
 	@Override
 	public List<Integer> getCommentIDs(int idLesson, int firstResult) {
 		//Get pagination limit for comments (application properties file)
@@ -61,11 +78,27 @@ public class CommentRepositoryDB implements CommentRepository {
 		return idComment;
 	}
 
+	/**
+	 * Creates a new comment on the database. Requires a database
+	 * transaction within a session.
+	 * @param session Open transaction at the database
+	 * @param idLesson Lesson where the comment is created
+	 * @param idUser Comment's author
+	 * @return new comment identifier (-1 if error)
+	 */
 	private int createComment(Object session, int idLesson, int idUser) {
 		return (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_COMMENT_CREATE_COMMENT", idLesson, idUser);
 	}
 	
 	
+	/**
+	 * Update the body of a comment. Requires a database
+	 * transaction within a session.
+	 * @param session Open transaction at the database
+	 * @param idComment Comment to be updated
+	 * @param commentBody New comment body
+	 * @return rows affected
+	 */
 	private int saveCommentBody(Object session, int idComment, String commentBody) {
 		return (int)dbm.updateQuery_NoCommit(session, "SQL_COMMENT_SAVE_BODY", idComment,commentBody,commentBody);		
 	}
@@ -87,6 +120,12 @@ public class CommentRepositoryDB implements CommentRepository {
 		dbm.endTransaction(true, session);		
 	}
 
+	/**
+	 * Update the last modification date for comment. Requires a database
+	 * transaction within a session.
+	 * @param session Open transaction at the database
+	 * @param idComment Comment to be updated
+	 */
 	private void saveCommentEditDate(Object session, int idComment) {
 		dbm.updateQuery_NoCommit(session, "SQL_COMMENT_SAVE_DATEEDIT", idComment);		
 	}

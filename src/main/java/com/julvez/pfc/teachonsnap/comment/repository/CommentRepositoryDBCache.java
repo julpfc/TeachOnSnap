@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.comment.model.Comment;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
-import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
 /**
  * Repository implementation to access/modify data from a Database through a cache.
@@ -17,10 +15,28 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
  */
 public class CommentRepositoryDBCache implements CommentRepository {
 
-	private CommentRepositoryDB repoDB = new CommentRepositoryDB();
-	private CacheManager cache = CacheManagerFactory.getCacheManager();
-	private StringManager stringManager = StringManagerFactory.getManager();
+	/** Database repository providing data access and modification capabilities */
+	private CommentRepositoryDB repoDB;
+	/** Cache manager providing access/modification capabilities to the cache system */
+	private CacheManager cache;
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
 	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param repoDB Database repository providing data access and modification capabilities
+	 * @param cache Cache manager providing access/modification capabilities to the cache system
+	 * @param stringManager String manager providing string manipulation utilities
+	 */
+	public CommentRepositoryDBCache(CommentRepositoryDB repoDB,	CacheManager cache, StringManager stringManager) {
+		if(repoDB == null || stringManager == null || cache == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.repoDB = repoDB;
+		this.cache = cache;
+		this.stringManager = stringManager;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Integer> getCommentIDs(int idLesson, int firstResult) {

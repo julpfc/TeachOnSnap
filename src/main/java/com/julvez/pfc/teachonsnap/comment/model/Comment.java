@@ -18,17 +18,34 @@ import com.julvez.pfc.teachonsnap.user.model.User;
 @Entity
 public class Comment {
 
+	/**
+	 * Comment identifier and primary key for the entity
+	 */
 	@Id
-	@Column (name="idComment")
+	@Column (name="idComment")	
 	private int id;
+	
+	/** Author's id */
 	private int idUser;
+	
+	/** Creation date */
 	private Date date;
+	
+	/** Parent comment in case this comment is a response to a parent comment (-1 otherwise) */
 	private int idParentComment;
+	
+	/** Indicates if the comment was edited since creation */
 	private boolean edited;
+	
+	/** Indicates if the comment is banned by an admin user */
 	private boolean banned;
 	
+	/** Comment's body */
 	private String body;
 	
+	/**
+	 * Author
+	 */
 	@Transient
 	private User user;
 	

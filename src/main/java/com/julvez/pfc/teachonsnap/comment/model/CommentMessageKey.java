@@ -17,7 +17,7 @@ public enum CommentMessageKey {
 	/** Message body to notify new answer for comment */
 	REPLY_COMMENT_MESSAGE("comment.reply.message");
 		
-	
+	/** Real message key on the messages properties file */
 	private final String realName;
  
 	private CommentMessageKey(String property) {
