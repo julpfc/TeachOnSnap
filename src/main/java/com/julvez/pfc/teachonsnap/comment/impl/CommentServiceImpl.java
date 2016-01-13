@@ -15,7 +15,6 @@ import com.julvez.pfc.teachonsnap.text.TextService;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
-
 /**
  * Implementation of the CommentService interface, uses an internal {@link CommentRepository} 
  * to access/modify the Comments related data.
