@@ -138,7 +138,8 @@ public enum ErrorMessageKey {
 	
 	/**	There was a problem sending a broadcast message */
 	BROADCAST_ERROR("broadcast.error");
-		 		
+	
+	/** Message key on the messages properties file */
 	private final String key;
  
 	private ErrorMessageKey(String messageKey) {

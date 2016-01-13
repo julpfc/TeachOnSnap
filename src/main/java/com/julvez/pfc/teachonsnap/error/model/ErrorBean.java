@@ -4,16 +4,12 @@ package com.julvez.pfc.teachonsnap.error.model;
  * Describes an error with the type of error and de key for the localized message.
  */
 public class ErrorBean {
+	/** Error type from enum */
 	private ErrorType type;
-	private ErrorMessageKey messageKey;
 	
-	/**
-	 * Constructor
-	 * @param type error type from enum
-	 * @param messageKey key for the localized message
-	 * @see ErrorType
-	 * @see ErrorMessageKey
-	 */
+	/** Key for the localized message */
+	private ErrorMessageKey messageKey;
+		
 	public ErrorBean(ErrorType type, ErrorMessageKey messageKey) {
 		this.type = type;
 		this.messageKey = messageKey;
