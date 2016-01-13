@@ -12,14 +12,29 @@ import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.page.model.PageNameKey;
 import com.julvez.pfc.teachonsnap.stats.model.StatsType;
 import com.julvez.pfc.teachonsnap.url.URLService;
-import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
+/**
+ * Implementation of the PageService interface, uses an internal {@link URLService} 
+ * to work with app's URLs.
+ */
 public class PageServiceImpl implements PageService {
 	
-	private URLService urlService = URLServiceFactory.getService();
+	/** Provides the functionality to work with application's URLs. */
+	private URLService urlService;
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param urlService Provides the functionality to work with application's URLs.
+	 */
+	public PageServiceImpl(URLService urlService) {
+		if(urlService == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.urlService = urlService;
+	}
 
 	@Override
 	public List<Page> getLessonPageStack(Lesson lesson) {
