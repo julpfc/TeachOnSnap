@@ -20,10 +20,25 @@ import com.julvez.pfc.teachonsnap.user.model.User;
 
 public class LangServiceImpl implements LangService {
 
+	/** Repository than provides data access/modification */
 	private LangRepository langRepo = LangRepositoryFactory.getRepository();
 	
+	/** String manager providing string manipulation utilities */
 	private StringManager stringManager = StringManagerFactory.getManager();
 	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param langRepo Repository than provides data access/modification
+	 * @param stringManager String manager providing string manipulation utilities
+	 */
+	public LangServiceImpl(LangRepository langRepo, StringManager stringManager) {
+		if(langRepo == null || stringManager == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.langRepo = langRepo;
+		this.stringManager = stringManager;
+	}
+
 	@Override
 	public Language getLanguage(String language) {
 		Language lang = null;

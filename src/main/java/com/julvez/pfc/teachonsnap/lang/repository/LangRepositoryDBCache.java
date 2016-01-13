@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
-import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 
 /**
  * Repository implementation to access/modify data from a Database through a cache.
@@ -15,9 +14,26 @@ import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
  */
 public class LangRepositoryDBCache implements LangRepository {
 
-	private CacheManager cache = CacheManagerFactory.getCacheManager();
-	private LangRepositoryDB repoDB = new LangRepositoryDB();
-		
+	/** Database repository providing data access and modification capabilities */
+	private LangRepositoryDB repoDB;
+
+	/** Cache manager providing access/modification capabilities to the cache system */
+	private CacheManager cache;
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param repoDB Database repository providing data access and modification capabilities
+	 * @param cache Cache manager providing access/modification capabilities to the cache system
+	 */
+	public LangRepositoryDBCache(LangRepositoryDB repoDB, CacheManager cache) {
+		if(repoDB == null || cache == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.repoDB = repoDB;
+		this.cache = cache;
+	}
+
+	@Override
 	public Language getLanguage(short idLanguage) {
 		return (Language)cache.executeImplCached(repoDB, idLanguage);
 	}

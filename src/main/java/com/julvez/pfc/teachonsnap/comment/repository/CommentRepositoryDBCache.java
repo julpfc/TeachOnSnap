@@ -17,8 +17,10 @@ public class CommentRepositoryDBCache implements CommentRepository {
 
 	/** Database repository providing data access and modification capabilities */
 	private CommentRepositoryDB repoDB;
+	
 	/** Cache manager providing access/modification capabilities to the cache system */
 	private CacheManager cache;
+	
 	/** String manager providing string manipulation utilities */
 	private StringManager stringManager;
 	

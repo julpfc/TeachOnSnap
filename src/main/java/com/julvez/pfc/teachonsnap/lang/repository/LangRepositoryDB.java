@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 
 /**
  * Repository implementation to access/modify data from a Database
@@ -13,8 +12,20 @@ import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
  */
 public class LangRepositoryDB implements LangRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();	
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;	
 	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 */
+	public LangRepositoryDB(DBManager dbm) {
+		if(dbm == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+	}
+
 	@Override
 	public Language getLanguage(short idLanguage) {
 		return (Language) dbm

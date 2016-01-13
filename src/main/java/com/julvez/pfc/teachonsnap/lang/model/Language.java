@@ -10,9 +10,14 @@ import javax.persistence.Id;
  */
 @Entity
 public class Language {
+	/**
+	 * Language identifier and primary key for the entity
+	 */
 	@Id
 	@Column(name = "idLanguage")
 	private short id;	
+	
+	/** 2 letter ISO code string for the language */
 	private String language;
 		
 	@Override
