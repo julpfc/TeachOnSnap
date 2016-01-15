@@ -7,15 +7,31 @@ import java.util.List;
 import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.log.LogManager;
-import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.upload.model.FileMetadata;
 
 public class UploadRepositoryMap implements UploadRepository {
 
-	private LogManager logger = LogManagerFactory.getManager();
+	/** Log manager providing logging capabilities */
+	private LogManager logger;
 	
-	private Map<String, List<FileMetadata>> temporaryFileRepository = 
-			Collections.synchronizedMap(new HashMap<String, List<FileMetadata>>());
+	/**
+	 * Map storing references to user's upload repositories
+	 */
+	private Map<String, List<FileMetadata>> temporaryFileRepository; 
+			
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param logger Log manager providing logging capabilities
+	 * @param temporaryFileRepository
+	 */
+	public UploadRepositoryMap(LogManager logger) {
+		if(logger == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");	
+		}
+		this.logger = logger;
+		this.temporaryFileRepository = Collections.synchronizedMap(new HashMap<String, List<FileMetadata>>());
+	}
 
 	@Override
 	public FileMetadata getTemporaryFile(int idUser, int index) {
@@ -41,6 +57,62 @@ public class UploadRepositoryMap implements UploadRepository {
 		userFiles.addAll(uploadFiles);
 	}
 	
+	
+	@Override
+	public void close() {
+		synchronized (temporaryFileRepository) {
+			for(List<FileMetadata> files : temporaryFileRepository.values()){				
+				for(FileMetadata file:files){ 
+					closeFile(file);
+				}
+			}			
+			logger.info("All files closed.");
+		}		
+	}
+
+	@Override
+	public void removeTemporaryFile(int idUser, int index) {
+		List<FileMetadata> userFiles = temporaryFileRepository.get(""+idUser);
+		
+		if(userFiles!=null && index < userFiles.size()){
+			FileMetadata file = userFiles.remove(index);
+			closeFile(file);
+		}
+	}
+
+	@Override
+	public void removeTemporaryFiles(int idUser) {
+		List<FileMetadata> files = temporaryFileRepository.get(""+idUser);
+		
+		if(files!=null){
+			for(FileMetadata file:files){ 
+				closeFile(file);
+			}
+					
+			files.clear(); 
+			logger.info("All user's files closed: "+idUser);
+		}
+		
+	}
+	
+	/**
+	 * Closes a file's input stream
+	 * @param file 's metadata
+	 */
+	private void closeFile(FileMetadata file){
+		try {
+			file.getContent().close();
+			logger.debug("Closing file "+file);
+		} catch (Throwable t) {
+			logger.error(t, "Error closing file: " + file);
+		}
+	}	
+
+	/**
+	 * Returns user's upload repository, if not exists it's created
+	 * @param key User's id
+	 * @return User's upload files list
+	 */
 	private List<FileMetadata> getList(String key){
 		List<FileMetadata> userFiles = temporaryFileRepository.get(key);
 		
@@ -52,59 +124,11 @@ public class UploadRepositoryMap implements UploadRepository {
 			
 					userFiles = temporaryFileRepository.get(key);
 					
-					logger.debug("Repositorio creado: "+key);
+					logger.debug("New repository created: "+key);
 				}
 			}
 		}
 		
 		return userFiles;
 	}
-
-	@Override
-	public void close() {
-		synchronized (temporaryFileRepository) {
-			for(List<FileMetadata> files : temporaryFileRepository.values()){				
-				for(FileMetadata file:files){ 
-					try {
-						file.getContent().close();
-						logger.debug("Cerrando fichero "+file);
-					} catch (Throwable t) {
-						logger.error(t, "Error cerrando fichero: " + file);
-					}
-				}
-			}			
-			logger.info("Todos los ficheros cerrados.");
-		}		
-	}
-
-	@Override
-	public void removeTemporaryFile(int idUser, int index) {
-		List<FileMetadata> userFiles = temporaryFileRepository.get(""+idUser);
-		
-		if(userFiles!=null && index<userFiles.size()){
-			userFiles.remove(index);
-		}
-	}
-
-	@Override
-	public void removeTemporaryFiles(int idUser) {
-		List<FileMetadata> files = temporaryFileRepository.get(""+idUser);
-		
-		if(files!=null){
-			for(FileMetadata file:files){ 
-				try {
-					file.getContent().close();
-					logger.debug("Cerrando fichero "+file);
-				} catch (Throwable t) {
-					logger.error(t, "Error cerrando fichero: " + file);
-				}
-			}
-					
-			files.clear(); 
-			logger.info("Ficheros cerrados del usuario "+idUser);
-		}
-		
-	}
-	
-	
 }
