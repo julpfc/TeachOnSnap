@@ -7,20 +7,40 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+/**
+* Entity. Describes a media file of a lesson. 
+* It contains the file metadata (name, size, mimetype, url), the MediaType, 
+* the repository id where is stored and the lesson media id it belongs to.
+* @see MediaType 
+*/
 @Entity
 public class MediaFile {
 	
+	/** Media file identifier and primary key for the entity */
 	@Id
 	@Column (name="idMediaFile")
 	private int id;
+	
+	/** Lesson media id */
 	private int idLessonMedia;
+	
+	/** Repository's id where the file is stored */
 	private short idMediaRepository;
+	
+	/** File's name */
 	private String filename;
+	
+	/** File's size */ 
 	private int filesize;
+	
+	/** File's mime type */
 	private String mimetype;
+	
+	/** File's MediaType */
 	@Enumerated(EnumType.STRING)
 	private MediaType mediaType;
 
+	/** URL to the file at the repository */
 	@Transient
 	private String url;
 	
@@ -31,59 +51,70 @@ public class MediaFile {
 				+ filename + ", filesize=" + filesize +", mimetype=" 
 				+ mimetype + ", mediaType="	+ mediaType + "]";
 	}
+	
+	
+	/**
+	 * @return MediaFile's id
+	 */
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
+	/**
+	 * @return Lesson media's id
+	 */
 	public int getIdLessonMedia() {
 		return idLessonMedia;
 	}
-	public void setIdLessonMedia(int idLessonMedia) {
-		this.idLessonMedia = idLessonMedia;
-	}
+
+	/**
+	 * @return Repository's id where the file is stored
+	 */
 	public short getIdMediaRepository() {
 		return idMediaRepository;
 	}
-	public void setIdMediaRepository(short idMediaRepository) {
-		this.idMediaRepository = idMediaRepository;
-	}
+
+	/**
+	 * @return File's name
+	 */
 	public String getFilename() {
 		return filename;
 	}
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+
+	/**
+	 * @return File's mime type
+	 */
 	public String getMimetype() {
 		return mimetype;
 	}
-	public void setMimetype(String mimetype) {
-		this.mimetype = mimetype;
-	}
-	
+
+	/**
+	 * Sets the absolute URL to the file
+	 * @param url pinting to the media file at the repository
+	 */
 	public void setURLs(String url){
 		this.url = url;
 	}
 	
+	/**
+	 * @return Absolute URL to the file
+	 */
 	public String getURL(){
 		return url + idLessonMedia + "/" + id +"/" + filename;
 	}
 
+	/**
+	 * @return File's MediaType
+	 */
 	public MediaType getMediaType() {
 		return mediaType;
 	}
 
-	public void setMediaType(MediaType mediaType) {
-		this.mediaType = mediaType;
-	}
+	/**
+	 * @return File's size
+	 */
 	public int getFilesize() {
 		return filesize;
 	}
-	public void setFilesize(int filesize) {
-		this.filesize = filesize;
-	}
-	
-
 
 }
