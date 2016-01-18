@@ -5,54 +5,67 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+/**
+ * Entity. Describes a link to further information on a topic or the sources of a lesson. 
+ * It contains the URL an a description, a MD5 hash from the URL is optionally provided. 
+ */
 @Entity
 public class Link {
 
+	/** Link identifier and primary key for the entity */
 	@Id
 	@Column (name="idLink")
 	private int id;
-	private String URL;	
+	
+	/** Link's URL */
+	private String URL;
+	
+	/** Link's description */
 	private String desc;
+	
+	/** MD% hash from the URL */
 	@Transient
 	private String MD5;
 	
-	public String getMD5() {
-		return MD5;
-	}
-
-	public void setMD5(String mD5) {
-		MD5 = mD5;
-	}
-
 	@Override
 	public String toString() {
 		return "Link [id=" + id + ", url=" + URL + ", desc=" + desc + "]";
 	}
-
+	
+	/**
+	 * @return Link's identifier
+	 */
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	/**
+	 * @return Link's URL
+	 */
 	public String getURL() {
 		return URL;
 	}
 
-	public void setUrl(String url) {
-		this.URL = url;
-	}
-
+	/**
+	 * @return Link's description
+	 */
 	public String getDesc() {
 		return desc;
 	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
+	
+	/**
+	 * @return MD5 hash fro the URL
+	 */
+	public String getMD5() {
+		return MD5;
 	}
-	
-	
-	
+
+	/**
+	 * Sets the MD5 from the URL
+	 * @param mD5 New MD5 hash value
+	 */
+	public void setMD5(String mD5) {
+		MD5 = mD5;
+	}
+
 }

@@ -5,12 +5,28 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.link.model.Link;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 
+/**
+ * Repository implementation to access/modify data from a Database
+ * <p>
+ * {@link DBManager} is used to provide database access
+ */
 public class LinkRepositoryDB implements LinkRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;
 	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 */
+	public LinkRepositoryDB(DBManager dbm) {
+		if(dbm == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+	}
+
 	@Override
 	public List<Integer> getMoreInfoLinkIDs(int idLesson) {
 		return dbm.getQueryResultList("SQL_LINK_GET_MOREINFOLINKIDS", Integer.class, idLesson);
@@ -27,9 +43,9 @@ public class LinkRepositoryDB implements LinkRepository {
 	}
 	
 	@Override
-	public int getLinkID(String link) {
+	public int getLinkID(String url) {
 		int id = -1;
-		Integer obj = dbm.getQueryResultUnique("SQL_LINK_GET_LINKID", Integer.class, link);
+		Integer obj = dbm.getQueryResultUnique("SQL_LINK_GET_LINKID", Integer.class, url);
 		if(obj!=null)
 			id = obj;
 		return id;
