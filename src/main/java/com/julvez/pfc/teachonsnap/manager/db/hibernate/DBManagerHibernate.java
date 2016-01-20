@@ -2,7 +2,7 @@ package com.julvez.pfc.teachonsnap.manager.db.hibernate;
 
 import java.lang.annotation.Annotation;
 import java.math.BigInteger;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -111,7 +111,7 @@ public class DBManagerHibernate implements DBManager{
 	public <T> List<T> getQueryResultList_NoCommit(Object session, String queryName, Class<T> entityClass,
 			Object... queryParams) {
 		
-		List<T> resultados = new ArrayList<>();
+		List<T> resultados = Collections.emptyList();
 		Session sess = (Session)session;
 		
 		try{

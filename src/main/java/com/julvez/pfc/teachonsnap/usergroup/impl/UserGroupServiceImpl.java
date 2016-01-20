@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.usergroup.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -27,12 +28,15 @@ public class UserGroupServiceImpl implements UserGroupService {
 	
 	@Override
 	public List<UserGroup> searchGroupsByName(String searchQuery, int firstResult) {
-		List<UserGroup> groups = new ArrayList<UserGroup>();
+		List<UserGroup> groups = Collections.emptyList();
 		
 		List<Short> ids = groupRepository.searchGroupsByName(searchQuery, firstResult);
 		
-		for(short id:ids){
-			groups.add(getGroup(id));
+		if(ids != null){
+			groups = new ArrayList<UserGroup>();
+			for(short id:ids){
+				groups.add(getGroup(id));
+			}
 		}
 		
 		return groups;
@@ -40,12 +44,15 @@ public class UserGroupServiceImpl implements UserGroupService {
 
 	@Override
 	public List<UserGroup> getGroups(int firstResult) {
-		List<UserGroup> groups = new ArrayList<UserGroup>();
+		List<UserGroup> groups = Collections.emptyList();
 		
 		List<Short> ids = groupRepository.getGroups(firstResult);
 		
-		for(short id:ids){
-			groups.add(getGroup(id));
+		if(ids != null){
+			groups = new ArrayList<UserGroup>();
+			for(short id:ids){
+				groups.add(getGroup(id));
+			}
 		}
 		
 		return groups;
@@ -179,12 +186,13 @@ public class UserGroupServiceImpl implements UserGroupService {
 		List<UserGroup> groups = null;
 		
 		if(user != null){
-			groups = new ArrayList<UserGroup>();
-		
 			List<Short> ids = groupRepository.getGroupsFromUser(user.getId());
-			
-			for(short id:ids){
-				groups.add(getGroup(id));
+		
+			if(ids != null){
+				groups = new ArrayList<UserGroup>();
+				for(short id:ids){
+					groups.add(getGroup(id));
+				}
 			}
 		}
 		
@@ -210,12 +218,15 @@ public class UserGroupServiceImpl implements UserGroupService {
 
 	@Override
 	public List<User> getAuthorFollowings(UserGroup group) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		List<Short> ids = groupRepository.getAuthorFollowings(group.getId());
 		
-		for(short id:ids){
-			users.add(userService.getUser(id));
+		if(ids != null){
+			users = new ArrayList<User>();
+			for(short id:ids){
+				users.add(userService.getUser(id));
+			}
 		}
 		
 		return users;
@@ -235,12 +246,15 @@ public class UserGroupServiceImpl implements UserGroupService {
 
 	@Override
 	public List<Tag> getTagFollowings(UserGroup group) {
-		List<Tag> tags = new ArrayList<Tag>();
+		List<Tag> tags = Collections.emptyList();
 		
 		List<Integer> ids = groupRepository.getTagFollowings(group.getId());
 		
-		for(int id:ids){
-			tags.add(tagService.getTag(id));
+		if(ids != null){
+			tags = new ArrayList<Tag>();
+			for(int id:ids){
+				tags.add(tagService.getTag(id));
+			}
 		}
 		
 		return tags;

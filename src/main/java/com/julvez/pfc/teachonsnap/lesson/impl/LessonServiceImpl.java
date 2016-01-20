@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.lesson.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -73,12 +74,15 @@ public class LessonServiceImpl implements LessonService{
 
 	@Override
 	public List<Lesson> getLessonsFromAuthor(String author,int firstResult) {
-		List<Lesson> lessons = new ArrayList<Lesson>();
+		List<Lesson> lessons = Collections.emptyList();
 		
 		List<Integer> ids = lessonRepository.getLessonIDsFromAuthor(author,firstResult);
 		
-		for(int id:ids){
-			lessons.add(getLesson(id));
+		if(ids != null){
+			lessons = new ArrayList<Lesson>();
+			for(int id:ids){
+				lessons.add(getLesson(id));
+			}
 		}
 		
 		return lessons;
@@ -86,12 +90,15 @@ public class LessonServiceImpl implements LessonService{
 
 	@Override
 	public List<Lesson> getLastLessons(int firstResult) {
-		List<Lesson> lessons = new ArrayList<Lesson>();
+		List<Lesson> lessons = Collections.emptyList();
 		
 		List<Integer> ids = lessonRepository.getLastLessonIDs(firstResult);
 		
-		for(int id:ids){
-			lessons.add(getLesson(id));
+		if(ids != null){
+			lessons = new ArrayList<Lesson>();
+			for(int id:ids){
+				lessons.add(getLesson(id));
+			}
 		}
 		
 		return lessons;
@@ -233,14 +240,17 @@ public class LessonServiceImpl implements LessonService{
 
 	@Override
 	public List<Lesson> getLessonDraftsFromUser(User user, int firstResult) {
-		List<Lesson> lessons = new ArrayList<Lesson>();
+		List<Lesson> lessons = Collections.emptyList();
 		
 		if(user!=null){			  
 		
 			List<Integer> ids = lessonRepository.getDraftLessonIDsFromUser(user.getId(), firstResult);
 		
-			for(int id:ids){
-				lessons.add(getLesson(id));
+			if(ids != null){
+				lessons = new ArrayList<Lesson>();
+				for(int id:ids){
+					lessons.add(getLesson(id));
+				}
 			}
 		}
 		return lessons;	

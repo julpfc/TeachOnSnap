@@ -1,6 +1,6 @@
 package com.julvez.pfc.teachonsnap.controller.common.pager;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.controller.common.PagerController;
@@ -15,10 +15,9 @@ public class TagController extends PagerController {
 
 	@Override
 	protected List<Lesson> getLessons(String searchURI, int pageResult) {
-		List<Lesson> lessons = new ArrayList<Lesson>();
+		List<Lesson> lessons = Collections.emptyList();
 		
-		Tag tag = tagService.getTag(stringManager.decodeURL(searchURI));
-				
+		Tag tag = tagService.getTag(stringManager.decodeURL(searchURI));				
 		
 		if(tag != null){
 			lessons = tagService.getLessonsFromTag(tag, pageResult);

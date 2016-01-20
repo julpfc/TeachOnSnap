@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.stats.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -99,12 +100,15 @@ public class StatsServiceImpl implements StatsService {
 
 	@Override
 	public List<UserTestRank> getTestRanks(int idLessonTest) {
-		List<UserTestRank> testRanks = new ArrayList<UserTestRank>();
+		List<UserTestRank> testRanks = Collections.emptyList();
 		
 		List<Short> ids = statsRepository.getUserIDsTestRank(idLessonTest);
 		
-		for(int id:ids){
-			testRanks.add(getUserTestRank(idLessonTest, id));
+		if(ids != null){
+			testRanks = new ArrayList<UserTestRank>();
+			for(int id:ids){
+				testRanks.add(getUserTestRank(idLessonTest, id));
+			}
 		}
 		
 		return testRanks;

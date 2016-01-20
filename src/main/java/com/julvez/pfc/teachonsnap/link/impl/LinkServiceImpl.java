@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.link.impl;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
@@ -45,39 +46,43 @@ public class LinkServiceImpl implements LinkService {
 
 	@Override
 	public List<Link> getMoreInfoLinks(int idLesson) {
-		List<Link> links = new ArrayList<Link>();
+		List<Link> links = Collections.emptyList();
 		
 		//Get list of ids from repo
 		List<Integer> ids = linkRepository.getMoreInfoLinkIDs(idLesson);
 		
-		//Get Links from ids
-		for(int id:ids){
-			links.add(getLink(id));
+		if(ids != null){
+			links = new ArrayList<Link>();
+			//Get Links from ids
+			for(int id:ids){
+				links.add(getLink(id));
 			}
-		
+		}
 		return links;	
 	}
 
 	@Override
 	public List<Link> getSourceLinks(int idLesson) {
-		List<Link> links = new ArrayList<Link>();
+		List<Link> links = Collections.emptyList();
 		
 		//Gets list of ids from repo
 		List<Integer> ids = linkRepository.getSourceLinkIDs(idLesson);
 		
-		//Get Links from ids
-		for(int id:ids){
-			links.add(getLink(id));
+		if(ids != null){
+			links = new ArrayList<Link>();
+			//Get Links from ids
+			for(int id:ids){
+				links.add(getLink(id));
 			}
-		
+		}
 		return links;
 	}
 
 	@Override
 	public void addLessonSources(Lesson lesson, List<String> sources) {
-		ArrayList<Integer> linkIDs = new ArrayList<Integer>();
 	
 		if(lesson!=null && lesson.getId()>0 && sources!=null){
+			ArrayList<Integer> linkIDs = new ArrayList<Integer>();
 
 			//for each new url
 			for(String link:sources){
@@ -124,9 +129,8 @@ public class LinkServiceImpl implements LinkService {
 
 	@Override
 	public void addLessonMoreInfo(Lesson lesson, List<String> moreInfos) {
-		ArrayList<Integer> linkIDs = new ArrayList<Integer>();
-		
 		if(lesson!=null && lesson.getId()>0 && moreInfos!=null){
+			ArrayList<Integer> linkIDs = new ArrayList<Integer>();
 
 			//for each new url
 			for(String link:moreInfos){

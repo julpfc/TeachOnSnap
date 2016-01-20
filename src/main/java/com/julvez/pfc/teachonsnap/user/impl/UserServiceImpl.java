@@ -268,12 +268,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUsers(int firstResult) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		List<Short> ids = userRepository.getUsers(firstResult);
 		
-		for(short id:ids){
-			users.add(getUser(id));
+		if(ids != null){
+			users = new ArrayList<User>();
+		
+			for(short id:ids){
+				users.add(getUser(id));
+			}
 		}
 		
 		return users;
@@ -281,12 +285,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> searchUsersByEmail(String searchQuery, int firstResult) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		List<Short> ids = userRepository.searchUsersByEmail(searchQuery, firstResult);
 		
-		for(short id:ids){
-			users.add(getUser(id));
+		if(ids != null){
+			users = new ArrayList<User>();
+			for(short id:ids){
+				users.add(getUser(id));
+			}
 		}
 		
 		return users;
@@ -294,12 +301,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> searchUsersByName(String searchQuery, int firstResult) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		List<Short> ids = userRepository.searchUsersByName(searchQuery, firstResult);
 		
-		for(short id:ids){
-			users.add(getUser(id));
+		if(ids != null){
+			users = new ArrayList<User>();
+			for(short id:ids){
+				users.add(getUser(id));
+			}
 		}
 		
 		return users;
@@ -379,12 +389,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getAuthors(int firstResult) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		List<Short> ids = userRepository.getAuthors(firstResult);
 		
-		for(short id:ids){
-			users.add(getUser(id));
+		if(ids != null){
+			users = new ArrayList<User>();
+			
+			for(short id:ids){
+				users.add(getUser(id));
+			}
 		}
 		
 		return users;
@@ -392,12 +406,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> searchAuthorsByEmail(String searchQuery, int firstResult) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		List<Short> ids = userRepository.searchAuthorsByEmail(searchQuery, firstResult);
 		
-		for(short id:ids){
-			users.add(getUser(id));
+		if(ids != null){
+			users = new ArrayList<User>();
+			for(short id:ids){
+				users.add(getUser(id));
+			}
 		}
 		
 		return users;
@@ -405,12 +422,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> searchAuthorsByName(String searchQuery, int firstResult) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		List<Short> ids = userRepository.searchAuthorsByName(searchQuery, firstResult);
 		
-		for(short id:ids){
-			users.add(getUser(id));
+		if(ids != null){
+			users = new ArrayList<User>();
+			for(short id:ids){
+				users.add(getUser(id));
+			}
 		}
 		
 		return users;
@@ -418,10 +438,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<AuthorFollowed> getAuthorsFollowed(List<User> authors, List<User> authorFollowings) {
-		List<AuthorFollowed> retList = new ArrayList<AuthorFollowed>();
+		List<AuthorFollowed> retList = Collections.emptyList();
 		
 		if(authors != null){
-			
+			retList = new ArrayList<AuthorFollowed>();
 			for(User author:authors){
 				AuthorFollowed followed = new AuthorFollowed(author);
 				
@@ -510,13 +530,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getAuthorFollowers(User author) {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		if(author != null){
+					
 			List<Short> ids = userRepository.getAuthorFollowers(author.getId());
 			
-			for(short id:ids){
-				users.add(getUser(id));
+			if(ids != null){
+				users = new ArrayList<User>();
+				for(short id:ids){
+					users.add(getUser(id));
+				}
 			}
 		}			
 		return users;
@@ -545,13 +569,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getTagFollowers(Tag tag) {
-		List<User> users = new ArrayList<User>();
-		
+		List<User> users = Collections.emptyList();
 		if(tag != null){
 			List<Short> ids = userRepository.getTagFollowers(tag.getId());
 		
-			for(short id:ids){
-				users.add(getUser(id));
+			if(ids != null){
+				users = new ArrayList<User>();
+				for(short id:ids){
+					users.add(getUser(id));
+				}
 			}
 		}
 		
@@ -579,12 +605,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getAdmins() {
-		List<User> users = new ArrayList<User>();
+		List<User> users = Collections.emptyList();
 		
 		List<Short> ids = userRepository.getAdmins();
 		
-		for(short id:ids){
-			users.add(getUser(id));
+		if(ids != null){
+			users = new ArrayList<User>();
+			
+			for(short id:ids){
+				users.add(getUser(id));
+			}
 		}
 		
 		return users;

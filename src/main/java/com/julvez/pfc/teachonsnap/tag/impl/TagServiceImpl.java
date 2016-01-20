@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.tag.impl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
@@ -58,13 +59,16 @@ public class TagServiceImpl implements TagService {
 	@Override
 	public List<Lesson> getLessonsFromTag(Tag tag,int firstResult) {
 		
-		List<Lesson> lessons = new ArrayList<Lesson>();
+		List<Lesson> lessons = Collections.emptyList();
 		
 		if(tag != null){
 			List<Integer> ids = tagRepository.getLessonIDsFromTag(tag.getTag(),firstResult);
 			
-			for(int id:ids){
-				lessons.add(lessonService.getLesson(id));
+			if(ids != null){
+				lessons = new ArrayList<Lesson>();
+				for(int id:ids){
+					lessons.add(lessonService.getLesson(id));
+				}
 			}
 		}
 		
@@ -74,31 +78,39 @@ public class TagServiceImpl implements TagService {
 	@Override
 	public List<Tag> getLessonTags(int idLesson) {
 		
-		List<Tag> tags = new ArrayList<Tag>();
+		List<Tag> tags = Collections.emptyList();
 		
 		List<Integer> ids = tagRepository.getLessonTagIDs(idLesson);
 		
-		for(int id:ids){
-			tags.add(getTag(id));
-		}		
+		if(ids != null){
+			tags = new ArrayList<Tag>();
+			
+			for(int id:ids){
+				tags.add(getTag(id));
+			}		
+		}
 		return tags;
 	}
 	
 	
 	@Override
 	public List<CloudTag> getTagUseCloudTags() {
-		List<CloudTag> cloudTags = new ArrayList<CloudTag>();
+		List<CloudTag> cloudTags = Collections.emptyList();
 		
 		List<Object[]> result= tagRepository.getTagUseCloudTags();
 				
 		int max=0;
 		int min=0;
-		for(Object ids[]:result){
-			int aux= ((BigInteger)ids[1]).intValue();
-			if(aux>max) max=aux;
-			if(min==0 || aux<min) min=aux;
-			
-			cloudTags.add(new CloudTag(getTag(((Integer)ids[0]).intValue()),((BigInteger)ids[1]).shortValue()));
+		
+		if(result != null){
+			cloudTags = new ArrayList<CloudTag>();
+			for(Object ids[]:result){
+				int aux= ((BigInteger)ids[1]).intValue();
+				if(aux>max) max=aux;
+				if(min==0 || aux<min) min=aux;
+				
+				cloudTags.add(new CloudTag(getTag(((Integer)ids[0]).intValue()),((BigInteger)ids[1]).shortValue()));
+			}
 		}
 		
 		return getCloudTagListNormalized(cloudTags,max,min);
@@ -116,18 +128,22 @@ public class TagServiceImpl implements TagService {
 	
 	@Override
 	public List<CloudTag> getAuthorCloudTags() {
-		List<CloudTag> cloudTags = new ArrayList<CloudTag>();
+		List<CloudTag> cloudTags = Collections.emptyList();
 		
 		List<Object[]> result= tagRepository.getAuthorCloudTags();
 				
 		int max=0;
 		int min=0;
-		for(Object ids[]:result){
-			int aux= ((BigInteger)ids[1]).intValue();
-			if(aux>max) max=aux;
-			if(min==0 || aux<min) min=aux;
-			
-			cloudTags.add(new CloudTag(userService.getUser(((Short)ids[0]).intValue()),((BigInteger)ids[1]).shortValue()));
+		
+		if(result != null){
+			cloudTags = new ArrayList<CloudTag>();
+			for(Object ids[]:result){
+				int aux= ((BigInteger)ids[1]).intValue();
+				if(aux>max) max=aux;
+				if(min==0 || aux<min) min=aux;
+				
+				cloudTags.add(new CloudTag(userService.getUser(((Short)ids[0]).intValue()),((BigInteger)ids[1]).shortValue()));
+			}
 		}
 		
 		return getCloudTagListNormalized(cloudTags,max,min);
@@ -135,9 +151,9 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public void addLessonTags(Lesson lesson, List<String> tags) {
-		ArrayList<Integer> tagIDs = new ArrayList<Integer>();
 		
 		if(lesson!=null && lesson.getId()>0 && tags!=null){
+			ArrayList<Integer> tagIDs = new ArrayList<Integer>();
 
 			for(String tag:tags){
 				int tagID = 0;
@@ -218,12 +234,15 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<Tag> getTags(int firstResult) {
-		List<Tag> tags = new ArrayList<Tag>();
+		List<Tag> tags = Collections.emptyList();
 		
 		List<Integer> ids = tagRepository.getTags(firstResult);
 		
-		for(int id:ids){
-			tags.add(getTag(id));
+		if(ids != null){
+			tags = new ArrayList<Tag>();
+			for(int id:ids){
+				tags.add(getTag(id));
+			}
 		}
 		
 		return tags;
@@ -231,10 +250,10 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<TagFollowed> getTagsFollowed(List<Tag> tags, List<Tag> tagFollowings) {
-		List<TagFollowed> retList = new ArrayList<TagFollowed>();
+		List<TagFollowed> retList = Collections.emptyList();
 		
 		if(tags != null){
-			
+			retList = new ArrayList<TagFollowed>();
 			for(Tag tag:tags){
 				TagFollowed followed = new TagFollowed(tag);
 				
@@ -250,12 +269,15 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<Tag> searchTag(String searchQuery, int firstResult) {
-		List<Tag> tags = new ArrayList<Tag>();
+		List<Tag> tags = Collections.emptyList();
 		
 		List<Integer> ids = tagRepository.searchTag(searchQuery, firstResult);
 		
-		for(int id:ids){
-			tags.add(getTag(id));
+		if(ids != null){
+			tags = new ArrayList<Tag>();
+			for(int id:ids){
+				tags.add(getTag(id));
+			}
 		}
 		
 		return tags;
@@ -298,19 +320,23 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<CloudTag> getTagSearchCloudTags() {
-		List<CloudTag> cloudTags = new ArrayList<CloudTag>();
+		List<CloudTag> cloudTags = Collections.emptyList();
 		
 		List<Integer> ids = tagRepository.getTagSearchCloudTags();
-				
+		
 		int max=0;
 		int min=0;
-		for(int id:ids){
-			Tag tag = getTag(id);			
-			short visits = (short)statsService.getTagViewsCount(tag);
-			if(visits > max) max = visits;
-			if(min == 0 || visits < min) min = visits;
+		if(ids != null){
+			cloudTags = new ArrayList<CloudTag>();
 			
-			cloudTags.add(new CloudTag(tag, visits));
+			for(int id:ids){
+				Tag tag = getTag(id);			
+				short visits = (short)statsService.getTagViewsCount(tag);
+				if(visits > max) max = visits;
+				if(min == 0 || visits < min) min = visits;
+				
+				cloudTags.add(new CloudTag(tag, visits));
+			}
 		}
 		
 		return getCloudTagListNormalized(cloudTags,max,min);
@@ -318,19 +344,22 @@ public class TagServiceImpl implements TagService {
 	
 	@Override
 	public List<CloudTag> getLessonViewCloudTags() {
-		List<CloudTag> cloudTags = new ArrayList<CloudTag>();
+		List<CloudTag> cloudTags = Collections.emptyList();
 		
 		List<Integer> ids = tagRepository.getLessonViewCloudTags();
 		
 		int max=0;
 		int min=0;
-		for(int id:ids){
-			Lesson lesson = lessonService.getLesson(id);			
-			short visits = (short)statsService.getLessonViewsCount(lesson);
-			if(visits > max) max = visits;
-			if(min == 0 || visits < min) min = visits;
-			
-			cloudTags.add(new CloudTag(lesson, visits));
+		if(ids != null){
+			cloudTags = new ArrayList<CloudTag>();
+			for(int id:ids){
+				Lesson lesson = lessonService.getLesson(id);			
+				short visits = (short)statsService.getLessonViewsCount(lesson);
+				if(visits > max) max = visits;
+				if(min == 0 || visits < min) min = visits;
+				
+				cloudTags.add(new CloudTag(lesson, visits));
+			}
 		}
 		
 		return getCloudTagListNormalized(cloudTags,max,min);
