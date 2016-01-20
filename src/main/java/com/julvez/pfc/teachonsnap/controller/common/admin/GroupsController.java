@@ -20,11 +20,11 @@ import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
-import com.julvez.pfc.teachonsnap.user.group.UserGroupService;
-import com.julvez.pfc.teachonsnap.user.group.UserGroupServiceFactory;
-import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
+import com.julvez.pfc.teachonsnap.usergroup.UserGroupService;
+import com.julvez.pfc.teachonsnap.usergroup.UserGroupServiceFactory;
+import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
 public class GroupsController extends AdminController {
 

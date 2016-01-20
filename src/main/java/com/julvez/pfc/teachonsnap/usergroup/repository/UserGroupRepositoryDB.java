@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.user.group.repository;
+package com.julvez.pfc.teachonsnap.usergroup.repository;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
+import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
 public class UserGroupRepositoryDB implements UserGroupRepository {
 

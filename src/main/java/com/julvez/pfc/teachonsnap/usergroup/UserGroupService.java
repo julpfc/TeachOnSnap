@@ -1,10 +1,10 @@
-package com.julvez.pfc.teachonsnap.user.group;
+package com.julvez.pfc.teachonsnap.usergroup;
 
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
-import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
 public interface UserGroupService {
 

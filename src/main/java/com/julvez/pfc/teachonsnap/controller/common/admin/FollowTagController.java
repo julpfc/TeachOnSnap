@@ -24,10 +24,10 @@ import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.tag.model.TagFollowed;
 import com.julvez.pfc.teachonsnap.tag.model.TagPropertyName;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
-import com.julvez.pfc.teachonsnap.user.group.UserGroupService;
-import com.julvez.pfc.teachonsnap.user.group.UserGroupServiceFactory;
-import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.usergroup.UserGroupService;
+import com.julvez.pfc.teachonsnap.usergroup.UserGroupServiceFactory;
+import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
 public class FollowTagController extends AdminController {
 

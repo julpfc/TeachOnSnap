@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.user.group.impl;
+package com.julvez.pfc.teachonsnap.usergroup.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,11 @@ import com.julvez.pfc.teachonsnap.tag.TagServiceFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
-import com.julvez.pfc.teachonsnap.user.group.UserGroupService;
-import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
-import com.julvez.pfc.teachonsnap.user.group.repository.UserGroupRepository;
-import com.julvez.pfc.teachonsnap.user.group.repository.UserGroupRepositoryFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.usergroup.UserGroupService;
+import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
+import com.julvez.pfc.teachonsnap.usergroup.repository.UserGroupRepository;
+import com.julvez.pfc.teachonsnap.usergroup.repository.UserGroupRepositoryFactory;
 
 public class UserGroupServiceImpl implements UserGroupService {
 

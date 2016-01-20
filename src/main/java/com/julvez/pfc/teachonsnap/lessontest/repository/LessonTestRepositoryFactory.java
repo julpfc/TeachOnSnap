@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.lesson.test.repository;
+package com.julvez.pfc.teachonsnap.lessontest.repository;
 
 
 

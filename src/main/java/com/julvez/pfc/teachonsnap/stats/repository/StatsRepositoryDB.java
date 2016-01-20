@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserQuestion;
+import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.UserQuestion;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;

@@ -1,15 +1,15 @@
-package com.julvez.pfc.teachonsnap.lesson.test.impl;
+package com.julvez.pfc.teachonsnap.lessontest.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.lesson.test.LessonTestService;
-import com.julvez.pfc.teachonsnap.lesson.test.model.Answer;
-import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.Question;
-import com.julvez.pfc.teachonsnap.lesson.test.repository.LessonTestRepository;
-import com.julvez.pfc.teachonsnap.lesson.test.repository.LessonTestRepositoryFactory;
+import com.julvez.pfc.teachonsnap.lessontest.LessonTestService;
+import com.julvez.pfc.teachonsnap.lessontest.model.Answer;
+import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.Question;
+import com.julvez.pfc.teachonsnap.lessontest.repository.LessonTestRepository;
+import com.julvez.pfc.teachonsnap.lessontest.repository.LessonTestRepositoryFactory;
 import com.julvez.pfc.teachonsnap.url.URLService;
 import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 

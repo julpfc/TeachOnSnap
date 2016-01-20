@@ -3,12 +3,12 @@ package com.julvez.pfc.teachonsnap.page;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.Question;
+import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.Question;
 import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.stats.model.StatsType;
-import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
 import com.julvez.pfc.teachonsnap.user.model.User;
+import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
 /**
  * Provides the functionality to work with user pages (localized names & links) and the hierarchy (page stack) 

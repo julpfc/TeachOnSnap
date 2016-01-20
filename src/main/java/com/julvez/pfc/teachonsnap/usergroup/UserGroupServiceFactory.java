@@ -1,6 +1,6 @@
-package com.julvez.pfc.teachonsnap.user.group;
+package com.julvez.pfc.teachonsnap.usergroup;
 
-import com.julvez.pfc.teachonsnap.user.group.impl.UserGroupServiceImpl;
+import com.julvez.pfc.teachonsnap.usergroup.impl.UserGroupServiceImpl;
 
 
 public class UserGroupServiceFactory {

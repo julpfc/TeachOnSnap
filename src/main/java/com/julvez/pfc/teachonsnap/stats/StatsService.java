@@ -3,8 +3,8 @@ package com.julvez.pfc.teachonsnap.stats;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;

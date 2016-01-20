@@ -1,8 +1,8 @@
-package com.julvez.pfc.teachonsnap.user.group.repository;
+package com.julvez.pfc.teachonsnap.usergroup.repository;
 
 import java.util.List;
 
-import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
+import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
 public interface UserGroupRepository {
 

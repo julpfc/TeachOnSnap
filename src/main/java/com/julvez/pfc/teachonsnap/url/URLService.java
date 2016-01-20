@@ -1,7 +1,7 @@
 package com.julvez.pfc.teachonsnap.url;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.model.User;

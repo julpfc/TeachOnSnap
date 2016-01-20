@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;

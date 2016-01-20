@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.user.group.repository;
+package com.julvez.pfc.teachonsnap.usergroup.repository;
 
 
 public class UserGroupRepositoryFactory {

@@ -1,6 +1,6 @@
-package com.julvez.pfc.teachonsnap.lesson.test;
+package com.julvez.pfc.teachonsnap.lessontest;
 
-import com.julvez.pfc.teachonsnap.lesson.test.impl.LessonTestServiceImpl;
+import com.julvez.pfc.teachonsnap.lessontest.impl.LessonTestServiceImpl;
 
 public class LessonTestServiceFactory {
 

@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.user.group.model;
+package com.julvez.pfc.teachonsnap.usergroup.model;
 
 import java.util.List;
 

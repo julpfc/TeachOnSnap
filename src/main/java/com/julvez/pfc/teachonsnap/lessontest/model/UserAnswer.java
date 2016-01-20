@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.lesson.test.model;
+package com.julvez.pfc.teachonsnap.lessontest.model;
 
 
 public class UserAnswer {

@@ -3,7 +3,7 @@ package com.julvez.pfc.teachonsnap.stats.repository;
 import java.util.List;
 import java.util.Map;
 
-import com.julvez.pfc.teachonsnap.lesson.test.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;

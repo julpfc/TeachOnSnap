@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.user.group.repository;
+package com.julvez.pfc.teachonsnap.usergroup.repository;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.user.group.model.UserGroup;
+import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
 
 public class UserGroupRepositoryDBCache implements UserGroupRepository {

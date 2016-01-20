@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.lesson.test.model;
+package com.julvez.pfc.teachonsnap.lessontest.model;
 
 import java.util.ArrayList;
 import java.util.List;

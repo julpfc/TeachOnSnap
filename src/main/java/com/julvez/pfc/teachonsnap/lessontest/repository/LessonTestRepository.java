@@ -1,10 +1,10 @@
-package com.julvez.pfc.teachonsnap.lesson.test.repository;
+package com.julvez.pfc.teachonsnap.lessontest.repository;
 
 import java.util.List;
 
-import com.julvez.pfc.teachonsnap.lesson.test.model.Answer;
-import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.Question;
+import com.julvez.pfc.teachonsnap.lessontest.model.Answer;
+import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.Question;
 
 public interface LessonTestRepository {
 

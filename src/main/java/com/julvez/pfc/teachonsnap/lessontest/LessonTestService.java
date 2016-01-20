@@ -1,9 +1,9 @@
-package com.julvez.pfc.teachonsnap.lesson.test;
+package com.julvez.pfc.teachonsnap.lessontest;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.lesson.test.model.Answer;
-import com.julvez.pfc.teachonsnap.lesson.test.model.LessonTest;
-import com.julvez.pfc.teachonsnap.lesson.test.model.Question;
+import com.julvez.pfc.teachonsnap.lessontest.model.Answer;
+import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
+import com.julvez.pfc.teachonsnap.lessontest.model.Question;
 
 public interface LessonTestService {
 
