@@ -3,17 +3,36 @@ package com.julvez.pfc.teachonsnap.usergroup.repository;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
+/**
+ * Repository implementation to access/modify data from a Database
+ * <p>
+ * {@link DBManager} is used to provide database access
+ */
 public class UserGroupRepositoryDB implements UserGroupRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();
-	private PropertyManager properties = PropertyManagerFactory.getManager();
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;
 	
+	/** Property manager providing access to properties files */
+	private PropertyManager properties;
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 * @param properties Property manager providing access to properties files
+	 */
+	public UserGroupRepositoryDB(DBManager dbm, PropertyManager properties) {
+		if(dbm == null || properties == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+		this.properties = properties;
+	}
+
 	@Override
 	public List<Short> getGroups(int firstResult) {
 		long maxResults = properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
@@ -60,39 +79,30 @@ public class UserGroupRepositoryDB implements UserGroupRepository {
 	public boolean removeGroup(short idUserGroup) {
 		boolean success = false;
 		
+		//Begin database transaction
 		Object session = dbm.beginTransaction();
 		
+		//Remove all users from group 
 		success = removeAllUsers(session, idUserGroup);
 		
 		if(success){			
-			
+			//Remove authors followed
 			success = removeAllAuthorFollowings(session, idUserGroup);
 			
 			if(success){
-			
+				//Remove tags followed
 				success = removeAllTagFollowings(session, idUserGroup);
 				
 				if(success){
+					//delete group
 					success = dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_GROUP", idUserGroup) >= 0;
 				}
 			}
 		}
-		
+		//commit transaction if success, rollback otherwise
 		dbm.endTransaction(success, session);
 		
 		return success;
-	}
-
-	private boolean removeAllTagFollowings(Object session, short idUserGroup) {
-		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_TAG_FOLLOWINGS", idUserGroup) >= 0;
-	}
-
-	private boolean removeAllAuthorFollowings(Object session, short idUserGroup) {
-		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_AUTHOR_FOLLOWINGS", idUserGroup) >= 0;
-	}
-
-	private boolean removeAllUsers(Object session, short idUserGroup) {
-		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_USERS", idUserGroup) >= 0;		
 	}
 
 	@Override
@@ -128,6 +138,36 @@ public class UserGroupRepositoryDB implements UserGroupRepository {
 	@Override
 	public boolean unfollowTag(short idUserGroup, int idTag) {
 		return dbm.updateQuery("SQL_USERGROUP_REMOVE_FOLLOW_TAG", idUserGroup, idTag) >= 0;
+	}
+
+	/**
+	 * Removes all tag followings for this group within a database open transaction
+	 * @param session Open transaction
+	 * @param idUserGroup Group to delete followings
+	 * @return true if there are affected rows
+	 */
+	private boolean removeAllTagFollowings(Object session, short idUserGroup) {
+		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_TAG_FOLLOWINGS", idUserGroup) >= 0;
+	}
+
+	/**
+	 * Removes all author followings for this group within a database open transaction
+	 * @param session Open transaction
+	 * @param idUserGroup Group to delete followings
+	 * @return true if there are affected rows
+	 */
+	private boolean removeAllAuthorFollowings(Object session, short idUserGroup) {
+		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_AUTHOR_FOLLOWINGS", idUserGroup) >= 0;
+	}
+
+	/**
+	 * Removes all users of this group within a database open transaction
+	 * @param session Open transaction
+	 * @param idUserGroup Group to delete users
+	 * @return true if there are affected rows
+	 */
+	private boolean removeAllUsers(Object session, short idUserGroup) {
+		return dbm.updateQuery_NoCommit(session, "SQL_USERGROUP_DELETE_ALL_USERS", idUserGroup) >= 0;		
 	}
 
 }

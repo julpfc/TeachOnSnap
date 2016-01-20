@@ -3,17 +3,45 @@ package com.julvez.pfc.teachonsnap.usergroup.repository;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
-import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
 
-
+/**
+ * Repository implementation to access/modify data from a Database through a cache.
+ * <p>
+ * A repository database implementation ({@link UserGroupRepositoryDB}) is used to provide the database layer under the cache.
+ * <p>
+ * {@link CacheManager} is used to provide a cache system
+ */
 public class UserGroupRepositoryDBCache implements UserGroupRepository {
 	
-	private UserGroupRepositoryDB repoDB = new UserGroupRepositoryDB();
-	private CacheManager cache = CacheManagerFactory.getCacheManager();
-	private StringManager stringManager = StringManagerFactory.getManager();
+	/** Database repository providing data access and modification capabilities */
+	private UserGroupRepositoryDB repoDB;
+	
+	/** Cache manager providing access/modification capabilities to the cache system */
+	private CacheManager cache;
+	
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
+	
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param repoDB Database repository providing data access and modification capabilities
+	 * @param cache Cache manager providing access/modification capabilities to the cache system
+	 * @param stringManager String manager providing string manipulation utilities
+	 */
+	public UserGroupRepositoryDBCache(UserGroupRepositoryDB repoDB,
+			CacheManager cache, StringManager stringManager) {
+		
+		if(repoDB == null || stringManager == null || cache == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		
+		this.repoDB = repoDB;
+		this.cache = cache;
+		this.stringManager = stringManager;
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -41,7 +69,7 @@ public class UserGroupRepositoryDBCache implements UserGroupRepository {
 	@Override
 	public short createGroup(String groupName) {
 		short id = (short)cache.updateImplCached(repoDB, null, null, groupName);
-		
+		//clear caches related
 		if(id > 0){
 			cache.clearCache("searchGroupsByName");
 			cache.clearCache("getGroups");
@@ -62,7 +90,7 @@ public class UserGroupRepositoryDBCache implements UserGroupRepository {
 		boolean ret = (boolean)cache.updateImplCached(repoDB, 
 				new String[]{stringManager.getKey(idUserGroup)}, 
 				new String[]{"getGroup"}, idUserGroup, groupName);
-		
+		//clear caches related
 		if(ret){
 			cache.clearCache("searchGroupsByName");
 		}
@@ -82,7 +110,7 @@ public class UserGroupRepositoryDBCache implements UserGroupRepository {
 		boolean ret = (boolean)cache.updateImplCached(repoDB, 
 				new String[]{stringManager.getKey(idUserGroup),stringManager.getKey(idUserGroup)}, 
 				new String[]{"getGroup","getGroupMembers"}, idUserGroup);
-		
+		//clear caches related
 		if(ret){
 			cache.clearCache("searchGroupsByName");
 			cache.clearCache("getGroups");
