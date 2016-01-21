@@ -5,21 +5,46 @@ import java.util.List;
 import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 
+/**
+ * Repository implementation to access/modify data from a Database
+ * <p>
+ * {@link DBManager} is used to provide database access
+ */
 public class UserRepositoryDB implements UserRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();
-	private StringManager stringManager = StringManagerFactory.getManager();
-	private PropertyManager properties = PropertyManagerFactory.getManager();
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;
 	
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
+	
+	/** Property manager providing access to properties files */
+	private PropertyManager properties;
+	
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 * @param stringManager String manager providing string manipulation utilities
+	 * @param properties Property manager providing access to properties files
+	 */
+	public UserRepositoryDB(DBManager dbm, StringManager stringManager,
+			PropertyManager properties) {
+		
+		if(dbm == null || stringManager == null || properties == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+		this.stringManager = stringManager;
+		this.properties = properties;
+	}
+
 	@Override
 	public User getUser(int idUser) {
 		return (User)dbm.getQueryResultUnique("SQL_USER_GET_USER", User.class, idUser);
@@ -109,6 +134,7 @@ public class UserRepositoryDB implements UserRepository {
 
 	@Override
 	public void saveAuthor(int idUser, String fullName) {
+		//Generate URI name from full name
 		String URI = stringManager.generateURIname(fullName);		
 		dbm.updateQuery("SQL_USER_SAVE_AUTHOR", idUser);
 		dbm.updateQuery("SQL_USER_SAVE_AUTHOR_URI", idUser, URI, URI);		

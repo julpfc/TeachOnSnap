@@ -4,18 +4,46 @@ import java.util.List;
 import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
-import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
 
+/**
+ * Repository implementation to access/modify data from a Database through a cache.
+ * <p>
+ * A repository database implementation ({@link UserRepositoryDB}) is used to provide the database layer under the cache.
+ * <p>
+ * {@link CacheManager} is used to provide a cache system
+ */
 public class UserRepositoryDBCache implements UserRepository {
 
-	private UserRepositoryDB repoDB = new UserRepositoryDB();
-	private CacheManager cache = CacheManagerFactory.getCacheManager();
-	private StringManager stringManager = StringManagerFactory.getManager();
+	/** Database repository providing data access and modification capabilities */
+	private UserRepositoryDB repoDB;
 	
+	/** Cache manager providing access/modification capabilities to the cache system */
+	private CacheManager cache;
+	
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
+	
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param repoDB Database repository providing data access and modification capabilities
+	 * @param cache Cache manager providing access/modification capabilities to the cache system
+	 * @param stringManager String manager providing string manipulation utilities
+	 */
+	public UserRepositoryDBCache(UserRepositoryDB repoDB, CacheManager cache,
+			StringManager stringManager) {
+		
+		if(repoDB == null || stringManager == null || cache == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.repoDB = repoDB;
+		this.cache = cache;
+		this.stringManager = stringManager;
+	}
+
 	@Override
 	public User getUser(int idUser) {
 		return (User)cache.executeImplCached(repoDB, idUser);
@@ -41,7 +69,8 @@ public class UserRepositoryDBCache implements UserRepository {
 	@Override
 	public void saveFirstName(int idUser, String firstname) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
-				new String[]{"getUser"}, idUser, firstname);		
+				new String[]{"getUser"}, idUser, firstname);
+		//clear user name related caches
 		cache.clearCache("searchUsersByName");
 		cache.clearCache("searchAuthorsByName");
 	}
@@ -50,6 +79,7 @@ public class UserRepositoryDBCache implements UserRepository {
 	public void saveLastName(int idUser, String lastname) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
 				new String[]{"getUser"}, idUser, lastname);	
+		//clear user name related caches
 		cache.clearCache("searchUsersByName");
 		cache.clearCache("searchAuthorsByName");
 	}
@@ -57,12 +87,14 @@ public class UserRepositoryDBCache implements UserRepository {
 	@Override
 	public void savePassword(int idUser, String newPassword) {
 		cache.updateImplCached(repoDB, null, null, idUser, newPassword);
+		//clear password related caches
 		cache.clearCache("isValidPassword");
 	}
 
 	@Override
 	public void savePasswordTemporaryToken(int idUser, String token) {
 		cache.updateImplCached(repoDB, null, null, idUser, token);
+		//clear token related caches
 		cache.clearCache("getIdUserFromPasswordTemporaryToken");
 	}
 
@@ -74,11 +106,13 @@ public class UserRepositoryDBCache implements UserRepository {
 	@Override
 	public void deletePasswordTemporaryToken(int idUser) {
 		cache.updateImplCached(repoDB, null, null, idUser);
+		//clear token related caches
 		cache.clearCache("getIdUserFromPasswordTemporaryToken");		
 	}
 
 	@Override
 	public int createUser(String email, String firstname, String lastname, short idLanguage) {
+		//clear user related caches
 		cache.clearCache("getUsers");
 		cache.clearCache("getAuthors");
 		cache.clearCache("searchUsersByEmail");
@@ -109,7 +143,8 @@ public class UserRepositoryDBCache implements UserRepository {
 	@Override
 	public void saveAuthor(int idUser, String fullName) {
 		cache.updateImplCached(repoDB,new String[]{stringManager.getKey(idUser)}, 
-				new String[]{"getUser"}, idUser, fullName);		
+				new String[]{"getUser"}, idUser, fullName);	
+		//clear user related caches
 		cache.clearCache("getAuthors");	
 		cache.clearCache("searchAuthorsByEmail");
 		cache.clearCache("searchAuthorsByName");
@@ -119,6 +154,7 @@ public class UserRepositoryDBCache implements UserRepository {
 	public void saveAdmin(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
 				new String[]{"getUser"}, idUser);
+		//clear admin related caches
 		cache.clearCache("getAdmins");
 	}
 
@@ -126,6 +162,7 @@ public class UserRepositoryDBCache implements UserRepository {
 	public void removeAdmin(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
 				new String[]{"getUser"}, idUser);
+		//clear admin related caches
 		cache.clearCache("getAdmins");
 	}
 
@@ -133,6 +170,7 @@ public class UserRepositoryDBCache implements UserRepository {
 	public void removeAuthor(int idUser) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idUser)}, 
 				new String[]{"getUser"}, idUser);
+		//clear author related caches
 		cache.clearCache("getAuthors");
 		cache.clearCache("searchAuthorsByEmail");
 		cache.clearCache("searchAuthorsByName");

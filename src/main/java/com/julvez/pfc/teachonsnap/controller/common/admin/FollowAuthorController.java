@@ -20,7 +20,7 @@ import com.julvez.pfc.teachonsnap.page.model.Page;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.url.model.SearchType;
-import com.julvez.pfc.teachonsnap.user.model.AuthorFollowed;
+import com.julvez.pfc.teachonsnap.user.model.Author;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 import com.julvez.pfc.teachonsnap.usergroup.UserGroupService;
@@ -123,7 +123,7 @@ public class FollowAuthorController extends AdminController {
 						
 					boolean hasNextPage = false;
 										
-					List<AuthorFollowed> authors = null;
+					List<Author> authors = null;
 					List<User> users = null;
 					List<User> authorFollowings = groupService.getAuthorFollowings(profile);
 					
