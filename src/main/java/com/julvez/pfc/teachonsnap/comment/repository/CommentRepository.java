@@ -2,8 +2,10 @@ package com.julvez.pfc.teachonsnap.comment.repository;
 
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.comment.CommentService;
 import com.julvez.pfc.teachonsnap.comment.model.Comment;
 import com.julvez.pfc.teachonsnap.comment.model.CommentPropertyName;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 /**

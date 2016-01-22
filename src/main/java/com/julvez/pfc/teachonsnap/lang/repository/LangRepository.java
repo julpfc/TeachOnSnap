@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.lang.repository;
 
 import java.util.List;
 
+import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 
 /**

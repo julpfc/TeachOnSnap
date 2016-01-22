@@ -30,7 +30,7 @@ public interface MediaFileService {
 
 	/**
 	 * Return list of accepted media types by the application
-	 * @returnlist of accepted media types
+	 * @return list of accepted media types
 	 */
 	public List<String> getAcceptedFileTypes();
 

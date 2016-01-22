@@ -11,7 +11,7 @@ public interface CacheManager {
 	 * desde otra implementación diferente de esa misma interfaz.
 	 * @param impl Implementación del interfaz sin caché, a la que deseamos incorporarla. 
 	 * @param params Parametros de entrada del metodo de la interfaz.
-	 * @return
+	 * @return obj
 	 */
 	public Object executeImplCached(Object impl, Object... params);
 

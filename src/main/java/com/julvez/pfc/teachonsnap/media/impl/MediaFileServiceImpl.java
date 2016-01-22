@@ -22,7 +22,7 @@ import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 /**
- * Implementation of the MediaFileService interface, uses an internal {@link mediaFileRepository} 
+ * Implementation of the MediaFileService interface, uses an internal {@link MediaFileRepository} 
  * to access/modify the lesson's media files related data.
  */
 public class MediaFileServiceImpl implements MediaFileService {

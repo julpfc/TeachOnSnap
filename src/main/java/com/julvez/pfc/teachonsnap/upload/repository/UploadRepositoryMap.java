@@ -23,7 +23,6 @@ public class UploadRepositoryMap implements UploadRepository {
 	/**
 	 * Constructor requires all parameters not to be null
 	 * @param logger Log manager providing logging capabilities
-	 * @param temporaryFileRepository
 	 */
 	public UploadRepositoryMap(LogManager logger) {
 		if(logger == null){
