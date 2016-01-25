@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;
 import com.julvez.pfc.teachonsnap.tag.model.CloudTag;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.tag.model.TagFollowed;
+import com.julvez.pfc.teachonsnap.tag.model.TagPropertyName;
 
 /** Provides the functionality to work with tags. */
 public interface TagService {
@@ -15,6 +17,7 @@ public interface TagService {
 	 * Returns lessons tagged by the specified tag. If the lessons number is 
 	 * greater than the maximum number of lessons allowed for a page 
 	 * {@link LessonPropertyName}, it will paginate them starting by firstResult.
+	 * @param tag lesson's are tagged with.
 	 * @param firstResult first lesson the pagination should start from.
 	 * @return List of lessons for this page
 	 */

@@ -4,16 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
-import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
 
+/**
+ * Repository implementation to access/modify data from a Database through a cache.
+ * <p>
+ * A repository database implementation ({@link TagRepositoryDB}) is used to provide the database layer under the cache.
+ * <p>
+ * {@link CacheManager} is used to provide a cache system
+ */
 public class TagRepositoryDBCache implements TagRepository {
 
-	private TagRepositoryDB repoDB = new TagRepositoryDB();
-	private CacheManager cache = CacheManagerFactory.getCacheManager();
-	private StringManager stringManager = StringManagerFactory.getManager();
+	/** Database repository providing data access and modification capabilities */
+	private TagRepositoryDB repoDB;	
+	
+	/** Cache manager providing access/modification capabilities to the cache system */
+	private CacheManager cache;
+	
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
+	
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param repoDB Database repository providing data access and modification capabilities
+	 * @param cache Cache manager providing access/modification capabilities to the cache system
+	 * @param stringManager String manager providing string manipulation utilities
+	 */
+	public TagRepositoryDBCache(TagRepositoryDB repoDB, CacheManager cache,
+			StringManager stringManager) {
+		
+		if(repoDB == null || stringManager == null || cache == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.repoDB = repoDB;
+		this.cache = cache;
+		this.stringManager = stringManager;
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -48,7 +76,7 @@ public class TagRepositoryDBCache implements TagRepository {
 	public void addLessonTags(int idLesson, ArrayList<Integer> tagIDs) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
 				new String[]{"getLessonTagIDs"}, idLesson, tagIDs);
-		
+		//clear lesson's tag related caches
 		cache.clearCache("getLessonIDsFromTag");
 		cache.clearCache("getTagUseCloudTags");			
 		cache.clearCache("getTagSearchCloudTags");			
@@ -61,6 +89,7 @@ public class TagRepositoryDBCache implements TagRepository {
 
 	@Override
 	public int createTag(String tag) {
+		//clear tag related caches
 		cache.clearCache("getTags");
 		cache.clearCache("searchTag");
 		return (int)cache.updateImplCached(repoDB, null, null, tag);
@@ -70,7 +99,7 @@ public class TagRepositoryDBCache implements TagRepository {
 	public void removeLessonTags(int idLesson, ArrayList<Integer> removeTagIDs) {
 		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson)}, 
 				new String[]{"getLessonTagIDs"}, idLesson, removeTagIDs);
-		
+		//clear lesson's tag related caches
 		cache.clearCache("getLessonIDsFromTag");
 		cache.clearCache("getCloudTags");
 		

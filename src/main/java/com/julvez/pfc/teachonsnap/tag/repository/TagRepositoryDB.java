@@ -5,17 +5,36 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.tag.model.TagPropertyName;
 
+/**
+ * Repository implementation to access/modify data from a Database
+ * <p>
+ * {@link DBManager} is used to provide database access
+ */
 public class TagRepositoryDB implements TagRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();
-	private PropertyManager properties = PropertyManagerFactory.getManager();
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;
 	
+	/** Property manager providing access to properties files */
+	private PropertyManager properties;
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 * @param properties Property manager providing access to properties files
+	 */
+	public TagRepositoryDB(DBManager dbm, PropertyManager properties) {
+		if(dbm == null || properties == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+		this.properties = properties;
+	}
+
 	@Override
 	public List<Integer> getLessonIDsFromTag(String tag,int firstResult) {
 		long maxResults = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);

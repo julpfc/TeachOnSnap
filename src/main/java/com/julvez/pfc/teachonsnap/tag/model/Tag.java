@@ -77,4 +77,20 @@ public class Tag {
 	public String getMD5() {		
 		return MD5;
 	}
+	
+	/**
+	 * Sets tag's id
+	 * @param id new tag's id
+	 */
+	public void setId(int id) {
+		this.id = id;
+		
+	}
+	/**
+	 * Sets tag's text
+	 * @param tag New text
+	 */
+	public void setTag(String tag) {
+		this.tag = tag;		
+	}
 }

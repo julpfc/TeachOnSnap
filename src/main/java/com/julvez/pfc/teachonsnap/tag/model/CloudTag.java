@@ -8,6 +8,9 @@ import com.julvez.pfc.teachonsnap.user.model.User;
  * Can be created from a Tag, an author (User) or a Lesson.
  * It contains the tag's text, the relative weight at the cloud
  * and a URL.
+ * @see Tag
+ * @see User
+ * @see Lesson
  */
 public class CloudTag {
 	
@@ -68,6 +71,14 @@ public class CloudTag {
 	 */
 	public short getWeight() {
 		return weight;
+	}
+	
+	/**
+	 * Sets tag's relative weight at the cloud
+	 * @param weight tag's relative weight at the cloud.
+	 */
+	public void setWeight(short weight) {
+		this.weight = weight;
 	}
 	
 	/**
