@@ -5,21 +5,50 @@ import java.util.Map;
 
 import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
-import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 
+/**
+ * Repository implementation to access/modify data from a Database through a cache.
+ * <p>
+ * A repository database implementation ({@link StatsRepositoryDB}) is used to provide the database layer under the cache.
+ * <p>
+ * {@link CacheManager} is used to provide a cache system
+ */
 public class StatsRepositoryDBCache implements StatsRepository {
 
-	private StatsRepositoryDB repoDB = new StatsRepositoryDB();
-	private CacheManager cache = CacheManagerFactory.getCacheManager();
-	private StringManager stringManager = StringManagerFactory.getManager(); 
+	/** Database repository providing data access and modification capabilities */
+	private StatsRepositoryDB repoDB;	
+	
+	/** Cache manager providing access/modification capabilities to the cache system */
+	private CacheManager cache;
+	
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
+	
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param repoDB Database repository providing data access and modification capabilities
+	 * @param cache Cache manager providing access/modification capabilities to the cache system
+	 * @param stringManager String manager providing string manipulation utilities
+	 */
+	public StatsRepositoryDBCache(StatsRepositoryDB repoDB, CacheManager cache,
+			StringManager stringManager) {
+		
+		if(repoDB == null || stringManager == null || cache == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.repoDB = repoDB;
+		this.cache = cache;
+		this.stringManager = stringManager;
+	}
 
 	@Override
 	public int createVisit(String ip) {
+		//clear visits stats cache
 		cache.clearCache("getVisitsLastMonth");
 		cache.clearCache("getVisitsLastYear");
 		return (int)cache.updateImplCached(repoDB, null, null, ip);		
@@ -39,7 +68,9 @@ public class StatsRepositoryDBCache implements StatsRepository {
 				new String[]{"getLessonVisitsLastMonth","getLessonVisitsLastYear",
 				"getAuthorVisitsLastMonth","getAuthorVisitsLastYear","getAuthorLessonsVisitsLastMonth",
 				"getAuthorLessonsVisitsLastYear","getAuthorLessonMediaVisitsLastMonth","getAuthorLessonMediaVisitsLastYear"}, idVisit, idLesson);
+		//Inc lesson views
 		cache.incCacheValue("getLessonViewsCount", stringManager.getKey(idLesson));
+		//Clear lessons stats
 		cache.clearCache("getLessonsVisitsLastMonth");
 		cache.clearCache("getLessonsVisitsLastYear");
 		cache.clearCache("getAuthorsVisitsLastMonth");
@@ -177,6 +208,5 @@ public class StatsRepositoryDBCache implements StatsRepository {
 	@SuppressWarnings("unchecked")
 	public List<StatsData> getAuthorsVisitsLastYear() {
 		return (List<StatsData>)cache.executeImplCached(repoDB);
-	}
-	
+	}	
 }

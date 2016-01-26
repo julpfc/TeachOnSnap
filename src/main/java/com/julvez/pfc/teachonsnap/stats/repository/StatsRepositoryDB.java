@@ -11,18 +11,37 @@ import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;
 import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.lessontest.model.UserQuestion;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsPropertyName;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 
+/**
+ * Repository implementation to access/modify data from a Database
+ * <p>
+ * {@link DBManager} is used to provide database access
+ */
 public class StatsRepositoryDB implements StatsRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();
-	private PropertyManager properties = PropertyManagerFactory.getManager();
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;
+	
+	/** Property manager providing access to properties files */
+	private PropertyManager properties;
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 * @param properties Property manager providing access to properties files
+	 */
+	public StatsRepositoryDB(DBManager dbm, PropertyManager properties) {
+		if(dbm == null || properties == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+		this.properties = properties;
+	}
 	
 	@Override
 	public int createVisit(String ip) {
@@ -45,6 +64,7 @@ public class StatsRepositoryDB implements StatsRepository {
 		BigDecimal result = dbm.getQueryResultUnique("SQL_STATS_GET_LESSON_VIEWS_COUNT", BigDecimal.class, idLesson);
 		
 		if(result!=null){
+			//Normalize database result
 			count = result.multiply(BigDecimal.valueOf(100)).intValue();
 		}
 		
@@ -56,12 +76,15 @@ public class StatsRepositoryDB implements StatsRepository {
 		boolean saved = false;
 		long affectedRows = 0;
 		
+		//Begin transaction on database
 		Object session = dbm.beginTransaction();
 		
+		//Create VisitTest
 		long idVisitTest = dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_STATS_SAVE_USERTEST", 
 				visit.getId(), userTest.getIdLessonTest(), userTest.getPoints());
 		
 		if(idVisitTest>0){
+			//Save questions results
 			for(UserQuestion question:userTest.getQuestions()){
 				if(!question.isOK()){
 					affectedRows = dbm.updateQuery_NoCommit(session, "SQL_STATS_SAVE_USERTEST_KO",
@@ -70,10 +93,13 @@ public class StatsRepositoryDB implements StatsRepository {
 				}
 			}
 			
+			//If improved result
 			if(affectedRows>=0 && betterRank){
 			
+				//Get current number of attempts
 				int attempts = getUserTestCount(session, userTest.getIdLessonTest(), visit.getUser().getId());
 				
+				//Update best result
 				if(attempts>=0){
 					affectedRows = dbm.updateQuery_NoCommit(session, "SQL_STATS_SAVE_USERTESTRANK",
 							userTest.getIdLessonTest(), visit.getUser().getId(), idVisitTest,
@@ -86,7 +112,7 @@ public class StatsRepositoryDB implements StatsRepository {
 				saved = true;
 			}
 		}
-		
+		//Commit if success, rollback otherwise
 		dbm.endTransaction(saved, session);		
 		
 		return saved;
@@ -94,10 +120,12 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	private int getUserTestCount(Object session, int idLessonTest, int idUser) {
 		int attempts = -1;
+		//Get stats from database
 		BigInteger count = dbm.getQueryResultUnique_NoCommit(session, "SQL_STATS_GET_USERTEST_COUNT",
 				BigInteger.class, idLessonTest, idUser);
 		
 		if(count!=null){
+			//Convert to int
 			attempts = count.intValue();
 		}
 		
@@ -111,8 +139,7 @@ public class StatsRepositoryDB implements StatsRepository {
 
 	@Override
 	public List<Short> getUserIDsTestRank(int idLessonTest) {
-		long limit = properties.getNumericProperty(StatsPropertyName.LIMIT_USER_RANKING);
-		
+		long limit = properties.getNumericProperty(StatsPropertyName.LIMIT_USER_RANKING);		
 		return dbm.getQueryResultList("SQL_STATS_GET_USERIDS_TESTRANK", Short.class, idLessonTest, limit);
 	}
 
@@ -127,6 +154,7 @@ public class StatsRepositoryDB implements StatsRepository {
 		BigDecimal result = dbm.getQueryResultUnique("SQL_STATS_GET_TAG_VIEWS_COUNT", BigDecimal.class, idTag);
 		
 		if(result!=null){
+			//Normalize database result
 			count = result.multiply(BigDecimal.valueOf(100)).intValue();
 		}
 		
@@ -139,6 +167,7 @@ public class StatsRepositoryDB implements StatsRepository {
 		BigInteger result = dbm.getQueryResultUnique("SQL_STATS_GET_STATS_LESSONTEST_NUM_VISIT_TESTS", BigInteger.class, idLessonTest);
 		
 		if(result!=null){
+			//Normalize database result
 			numTests = result.intValue();
 		}
 		
@@ -152,6 +181,7 @@ public class StatsRepositoryDB implements StatsRepository {
 		List<Object[]> results = dbm.getQueryResultList("SQL_STATS_GET_STATS_LESSONTEST_QUESTION_KOS", Object[].class, idLessonTest);
 		
 		if(results != null){
+			//Save distribution in a map
 			for(Object[] obj:results){
 				questionKOs.put("["+ obj[0].toString() + "]", obj[1].toString());
 			}			

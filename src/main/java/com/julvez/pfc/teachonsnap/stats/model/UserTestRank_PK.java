@@ -2,11 +2,17 @@ package com.julvez.pfc.teachonsnap.stats.model;
 
 import java.io.Serializable;
 
+/**
+ * Primary key for the {@link UserTestRank} class. Overrides
+ * hashCode() and equals() for persistence.
+ */
 public class UserTestRank_PK implements Serializable{
 
 	private static final long serialVersionUID = 8950267547725284709L;
 
+	/** Test's id */
 	int idLessonTest;
+	/** User's id */
 	int idUser;
 
 	@Override
@@ -31,8 +37,5 @@ public class UserTestRank_PK implements Serializable{
 		if (idUser != other.idUser)
 			return false;
 		return true;
-	}
-	
-	
-	
+	}	
 }
