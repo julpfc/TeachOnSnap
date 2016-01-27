@@ -166,6 +166,14 @@ public interface URLService {
 	 */
 	public String getLessonTestNewQuestionURL(LessonTest test);
 
+	
+	/**
+	 * Return lesson test question edit page URL (absolute) and completes it to point ti the specified test
+	 * @param test we want the URL to point to
+	 * @return lesson test question edit page URL (null if test is null or empty)
+	 */
+	public String getLessonTestEditQuestionURL(LessonTest test);
+
 	/**
 	 * Returns lessons from tag page URL (absolute), without specifying a tag 
 	 * @return lessons from tag page URL without tag identifier
@@ -191,4 +199,5 @@ public interface URLService {
 	 * @return media file URL (null if media is null or empty)
 	 */
 	public String getMediaFileURL(MediaFile media);
+
 }

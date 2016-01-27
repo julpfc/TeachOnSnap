@@ -6,11 +6,28 @@ import com.julvez.pfc.teachonsnap.lessontest.model.Answer;
 import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lessontest.model.Question;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 
+/**
+ * Repository implementation to access/modify data from a Database
+ * <p>
+ * {@link DBManager} is used to provide database access
+ */
 public class LessonTestRepositoryDB implements LessonTestRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;
+		
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 */
+	public LessonTestRepositoryDB(DBManager dbm) {
+		if(dbm == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+	}
 
 	@Override
 	public LessonTest getLessonTest(int idLessonTest) {
@@ -59,11 +76,6 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 		dbm.endTransaction(true, session);
 	}
 	
-	private void unpublish(Object session, int idLessonTest) {
-		dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_PUBLISHED", idLessonTest);		
-	}
-	
-
 	@Override
 	public void saveQuestion(int idQuestion, String text, byte priority, int idLessonTest) {
 		dbm.updateQuery("SQL_LESSONTEST_SAVE_QUESTION", text, priority, idQuestion);
@@ -80,13 +92,17 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 	public int createQuestion(Question question) {
 		int idQuestion = -1;
 		
+		//Begin database transaction
 		Object session = dbm.beginTransaction();
+		
+		//Create question
 		idQuestion = (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_LESSONTEST_CREATE_QUESTION", question.getIdLessonTest(),
 				question.getPriority(), question.getText());
 		
 		if(idQuestion>0){
 			question.setId(idQuestion);
 			
+			//Create answers
 			for(Answer answer:question.getAnswers()){
 				int idAnswer = (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_LESSONTEST_CREATE_ANSWER", idQuestion, 
 						answer.getReason(), answer.getText(), answer.isCorrect());
@@ -101,47 +117,120 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 				
 			}	
 			
+			//Increase number of test's questions
 			if(idQuestion>0){
 				if(changeLessonTestNumQuestions(session, question.getIdLessonTest(), true) != 1){
 					idQuestion = -1;
 				}
 			}
 		}
+		//Commit if success, rollback otherwise 
 		dbm.endTransaction(idQuestion>0, session);
 		
 		return idQuestion;
 	}
 
 	
+	
+
+	@Override
+	public void removeQuestion(LessonTest test, Question question) {				
+		Object session = dbm.beginTransaction();		
+		boolean removed = removeQuestion(session, test, question);		
+		dbm.endTransaction(removed, session);		
+	}
+
+	@Override
+	public void removeLessonTest(LessonTest test) {
+		int affectedRows = -1;
+		
+		//Begin database transaction
+		Object session = dbm.beginTransaction();
+		
+		//Remove questions
+		for(Question question:test.getQuestions()){
+			if(!removeQuestion(session, test, question)){
+				affectedRows = -1;
+				break;
+			}
+			else affectedRows = 1;
+		}
+		
+		//Remove test
+		if(affectedRows>0 || test.getQuestions()==null || test.getQuestions().size()==0){
+			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_LESSONTEST", test.getId());							
+		}
+		
+		//Commit if success, rollback otherwise
+		dbm.endTransaction(affectedRows>0, session);
+	
+	}
+
+	@Override
+	public int createLessonTest(int idLesson, boolean multipleChoice, int numAnswers) {
+		int idLessonTest = -1;
+		
+		//Begin database transaction
+		Object session = dbm.beginTransaction();
+		
+		//create test
+		idLessonTest = (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_LESSONTEST_CREATE", idLesson, multipleChoice, numAnswers);
+		
+		//Create test as draft
+		if(idLessonTest>0){
+			unpublish(session, idLessonTest);			
+		}
+		//Commit if success, rollback otherwise		
+		dbm.endTransaction(idLessonTest>0, session);
+		
+		return idLessonTest;		
+	}
+
+	/**
+	 * Unpublishes a test within an open database transaction.
+	 * @param session Open database transaction
+	 * @param idLessonTest Test to be unpublished
+	 */
+	private void unpublish(Object session, int idLessonTest) {
+		dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_PUBLISHED", idLessonTest);		
+	}
+
+	/**
+	 * Increases o decreases the number of test's questions within
+	 * an open database transaction.
+	 * @param session Open database transaction
+	 * @param idLessonTest Test's id
+	 * @param inc indicates if it's a positive increment
+	 * @return number of rows affected
+	 */
 	private int changeLessonTestNumQuestions(Object session, int idLessonTest, boolean inc) {
 		return dbm.updateQuery_NoCommit(session, inc?"SQL_LESSONTEST_ADD_NUM_QUESTIONS":"SQL_LESSONTEST_DEC_NUM_QUESTIONS", idLessonTest);
 	}
 	
-
-	@Override
-	public void removeQuestion(LessonTest test, Question question) {
-				
-		Object session = dbm.beginTransaction();
-		
-		boolean removed = removeQuestion(session, test, question);
-		
-		dbm.endTransaction(removed, session);
-		
-	}
-	
+	/**
+	 * Removes a question within an open database transaction
+	 * @param session Open database transaction
+	 * @param test Test
+	 * @param question to be removed
+	 * @return true if success
+	 */
 	private boolean removeQuestion(Object session, LessonTest test, Question question) {
 	
 		int affectedRows = -1;
 		
+		//Remove answers from question
 		affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_ANSWERS", question.getId());
 		
 		if(affectedRows>0){
+			//remove question
 			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_QUESTION", question.getId());
 			
 			if(affectedRows>0){
-				affectedRows = changeLessonTestNumQuestions(session, question.getIdLessonTest(),false);
+				//decrease number of test's questions
+				affectedRows = changeLessonTestNumQuestions(session, question.getIdLessonTest(), false);
 				
 				if(affectedRows>0){
+					//Recalculate question's positions
 					for(Question q:test.getQuestions()){
 						if(q.getId() != question.getId()){
 							if(question.getPriority()<q.getPriority()){								
@@ -154,45 +243,6 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 		}
 		
 		return affectedRows>0;
-	}
-
-	@Override
-	public void removeLessonTest(LessonTest test) {
-		int affectedRows = -1;
-		
-		Object session = dbm.beginTransaction();
-		
-		for(Question question:test.getQuestions()){
-			if(!removeQuestion(session, test, question)){
-				affectedRows = -1;
-				break;
-			}
-			else affectedRows = 1;
-		}
-		
-		if(affectedRows>0 || test.getQuestions()==null || test.getQuestions().size()==0){
-			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_LESSONTEST", test.getId());							
-		}
-		
-		dbm.endTransaction(affectedRows>0, session);
-	
-	}
-
-	@Override
-	public int createLessonTest(int idLesson, boolean multipleChoice, int numAnswers) {
-		int idLessonTest = -1;
-		
-		Object session = dbm.beginTransaction();
-		
-		idLessonTest = (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_LESSONTEST_CREATE", idLesson, multipleChoice, numAnswers);
-		
-		if(idLessonTest>0){
-			unpublish(session, idLessonTest);			
-		}
-				
-		dbm.endTransaction(idLessonTest>0, session);
-		
-		return idLessonTest;		
 	}
 
 }

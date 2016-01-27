@@ -194,6 +194,15 @@ public class URLServiceImpl implements URLService {
 	}
 
 	@Override
+	public String getLessonTestEditQuestionURL(LessonTest test) {
+		if(test != null){
+			return getLessonTestNewQuestionURL(test) + "/";
+		}
+		else return null;
+	}
+
+	
+	@Override
 	public String getTagURL() {
 		return getHost() + ControllerURI.TAG.toString();
 	}
@@ -218,5 +227,6 @@ public class URLServiceImpl implements URLService {
 		}
 		else return null;
 	}
+
 
 }

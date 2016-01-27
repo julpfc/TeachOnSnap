@@ -7,17 +7,31 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.julvez.pfc.teachonsnap.manager.json.JSONViews;
 
+/**
+ * Entity. Describes an answer from a test. It's a possible answer for a
+ * question. It can be correct or not. It can include a reason why it's 
+ * correct or not. 
+ */
 @Entity
 public class Answer {
 	
+	/** Answer's identifier and primary key for the entity */
 	@Id
 	@Column (name="idAnswer")
 	int id;
+	
+	/** Question's id */
 	int idQuestion;
+	
+	/** Answer's text */
 	@JsonView(JSONViews.Simple.class)
 	String text;
+	
+	/** Indicates if the answer is the correct one for the question*/
 	@JsonView(JSONViews.Simple.class)
 	boolean correct;
+	
+	/** Indicates the reason why it's correct or not, if present*/
 	@JsonView(JSONViews.Simple.class)
 	String reason;
 
@@ -27,44 +41,55 @@ public class Answer {
 				+ text + ", correct=" + correct + ", reason=" + reason + "]";
 	}
 
+	/**
+	 * @return answer's id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the answer's id
+	 * @param id new answer's id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return Question's id
+	 */
 	public int getIdQuestion() {
 		return idQuestion;
 	}
 
+	/**
+	 * Sets the question for this answer
+	 * @param idQuestion question's id
+	 */
 	public void setIdQuestion(int idQuestion) {
 		this.idQuestion = idQuestion;
 	}
 
+	/**
+	 * @return answer's text
+	 */
 	public String getText() {
 		return text;
 	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
+	
+	/**
+	 * @return tru if it's the correct answer for the question
+	 */
 	public boolean isCorrect() {
 		return correct;
 	}
 
-	public void setCorrect(boolean correct) {
-		this.correct = correct;
-	}
-
+	/**
+	 * @return reason why the answer is the correct one for the question, or not, if present
+	 */
 	public String getReason() {
 		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
 	}
 
 	@Override
@@ -105,7 +130,6 @@ public class Answer {
 		} else if (!text.equals(other.text))
 			return false;
 		return true;
-	}
-	
+	}	
 	
 }

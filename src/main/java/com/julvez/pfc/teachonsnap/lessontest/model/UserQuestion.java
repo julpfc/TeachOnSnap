@@ -3,17 +3,35 @@ package com.julvez.pfc.teachonsnap.lessontest.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Domain entity. Describes the question answered by 
+ * a user when performed a test. It contains the
+ * question itself and the list of checked answers.
+ */
 public class UserQuestion {
 
-	String[] answers;
+	/** Question */
 	Question question;
+	
+	/** List of checked answers */
 	List<UserAnswer> userAnswers;
 	
-	public UserQuestion(Question question,String[] userAnswers){
+	/** List of checks to calculate the list of checked answers */
+	String[] answers;
+	
+	/**
+	 * Constructor
+	 * @param question Question
+	 * @param userAnswers List of checks to calculate the list of checked answers
+	 */
+	public UserQuestion(Question question, String[] userAnswers){
 		this.question = question;
 		answers = userAnswers;
 	}
 	
+	/**
+	 * @return List of checked answers
+	 */
 	public List<UserAnswer> getAnswers() {
 		if(userAnswers == null){
 			userAnswers = new ArrayList<UserAnswer>();
@@ -32,14 +50,23 @@ public class UserQuestion {
 		
 	}
 
+	/**
+	 * @return question's id
+	 */
 	public int getId() {
 		return question.getId();
 	}
 
+	/**
+	 * @return question's text
+	 */
 	public String getText() {
 		return question.getText();
 	}
 	
+	/**
+	 * @return true if all answers were checked correctly
+	 */
 	public boolean isOK(){
 		boolean isOK = true;
 		
@@ -49,10 +76,12 @@ public class UserQuestion {
 		
 		return isOK;		
 	}
+
 	
-	
-	
-	
-	
-	
+	@Override
+	public String toString() {
+		return "UserQuestion [question=" + question + ", userAnswers="
+				+ userAnswers + "]";
+	}
+		
 }
