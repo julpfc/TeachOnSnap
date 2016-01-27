@@ -5,45 +5,49 @@ import java.util.List;
 import java.util.Properties;
 
 import com.julvez.pfc.teachonsnap.manager.log.LogManager;
-import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
+/**
+ * Implementation of the StringManager, uses internal {@link LogManager} 
+ * to log the errors and {@link StringManager} to manipulate strings.
+ */
 public class PropertyManagerImpl implements PropertyManager {
 	
-	private StringManager stringManager = StringManagerFactory.getManager();
-	private LogManager logger = LogManagerFactory.getManager();
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
 	
-
+	/** Log manager providing logging capabilities */
+	private LogManager logger;
+	
+	/** Properties file handler */
 	private Properties properties;
-	private Integer lock = new Integer(0);
 	
+	/** Lock for concurrent access to the properties file */
+	private Integer lock;
+	
+		
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param stringManager String manager providing string manipulation utilities
+	 * @param logger Log manager providing logging capabilities
+	 */
+	public PropertyManagerImpl(StringManager stringManager, LogManager logger) {
+		if(stringManager == null || logger == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.stringManager = stringManager;
+		this.logger = logger;
+		lock = new Integer(0);
+		loadDefaultProperties();
+	}
+
 	@Override
 	public String getProperty(Enum<?> propertyName) {
 		return getProperty(propertyName, null);
 	}
 
-	private void loadDefaultProperties() {
-		if(properties == null){
-		
-			synchronized (lock) {
-				if(properties == null){
-					try{
-						InputStream is = PropertyManager.class.getResourceAsStream(DEFAULT_PROPERTIES_FILE);
-						properties = new Properties();
-						properties.load(is);
-						is.close();
-
-					} catch (Throwable t) {
-						logger.error(t, "Error recuperando fichero de properties: " + DEFAULT_PROPERTIES_FILE);
-						properties = null;
-					}
-				}
-			}
-		}		
-	}
-
+	
 	@Override
 	public long getNumericProperty(Enum<?> propertyName) {
 		return getNumericProperty(propertyName, null);
@@ -64,15 +68,19 @@ public class PropertyManagerImpl implements PropertyManager {
 		String property = null;
 		
 		if(propertyName!=null){
+			//check if the properties file is loaded
 			if(properties == null){
 				loadDefaultProperties();
 			}
 			if(properties!=null){
+				//get key
 				String propertyKey = propertyName.toString();
 				
+				//complete key if extension present
 				if(!stringManager.isEmpty(propertyNameExtension)){
 					propertyKey = propertyKey + propertyNameExtension;
 				}
+				//get property with key
 				property = properties.getProperty(propertyKey);
 			}
 		}
@@ -82,8 +90,11 @@ public class PropertyManagerImpl implements PropertyManager {
 	@Override
 	public long getNumericProperty(Enum<?> propertyName, String propertyNameExtension) {
 		long ret = -1;
+		
+		//get property from key
 		String prop = getProperty(propertyName, propertyNameExtension);
 		
+		//try getting the numeric value
 		if(stringManager.isNumeric(prop)){
 			ret = Long.parseLong(prop);
 		}
@@ -94,9 +105,10 @@ public class PropertyManagerImpl implements PropertyManager {
 	public boolean getBooleanProperty(Enum<?> propertyName,
 			String propertyNameExtension) {
 		boolean ret = false;
-		
+		//get property from key
 		String prop = getProperty(propertyName, propertyNameExtension);
-		
+
+		//try getting the boolean value
 		ret = stringManager.isTrue(prop);
 		
 		return ret;
@@ -106,12 +118,34 @@ public class PropertyManagerImpl implements PropertyManager {
 	public List<String> getListProperty(Enum<?> propertyName,
 			String propertyNameExtension) {
 		List<String> list = null;
-		
+		//get property from key
 		String prop = getProperty(propertyName, propertyNameExtension);
 		
+		//get the list of comma-separated values
 		list = stringManager.split(prop, ",");		
 		
 		return list;
 	}
-	
+
+	/**
+	 * Loads the default property file
+	 */
+	private void loadDefaultProperties() {
+		if(properties == null){		
+			synchronized (lock) {
+				if(properties == null){
+					try{
+						InputStream is = PropertyManager.class.getResourceAsStream(DEFAULT_PROPERTIES_FILE);
+						properties = new Properties();
+						properties.load(is);
+						is.close();
+
+					} catch (Throwable t) {
+						logger.error(t, "Error accessing properties file: " + DEFAULT_PROPERTIES_FILE);
+						properties = null;
+					}
+				}
+			}
+		}		
+	}
 }

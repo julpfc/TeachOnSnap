@@ -18,7 +18,6 @@ import com.julvez.pfc.teachonsnap.manager.string.StringManager;
  * Implementation of the StringManager, uses an internal {@link LogManager} 
  * to log the errors.
  */
-
 public class StringManagerImpl implements StringManager {
 
 	/** Log manager providing logging capabilities */
