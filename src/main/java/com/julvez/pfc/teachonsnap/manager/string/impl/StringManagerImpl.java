@@ -12,14 +12,30 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.julvez.pfc.teachonsnap.manager.log.LogManager;
-import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 
+/**
+ * Implementation of the StringManager, uses an internal {@link LogManager} 
+ * to log the errors.
+ */
 
 public class StringManagerImpl implements StringManager {
 
-	private LogManager logger = LogManagerFactory.getManager();
+	/** Log manager providing logging capabilities */
+	private LogManager logger;
 	
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param logger Log manager providing logging capabilities
+	 */
+	public StringManagerImpl(LogManager logger) {
+		if(logger == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.logger = logger;
+	}
+
 	@Override
 	public boolean isEmpty(String string) {
 		return StringUtils.isBlank(string);		
@@ -31,9 +47,11 @@ public class StringManagerImpl implements StringManager {
 		
 		if(!isEmpty(string)){
 			try {
+				//check if it's a positive integer
 				int i = Integer.parseInt(string);
 				isTrue = i>0;
 			} catch (Exception e) {
+				//check if it's a "true" string (ignoring case)
 				isTrue = Boolean.parseBoolean(string);
 			}
 		}
@@ -45,6 +63,7 @@ public class StringManagerImpl implements StringManager {
 		String result = null;
 		
 		if(source!=null){
+			//replace or remove special characters
 			result = Normalizer.normalize(source.toLowerCase(), Form.NFD)
 			        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
 			        .replaceAll("[^\\p{Alnum}]+", "-")
@@ -58,6 +77,7 @@ public class StringManagerImpl implements StringManager {
 	
 	@Override
 	public String getKey(Object...objects){
+		//Create a string key "[obj.toString()] ..."
 		String format = new String(new char[objects.length])
         .replace("\0", "[%s]");
 		return String.format(format, objects);
@@ -71,12 +91,14 @@ public class StringManagerImpl implements StringManager {
 			MessageDigest md;
 		
 			try {
+				//get converter
 				md = MessageDigest.getInstance("MD5");
 			
-				md.update(input.getBytes());
-				
+				//get converted array
+				md.update(input.getBytes());				
 				byte byteData[] = md.digest();
 				
+				//convert to string
 				StringBuffer sb = new StringBuffer();
 				for (int i = 0; i < byteData.length; i++) {
 					sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
@@ -84,7 +106,7 @@ public class StringManagerImpl implements StringManager {
 				output = sb.toString();
 			}
 			catch (Throwable t) {
-				logger.error(t, "Error generando MD5: " + input);
+				logger.error(t, "Error generating MD5: " + input);
 			}
 		} 
 		return output;
@@ -99,10 +121,12 @@ public class StringManagerImpl implements StringManager {
 	public String convertToHTMLParagraph(String string) {
 		String ret = null;
 		if(!isEmpty(string)){
+			//replace lines by HTML paragraphs <p>'s
 			StringBuffer sb = new StringBuffer();
 			sb.append("<p>").append(string.replaceAll("\\r\\n|\\r|\\n", "</p><p>")).append("</p>");
-			int lastP = sb.lastIndexOf("<p></p>");
 			
+			//Remove last duplicated <p>'s
+			int lastP = sb.lastIndexOf("<p></p>");
 			if(lastP>0){
 				sb.delete(lastP,lastP+7);
 			}
@@ -115,9 +139,10 @@ public class StringManagerImpl implements StringManager {
 	public String decodeURL(String urlEncoded) {
 		String decoded = null;				
 		try {
+			//decode URL
 			decoded = URLDecoder.decode(urlEncoded, "UTF-8");
 		} catch (Throwable t) {
-			logger.error(t, "Error decodificando URLencoded: " + urlEncoded);
+			logger.error(t, "Error decoding URLencoded: " + urlEncoded);
 		}
 		return decoded;
 	}
@@ -138,11 +163,14 @@ public class StringManagerImpl implements StringManager {
 		
 		if(!isEmpty(string)){
 			String[] params = null;
-			if(string.contains(",")){
-				params = string.split(",");
+			
+			//split if the splitter is present on the string
+			if(string.contains(splitter)){
+				params = string.split(splitter);
 			}
 			else params = new String[]{string};
 			
+			//convert array to List
 			if(params != null){
 				list = new ArrayList<String>();
 				for(String param:params){
@@ -158,9 +186,10 @@ public class StringManagerImpl implements StringManager {
 	public String encodeURL(String url) {
 		String encoded = null;				
 		try {
+			//encode URL
 			encoded = URLEncoder.encode(url, "UTF-8");
 		} catch (Throwable t) {
-			logger.error(t, "Error codificando URLencoded: " + url);
+			logger.error(t, "Error coding URLencoded: " + url);
 		}
 		return encoded;
 
