@@ -15,7 +15,7 @@ public class TextServiceImpl implements TextService {
 	/**	Package prefix where i18n properties files are located */
 	private static final String I18n_PACKAGE = "com.julvez.pfc.teachonsnap.i18n";
 	
-	/** Localized text manager providing access to localized texts by key and language. */
+	/** Localized texts manager providing access to localized texts by key and language. */
 	private TextManager textManager;
 	
 		
