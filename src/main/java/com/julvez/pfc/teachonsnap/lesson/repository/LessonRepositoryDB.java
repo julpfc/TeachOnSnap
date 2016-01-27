@@ -5,15 +5,33 @@ import java.util.List;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
-import com.julvez.pfc.teachonsnap.manager.db.DBManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
-import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 
-
+/**
+ * Repository implementation to access/modify data from a Database
+ * <p>
+ * {@link DBManager} is used to provide database access
+ */
 public class LessonRepositoryDB implements LessonRepository {
 
-	private DBManager dbm = DBManagerFactory.getDBManager();
-	private PropertyManager properties = PropertyManagerFactory.getManager();
+	/** Database manager providing access/modification capabilities */
+	private DBManager dbm;
+		
+	/** Property manager providing access to properties files */
+	private PropertyManager properties;
+			
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param dbm Database manager providing access/modification capabilities
+	 * @param properties Property manager providing access to properties files
+	 */
+	public LessonRepositoryDB(DBManager dbm, PropertyManager properties) {
+		if(dbm == null || properties == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.dbm = dbm;
+		this.properties = properties;
+	}
 	
 	@Override
 	public Lesson getLesson(int idLesson) {
@@ -29,7 +47,6 @@ public class LessonRepositoryDB implements LessonRepository {
 			id = obj;
 		return id; 
 	}
-
 
 	@Override
 	public List<Integer> getLastLessonIDs(int firstResult) {
@@ -54,37 +71,31 @@ public class LessonRepositoryDB implements LessonRepository {
 		dbm.updateQuery("SQL_LESSON_SAVE_TEXT", idLesson,newText,newText);
 	}
 
-
 	@Override
 	public void saveLessonLanguage(int idLesson, short idLanguage) {
 		dbm.updateQuery("SQL_LESSON_SAVE_LANGUAGE", idLanguage, idLesson);
 		
 	}
 
-
 	@Override
 	public boolean saveLessonTitle(Lesson lesson, String title, String URIName) {
 		return dbm.updateQuery("SQL_LESSON_SAVE_TITLE", title, URIName, lesson.getId()) >= 0;
 	}
-
 
 	@Override
 	public void removeLessonText(int idLesson) {
 		dbm.updateQuery("SQL_LESSON_DELETE_TEXT", idLesson);
 	}
 
-
 	@Override
 	public void publish(int idLesson) {
 		dbm.updateQuery("SQL_LESSON_PUBLISH", idLesson);		
 	}
 
-
 	@Override
 	public void unpublish(int idLesson) {
 		dbm.updateQuery("SQL_LESSON_UNPUBLISH", idLesson);
 	}
-
 
 	@Override
 	public List<Integer> getDraftLessonIDsFromUser(int idUser, int firstResult) {

@@ -8,10 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.julvez.pfc.teachonsnap.lang.model.Language;
+
 /**
  * Entity. Describes an user of the application. Besides regular users,
  * they can be "authors" if are allowed to create and edit lessons, 
- * or "adminsitrators" if they can manage the application and other users. 
+ * or "administrators" if they can manage the application and other users. 
  * It contains an email, fullname and the preferred language. 
  * The followed lessons and authors, and several usefull related URLs 
  * are also stored at the object.
