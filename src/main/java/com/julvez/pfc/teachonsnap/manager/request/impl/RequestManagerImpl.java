@@ -11,25 +11,46 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import com.julvez.pfc.teachonsnap.manager.log.LogManager;
-import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 
+/**
+ * Implementation of the RequestManager, uses an internal {@link LogManager} 
+ * to log the errors and {@link StringManager} to manipulate strings.
+ */
 public class RequestManagerImpl implements RequestManager {
 
+	/** HTTP content-disposition header */
 	private static final String HTTP_HEADER_CONTENT_DISPOSITION = "content-disposition";
 	
-	private StringManager stringManager = StringManagerFactory.getManager();
-	private LogManager logger = LogManagerFactory.getManager();
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
 	
+	/** Log manager providing logging capabilities */
+	private LogManager logger;
+	
+		
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param stringManager String manager providing string manipulation utilities
+	 * @param logger Log manager providing logging capabilities
+	 */
+	public RequestManagerImpl(StringManager stringManager, LogManager logger) {
+		if(stringManager == null || logger == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.stringManager = stringManager;
+		this.logger = logger;
+	}
 	
 	@Override
 	public String[] splitParamsFromControllerURI(HttpServletRequest request) {
 		String[] params = null;
 		
+		//get URI and remove controller mapping
 		String req = request.getRequestURI().replaceFirst(request.getServletContext().getContextPath(),"").replaceFirst(request.getServletPath()+"/", "");
 		
+		//split params if present
 		if(req.contains("/")){
 			params = req.split("/");
 		}
@@ -41,7 +62,9 @@ public class RequestManagerImpl implements RequestManager {
 
 	@Override
 	public String getParameter(HttpServletRequest request, Enum<?> parameter) {
+		//get parameter from request
 		String param = request.getParameter(parameter.toString());
+		//check if empty
 		if(stringManager.isEmpty(param)){
 			param = null;
 		}
@@ -50,13 +73,17 @@ public class RequestManagerImpl implements RequestManager {
 
 	@Override
 	public String getBlankParameter(HttpServletRequest request, Enum<?> parameter) {
+		//get parameter from request
 		return request.getParameter(parameter.toString());
 	}
 
 	
 	@Override
 	public boolean getBooleanParameter(HttpServletRequest request, Enum<?> parameter) {
+		//get parameter from request
 		String param = getParameter(request, parameter);
+		
+		//check if it's true
 		return stringManager.isTrue(param);
 	}
 
@@ -64,7 +91,10 @@ public class RequestManagerImpl implements RequestManager {
 	@Override
 	public int getNumericParameter(HttpServletRequest request, Enum<?> parameter) {
 		int numericParam = -1;
+		//get parameter from request
 		String param = getParameter(request, parameter);
+		
+		//check if it's numeric and parse
 		if(stringManager.isNumeric(param)){
 			numericParam = Integer.parseInt(param);			
 		}
@@ -76,10 +106,12 @@ public class RequestManagerImpl implements RequestManager {
 		List<String> list = null;
 		
 		if(request.getParameterMap() != null){
+			//get parameter map from request
 			String[] parameters = request.getParameterMap().get(parameter.toString());
 			
 			if(parameters != null && parameters.length>0){
 				list = new ArrayList<String>();
+				//get list of values
 				for(String param:parameters){
 					if(!stringManager.isEmpty(param)){
 						list.add(param);
@@ -90,11 +122,11 @@ public class RequestManagerImpl implements RequestManager {
 		
 		return list;
 	}
-
 	
 	@Override
 	public String getPartFilename(Part part) {
 		String filename = null;
+			//Get part file name
 	        for (String cd : part.getHeader(HTTP_HEADER_CONTENT_DISPOSITION).split(";")) {
 	            if (cd.trim().startsWith("filename")) {
 	                filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
@@ -104,13 +136,13 @@ public class RequestManagerImpl implements RequestManager {
 	        return filename;
 	    }
 
-
-
-
 	@Override
 	public String getRequestLanguage(HttpServletRequest request) {
 		String lang = null;
+		//get locale
 		Locale locale = request.getLocale();
+		
+		//get language
 		if(locale!=null && !stringManager.isEmpty(locale.getLanguage())){
 			lang = locale.getLanguage();
 		}
@@ -119,6 +151,7 @@ public class RequestManagerImpl implements RequestManager {
 
 	@Override
 	public String getIP(HttpServletRequest request) {
+		//get IP from request
 		String ip = request.getRemoteAddr();
 		if(stringManager.isEmpty(ip)){
 			ip = null;
@@ -149,19 +182,22 @@ public class RequestManagerImpl implements RequestManager {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getAttribute(HttpServletRequest request, Enum<?> attribute, Class<T> returnClass) {
-		//TODO verificar si lo que llega es null si no peta
-		return (T)request.getAttribute(attribute.toString());
+		if(request != null && attribute!= null && returnClass != null){
+			return (T)request.getAttribute(attribute.toString());
+		}
+		else return null;
 	}
 
 	@Override
 	public void setAttribute(HttpServletRequest request, Enum<?> attribute,	Object attrib) {
-		if(attribute != null && attrib != null){
+		if(attribute != null && attribute != null && attrib != null){
 			request.setAttribute(attribute.toString(), attrib);
 		}
 	}
 
 	@Override
 	public void setFileMetadataHeaders(HttpServletResponse response, String contentType, String fileName) {
+		//set file metadata headers
 		response.setContentType(contentType);
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader(HTTP_HEADER_CONTENT_DISPOSITION, "attachment; filename=\""+fileName+"\"");		
@@ -171,21 +207,25 @@ public class RequestManagerImpl implements RequestManager {
 	public void downloadFile(HttpServletResponse response, String contentType, String fileName, InputStream input) {
 		if(contentType != null && fileName != null && input!=null && response!=null){
 		
-			try {        
+			try {       
+				//set file metadata headers
 				setFileMetadataHeaders(response, contentType, fileName);
 	
+				//get output stream
 	            OutputStream output = response.getOutputStream();
 	            byte[] buffer = new byte[1024*10];
 	
+	            //write file
 	            for (int length = 0; (length = input.read(buffer)) > 0;) {
 	                output.write(buffer, 0, length);
 	            }
 	
+	            //close streams
 	            output.close();
 	            input.close();
 			}
 			catch (Throwable t) {
-				logger.error(t, "Error descargando fichero CSV");    				
+				logger.error(t, "Error downloading file: " + fileName );    				
 			}
 		}			
 	}

@@ -16,7 +16,7 @@ public interface StringManager {
 	 * Checks if the string contains a true value
 	 * @param string to check if it's true
 	 * @return true if the string contains the text "true" 
-	 * (ignoring cas) or a positive integer (>0).
+	 * (ignoring case) or a positive integer (>0).
 	 */
 	public boolean isTrue(String string);
 	
