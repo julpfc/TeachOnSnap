@@ -6,11 +6,28 @@ import java.nio.file.Files;
 
 import com.julvez.pfc.teachonsnap.manager.file.FileManager;
 import com.julvez.pfc.teachonsnap.manager.log.LogManager;
-import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
+
+/**
+ * Implementation of the FileManager, uses internal {@link LogManager} 
+ * to log the errors.
+ */
 
 public class FileManagerImpl implements FileManager {
 
-	private LogManager logger = LogManagerFactory.getManager();
+	
+	/** Log manager providing logging capabilities */
+	private LogManager logger;
+	
+	/**
+	 * Constructor requires all parameters not to be null
+	 * @param logger Log manager providing logging capabilities
+	 */
+	public FileManagerImpl(LogManager logger) {
+		if(logger == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}
+		this.logger = logger;
+	}
 	
 	@Override
 	public boolean copyStream(InputStream inputStream, String path,	String fileName) {
@@ -18,17 +35,21 @@ public class FileManagerImpl implements FileManager {
 		try {        
 			File filePath = new File(path);
 			File file = new File(path+fileName);
+			//Create folders if needed
 			Files.createDirectories(filePath.toPath());			
 			
-			logger.debug("Copiando fichero: "+file.toPath());
+			logger.debug("Copying file: "+file.toPath());
+			//copy
 			Files.copy(inputStream, file.toPath());
 			
+			//close stream
 			inputStream.close();
             copyOK = true;
 		}
 		catch (Throwable t) {
-			logger.error(t, "Error copiando fichero: " + path + fileName);
+			logger.error(t, "Error copying file: " + path + fileName);
             copyOK = false;
+            //delete if error
             delete(path, fileName);
 		}
 		
@@ -38,6 +59,7 @@ public class FileManagerImpl implements FileManager {
 	@Override
 	public String getFileExtension(String fileName) {
 		String extension = null;
+		//Split by the dot and return file extension
 		if(fileName != null){
 			String[] matches = fileName.split("\\.");
 			
@@ -55,17 +77,17 @@ public class FileManagerImpl implements FileManager {
 		try {
 			File filePath = new File(path);	
 			File file = new File(path + fileName);
+			//Delete file and path if exists
 			Files.deleteIfExists(file.toPath());
 			Files.deleteIfExists(filePath.toPath());
 			deleteOk = true;
 		} 
 		catch (Throwable t) {
-			logger.error(t, "Error eliminando fichero: " + path + fileName);			
+			logger.error(t, "Error deleting file: " + path + fileName);			
 			deleteOk = false;
 		}		
 		
 		return deleteOk;
 	}
 	
-
 }
