@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.julvez.pfc.teachonsnap.manager.json.JSONViews;
+import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 
 /**
  * Entity. Describes an answer from a test. It's a possible answer for a
@@ -24,15 +24,15 @@ public class Answer {
 	int idQuestion;
 	
 	/** Answer's text */
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	String text;
 	
 	/** Indicates if the answer is the correct one for the question*/
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	boolean correct;
 	
 	/** Indicates the reason why it's correct or not, if present*/
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	String reason;
 
 	@Override

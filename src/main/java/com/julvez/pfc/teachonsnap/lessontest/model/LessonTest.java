@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.julvez.pfc.teachonsnap.manager.json.JSONViews;
+import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 
 /**
  * Entity. Describes a test for a lesson. It describes the number of
@@ -31,15 +31,15 @@ public class LessonTest {
 	int idLesson;
 	
 	/** Number of questions */
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	short numQuestions;
 	
 	/** Number of answers per question */
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	short numAnswers;
 	
 	/** Indicates if the questions are multiple choice*/
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	boolean multipleChoice;
 	
 	/** Indicates if the test is a draft */
@@ -47,7 +47,7 @@ public class LessonTest {
 	
 	/** List of questions */
 	@Transient
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	List<Question> questions;
 
 	/** Test's URL */

@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.julvez.pfc.teachonsnap.manager.json.JSONViews;
+import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 
 /**
  * Entity. Describes a question of a test. It describes the text of
@@ -27,7 +27,7 @@ public class Question {
 	
 	/** Test's id */
 	int idLessonTest;
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	
 	/** Question's text */
 	String text;
@@ -37,7 +37,7 @@ public class Question {
 	
 	/** List of answers */
 	@Transient
-	@JsonView(JSONViews.Simple.class)
+	@JsonView(JSONManager.SimpleView.class)
 	List<Answer> answers;
 
 	/** Question edition URL */
