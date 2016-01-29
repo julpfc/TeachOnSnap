@@ -37,7 +37,7 @@ public class TagRepositoryFactory {
 	 */
 	private static TagRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new TagRepositoryDB(DBManagerFactory.getDBManager(),										
+			repoDB = new TagRepositoryDB(DBManagerFactory.getManager(),										
 										PropertyManagerFactory.getManager());
 		}
 		return repoDB;

@@ -37,7 +37,7 @@ public class StatsRepositoryFactory {
 	 */
 	private static StatsRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new StatsRepositoryDB(DBManagerFactory.getDBManager(),										
+			repoDB = new StatsRepositoryDB(DBManagerFactory.getManager(),										
 										PropertyManagerFactory.getManager());
 		}
 		return repoDB;

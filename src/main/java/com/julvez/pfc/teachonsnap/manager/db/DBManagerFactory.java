@@ -1,14 +1,26 @@
 package com.julvez.pfc.teachonsnap.manager.db;
 
 import com.julvez.pfc.teachonsnap.manager.db.hibernate.DBManagerHibernate;
+import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 
+/**
+* Factory to abstract the implementation selection for the {@link DBManager} and provide
+* a singleton reference.
+* <p>
+* In case a new implementation should be used, it can be selected here by modifying
+* getManager() method.
+*/
 public class DBManagerFactory {
 
+	/** Singleton reference to the manager */
 	private static DBManager dbm;
 	
-	public static DBManager getDBManager(){
+	/**
+	 * @return a singleton reference to the manager	 
+	 */
+	public static DBManager getManager(){
 		if(dbm==null){
-			dbm = new DBManagerHibernate();
+			dbm = new DBManagerHibernate(LogManagerFactory.getManager());
 		}
 		return dbm;
 	}

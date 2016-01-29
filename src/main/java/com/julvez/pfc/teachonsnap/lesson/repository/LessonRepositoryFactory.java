@@ -38,7 +38,7 @@ public class LessonRepositoryFactory {
 	 */
 	private static LessonRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new LessonRepositoryDB(DBManagerFactory.getDBManager(), 
+			repoDB = new LessonRepositoryDB(DBManagerFactory.getManager(), 
 											PropertyManagerFactory.getManager());
 		}
 		return repoDB;

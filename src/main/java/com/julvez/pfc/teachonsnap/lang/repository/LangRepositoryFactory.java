@@ -34,7 +34,7 @@ public class LangRepositoryFactory {
 	 */
 	private static LangRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new LangRepositoryDB(DBManagerFactory.getDBManager());
+			repoDB = new LangRepositoryDB(DBManagerFactory.getManager());
 		}
 		return repoDB;
 	}

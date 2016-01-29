@@ -37,7 +37,7 @@ public class MediaFileRepositoryFactory {
 	 */
 	private static MediaFileRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new MediaFileRepositoryDB(DBManagerFactory.getDBManager(),
+			repoDB = new MediaFileRepositoryDB(DBManagerFactory.getManager(),
 												FileManagerFactory.getManager(),
 												PropertyManagerFactory.getManager());
 		}

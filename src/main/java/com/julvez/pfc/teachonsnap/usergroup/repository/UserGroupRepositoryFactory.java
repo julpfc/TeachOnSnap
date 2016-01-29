@@ -37,7 +37,7 @@ public class UserGroupRepositoryFactory {
 	 */
 	private static UserGroupRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new UserGroupRepositoryDB(DBManagerFactory.getDBManager(), 
+			repoDB = new UserGroupRepositoryDB(DBManagerFactory.getManager(), 
 											PropertyManagerFactory.getManager());
 		}
 		return repoDB;

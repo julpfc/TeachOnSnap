@@ -37,7 +37,7 @@ public class CommentRepositoryFactory {
 	 */
 	private static CommentRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new CommentRepositoryDB(DBManagerFactory.getDBManager(), 
+			repoDB = new CommentRepositoryDB(DBManagerFactory.getManager(), 
 											StringManagerFactory.getManager(), 
 											PropertyManagerFactory.getManager());
 		}

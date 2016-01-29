@@ -23,7 +23,7 @@ public class TeachOnSnapServletContextListener implements
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		DBManagerFactory.getDBManager().close();
+		DBManagerFactory.getManager().close();
 		UploadRepositoryFactory.getRepository().close();
 	}
 }

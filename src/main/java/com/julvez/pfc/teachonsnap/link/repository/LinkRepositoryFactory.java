@@ -36,7 +36,7 @@ public class LinkRepositoryFactory {
 	 */
 	private static LinkRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new LinkRepositoryDB(DBManagerFactory.getDBManager());
+			repoDB = new LinkRepositoryDB(DBManagerFactory.getManager());
 		}
 		return repoDB;
 	}

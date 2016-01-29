@@ -37,7 +37,7 @@ public class UserRepositoryFactory {
 	 */
 	private static UserRepositoryDB getRepositoryDB(){
 		if(repoDB==null){
-			repoDB = new UserRepositoryDB(DBManagerFactory.getDBManager(), 
+			repoDB = new UserRepositoryDB(DBManagerFactory.getManager(), 
 										StringManagerFactory.getManager(),
 										PropertyManagerFactory.getManager());
 		}
