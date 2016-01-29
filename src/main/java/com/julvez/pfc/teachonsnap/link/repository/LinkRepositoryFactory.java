@@ -25,7 +25,7 @@ public class LinkRepositoryFactory {
 	public static LinkRepository getRepository(){
 		if(repo==null){
 			repo = new LinkRepositoryDBCache(getRepositoryDB(),
-											CacheManagerFactory.getCacheManager(),
+											CacheManagerFactory.getManager(),
 											StringManagerFactory.getManager());
 		}
 		return repo;

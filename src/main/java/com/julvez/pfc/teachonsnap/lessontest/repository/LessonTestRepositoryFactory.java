@@ -26,7 +26,7 @@ public class LessonTestRepositoryFactory {
 	public static LessonTestRepository getRepository(){
 		if(repo==null){
 			repo = new LessonTestRepositoryDBCache(getRepositoryDB(), 
-											CacheManagerFactory.getCacheManager(), 
+											CacheManagerFactory.getManager(), 
 											StringManagerFactory.getManager());
 		}
 		return repo;

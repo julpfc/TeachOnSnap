@@ -27,7 +27,7 @@ public class LessonRepositoryFactory {
 	public static LessonRepository getRepository(){
 		if(repo==null){
 			repo = new LessonRepositoryDBCache(getRepositoryDB(), 
-											CacheManagerFactory.getCacheManager(), 
+											CacheManagerFactory.getManager(), 
 											StringManagerFactory.getManager());
 		}
 		return repo;

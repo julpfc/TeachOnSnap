@@ -26,7 +26,7 @@ public class StatsRepositoryFactory {
 	public static StatsRepository getRepository(){
 		if(repo==null){
 			repo = new StatsRepositoryDBCache(getRepositoryDB(),
-											CacheManagerFactory.getCacheManager(),
+											CacheManagerFactory.getManager(),
 											StringManagerFactory.getManager());
 		}
 		return repo;

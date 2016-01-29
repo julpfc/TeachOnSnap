@@ -24,7 +24,7 @@ public class LangRepositoryFactory {
 	public static LangRepository getRepository(){
 		if(repo==null){
 			repo = new LangRepositoryDBCache(getRepositoryDB(),
-											CacheManagerFactory.getCacheManager());
+											CacheManagerFactory.getManager());
 		}
 		return repo;
 	}

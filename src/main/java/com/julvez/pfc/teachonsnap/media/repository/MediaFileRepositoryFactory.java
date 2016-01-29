@@ -26,7 +26,7 @@ public class MediaFileRepositoryFactory {
 	public static MediaFileRepository getRepository(){
 		if(repo==null){
 			repo = new MediaFileRepositoryDBCache(getRepositoryDB(),
-													CacheManagerFactory.getCacheManager(),
+													CacheManagerFactory.getManager(),
 													StringManagerFactory.getManager());
 		}
 		return repo;

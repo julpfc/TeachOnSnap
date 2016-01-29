@@ -26,7 +26,7 @@ public class UserRepositoryFactory {
 	public static UserRepository getRepository() {
 		if(repo==null){
 			repo = new UserRepositoryDBCache(getRepositoryDB(),
-												CacheManagerFactory.getCacheManager(),
+												CacheManagerFactory.getManager(),
 												StringManagerFactory.getManager());
 		}
 		return repo;

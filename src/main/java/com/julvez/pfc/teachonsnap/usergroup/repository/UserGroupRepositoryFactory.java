@@ -26,7 +26,7 @@ public class UserGroupRepositoryFactory {
 	public static UserGroupRepository getRepository() {
 		if(repo==null){
 			repo = new UserGroupRepositoryDBCache(getRepositoryDB(),
-												CacheManagerFactory.getCacheManager(),
+												CacheManagerFactory.getManager(),
 												StringManagerFactory.getManager());
 		}
 		return repo;

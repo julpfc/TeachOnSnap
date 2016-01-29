@@ -26,7 +26,7 @@ public class CommentRepositoryFactory {
 	public static CommentRepository getRepository(){
 		if(repo==null){
 			repo = new CommentRepositoryDBCache(getRepositoryDB(), 
-											CacheManagerFactory.getCacheManager(), 
+											CacheManagerFactory.getManager(), 
 											StringManagerFactory.getManager());
 		}
 		return repo;

@@ -26,7 +26,7 @@ public class TagRepositoryFactory {
 	public static TagRepository getRepository(){
 		if(repo==null){
 			repo = new TagRepositoryDBCache(getRepositoryDB(),
-											CacheManagerFactory.getCacheManager(),
+											CacheManagerFactory.getManager(),
 											StringManagerFactory.getManager());
 		}
 		return repo;
