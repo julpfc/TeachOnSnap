@@ -9,7 +9,7 @@ import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 
 /**
- * Implementation of the StringManager, uses internal {@link LogManager} 
+ * Implementation of the PropertyManager, uses internal {@link LogManager} 
  * to log the errors and {@link StringManager} to manipulate strings.
  */
 public class PropertyManagerImpl implements PropertyManager {
