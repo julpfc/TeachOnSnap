@@ -11,9 +11,7 @@ import com.julvez.pfc.teachonsnap.manager.log.LogManager;
  * Implementation of the FileManager, uses internal {@link LogManager} 
  * to log the errors.
  */
-
 public class FileManagerImpl implements FileManager {
-
 	
 	/** Log manager providing logging capabilities */
 	private LogManager logger;
