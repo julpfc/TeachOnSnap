@@ -5,7 +5,7 @@
 	version="3.0">
 	<display-name>TeachOnSnap</display-name>
 	<listener>  
-		<listener-class>com.julvez.pfc.teachonsnap.listener.TeachOnSnapServletContextListener</listener-class>
+		<listener-class>com.julvez.pfc.teachonsnap.listener.TeachOnSnapServletListener</listener-class>
 	</listener>
 	<error-page>		
 		<location>/error/</location>

@@ -55,9 +55,6 @@ public class ChangePWController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		logger.addPrefix(this.getClass().getSimpleName());
-		logger.addPrefix(requestManager.getSessionID(request));
-				
 		request.setCharacterEncoding("UTF-8");
 		
 		//Loguear la página en la que estamos

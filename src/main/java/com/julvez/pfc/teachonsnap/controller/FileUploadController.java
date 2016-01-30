@@ -48,9 +48,6 @@ public class FileUploadController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-    	logger.addPrefix(this.getClass().getSimpleName());
-    	logger.addPrefix(requestManager.getSessionID(request));
-    	
     	logger.info("####GET#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 
     	User user = null;
@@ -106,10 +103,6 @@ public class FileUploadController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */    
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		logger.addPrefix(this.getClass().getSimpleName());
-		logger.addPrefix(requestManager.getSessionID(request));
-				
 		logger.info("####POST#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 
 		User user = null;

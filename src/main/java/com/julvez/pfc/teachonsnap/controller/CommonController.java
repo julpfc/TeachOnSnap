@@ -61,9 +61,6 @@ public abstract class CommonController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		logger.addPrefix(this.getClass().getSimpleName());
-		logger.addPrefix(requestManager.getSessionID(request));
-		
 		// Por bug de tomcat debido al uso de ISO-Latin1 (ver memoria)
 		request.setCharacterEncoding("UTF-8");
 		

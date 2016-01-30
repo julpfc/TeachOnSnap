@@ -126,7 +126,7 @@ public class LessonTestServiceImpl implements LessonTestService {
 					q.setAnswers(answers);
 				}
 				//set question URLs
-				q.setURLs( urlService.getLessonTestEditQuestionURL(getLessonTest(q.getIdLessonTest())));				
+				q.setURLs( urlService.getLessonTestEditQuestionURL(q.getIdLessonTest()));				
 			}
 		}
 		return q;

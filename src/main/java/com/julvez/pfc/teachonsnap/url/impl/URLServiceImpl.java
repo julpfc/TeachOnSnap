@@ -194,9 +194,9 @@ public class URLServiceImpl implements URLService {
 	}
 
 	@Override
-	public String getLessonTestEditQuestionURL(LessonTest test) {
-		if(test != null){
-			return getLessonTestNewQuestionURL(test) + "/";
+	public String getLessonTestEditQuestionURL(int idLessonTest) {
+		if(idLessonTest > 0){
+			return getLessonTestNewQuestionURL() + idLessonTest + "/";
 		}
 		else return null;
 	}

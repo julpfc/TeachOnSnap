@@ -15,8 +15,6 @@ import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.LangServiceFactory;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
-import com.julvez.pfc.teachonsnap.manager.log.LogManager;
-import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
@@ -44,7 +42,6 @@ public class LoginController extends HttpServlet {
 	
 	private RequestManager requestManager = RequestManagerFactory.getManager();
 	private StringManager stringManager = StringManagerFactory.getManager();
-	private LogManager logger = LogManagerFactory.getManager();
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -57,9 +54,6 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		logger.addPrefix(this.getClass().getSimpleName());
-		logger.addPrefix(requestManager.getSessionID(request));
-		
 		User user = null;
 		Visit visit = requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class);
 		

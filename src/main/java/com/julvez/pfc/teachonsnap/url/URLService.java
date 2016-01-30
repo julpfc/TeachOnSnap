@@ -169,10 +169,10 @@ public interface URLService {
 	
 	/**
 	 * Return lesson test question edit page URL (absolute) and completes it to point ti the specified test
-	 * @param test we want the URL to point to
+	 * @param idLessonTest we want the URL to point to
 	 * @return lesson test question edit page URL (null if test is null or empty)
 	 */
-	public String getLessonTestEditQuestionURL(LessonTest test);
+	public String getLessonTestEditQuestionURL(int idLessonTest);
 
 	/**
 	 * Returns lessons from tag page URL (absolute), without specifying a tag 
