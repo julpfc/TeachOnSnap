@@ -78,7 +78,7 @@ public class EditLessonTestController extends CommonController {
 					}
 					else {
 						
-						int deleteQuestionID = requestManager.getNumericParameter(request, Parameter.QUESTIONID_DELETE);
+						int deleteQuestionID = requestManager.getNumericParameter(request, Parameter.QUESTION_DELETE);
 						
 						if(deleteQuestionID>0){							
 							Question question = null;
