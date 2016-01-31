@@ -23,77 +23,140 @@ import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.stats.StatsService;
+import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
 import com.julvez.pfc.teachonsnap.url.URLService;
 import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
+import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.UserService;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 
 /**
- * Servlet implementation class TagController
+ * Servlet implementation class ChangePWController. 
+ * <p>
+ * Process the user's change of password. It requires a temporary identification token
+ * that will be sent to the user's email to verify his identity. It allows user to
+ * change the password and redirects to the home.   
+ * <p>
+ * It's called from changepw.jsp view to process POST requests.
+ * <p>
+ * It's a view controller, processes the request and dispath to the changepw.jsp view.
+ * <p>
+ * Mapped in {@link ControllerURI#CHANGE_PASSWORD}
  */
 public class ChangePWController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-    	
-	private UserService userService = UserServiceFactory.getService();
-	private URLService requestService = URLServiceFactory.getService();
-	private LangService langService = LangServiceFactory.getService();
-		
-	private RequestManager requestManager = RequestManagerFactory.getManager();
-	private StringManager stringManager = StringManagerFactory.getManager();
-	private LogManager logger = LogManagerFactory.getManager();
+	
+	private static final long serialVersionUID = -8840555670107967669L;
+	
+	/** Provides the functionality to work with application's users. */
+	private UserService userService;
+	
+	/** Provides the functionality to work with different languages to the application */
+	private LangService langService;
+	
+	/** Provides the functionality to work with application's URLs */
+	private URLService urlService;
+	
+	/** Provides {@link HttpServletRequest} and {@link HttpServletResponse} access/manipulation utilities */
+	private RequestManager requestManager;
+	
+	/** Log manager providing logging capabilities */
+	private LogManager logger;
+	
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
 
+	
 	/**
-     * @see HttpServlet#HttpServlet()
+     * Default constructor
      */
     public ChangePWController() {
-        super();       
+    	this(UserServiceFactory.getService(),
+        	LangServiceFactory.getService(),
+        	URLServiceFactory.getService(),
+        	StatsServiceFactory.getService(),
+        	RequestManagerFactory.getManager(),
+        	LogManagerFactory.getManager(),
+        	StringManagerFactory.getManager());        
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    
+    /**
+	 * Constructor requires all parameters not to be null
+	 * @param userService Provides the functionality to work with application's users.
+	 * @param langService Provides the functionality to work with different languages to the application
+	 * @param urlService Provides the functionality to work with application's URLs
+	 * @param requestManager Provides {@link HttpServletRequest} and {@link HttpServletResponse} access/manipulation utilities
+	 * @param logger Log manager providing logging capabilities
+	 * @param stringManager String manager providing string manipulation utilities
 	 */
+	public ChangePWController(UserService userService,
+			LangService langService, URLService urlService,
+			StatsService statsService, RequestManager requestManager,
+			LogManager logger, StringManager stringManager) {
+
+		super();
+		
+		if(userService == null || langService == null || urlService == null
+				|| statsService == null || requestManager == null || logger == null
+				|| stringManager == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}		
+		this.userService = userService;
+		this.langService = langService;
+		this.urlService = urlService;
+		this.requestManager = requestManager;
+		this.logger = logger;
+		this.stringManager = stringManager;
+	}
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Fixes Tomcat's bug because ISO-Latin1 while dispatching a view (see project's document)
 		request.setCharacterEncoding("UTF-8");
 		
 		//Loguear la página en la que estamos
 		logger.info("####"+request.getMethod()+"#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 
+		//Get params from controller's URI
 		String[] params = requestManager.splitParamsFromControllerURI(request);
 		
 		if(params!=null && params.length>0){
+			//get token from URI params
 			String token = params[0];
 			
+			//get user from temporary identification token
 			User user = userService.getUserFromPasswordTemporaryToken(token);
 			
+			//if user was identified
 			if(user != null){
-				
-				String host = requestService.getHost();
-		
+				//get basic information for the view and store to the request
+				String host = urlService.getHost();
 				List<Language> langs = langService.getAllLanguages();
 				requestManager.setAttribute(request, Attribute.LIST_LANGUAGES, langs);
-
 				requestManager.setAttribute(request, Attribute.LANGUAGE_USERLANGUAGE, user.getLanguage());
 				requestManager.setAttribute(request, Attribute.USER, user);
 				requestManager.setAttribute(request, Attribute.STRING_HOST, host);
 				
-				
-		
+				//if it's a POST, user is saving new password
 				if(request.getMethod().equals("POST")){
-					String newPassword = requestManager.getParameter(request,Parameter.NEW_PASSWORD);
+					//get new password
+					String newPassword = requestManager.getParameter(request,Parameter.NEW_PASSWORD);					
 					
 					if(!stringManager.isEmpty(newPassword)){
+						//Save new password
 						userService.savePassword(user, newPassword);
 						
+						//Delete the temporary token
 						userService.deletePasswordTemporaryToken(user);
 						
-						requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_CHANGED));			
-						
-						response.sendRedirect(requestService.getHomeURL());
+						//Sets message for the user and redirects to home
+						requestManager.setSessionAttribute(request, SessionAttribute.ERROR, new ErrorBean(ErrorType.ERR_NONE, ErrorMessageKey.PASSWORD_CHANGED));
+						response.sendRedirect(urlService.getHomeURL());
 					}
 					else{
-						//No recibimos los parámetros correctamente
+						//Empty password -> Bad request
 						response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 					}				
 				}
@@ -102,22 +165,21 @@ public class ChangePWController extends HttpServlet {
 				}
 			}
 			else{
-				//No recupera usuario
+				//No user for this token
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
 		}
 		else{
-			//Sin token -> Mandar a error 404
+			//No token -> bad request
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		logger.info("####END#####"+request.getRequestURI()+"?"+request.getParameterMap()+"#########"+this.getClass().getName());
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Process HTTP POST requests at doGet()
 		doGet(request, response);
 	}
 

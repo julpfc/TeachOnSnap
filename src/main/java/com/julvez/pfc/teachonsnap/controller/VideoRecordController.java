@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * Servlet implementation class TagController
+ * Servlet implementation class VideoRecordController
  */
 public class VideoRecordController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

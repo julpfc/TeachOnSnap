@@ -16,7 +16,7 @@ import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
  */
 public class LastController extends PagerController {
 
-	private static final long serialVersionUID = 5242969293667451025L;
+	private static final long serialVersionUID = -5529039511072519457L;
 
 	@Override
 	protected List<Lesson> getLessons(String searchURI, int pageResult) {	

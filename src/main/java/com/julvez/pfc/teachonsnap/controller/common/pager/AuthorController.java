@@ -25,7 +25,7 @@ import com.julvez.pfc.teachonsnap.user.model.User;
  */
 public class AuthorController extends PagerController {
 
-	private static final long serialVersionUID = 6547159334243210678L;
+	private static final long serialVersionUID = 6385337507495032569L;
 
 	@Override
 	protected List<Lesson> getLessons(String searchURI, int pageResult) {

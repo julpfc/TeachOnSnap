@@ -8,6 +8,12 @@ public enum ControllerURI {
 	/**	Home URI */
 	HOME("/"),
 	
+	/**	Login URI */
+	LOGIN("/login/"),
+	
+	/**	Error URI */
+	ERROR("/error/"),
+	
 	/**	Change password URI */
 	CHANGE_PASSWORD("/changepw/"),
 	
@@ -22,6 +28,9 @@ public enum ControllerURI {
 	
 	/**	Lesson preview URI */
 	LESSON_PREVIEW("/preview/"), 
+	
+	/**	Create a new lesson URI */
+	LESSON_NEW("/lesson/new/"),
 	
 	/**	Edit a lesson URI */
 	LESSON_EDIT("/lesson/edit/"),
@@ -46,6 +55,9 @@ public enum ControllerURI {
 	
 	/**	Lessons cointaining a tag URI */
 	TAG("/tag/"),
+	
+	/**	Upload media files URI */
+	UPLOAD("/upload/"),
 	
 	/**	Administration: User manager URI */
 	ADMIN_USER_MANAGER("/admin/users/"), 
@@ -82,6 +94,9 @@ public enum ControllerURI {
 	
 	/**	Authors followed by user URI */
 	USER_FOLLOW_AUTHOR("/follow/author/"),
+	
+	/** User profile URI */
+	USER_PROFILE("/profile/"),
 	
 	/** Lesson test Stats URI */
 	STATS_TEST("/stats/test/"),
