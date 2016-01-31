@@ -1,0 +1,7 @@
+.graph div{
+	padding: 15px 0px;
+}
+
+.graph p, label{
+	padding: 0px 15px;
+}

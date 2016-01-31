@@ -1,0 +1,15 @@
+.panel-heading a{
+	color: inherit;
+}
+
+.panel-footer button.pull-right{
+	margin-left: 10px;
+}
+
+.panel-footer button.pull-left{
+	margin-right: 10px;
+}
+
+.panel-footer button.cursor.pull-left{
+	margin-right: 0px;
+}
