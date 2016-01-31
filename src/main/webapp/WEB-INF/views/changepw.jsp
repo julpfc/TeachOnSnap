@@ -21,7 +21,7 @@
 			<form id="passwordForm" action="" method="POST">
 				<div class="panel panel-default">
 				<div class="panel-heading">
-					Completa tus datos:				 	
+					<fmt:message key="user.profile.fullfill" bundle="${profBundle}"/>:				 	
 				</div>
 					<div class="panel-body">
 						<c:choose>
