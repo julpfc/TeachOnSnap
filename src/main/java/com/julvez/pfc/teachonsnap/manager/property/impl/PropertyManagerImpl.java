@@ -23,6 +23,9 @@ public class PropertyManagerImpl implements PropertyManager {
 	/** Properties file handler */
 	private Properties properties;
 	
+	/** Passwords file handler */
+	private Properties passwords;
+	
 	/** Lock for concurrent access to the properties file */
 	private Integer lock;
 	
@@ -40,6 +43,7 @@ public class PropertyManagerImpl implements PropertyManager {
 		this.logger = logger;
 		lock = new Integer(0);
 		loadDefaultProperties();
+		loadDefaultPasswords();
 	}
 
 	@Override
@@ -127,6 +131,27 @@ public class PropertyManagerImpl implements PropertyManager {
 		return list;
 	}
 
+	@Override
+	public String getPasswordProperty(Enum<?> propertyName) {
+		String password = null;
+		
+		if(propertyName!=null){
+			//check if the passwords file is loaded
+			if(passwords == null){
+				loadDefaultPasswords();
+			}
+			if(passwords!=null){
+				//get key
+				String propertyKey = propertyName.toString();
+				
+				//get password with key
+				password = passwords.getProperty(propertyKey);
+			}
+		}
+		return password;
+	}
+	
+	
 	/**
 	 * Loads the default property file
 	 */
@@ -148,4 +173,27 @@ public class PropertyManagerImpl implements PropertyManager {
 			}
 		}		
 	}
+	
+	/**
+	 * Loads the default password property file
+	 */
+	private void loadDefaultPasswords() {
+		if(passwords == null){		
+			synchronized (lock) {
+				if(passwords == null){
+					try{
+						InputStream is = PropertyManager.class.getResourceAsStream(DEFAULT_PASSWORDS_FILE);
+						passwords = new Properties();
+						passwords.load(is);
+						is.close();
+
+					} catch (Throwable t) {
+						logger.error(t, "Error accessing passwords properties file: " + DEFAULT_PASSWORDS_FILE);
+						passwords = null;
+					}
+				}
+			}
+		}		
+	}
+
 }

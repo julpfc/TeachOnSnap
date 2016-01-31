@@ -2,6 +2,7 @@ package com.julvez.pfc.teachonsnap.manager.db;
 
 import com.julvez.pfc.teachonsnap.manager.db.hibernate.DBManagerHibernate;
 import com.julvez.pfc.teachonsnap.manager.log.LogManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 
 /**
 * Factory to abstract the implementation selection for the {@link DBManager} and provide
@@ -20,7 +21,8 @@ public class DBManagerFactory {
 	 */
 	public static DBManager getManager(){
 		if(dbm==null){
-			dbm = new DBManagerHibernate(LogManagerFactory.getManager());
+			dbm = new DBManagerHibernate(LogManagerFactory.getManager(),
+										PropertyManagerFactory.getManager());
 		}
 		return dbm;
 	}

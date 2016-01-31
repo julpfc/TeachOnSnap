@@ -95,7 +95,7 @@ public class MailManagerJavaMail implements MailManager {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(
 						propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_USER), 
-						propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_PASS)
+						propertyManager.getPasswordProperty(MailPropertyName.JAVAMAIL_AUTH_PASS)
 					);
 				}
 			}

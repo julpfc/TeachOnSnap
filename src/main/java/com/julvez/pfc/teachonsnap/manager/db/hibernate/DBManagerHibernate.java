@@ -15,11 +15,12 @@ import org.hibernate.service.ServiceRegistry;
 
 import com.julvez.pfc.teachonsnap.manager.db.DBManager;
 import com.julvez.pfc.teachonsnap.manager.log.LogManager;
+import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 /**
  * Implementation of the DBManager, uses internal {@link LogManager} 
- * to log the errors.
+ * to log the errors and {@link PropertyManager} to access application's properties.
  */
 public class DBManagerHibernate implements DBManager{
 
@@ -31,16 +32,21 @@ public class DBManagerHibernate implements DBManager{
 	
 	/** Log manager providing logging capabilities */
 	private LogManager logger;
+	
+	/** Property manager providing access to properties files */
+	private PropertyManager properties;
     
 	/**
 	 * Constructor requires all parameters not to be null
 	 * @param logger Log manager providing logging capabilities
+	 * @param properties Property manager providing access to properties files
 	 */
-    public DBManagerHibernate(LogManager logger){
-    	if(logger == null){
+    public DBManagerHibernate(LogManager logger, PropertyManager properties){
+    	if(logger == null || properties == null){
 			throw new IllegalArgumentException("Parameters cannot be null.");
 		}
     	this.logger = logger;
+    	this.properties = properties;
     	sessionFactory = buildSessionFactory();
     }
 		
@@ -56,6 +62,10 @@ public class DBManagerHibernate implements DBManager{
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
             logger.info("Hibernate Configuration loaded");
+            
+            //set password from password properties file instead of default properties
+            configuration.getProperties().setProperty(DBPropertyName.HIBERNATE_DB_PASSWORD.toString(), 
+            				properties.getPasswordProperty(DBPropertyName.HIBERNATE_DB_PASSWORD));            
              
             //apply configuration property settings to StandardServiceRegistryBuilder
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
