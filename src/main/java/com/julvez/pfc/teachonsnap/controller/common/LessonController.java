@@ -28,8 +28,6 @@ import com.julvez.pfc.teachonsnap.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.link.model.Link;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
@@ -52,7 +50,6 @@ public class LessonController extends CommonController {
 	private CommentService commentService = CommentServiceFactory.getService();
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	
-	private StringManager stringManager = StringManagerFactory.getManager();
 	private PropertyManager properties = PropertyManagerFactory.getManager();
 
 	protected final int MAX_COMMENTS_PAGE = (int)properties.getNumericProperty(CommentPropertyName.MAX_PAGE_COMMENTS);

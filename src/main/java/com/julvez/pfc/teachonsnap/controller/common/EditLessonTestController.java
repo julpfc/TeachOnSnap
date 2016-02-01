@@ -22,8 +22,6 @@ import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lessontest.model.Question;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManager;
 import com.julvez.pfc.teachonsnap.manager.json.JSONManagerFactory;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
@@ -38,7 +36,6 @@ public class EditLessonTestController extends CommonController {
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	private PageService pageService = PageServiceFactory.getService();
 	
-	private StringManager stringManager = StringManagerFactory.getManager();
 	private JSONManager jsonManager = JSONManagerFactory.getManager();
 	
 	@Override

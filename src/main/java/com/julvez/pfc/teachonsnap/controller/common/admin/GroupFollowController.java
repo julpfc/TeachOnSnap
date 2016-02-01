@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.common.AdminController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
@@ -29,8 +27,7 @@ public class GroupFollowController extends AdminController {
 	private PageService pageService = PageServiceFactory.getService();
 	private UserGroupService groupService = UserGroupServiceFactory.getService();
 	
-	private StringManager stringManager = StringManagerFactory.getManager();
-	
+		
 	@Override
 	protected void processAdminController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user)
 			throws ServletException, IOException {

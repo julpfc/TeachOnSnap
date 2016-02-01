@@ -18,8 +18,6 @@ import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lessontest.LessonTestService;
 import com.julvez.pfc.teachonsnap.lessontest.LessonTestServiceFactory;
 import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
@@ -34,7 +32,6 @@ public class NewLessonTestController extends CommonController {
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
 	private PageService pageService = PageServiceFactory.getService();
 
-	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	protected void processController(HttpServletRequest request,

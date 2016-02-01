@@ -23,6 +23,8 @@ import com.julvez.pfc.teachonsnap.manager.property.PropertyManager;
 import com.julvez.pfc.teachonsnap.manager.property.PropertyManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
 import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
 import com.julvez.pfc.teachonsnap.stats.model.StatsPropertyName;
@@ -65,6 +67,9 @@ public abstract class CommonController extends HttpServlet {
 	/** Property manager providing access to properties files */
 	protected PropertyManager properties;
 	
+	/** String manager providing string manipulation utilities */
+	protected StringManager stringManager;
+	
 		
 	/**
      * Default constructor
@@ -76,7 +81,8 @@ public abstract class CommonController extends HttpServlet {
         	StatsServiceFactory.getService(),
         	RequestManagerFactory.getManager(),
         	LogManagerFactory.getManager(),
-        	PropertyManagerFactory.getManager());        
+        	PropertyManagerFactory.getManager(),
+        	StringManagerFactory.getManager());        
     }
     
     /**
@@ -88,17 +94,19 @@ public abstract class CommonController extends HttpServlet {
 	 * @param requestManager Provides {@link HttpServletRequest} and {@link HttpServletResponse} access/manipulation utilities
 	 * @param logger Log manager providing logging capabilities
 	 * @param properties Property manager providing access to properties files
+	 * @param stringManager String manager providing string manipulation utilities
 	 */
 	public CommonController(UserService userService,
 			LangService langService, URLService urlService,
 			StatsService statsService, RequestManager requestManager,
-			LogManager logger, PropertyManager properties) {
+			LogManager logger, PropertyManager properties,
+			StringManager stringManager) {
 
 		super();
 		
 		if(userService == null || langService == null || urlService == null
 				|| statsService == null || requestManager == null || logger == null
-				|| properties == null){
+				|| properties == null || stringManager == null){
 			throw new IllegalArgumentException("Parameters cannot be null.");
 		}		
 		this.userService = userService;
@@ -108,6 +116,7 @@ public abstract class CommonController extends HttpServlet {
 		this.requestManager = requestManager;
 		this.logger = logger;
 		this.properties = properties;
+		this.stringManager = stringManager;
 	}
 
 	@Override

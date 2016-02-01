@@ -13,8 +13,6 @@ import com.julvez.pfc.teachonsnap.controller.model.Parameter;
 import com.julvez.pfc.teachonsnap.error.model.ErrorBean;
 import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.error.model.ErrorType;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
@@ -33,8 +31,7 @@ public class GroupsController extends AdminController {
 	private PageService pageService = PageServiceFactory.getService();
 	private UserGroupService groupService = UserGroupServiceFactory.getService();
 
-	private StringManager stringManager = StringManagerFactory.getManager();
-	
+		
 	private final int MAX_RESULTS_PAGE = (int)properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS);
 
 	

@@ -12,8 +12,6 @@ import com.julvez.pfc.teachonsnap.controller.model.Attribute;
 import com.julvez.pfc.teachonsnap.controller.model.Parameter;
 import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
 import com.julvez.pfc.teachonsnap.error.model.ErrorType;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.page.PageService;
 import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.page.model.Page;
@@ -37,8 +35,6 @@ public class FollowTagController extends AdminController {
 	private UserGroupService groupService = UserGroupServiceFactory.getService();
 	private TagService tagService = TagServiceFactory.getService();
 
-	private StringManager stringManager = StringManagerFactory.getManager();
-	
 	private final int MAX_RESULTS_PAGE = (int)properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);
 
 	

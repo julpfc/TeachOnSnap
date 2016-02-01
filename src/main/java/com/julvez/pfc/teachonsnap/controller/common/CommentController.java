@@ -15,8 +15,6 @@ import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
@@ -27,7 +25,6 @@ public class CommentController extends CommonController {
 	private LessonService lessonService = LessonServiceFactory.getService();
 	private CommentService commentService = CommentServiceFactory.getService();
 	
-	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	protected void processController(HttpServletRequest request,

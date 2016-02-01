@@ -18,8 +18,6 @@ import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.link.LinkService;
 import com.julvez.pfc.teachonsnap.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.link.model.Link;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
@@ -39,8 +37,6 @@ public class PreviewLessonController extends CommonController {
 	private LinkService linkService = LinkServiceFactory.getService();
 	private MediaFileService mediaFileService = MediaFileServiceFactory.getService();
 	private LessonTestService lessonTestService = LessonTestServiceFactory.getService();
-	
-	private StringManager stringManager = StringManagerFactory.getManager();
 	
 
 	@Override

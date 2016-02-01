@@ -12,8 +12,6 @@ import com.julvez.pfc.teachonsnap.controller.model.Attribute;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
@@ -23,7 +21,6 @@ public class FollowController extends CommonController {
 
 	private LessonService lessonService = LessonServiceFactory.getService();
 	
-	private StringManager stringManager = StringManagerFactory.getManager();
 	
 	@Override
 	protected void processController(HttpServletRequest request, HttpServletResponse response, Visit visit, User user)

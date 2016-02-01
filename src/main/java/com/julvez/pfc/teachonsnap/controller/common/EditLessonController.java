@@ -24,8 +24,6 @@ import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.link.LinkService;
 import com.julvez.pfc.teachonsnap.link.LinkServiceFactory;
 import com.julvez.pfc.teachonsnap.link.model.Link;
-import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.MediaFileService;
 import com.julvez.pfc.teachonsnap.media.MediaFileServiceFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
@@ -55,7 +53,6 @@ public class EditLessonController extends CommonController {
 	private PageService pageService = PageServiceFactory.getService();
 	private UploadService uploadService = UploadServiceFactory.getService();
 
-	private StringManager stringManager = StringManagerFactory.getManager();
 
 	@Override
 	protected void processController(HttpServletRequest request,
