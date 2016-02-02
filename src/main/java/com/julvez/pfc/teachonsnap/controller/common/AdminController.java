@@ -17,6 +17,8 @@ import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
+import com.julvez.pfc.teachonsnap.page.PageService;
+import com.julvez.pfc.teachonsnap.page.PageServiceFactory;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
 import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
@@ -37,8 +39,10 @@ import com.julvez.pfc.teachonsnap.user.model.User;
  */
 public abstract class AdminController extends CommonController {
 
-	private static final long serialVersionUID = -6482638863947050167L;
+	private static final long serialVersionUID = -2188873315605476969L;
 
+	/** Provides the functionality to work with user pages (localized names & links) and the hierarchy (page stack) */
+	protected PageService pageService;
 	
 	/**
      * Default constructor
@@ -51,7 +55,8 @@ public abstract class AdminController extends CommonController {
         	RequestManagerFactory.getManager(),
         	LogManagerFactory.getManager(),
         	PropertyManagerFactory.getManager(),
-        	StringManagerFactory.getManager());        
+        	StringManagerFactory.getManager(),
+        	PageServiceFactory.getService());        
     }
     
     /**
@@ -64,15 +69,21 @@ public abstract class AdminController extends CommonController {
 	 * @param logger Log manager providing logging capabilities
 	 * @param properties Property manager providing access to properties files
 	 * @param stringManager String manager providing string manipulation utilities
+	 * @param pageService Provides the functionality to work with user pages (localized names & links) and the hierarchy (page stack)
 	 */
 	public AdminController(UserService userService,
 			LangService langService, URLService urlService,
 			StatsService statsService, RequestManager requestManager,
 			LogManager logger, PropertyManager properties,
-			StringManager stringManager) {
+			StringManager stringManager, PageService pageService) {
 
 		super(userService, langService, urlService, statsService, 
 				requestManager, logger, properties, stringManager);
+		
+		if(pageService == null){
+			throw new IllegalArgumentException("Parameters cannot be null.");
+		}		
+		this.pageService = pageService;
 	}
 	
 	
