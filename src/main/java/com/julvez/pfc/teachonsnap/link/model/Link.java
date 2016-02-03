@@ -23,7 +23,7 @@ public class Link {
 	/** Link's description */
 	private String desc;
 	
-	/** MD% hash from the URL */
+	/** MD5 hash from the URL */
 	@Transient
 	private String MD5;
 	

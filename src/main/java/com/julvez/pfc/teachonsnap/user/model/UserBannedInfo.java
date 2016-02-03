@@ -26,7 +26,7 @@ public class UserBannedInfo {
 	/** Ban's date */
 	private Date date;
 	
-	/** Adminsitrator's id*/
+	/** Administrator's id*/
 	private int idAdmin;
 	
 	/** Administrator who banned the user*/
