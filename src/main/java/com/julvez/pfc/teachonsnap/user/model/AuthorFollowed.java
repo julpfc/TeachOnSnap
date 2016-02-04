@@ -4,7 +4,7 @@ package com.julvez.pfc.teachonsnap.user.model;
  * Domain entity. Describes an Author, subtype of User 
  * that can be followed by other users or groups.
  */
-public class Author extends User {
+public class AuthorFollowed extends User {
 
 	/** Indicates if the author is followed */
 	private boolean followed;
@@ -13,7 +13,7 @@ public class Author extends User {
 	 * Constructs an Author object from an User object
 	 * @param user whom Author is copied from.
 	 */
-	public Author(User user) {
+	public AuthorFollowed(User user) {
 		super();
 		setId(user.getId());
 		setEmail(user.getEmail());

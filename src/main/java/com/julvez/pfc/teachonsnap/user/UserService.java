@@ -6,7 +6,7 @@ import java.util.Map;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.tag.model.Tag;
-import com.julvez.pfc.teachonsnap.user.model.Author;
+import com.julvez.pfc.teachonsnap.user.model.AuthorFollowed;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserPropertyName;
 
@@ -248,7 +248,7 @@ public interface UserService {
 	 * @param authorFollowings authors followed
 	 * @return authors list, with the folloeed authors marked
 	 */
-	public List<Author> getAuthorsFollowed(List<User> authors, List<User> authorFollowings);
+	public List<AuthorFollowed> getAuthorsFollowed(List<User> authors, List<User> authorFollowings);
 
 	/**
 	 * Enables the notifications to this user about this author

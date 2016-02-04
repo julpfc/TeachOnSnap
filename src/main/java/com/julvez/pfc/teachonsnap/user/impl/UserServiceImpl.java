@@ -17,7 +17,7 @@ import com.julvez.pfc.teachonsnap.text.TextService;
 import com.julvez.pfc.teachonsnap.url.URLService;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
 import com.julvez.pfc.teachonsnap.user.UserService;
-import com.julvez.pfc.teachonsnap.user.model.Author;
+import com.julvez.pfc.teachonsnap.user.model.AuthorFollowed;
 import com.julvez.pfc.teachonsnap.user.model.User;
 import com.julvez.pfc.teachonsnap.user.model.UserBannedInfo;
 import com.julvez.pfc.teachonsnap.user.model.UserMessageKey;
@@ -535,14 +535,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Author> getAuthorsFollowed(List<User> authors, List<User> authorFollowings) {
-		List<Author> retList = Collections.emptyList();
+	public List<AuthorFollowed> getAuthorsFollowed(List<User> authors, List<User> authorFollowings) {
+		List<AuthorFollowed> retList = Collections.emptyList();
 		
 		if(authors != null){
-			retList = new ArrayList<Author>();
+			retList = new ArrayList<AuthorFollowed>();
 			for(User author:authors){
 				//Get author object from user
-				Author followed = new Author(author);
+				AuthorFollowed followed = new AuthorFollowed(author);
 				
 				//If this author is followed by the user is in his followings list
 				if(authorFollowings != null && authorFollowings.contains(author)){
