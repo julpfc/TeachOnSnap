@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.julvez.pfc.teachonsnap.controller.CommonController;
 import com.julvez.pfc.teachonsnap.controller.model.Attribute;
+import com.julvez.pfc.teachonsnap.controller.model.ErrorMessageKey;
+import com.julvez.pfc.teachonsnap.controller.model.ErrorType;
 import com.julvez.pfc.teachonsnap.controller.model.Parameter;
 import com.julvez.pfc.teachonsnap.controller.model.SessionAttribute;
-import com.julvez.pfc.teachonsnap.error.model.ErrorMessageKey;
-import com.julvez.pfc.teachonsnap.error.model.ErrorType;
 import com.julvez.pfc.teachonsnap.lesson.LessonService;
 import com.julvez.pfc.teachonsnap.lesson.LessonServiceFactory;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;

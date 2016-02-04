@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.error.model;
+package com.julvez.pfc.teachonsnap.controller.model;
 
 /**
  * Enumeration with types of error from the application

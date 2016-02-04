@@ -1,4 +1,4 @@
-package com.julvez.pfc.teachonsnap.error.model;
+package com.julvez.pfc.teachonsnap.controller.model;
 
 /**
  * Describes an error with the type of error and de key for the localized message.
