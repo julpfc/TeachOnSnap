@@ -49,7 +49,7 @@ import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
  * <p>
  * Manages GET requests to un/follow users and searches from followAuthor.jsp view.
  * <p>
- * Loads inforamtion about a group, followers and authors and redirects to the followAuthor.jsp
+ * Loads information about a group, followers and authors and redirects to the followAuthor.jsp
  * view to select author to be un/followed.
  * <p>
  * Mapped in {@link ControllerURI#ADMIN_GROUP_FOLLOW_AUTHOR}

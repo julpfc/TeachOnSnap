@@ -106,7 +106,7 @@ public class StatsController extends AdminController {
 			StatsType statsType = null;			
 			boolean error = false;
 			
-			//get stat user is asking to export in CSF format
+			//get stat user is asking to export in CSV format
 			int exportIndex = requestManager.getNumericParameter(request, Parameter.EXPORT);
 			
 			//depending on the controller's mapping

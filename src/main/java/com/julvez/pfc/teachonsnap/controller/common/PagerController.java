@@ -48,8 +48,8 @@ import com.julvez.pfc.teachonsnap.user.model.User;
  */
 public abstract class PagerController extends CommonController {
 
-	private static final long serialVersionUID = 8657057759677354918L;
-	
+	private static final long serialVersionUID = -485756448621822124L;
+
 	/** Pagination. Limit of lessons per page. */
 	protected final int MAX_LESSONS_PER_PAGE; 
 	

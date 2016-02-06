@@ -42,7 +42,7 @@ import com.julvez.pfc.teachonsnap.usergroup.model.UserGroup;
  * Lists followed authors and tags by the group.   
  * <p> 
  * Loads information about a group, followers and authors and redirects 
- * to the adminGroupFollow.jsp * view to select author to be un/followed.
+ * to the adminGroupFollow.jsp view to select author/tag to be un/followed.
  * <p>
  * Mapped in {@link ControllerURI#ADMIN_GROUP_FOLLOWS}
  */
