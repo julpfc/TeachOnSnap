@@ -172,8 +172,8 @@ public class FileUploadController extends HttpServlet {
 		//get user from visit
 		if(visit!=null) user = visit.getUser();
     	
-    	if(user == null){
-    		//Error, user must be logged in to upload files
+    	if(user == null || (user != null && !user.isAuthor())){
+    		//Error, user must be logged in or been an author to upload files
     		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     	}
     	else{
