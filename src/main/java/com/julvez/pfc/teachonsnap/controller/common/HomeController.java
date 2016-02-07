@@ -113,9 +113,10 @@ public class HomeController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
+		//get last published lessons
 		List<Lesson> lastLessons = lessonService.getLastLessons(0);
 		
-		//check if is there a next apge and get link
+		//check if is there a next page and get link
 		if(lastLessons.size()>MAX_LESSONS_PER_PAGE){			
 			lastLessons.remove(MAX_LESSONS_PER_PAGE);			
 			String nextPage = urlService.getAbsoluteURL(ControllerURI.LESSONS_BY_LAST.toString() + MAX_LESSONS_PER_PAGE);			

@@ -201,7 +201,7 @@ public class NewLessonController extends CommonController {
 						if(moreInfo!=null){
 							linkService.addLessonMoreInfo(newLesson, moreInfo);
 						}
-						//notify to author followers and author
+						//notify to author
 						lessonService.notifyLessonCreated(newLesson);
 						
 						//redirect to new lesson edit page
