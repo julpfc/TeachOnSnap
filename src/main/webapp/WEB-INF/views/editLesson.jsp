@@ -425,7 +425,7 @@
 					<c:if test="${lesson.id>0}">
 						<nav>
 							<ul class="pager">
-								<li><a href="${lastPage}"><span class="glyphicon glyphicon-chevron-left"></span>
+								<li><a href="${lesson.URL}"><span class="glyphicon glyphicon-chevron-left"></span>
 								 <fmt:message key="pager.back"/></a></li>						
 							</ul>
 						</nav>		

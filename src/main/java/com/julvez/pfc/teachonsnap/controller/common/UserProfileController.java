@@ -86,7 +86,7 @@ public class UserProfileController extends CommonController {
 	protected void processController(HttpServletRequest request,
 			HttpServletResponse response, Visit visit, User user) throws ServletException, IOException {
 		
-		String prevPage = requestManager.getSessionAttribute(request, SessionAttribute.LAST_PAGE);
+		String prevPage = request.getRequestURI();
 		
 		//user is requesting modifications...
 		if(request.getMethod().equals("POST")){
