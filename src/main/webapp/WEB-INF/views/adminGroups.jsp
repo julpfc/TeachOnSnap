@@ -6,7 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Manage user groups --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -20,6 +20,7 @@
 	<div class="content container-fluid">		
 		<div class="row">
 			<div class="panel panel-default">
+				<!-- Search -->
      			<div class="panel-heading">
      				<c:choose>
      					<c:when test="${not empty param['searchQuery']}">
@@ -37,6 +38,7 @@
      					</c:otherwise>
      				</c:choose>
 				</div>
+				<!-- Groups -->
 				<div class="panel-body">
 					<c:if test="${not empty param['searchQuery'] && empty groups}">
 						<h2><fmt:message key="admin.groups.search.empty" bundle="${adminBundle}"/></h2>
@@ -85,6 +87,7 @@
 	     				<a href="${host}/admin/broadcast/"><button class="btn btn-warning btn-sm" type="button"><span class="glyphicon glyphicon-bullhorn"></span> <fmt:message key="admin.group.broadcast.heading" bundle="${adminBundle}"/></button></a>	     			
 	     			</span>
 					 <c:if test="${empty param['searchQuery']}">
+					 	<!-- Create group -->
 					 	<form action="" method="post" role="form">
 			    			<div class="col-sm-5 col-sm-offset-7 input-group violetButton">
 					    		<input type="text" name="groupName" id="inputGroupName" class="form-control" placeholder="<fmt:message key="admin.group.name" bundle="${adminBundle}"/>" required>			      					
@@ -109,9 +112,11 @@
 				</nav>	
 			</div><!-- /.row -->
 		</c:if>
-	 </div><!-- /.container -->		
+	</div><!-- /.content -->		
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>	
 	<script src="${host}/resources/js/adminGroups.js"></script>
+	<!-- /Javascript -->
 </body>
 </html>

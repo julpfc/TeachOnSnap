@@ -6,7 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.stats" var="statsBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Show global stats --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -21,6 +21,7 @@
 	<div class="content container-fluid">		
 		<div class="row">
 			<div class="panel panel-default">
+				<!-- heading: links to more stats -->
      			<div class="panel-heading violetButton">	
      				&nbsp;
      				<c:set var="statsNextType" value="${statsType eq 'year'?'month':'year'}"/>     			
@@ -34,6 +35,7 @@
 				</div>
 				<div class="graph panel-body">
 					<div class="alert col-sm-10 col-sm-offset-1">
+						<!-- Line chart -->
 						<label for="myLineChart"><fmt:message key="admin.stats.views" bundle="${statsBundle}"/> <fmt:message key="stats.in.last.${statsType}" bundle="${statsBundle}"/></label>
 						<canvas id="myLineChart"></canvas>						
 						<p class="help-block">
@@ -44,6 +46,7 @@
 		    			</p>					
 					</div>
 					<c:if test="${not empty statsExtra}">
+						<!-- Bar chart -->
 						<div class="alert col-sm-10 col-sm-offset-1">
 							<label for="myBarChart"><fmt:message key="admin.stats.most.viewed.lesson" bundle="${statsBundle}"/> <fmt:message key="stats.in.last.${statsType}" bundle="${statsBundle}"/></label>
 							<p class="help-block">							
@@ -60,6 +63,7 @@
 					</c:if>
 					<c:if test="${not empty statsExtra2}">
 						<div class="alert col-sm-10 col-sm-offset-1">
+							<!-- Bar chart -->
 							<label for="myBarChart2"><fmt:message key="admin.stats.most.viewed.author" bundle="${statsBundle}"/> <fmt:message key="stats.in.last.${statsType}" bundle="${statsBundle}"/></label>
 							<p class="help-block">							
 								<span class="glyphicon glyphicon-signal"></span> <span class="glyphicon glyphicon-search"></span> <fmt:message key="stats.author.bar.tip" bundle="${statsBundle}"/>
@@ -76,8 +80,9 @@
 				</div>				
    			</div>
 		</div><!-- /.row -->		
-	 </div><!-- /.container -->		
+	</div><!-- /.content -->
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script type="text/javascript">
 		<!-- 
@@ -140,5 +145,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 	<script src="${host}/resources/js/ext/Chart.HorizontalBar.js"></script>
  	<script src="${host}/resources/js/adminStats.js"></script>
+ 	<!-- /Javascript -->
 </body>
 </html>

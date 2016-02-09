@@ -6,7 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Create test --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -18,6 +18,7 @@
 <c:import url="./import/nav.jsp"/>
 	<div class="content container-fluid">		
 		<div class="row">
+			<!-- New test form -->
  			<form id="testForm" action="${lesson.newTestURL}" method="POST">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -58,9 +59,10 @@
 				</ul>
 			</nav>		
 		</div><!-- /.row -->
-    </div><!-- /.container -->	
-	
+	</div><!-- /.content -->	
 	<c:import url="./import/footer.jsp"/>
-	<c:import url="./import/js_bootstrap.jsp"/>	
+	<!-- Javascript -->
+	<c:import url="./import/js_bootstrap.jsp"/>
+	<!-- /Javascript -->	
 </body>
 </html>

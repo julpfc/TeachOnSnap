@@ -7,7 +7,7 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.notify" var="notifyBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Broadcast a message to a gorup or to all application's users --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -17,7 +17,7 @@
 	</title>
 </head>
 <body>
-	<c:import url="./import/nav.jsp"/>	
+	<c:import url="./import/nav.jsp"/>
 	<div class="content container-fluid">		
 		<div class="row">
 			<div class="panel panel-default">
@@ -29,7 +29,7 @@
 					<c:if test="${empty group}">
      					<label><fmt:message key="admin.broadcast.all.users" bundle="${adminBundle}"/></label>						
 					</c:if>
-				</div>
+				</div><!-- /.panel-heading -->
 				<div class="panel-body">
 					<c:if test="${empty group}">
 						<div class="alert alert-warning alert-dismissible text-center col-sm-10 col-sm-offset-1">
@@ -48,7 +48,7 @@
 							</c:if>
 						</c:forEach>
 					</c:if>					 
-				</div>
+				</div><!-- /.panel-body -->
 				<c:if test="${empty group || not empty group.users}">
 					<div class="panel-footer">					 
 						<form id="broadcastForm" method="POST">
@@ -75,9 +75,9 @@
 			        	&nbsp;
 						<div id="iFrameBody" class="embed-responsive embed-responsive-16by9 hidden"></div>
 						&nbsp;
-	     			</div>     
+	     			</div><!-- /.panel-footer -->
      			</c:if>
-     		</div>			
+     		</div><!-- /.panel -->		
      	</div><!-- /.row --> 
      	<c:if test="${not empty backPage}">    	
 			<div class="row">
@@ -89,15 +89,16 @@
 				</nav>	
 			</div><!-- /.row -->
 		</c:if>
-	</div><!-- /.container -->		
+	</div><!-- /.content -->		
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<fmt:message key="notify.html.broadcast.template" bundle="${notifyBundle}" var="template"/>
 	<c:set var="templateEscaped">${fn:replace(template, '"', '\\"')}</c:set>
 	<script type="text/javascript">
 		<!--	    
 		var msg = {};
-		msg['admin.broadcast.confirm'] = 		"<fmt:message key="admin.broadcast.confirm" bundle="${adminBundle}"/>";
+		msg['admin.broadcast.confirm'] = 			"<fmt:message key="admin.broadcast.confirm" bundle="${adminBundle}"/>";
 		msg['notify.html.broadcast.template'] = 	"${templateEscaped}";
 		
 		var appHost = "${host}";
@@ -105,5 +106,6 @@
 	</script>
 	<script src="${host}/resources/js/confirm.js"></script>	
  	<script src="${host}/resources/js/adminBroadcast.js"></script>
+ 	<!-- /Javascript -->
 </body>
 </html>

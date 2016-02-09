@@ -7,7 +7,7 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Manage user followings --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -22,6 +22,7 @@
 	<c:import url="./import/confirm.jsp"/>
 	<div class="content container-fluid">		
 		<div class="row">		
+			<!-- Followed Authors -->    			
 			<div class="panel panel-default">
      			<div class="panel-heading">
 			 		<label><fmt:message key="admin.group.follow.author" bundle="${adminBundle}"/>:</label>
@@ -30,7 +31,7 @@
 					<c:if test="${empty users}">
 						<h4><fmt:message key="admin.group.follow.empty.author" bundle="${adminBundle}"/></h4>
 					</c:if>
-					<c:if test="${not empty users}">	    			
+					<c:if test="${not empty users}">	
 	    			<div class="table-responsive">
 						<table class="table table-hover table-striped">	      					
 	      					<tbody>
@@ -65,6 +66,7 @@
      		</div>     		
      	</div><!-- /.row -->
      	<div class="row">		
+			<!-- Followed Lessons -->	    			
 			<div class="panel panel-default">
      			<div class="panel-heading">
 			 		<label><fmt:message key="user.follow.lesson" bundle="${profBundle}"/>:</label>
@@ -73,7 +75,7 @@
 					<c:if test="${empty lessons}">
 						<h4><fmt:message key="user.follow.empty.lesson" bundle="${profBundle}"/></h4>
 					</c:if>
-					<c:if test="${not empty lessons}">	    			
+					<c:if test="${not empty lessons}">
 	    			<div class="table-responsive">
 						<table class="table table-hover table-striped">	      					
 	      					<tbody>
@@ -108,10 +110,10 @@
 				</ul>
 			</nav>	
 		</div><!-- /.row -->
-	 </div><!-- /.container -->		
+	</div><!-- /.content -->	
 	<c:import url="./import/footer.jsp"/>
-	<c:import url="./import/js_bootstrap.jsp"/>
-	
+	<!-- Javascript -->
+	<c:import url="./import/js_bootstrap.jsp"/>	
 	<script type="text/javascript">
 		<!--	    
 		var msg = {};
@@ -121,6 +123,6 @@
 	</script>
 	<script src="${host}/resources/js/adminGroup.js"></script>	
 	<script src="${host}/resources/js/confirm.js"></script>	
-	
+	<!-- Javascript -->
 </body>
 </html>

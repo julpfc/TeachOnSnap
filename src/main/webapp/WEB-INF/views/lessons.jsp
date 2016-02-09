@@ -8,7 +8,7 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- List lessons --%>
 <!DOCTYPE html>
 <html>
 <head>	
@@ -28,6 +28,7 @@
 	<div class="content container-fluid">
 		<div class="row">					
 			<div class="col-sm-7">
+				<!-- Lessons -->
 				<c:forEach items="${lessons}" var="lesson" varStatus="loop">	
 					<c:if test="${loop.last}"><c:set var="author" value="${lesson.author}"/></c:if>
 					<div><c:set var="lessonID" value="[${lesson.id}]"/>
@@ -71,7 +72,7 @@
 						</nav>
 		          	</div>
 		          	<hr/>	          	
-				</c:forEach>
+				</c:forEach><!-- /lessons -->
 				<c:if test="${empty lessons}">
 					<h2><fmt:message key="lessons.empty" bundle="${lessonsBundle}"/></h2>
 				</c:if>			
@@ -91,9 +92,10 @@
 					</ul>
 				</nav>
 	        </div><!-- col -->
-
+			<!-- aside -->
         	<div class="col-sm-4 col-sm-offset-1">
           		<c:if test="${not empty searchKeyword}">
+          			<!-- Search keyword & follow -->
 	          		<div class="sidebar">
 	            		<h3><fmt:message key="search.by.${searchType}" bundle="${lessonsBundle}"/>:</h3>
 	            		<c:if test="${searchType eq 'author' && not empty author}">
@@ -117,6 +119,7 @@
           				<h3><span class="glyphicon glyphicon-time"></span> <fmt:message key="search.by.last" bundle="${lessonsBundle}"/></h3>
           			</div>
           		</c:if>
+          		<!-- Cloud tags -->
           		<c:if test="${not empty tagSearchCloudTags && searchType eq 'tag'}">
 	          		<div class="sidebar tags">
 	            		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.search.heading"/></h4>
@@ -155,10 +158,11 @@
 		            </div>
           		</div>    
 	          	</c:if>     	 		          		
-        	</div><!-- sidebar -->
+        	</div><!-- /aside -->
 		</div><!-- /.row -->
-    </div><!-- /.container -->
+	</div><!-- /.content -->
     <c:import url="./import/footer.jsp"/>
+    <!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<c:if test="${not empty user}">
 		<script type="text/javascript">
@@ -167,9 +171,9 @@
 			msg['admin.group.follow.author.follow.confirm'] = 	"<fmt:message key="admin.group.follow.author.follow.confirm" bundle="${adminBundle}"/>";
 			msg['admin.group.follow.author.unfollow.confirm'] = "<fmt:message key="admin.group.follow.author.unfollow.confirm" bundle="${adminBundle}"/>";
 			//-->
-		</script>
-			
+		</script>			
 		<script src="${host}/resources/js/confirm.js"></script>
 	</c:if>
+	<!-- /Javascript -->
 </body>
 </html>

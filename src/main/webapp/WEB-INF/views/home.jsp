@@ -6,7 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.home" var="homeBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Home --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,8 @@
 </head>
 <body>
  	<c:import url="./import/nav.jsp"/>
-      <div class="content container-fluid">      	
+      <div class="content container-fluid"> 
+      	<!-- Logo -->     	
 		<div class="home">		
 			<div class="container-fluid"> 
 		        <div class="col-sm-8">
@@ -31,6 +32,7 @@
 	    </div>
 		<div class="row">					
 			<div class="col-sm-7">
+				<!-- Lessons -->
 				<c:forEach items="${lessons}" var="lesson">					
 					<div> <c:set var="lessonID" value="[${lesson.id}]"/>
 						<span class="author-avatar pull-left"><a href="${lesson.author.URL}"><img alt="avatar" src="https://www.gravatar.com/avatar/${lesson.author.MD5}?s=48&d=identicon" width="48" height="48"></a></span>
@@ -67,7 +69,7 @@
 						</nav>
 		          	</div>
 		          	<hr/>	          	
-				</c:forEach>			
+				</c:forEach><!-- /Lessons -->		
 	   
 				<nav><ul class="pager"><li>
 					 <c:if test="${not empty nextPage}">
@@ -78,7 +80,9 @@
 				</nav>
 	        </div><!-- col -->
 
+			<!-- aside -->
         	<div class="col-sm-4 col-sm-offset-1">
+        		<!-- Cloud tags  -->
           		<div class="sidebar tags">
             		<h4><span class="glyphicon glyphicon-tags"></span> <fmt:message key="cloudtag.tag.use.heading"/></h4>
             		<ul class="tags">
@@ -95,6 +99,7 @@
 		            </c:forEach>
 		            </ul>
           		</div>
+          		<!-- Popular lessons -->
           		<div class="sidebar">
             		<h4><span class="glyphicon glyphicon-book"></span> <fmt:message key="cloudtag.lesson.heading"/></h4>
             		<div class="list-group">
@@ -103,11 +108,12 @@
 		            </c:forEach>
 		            </div>
           		</div>          		
-        	</div><!-- sidebar -->
+        	</div><!-- /aside -->
 		</div><!-- /.row -->
-    </div><!-- /.container -->
+	</div><!-- /.content -->
     <c:import url="./import/footer.jsp"/>
-
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
+	<!-- /Javascript -->
 </body>
 </html>

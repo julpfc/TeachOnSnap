@@ -8,18 +8,19 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Show lesson --%>
 <!DOCTYPE html>
 <html>
 <head>	
 <c:import url="./import/head_bootstrap.jsp"/>
-<link rel="stylesheet" href="<c:url value="/resources/css/lesson.css"/>"/>
-<title><fmt:message key="app.name"/> - ${fn:escapeXml(lesson.title)}</title>
+	<link rel="stylesheet" href="<c:url value="/resources/css/lesson.css"/>"/>
+	<title><fmt:message key="app.name"/> - ${fn:escapeXml(lesson.title)}</title>
 </head>
 <body>
-	<c:import url="./import/nav.jsp"/>
-	<c:if test="${not empty user}"><c:import url="./import/confirm.jsp"/></c:if>
+<c:import url="./import/nav.jsp"/>
+<c:if test="${not empty user}"><c:import url="./import/confirm.jsp"/></c:if>
 	<div class="content container-fluid">
+		<!-- Metadata -->
 		<div>
 			<span class="author-avatar pull-left"><a href="${lesson.author.URL}"><img alt="avatar" src="https://www.gravatar.com/avatar/${lesson.author.MD5}?s=48&d=identicon" width="48" height="48"></a></span>
 			<c:set var="lessonID" value="[${lesson.id}]"/>
@@ -43,6 +44,7 @@
 		<div class="row">
 			<div class="col-sm-7">
 				<div>
+					<!-- Media -->
 					<c:if test="${lesson.idLessonMedia>0}">					
 			     		<div class="lesson-media">		     		
 				     			<c:set var="firstMedia" value="${medias[0]}"/>				     			
@@ -74,8 +76,10 @@
 				     		</div>  		
 					</c:if>												
 					
+					<!-- Text -->
     				<c:if test="${not empty lesson.text}"><blockquote><p>${lesson.text}</p></blockquote></c:if>	             	
-	          		          	
+	          		
+	          		<!-- Tags -->   	
 	          		<span class="label label-default"><span class="glyphicon glyphicon-tags"></span></span>
 	          		<c:forEach items="${tags}" var="tag">		
 						<span class="label label-default"><a href="${tag.URL}">${tag.tag}</a></span>									
@@ -89,9 +93,10 @@
 					</ul>
 				</nav>	
 	        </div><!-- col -->
-
+			<!-- aside -->
         	<div class="col-sm-4 col-sm-offset-1">        		
         		<c:if test="${not empty test}">
+        			<!-- Test panel -->
 					<div class="sidebar">
 						<div class="panel panel-default">
 			        		<div class="panel-heading"><fmt:message key="lesson.test.heading" bundle="${testBundle}"/>
@@ -149,6 +154,7 @@
 					</div>
 				</c:if>
           		<c:if test="${not empty moreInfoLinks}">
+          			<!-- More info links -->
 	          		<div class="sidebar">
 	               		<h4><span class="glyphicon glyphicon-globe"></span> <fmt:message key="lesson.moreInfo.heading" bundle="${lessonBundle}"/></h4>
 	            		<ol class="list-unstyled">
@@ -159,6 +165,7 @@
 	          		</div>
 	          	</c:if>
           		<c:if test="${not empty sourceLinks}">
+          			<!-- Source links -->
 	          		<div class="sidebar">
 	               		<h4><span class="glyphicon glyphicon-education"></span> <fmt:message key="lesson.source.heading" bundle="${lessonBundle}"/></h4>
 	            		<ol class="list-unstyled">
@@ -168,11 +175,13 @@
 	            		</ol>
 	          		</div>
 	          	</c:if>
+	          	<!-- From the same author -->
 	          	<div class="sidebar">
                		<h4><span class="glyphicon glyphicon-pencil"></span> <fmt:message key="lesson.sameAuthor.heading" bundle="${lessonBundle}"/></h4>
             		<p><a href="${lesson.author.URL}">${lesson.author.fullName}</a></p>
-          		</div>
+          		</div>          		
           		<c:if test="${not empty user}">
+          			<!-- Following lesson -->
           			<div class="sidebar">          				
 	            			<c:choose>
 	            			<c:when test="${not empty user.lessonFollowed[lessonID]}">	            				
@@ -184,9 +193,10 @@
 	            			</c:choose>
 	            	</div>
 	            </c:if> 
-        	</div><!-- sidebar -->
+        	</div><!-- /aside -->
 		</div><!-- /.row -->
 		<c:if test="${not lesson.draft}">
+			<!-- Comments -->
 			<div id="comments" class="row">
 				<div class="col-sm-8 col-sm-offset-2">
 					<h3 class="comments-section">
@@ -278,10 +288,11 @@
 	        		</c:choose>							
 				</div>				
 			</div><!-- /.row -->
+			<!-- /Comments -->
 		</c:if>      	
-	</div><!-- /.container -->
-	
+	</div><!-- /.content -->
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script src="${host}/resources/js/lesson.js"></script>
 	<c:if test="${not empty user}">
@@ -291,9 +302,9 @@
 			msg['user.follow.lesson.follow.confirm'] = 	"<fmt:message key="user.follow.lesson.follow.confirm" bundle="${profBundle}"/>";
 			msg['user.follow.lesson.unfollow.confirm'] = "<fmt:message key="user.follow.lesson.unfollow.confirm" bundle="${profBundle}"/>";
 			//-->
-		</script>
-			
+		</script>			
 		<script src="${host}/resources/js/confirm.js"></script>
 	</c:if>
+	<!-- /Javascript -->
 </body>
 </html>

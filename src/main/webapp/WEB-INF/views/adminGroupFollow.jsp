@@ -6,7 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Manage group followings --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -25,6 +25,7 @@
      			<div class="panel-heading">
 			 		<label><fmt:message key="admin.group.follow.author" bundle="${adminBundle}"/>:</label>
 				</div>
+				<!-- Authors followed -->
 				<div class="panel-body">	    			
 					<c:if test="${empty users}">
 						<h4><fmt:message key="admin.group.follow.empty.author" bundle="${adminBundle}"/></h4>
@@ -57,8 +58,8 @@
      			<div class="panel-heading">
 			 		<label><fmt:message key="admin.group.follow.tag" bundle="${adminBundle}"/>:</label>
 				</div>
-				<div class="panel-body">
-	    			
+				<!-- Tags followed -->
+				<div class="panel-body">	    			
 					<c:if test="${empty tags}">
 						<h4><fmt:message key="admin.group.follow.empty.tag" bundle="${adminBundle}"/></h4>
 					</c:if>
@@ -70,8 +71,7 @@
             				</a>  							
 			            </c:forEach>
 			            </h2>
-					</c:if>
-					
+					</c:if>					
 				</div>
 				<div class="panel-footer violetButton">			    			
 					<a href="${host}/admin/group/follow/tag/${group.id}"><button class="btn btn-primary btn-sm pull-right" type="button"><span class="glyphicon glyphicon-plus"></span> <fmt:message key="admin.group.follow.add.tag" bundle="${adminBundle}"/></button></a>		    						
@@ -87,10 +87,10 @@
 				</ul>
 			</nav>	
 		</div><!-- /.row -->
-	 </div><!-- /.container -->		
+	</div><!-- /.content -->
 	<c:import url="./import/footer.jsp"/>
-	<c:import url="./import/js_bootstrap.jsp"/>
-	
+	<!-- Javascript -->
+	<c:import url="./import/js_bootstrap.jsp"/>	
 	<script type="text/javascript">
 		<!--	    
 		var msg = {};
@@ -99,7 +99,7 @@
 		//-->
 	</script>
 	<script src="${host}/resources/js/adminGroup.js"></script>	
-	<script src="${host}/resources/js/confirm.js"></script>	
-	
+	<script src="${host}/resources/js/confirm.js"></script>
+	<!-- /Javascript -->	
 </body>
 </html>

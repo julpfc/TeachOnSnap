@@ -7,7 +7,7 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Follow tag --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -23,6 +23,7 @@
 	<div class="content container-fluid">		
 		<div class="row">
 			<div class="panel panel-default">
+				<!-- Search -->
      			<div class="panel-heading">
      				<c:choose>
      					<c:when test="${not empty param['searchQuery']}">
@@ -40,6 +41,7 @@
      					</c:otherwise>
      				</c:choose>
 				</div>
+				<!-- Tags -->
 				<div class="panel-body">
 					<c:if test="${empty followTags}">
 						<h2><fmt:message key="admin.group.follow.tag.empty" bundle="${adminBundle}"/></h2>
@@ -81,8 +83,9 @@
      			</div>
    			</div>
 		</div><!-- /.row -->
-	 </div><!-- /.container -->		
+	</div><!-- /.content -->
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script type="text/javascript">
 		<!--	    
@@ -92,6 +95,7 @@
 		//-->
 	</script>
 	<script src="${host}/resources/js/followTag.js"></script>	
-	<script src="${host}/resources/js/confirm.js"></script>	
+	<script src="${host}/resources/js/confirm.js"></script>
+	<!-- /Javascript -->	
 </body>
 </html>

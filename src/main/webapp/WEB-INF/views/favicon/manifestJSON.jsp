@@ -1,5 +1,6 @@
 <%@ page contentType="text/json; charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%-- JSON defining available favicons for Google Chrome/Android --%>
 {
 	"name": "TeachOnSnap",
 	"icons": [

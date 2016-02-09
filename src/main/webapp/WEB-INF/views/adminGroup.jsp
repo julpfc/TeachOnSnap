@@ -8,7 +8,7 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Manage user group --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -23,6 +23,7 @@
 	<div class="content container-fluid">		
 		<div class="row">
 			<div class="panel panel-default">
+				<!-- Group name -->
      			<div class="panel-heading">
 			 		<span id="span-name">
      					<label><fmt:message key="admin.group.name" bundle="${adminBundle}"/>: </label>
@@ -42,6 +43,7 @@
 						</form>
 				    </div>				    
 				</div>
+				<!-- Group users -->
 				<div class="panel-body">
 					<c:if test="${empty group.users}">
 						<h4><fmt:message key="admin.group.users.empty" bundle="${adminBundle}"/></h4>
@@ -93,6 +95,7 @@
 				    </div>	
 					</c:if>					 
 				</div>
+				<!-- Group add multiple users -->
 				<div class="panel-footer">					 
 					<label for="emailListInput"><fmt:message key="admin.users.new.user.multiple.tip" bundle="${adminBundle}"/> :</label>					    	
 						<form action="" method="post" role="form">
@@ -108,6 +111,7 @@
   					</div>
      			</div>     
      		</div> 
+     		<!-- Group followings & broadcast -->
      		<div class="alert alert-default">
 	     		<span class="pull-right">
 	     			<a href="${host}/admin/group/follow/${group.id}"><button class="btn btn-info btn-sm" type="button"><span class="glyphicon glyphicon-star"></span> <fmt:message key="admin.group.follow.heading" bundle="${adminBundle}"/></button></a>     		    			
@@ -127,10 +131,10 @@
 				</ul>
 			</nav>	
 		</div><!-- /.row -->
-	 </div><!-- /.container -->		
+	 </div><!-- /.content -->		
 	<c:import url="./import/footer.jsp"/>
-	<c:import url="./import/js_bootstrap.jsp"/>
-	
+	<!-- Javascript -->
+	<c:import url="./import/js_bootstrap.jsp"/>	
 	<script type="text/javascript">
 		<!--	    
 		var msg = {};
@@ -140,6 +144,6 @@
 	</script>
 	<script src="${host}/resources/js/adminGroup.js"></script>	
 	<script src="${host}/resources/js/confirm.js"></script>	
-	
+	<!-- /Javascript -->
 </body>
 </html>

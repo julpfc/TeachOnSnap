@@ -7,7 +7,7 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Follow author --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -22,12 +22,13 @@
 	<div class="content container-fluid">		
 		<div class="row">
 			<div class="panel panel-default">
+				<!-- Search -->
      			<div class="panel-heading">
      				<c:choose>
      					<c:when test="${not empty param['searchQuery']}">
      						<fmt:message key="admin.users.search.result.heading" bundle="${adminBundle}"/>: <span class="label label-info">${param['searchQuery']}</span>     						    
      					</c:when>
-     					<c:otherwise>     						
+     					<c:otherwise>				
 		     				<form action="" method="post" role="form">
 				    			<div class="col-sm-4 col-sm-offset-8 input-group">
 			      					<input type="text" class="form-control" name="searchQuery" placeholder="<fmt:message key="admin.search.author.placeholder" bundle="${adminBundle}"/>"/>
@@ -45,6 +46,7 @@
      					</c:otherwise>
      				</c:choose>
 				</div>
+				<!-- Authors -->
 				<div class="panel-body">
 					<c:if test="${empty authors}">
 						<h2><fmt:message key="admin.group.follow.author.empty" bundle="${adminBundle}"/></h2>
@@ -103,8 +105,9 @@
      			</div>
    			</div>
 		</div><!-- /.row -->
-	 </div><!-- /.container -->		
+	</div><!-- /.content -->	
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script type="text/javascript">
 		<!--	    
@@ -115,5 +118,6 @@
 	</script>
 	<script src="${host}/resources/js/followAuthor.js"></script>	
 	<script src="${host}/resources/js/confirm.js"></script>	
+	<!-- /Javascript -->
 </body>
 </html>

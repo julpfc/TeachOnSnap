@@ -6,7 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Edit test --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -46,6 +46,7 @@
            								${fn:escapeXml(question.text)}
          								</a>
 								</div>
+								<!-- Question collapsable -->
 								<div style="height: 0px;" aria-expanded="false" id="collapseQuestion${question.id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseQuestionHeading${question.id}">
        								<ul class="list-group">
 	        							<c:forEach items="${question.answers}" var="answer">
@@ -54,6 +55,7 @@
 	    									</li>
 										</c:forEach>	
 							        </ul>
+							        <!-- Commands buttons -->
 							       	<div class="panel-footer">
 							       		&nbsp;
 										<a id="moveButton${question.id}" onclick="showMoveControls(${question.id});">
@@ -96,8 +98,8 @@
 								 			 <fmt:message key="lesson.test.question.edit" bundle="${testBundle}"/>
 								 			 </button>
 										</a>
- 										</div>
-     								</div>
+ 									</div>
+     							</div>
    							</div>
  						</div>							
 					</c:forEach>	     			
@@ -110,9 +112,11 @@
 				</nav>		
 	        </div><!-- col -->
 
+			<!-- aside -->
         	<div class="col-sm-4 col-sm-offset-1">
 				<div class="sidebar">
 					<div class="panel panel-default">
+		        		<!-- Publish -->
 				    	<div class="panel-heading">
 				    	 	<c:choose>
 								<c:when test="${test.draft}">
@@ -134,7 +138,7 @@
 										</a>
 								</c:otherwise>
 							</c:choose>	    			
-				    	</div>
+				    	</div>				    	
 			    		<div class="panel-body">
 			    			<c:if test="${test.multipleChoice}">
 								<h5><span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -143,6 +147,7 @@
 	     					</c:if>
 							<h5><span class="label label-info">${test.numAnswers}</span> <fmt:message key="lesson.test.numAnswers" bundle="${testBundle}"/></h5>																	
 							<h5><span class="label label-info">${test.numQuestions}</span> <fmt:message key="lesson.test.numQuestions" bundle="${testBundle}"/></h5>
+							<!-- Delete -->
 							<a onclick="confirm('${test.editURL}?delTest=true','lesson.test.delete.confirm');">
 			    				<button class="btn btn-danger btn-xs pull-right" type="button">
 					 			<span class="glyphicon glyphicon-remove"></span>
@@ -150,6 +155,7 @@
 					 			 </button>
 							</a>
 						</div>
+						<!-- New question -->
 						<div class="panel-footer">							
 		    	 			&nbsp;
 			    	 		<a href="${test.newQuestionURL}">
@@ -159,8 +165,9 @@
 				 	 			</button>
 			 				</a>									 	
 	     				</div>		
-					</div><!-- Test Panel -->
+					</div>
 					<c:if test="${test.numQuestions>0}">
+						<!-- Export -->
 						<div class="panel panel-default">
 				    		<div class="panel-heading">
 				    			<p class="help-block">
@@ -175,11 +182,12 @@
 						</div><!-- Export Panel -->
 					</c:if>
 				</div>
-        	</div><!-- sidebar -->
+        	</div><!-- /aside -->
 		</div><!-- /.row -->
-    </div><!-- /.container -->
+	</div><!-- /.content -->
 	</form>	
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>	
 	<script type="text/javascript">
 		<!--	    
@@ -192,6 +200,6 @@
 	</script>
 	<script src="${host}/resources/js/editTest.js"></script>
 	<script src="${host}/resources/js/confirm.js"></script>
-	
+	<!-- /Javascript -->
 </body>
 </html>

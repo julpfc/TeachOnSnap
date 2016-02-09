@@ -8,11 +8,11 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
- 
+<%-- Edit lesson --%>
 <!DOCTYPE html>
 <html>
 <head>	
-	<c:import url="./import/head_bootstrap.jsp"/>
+<c:import url="./import/head_bootstrap.jsp"/>
 	<link rel="stylesheet" href="<c:url value="/resources/css/editLesson.css"/>"/>
 	<link rel="stylesheet" href="<c:url value="/resources/css/lesson.css"/>"/>
 	<title><fmt:message key="app.name"/> - 
@@ -27,7 +27,7 @@
 	</title>
 </head>
 <body>
-	<c:import url="./import/nav.jsp"/>
+<c:import url="./import/nav.jsp"/>
 	<div class="content container-fluid">	
 		<div class="row">
 			<form id="lessonForm" role="form" method="POST"> 
@@ -60,7 +60,6 @@
 								data-toggle="popover" data-placement="bottom" data-trigger="focus"
 								data-content="<fmt:message key="lesson.form.media.help" bundle="${editLessonBundle}"/>">?</button>
 						</div>
-						
 						<div class="panel-body">				    	
 							<c:if test="${lesson.idLessonMedia>0}">
 					     		<c:set var="firstMedia" value="${medias[0]}"/>
@@ -141,7 +140,6 @@
 	  					</div>					
 					</div>						
 
-					
 					<!-- Text -->
 			    	<div class="form-group">
 						<label for="textareaLessonText"><fmt:message key="lesson.form.text" bundle="${editLessonBundle}"/>
@@ -239,7 +237,7 @@
 			    	</div>
 		        </div><!-- col -->
 	
-				<!-- Sidebar -->
+				<!-- aside -->
 	        	<div class="col-sm-5">
 					<c:choose>
 					<c:when test="${lesson.id > 0}">
@@ -430,12 +428,12 @@
 							</ul>
 						</nav>		
 					</c:if>
-	        	</div><!-- sidebar -->
+	        	</div><!-- /aside -->
 	        </form>
 		</div><!-- /.row -->
-    </div><!-- /.container -->
-	
+	</div><!-- /.content -->
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script src="${host}/resources/js/ext/jquery.ui.widget.js"></script>
 	<script src="${host}/resources/js/ext/jquery.iframe-transport.js"></script>
@@ -462,7 +460,6 @@
 	</script>
 	<script src="${host}/resources/js/confirm.js"></script>
 	<script src="${host}/resources/js/editLesson.js"></script>
-	
-	
+	<!-- /Javascript -->	
 </body>
 </html>

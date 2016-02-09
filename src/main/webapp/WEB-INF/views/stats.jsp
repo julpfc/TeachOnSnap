@@ -7,7 +7,7 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.stats" var="statsBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Author stats --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -30,6 +30,7 @@
 	<div class="content container-fluid">		
 		<div class="row">
 			<div class="panel panel-default">
+				<!-- heading: links to more stats -->
      			<div class="panel-heading violetButton">	
      				&nbsp;
      				<c:set var="statsNextType" value="${statsType eq 'year'?'month':'year'}"/>     			
@@ -62,6 +63,7 @@
 				</div>
 				<div class="graph panel-body">
 					<c:if test="${not empty statsExtra}">
+						<!-- Bar chart -->
 						<div class="alert col-sm-10 col-sm-offset-1">
 							<label for="myBarChart"><fmt:message key="stats.most.viewed.lesson.from" bundle="${statsBundle}"/> <span class="label label-info">${fn:escapeXml(profile.fullName)}</span> <fmt:message key="stats.in.last.${statsType}" bundle="${statsBundle}"/></label>
 							<p class="help-block">							
@@ -77,6 +79,7 @@
 						</div>						
 					</c:if>
 					<div class="alert col-sm-10 col-sm-offset-1">
+						<!-- Line chart -->
 						<c:if test="${empty lesson && not empty profile}">
 							<label for="myLineChart"><fmt:message key="stats.lesson.views.from" bundle="${statsBundle}"/> <span class="label label-info">${fn:escapeXml(profile.fullName)}</span> <fmt:message key="stats.in.last.${statsType}" bundle="${statsBundle}"/></label>
 						</c:if>
@@ -92,7 +95,8 @@
 		    			</p>					
 					</div>
 					<c:if test="${not empty statsExtra2}">
-						<div class="alert col-sm-10 col-sm-offset-1">						
+						<div class="alert col-sm-10 col-sm-offset-1">	
+							<!-- Pie chart -->					
 							<label for="myPieChart"><fmt:message key="stats.lesson.views.media.dist" bundle="${statsBundle}"/> <span class="label label-info">${fn:escapeXml(profile.fullName)}</span> <fmt:message key="stats.in.last.${statsType}" bundle="${statsBundle}"/></label>
 							<canvas id="myPieChart"></canvas>						
 							<p class="help-block">
@@ -116,8 +120,9 @@
 				</c:if>
    			</div>
 		</div><!-- /.row -->		
-	 </div><!-- /.container -->		
+	</div><!-- /.content -->
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script type="text/javascript">
 		<!-- 
@@ -168,5 +173,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 	<script src="${host}/resources/js/ext/Chart.HorizontalBar.js"></script>
  	<script src="${host}/resources/js/stats.js"></script>
+ 	<!-- /Javascript -->
 </body>
 </html>

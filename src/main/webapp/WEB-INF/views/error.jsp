@@ -7,7 +7,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.error" var="errorBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
- 
+<%-- Show friendly error --%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,8 +21,9 @@
 			<div class="help-block col-sm-10 col-sm-offset-1">
 				<h2><span class="glyphicon glyphicon-remove-circle"></span> <fmt:message key="error.heading" bundle="${errorBundle}"/></h2>
 			</div>
-		</div>
+		</div>		
 		<c:if test="${not empty statusCode}">
+			<!-- Status code errors -->
 			<div class="row">
 				<fmt:message key="error.status.${statusCode}" bundle="${errorBundle}" var="statusMessage"/>
 				<div class="col-sm-10 col-sm-offset-1"><blockquote>
@@ -41,6 +42,7 @@
 			</div>
 		</c:if>
 		<c:if test="${not empty exceptionName}">
+			<!-- Exceptions -->
 			<div class="row">
 				<fmt:message key="error.exception.${exceptionName}" bundle="${errorBundle}" var="exceptionMessage"/>
 				<div class="col-sm-10 col-sm-offset-1"><blockquote class="blockquote-reverse">
@@ -66,9 +68,10 @@
 				</ul>
 			</nav>
 		</div>			
-	</div>
-   
+	</div><!-- /.content -->
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
+	<!-- /Javascript -->
 </body>
 </html>

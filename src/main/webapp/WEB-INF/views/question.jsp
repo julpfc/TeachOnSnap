@@ -6,7 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Create/Edit question --%>
 <!DOCTYPE html>
 <html> 
 <head>	
@@ -28,20 +28,8 @@
 		<div class="row">
  			<form id="questionForm" action="${not empty question?question.editURL:test.newQuestionURL}" method="POST">
 				<div class="panel panel-default question">
-					<div class="panel-heading">
-					 	<!-- 	<span id="spanq-${question.id}">
-										${question.text}
- 									<a class="pull-right" onclick="return showEditQuestion(${question.id},true);">Editar</a>
-									</span>
-									<div id="divq-${question.id}" class="input-group hidden">
-								<input type="text" class="form-control" placeholder="${question.text}">
-						      	<span class="input-group-btn">
-						        	<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-						        	<button class="btn btn-default" type="button" onclick="return showEditQuestion(${question.id},false);"><span class="glyphicon glyphicon-remove"></span></button>
-						      	</span>
-						    </div>
-						     -->
-					<!-- /input-group -->
+					<!-- Question text -->
+					<div class="panel-heading">					 
 						<input type="text" name="text" class="form-control" placeholder="<fmt:message key="lesson.test.question.text" bundle="${testBundle}"/>" value="${fn:escapeXml(question.text)}" required="required" maxlength="140"/>
 						<c:if test="${not empty question}">
 							<input name="idLessonTest" type="text" hidden="true" value="${test.id}"/>
@@ -51,6 +39,7 @@
 					</div>
 					 			
 					<div class="panel-body">
+						<!-- Question metadata -->
   	     				<c:if test="${test.multipleChoice}">
     						<p><span class="glyphicon glyphicon-exclamation-sign"></span>
     					 		<fmt:message key="lesson.test.multiplechoice" bundle="${testBundle}"/></p>
@@ -59,6 +48,7 @@
   							<button class="btn btn-primary pull-right" type="submit"><span class="glyphicon glyphicon-save"></span>
 						 <fmt:message key="lesson.test.question.save" bundle="${testBundle}"/></button>
     				 	</p>
+    				 	<!-- Answers -->
 						<table class="table">
 							<thead>
 								<tr>
@@ -105,9 +95,10 @@
 						</table>									
 						<input id="json" type="text" hidden="true" value=""/>
 					</div>
-					<div class="panel-footer">
+					<div class="panel-footer">						
 						<c:choose>
 							<c:when test="${not empty question}">
+								<!-- Export Question -->
 								<p class="help-block"><a href="${question.editURL}?export=JSON"><button type="button" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-save-file"></span>
 										 <fmt:message key="lesson.test.export" bundle="${testBundle}"/></button>
 								 	</a>
@@ -115,6 +106,7 @@
 		    				 	</p>
 							</c:when>
 							<c:otherwise>
+								<!-- Import Question -->
 								<p class="help-block">
 									<a data-toggle="collapse" href="#collapseImportJSON" aria-expanded="false" aria-controls="collapseImportJSON">
 										<button type="button" class="btn btn-primary btn-xs pull-right">
@@ -146,10 +138,12 @@
 				</ul>
 			</nav>		
 		</div><!-- /.row -->
-    </div><!-- /.container -->		
+	</div><!-- /.content -->	
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>	
 	<script src="${host}/resources/js/ext/form2js.js"></script>
-	<script src="${host}/resources/js/question.js"></script>	
+	<script src="${host}/resources/js/question.js"></script>
+	<!-- /Javascript -->	
 </body>
 </html>

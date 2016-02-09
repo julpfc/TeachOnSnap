@@ -6,7 +6,7 @@
 <fmt:setLocale value="${userLang.language}"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.test" var="testBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Self evaluation test --%>
 <!DOCTYPE html>
 <html>
 <head>	
@@ -35,6 +35,7 @@
 	     					<p><span class="glyphicon glyphicon-exclamation-sign"></span>
 	     					 <fmt:message key="lesson.test.multiplechoice" bundle="${testBundle}"/></p>
 	     				</c:if>
+	     				<!-- Questions -->
 						<c:forEach items="${not empty userTest?userTest.questions:test.questions}" var="question">	
 							<c:set var="questionID" value="[${question.id}]"/>							
 							<div class="panel ${not empty userTest?(question.OK?'panel-success':'panel-danger'):'panel-default'} question">
@@ -69,7 +70,7 @@
 							</div>
 							</c:if>																	     			
 							</div>
-						</c:forEach>	     			
+						</c:forEach><!-- /Questions -->	     			
 					</div>
 				</div>
 				<nav>
@@ -80,8 +81,10 @@
 				</nav>		
 	        </div><!-- col -->
 
+			<!-- aside -->
         	<div class="col-sm-4 col-sm-offset-1">
         		<c:if test="${lesson.testAvailable && empty userTest && empty statsTest}">
+        			<!-- Validate test -->
 					<div class="sidebar">							
         				<div class="panel panel-default">
 				    		<div class="panel-heading">
@@ -94,10 +97,11 @@
 								 	<fmt:message key="lesson.test.validate.tip" bundle="${testBundle}"/>
 		    				 	</p>	    			
 				    		</div>			
-						</div><!-- Export Panel -->						 
+						</div>						 
 					</div>
 				</c:if>
 				<c:if test="${not empty userTest && empty statsTest}">
+					<!-- Score -->
 					<div class="sidebar">							
 						<fmt:formatNumber maxFractionDigits="0" value="${100 * userTest.numOKs/test.numQuestions}" var="percentage"/> 
 						<h2>								
@@ -125,6 +129,7 @@
 					</div>
 				</c:if>
 				<c:if test="${not empty userTest || not empty statsTest}">
+					<!-- Ranking -->
 					<div class="sidebar">
 						<div class="panel panel-default">
 			        		<div class="panel-heading"><fmt:message key="lesson.test.highscores" bundle="${testBundle}"/></div>
@@ -174,13 +179,14 @@
 			    		</div>
 					</div>			
 				</c:if>	
-        	</div><!-- sidebar -->
+        	</div><!-- /aside -->
 		</div><!-- /.row -->
-    </div><!-- /.container -->
+	</div><!-- /.content -->
 	</form>	
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>
 	<script src="${host}/resources/js/test.js"></script>
-	
+	<!-- /Javascript -->
 </body>
 </html>

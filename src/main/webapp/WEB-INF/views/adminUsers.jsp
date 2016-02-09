@@ -8,17 +8,17 @@
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
 <fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
-
+<%-- Manage users --%>
 <!DOCTYPE html>
 <html> 
 <head>	
-	<c:import url="./import/head_bootstrap.jsp"/>
+<c:import url="./import/head_bootstrap.jsp"/>
 	<title>
 		<fmt:message key="app.name"/> - <fmt:message key="admin.users.heading" bundle="${adminBundle}"/>			
 	</title>
 </head>
 <body>
-	<c:import url="./import/nav.jsp"/>	
+<c:import url="./import/nav.jsp"/>	
 	<div class="content container-fluid">		
 		<div class="row">
 			<div class="panel panel-default">
@@ -78,7 +78,7 @@
 	    				</table>
 					</div>		 	
 					</c:if>
-										<nav>
+					<nav>
 						<ul class="pager">
 							<c:if test="${not empty prevPage && not empty users}">
 								<li><a href="${prevPage}"><span class="glyphicon glyphicon-chevron-left"></span>
@@ -89,8 +89,7 @@
 								 <fmt:message key="pager.next"/></a></li>
 							</c:if>						
 						</ul>
-					</nav>     				
-					
+					</nav>    
 				</div>
 				<div class="panel-footer">
 					 <c:if test="${empty param['searchQuery']}">
@@ -108,7 +107,8 @@
 						</div>
      				</c:if>
      				&nbsp;
-     			</div>     				   
+     			</div> 
+     			<!-- add user collapsable -->    				   
      			<div class="col-sm-10 col-sm-offset-1">
      				<div class="collapse" id="collapseNewUser">
 						<form action="" method="post" class="form-signin" role="form">		  		    	
@@ -151,40 +151,39 @@
 	      				</div>
 	      			</div>
 		  		</form>	 
-	    		</div>				 	
+	    		</div><!-- /add user -->
+	    		<!-- Add users (multiple) collapsable -->			 	
     			<div class="collapse" id="collapseNewMultipleUsers">
-		  		<form action="" method="post" class="" role="form">		  		    	
-    				<div class="panel panel-primary">
-	      				<div class="panel-heading">
-		      				<fmt:message key="admin.users.new.user.multiple" bundle="${adminBundle}"/>      				
-	      				</div>
-	      				<div class="panel-body">	      					
-					    	<label for="emailListInput"><fmt:message key="admin.users.new.user.multiple.tip" bundle="${adminBundle}"/> :</label>					    	
-		  					<input class="form-control" id="emailListInput" name="emailList" type="email" placeholder="<fmt:message key="admin.users.new.user.multiple.placeholder" bundle="${adminBundle}"/>" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$" value="" required autofocus/>
-		  					<ul class="list-group">
-					    		<li class="list-group-item">
-									<label for="radioLang"><fmt:message key="admin.user.language" bundle="${adminBundle}"/></label>
-		    						<c:forEach items="${languages}" var="lang" varStatus="loop">
-			    						<span>  
-											<input type="radio" name="lang" id="radioLessonLang${lang.language}" value="${lang.id}" required />
-											<img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/>
-										</span>						
-		    						</c:forEach>
-								</li>
-							</ul>
-							<div class="help-block">
-								<input class="" id="sendPaswordInput" type="checkbox" name="sendPassword" value="true" checked="checked"/> <small><fmt:message key="admin.users.new.send.password" bundle="${adminBundle}"/></small>
-							</div>
-	      				</div>
-	      				<div class="panel-footer">
-	      					<button class="btn btn-primary" type="submit"><fmt:message key="admin.users.new.user.multiple.create" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-save"></span></button>
-	      				</div>
-	      			</div>
-		  		</form>	 
-	    		</div>
+			  		<form action="" method="post" class="" role="form">		  		    	
+	    				<div class="panel panel-primary">
+		      				<div class="panel-heading">
+			      				<fmt:message key="admin.users.new.user.multiple" bundle="${adminBundle}"/>      				
+		      				</div>
+		      				<div class="panel-body">	      					
+						    	<label for="emailListInput"><fmt:message key="admin.users.new.user.multiple.tip" bundle="${adminBundle}"/> :</label>					    	
+			  					<input class="form-control" id="emailListInput" name="emailList" type="email" placeholder="<fmt:message key="admin.users.new.user.multiple.placeholder" bundle="${adminBundle}"/>" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$" value="" required autofocus/>
+			  					<ul class="list-group">
+						    		<li class="list-group-item">
+										<label for="radioLang"><fmt:message key="admin.user.language" bundle="${adminBundle}"/></label>
+			    						<c:forEach items="${languages}" var="lang" varStatus="loop">
+				    						<span>  
+												<input type="radio" name="lang" id="radioLessonLang${lang.language}" value="${lang.id}" required />
+												<img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/>
+											</span>						
+			    						</c:forEach>
+									</li>
+								</ul>
+								<div class="help-block">
+									<input class="" id="sendPaswordInput" type="checkbox" name="sendPassword" value="true" checked="checked"/> <small><fmt:message key="admin.users.new.send.password" bundle="${adminBundle}"/></small>
+								</div>
+		      				</div>
+		      				<div class="panel-footer">
+		      					<button class="btn btn-primary" type="submit"><fmt:message key="admin.users.new.user.multiple.create" bundle="${adminBundle}"/> <span class="glyphicon glyphicon-save"></span></button>
+		      				</div>
+		      			</div>
+			  		</form>	 
+	    		</div><!-- /add users multiple -->
   				</div>  				
-				
-
    			</div>
 		</div><!-- /.row -->
 		<c:if test="${empty param['searchQuery']}">
@@ -197,9 +196,11 @@
 				</nav>	
 			</div><!-- /.row -->
 		</c:if>
-	 </div><!-- /.container -->		
+	</div><!-- /.content -->	
 	<c:import url="./import/footer.jsp"/>
+	<!-- Javascript -->
 	<c:import url="./import/js_bootstrap.jsp"/>	
-	<script src="${host}/resources/js/adminUsers.js"></script>	
+	<script src="${host}/resources/js/adminUsers.js"></script>
+	<!-- /Javascript -->	
 </body>
 </html>
