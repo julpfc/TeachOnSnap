@@ -65,7 +65,7 @@ public class Tag {
 	
 	/**
 	 * Sets tag's MD5 hash
-	 * @param mD5 hash
+	 * @param md5 hash
 	 */
 	public void setMD5(String md5) {
 		MD5 = md5;
