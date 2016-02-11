@@ -1,7 +1,9 @@
 package com.julvez.pfc.teachonsnap.manager.string.impl.ut;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.julvez.pfc.teachonsnap.manager.log.LogManager;
@@ -18,6 +20,20 @@ public class StringManagerImplTest extends StringManagerTest {
 	@Override
 	protected StringManager getManager() {		
 		return new StringManagerImpl(logger);
+	}
+	
+	@Test
+	public void testEncodeURL() {
+		super.testEncodeURL();
+		Mockito.verify(logger, Mockito.atLeastOnce())
+			.error((Throwable)Mockito.anyObject(), Mockito.anyString());
+	}
+	
+	@Test
+	public void testDecodeURL() {
+		super.testDecodeURL();
+		Mockito.verify(logger, Mockito.atLeastOnce())
+			.error((Throwable)Mockito.anyObject(), Mockito.anyString());
 	}
 
 }

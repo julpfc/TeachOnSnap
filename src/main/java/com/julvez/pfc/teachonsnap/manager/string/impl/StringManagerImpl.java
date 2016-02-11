@@ -61,15 +61,14 @@ public class StringManagerImpl implements StringManager {
 	public String generateURIname(String source) {
 		String result = null;
 		
-		if(source!=null){
+		if(!isEmpty(source)){
 			//replace or remove special characters
 			result = Normalizer.normalize(source.toLowerCase(), Form.NFD)
 			        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
 			        .replaceAll("[^\\p{Alnum}]+", "-")
 			        .replaceAll("[^a-z0-9]+$", "")
 			        .replaceAll("^[^a-z0-9]+", "");
-		}
-		
+		}		
 		return result;
 	}
 
@@ -86,7 +85,7 @@ public class StringManagerImpl implements StringManager {
 	public String generateMD5(String input) {
 		String output = null;
 		
-		if(!input.isEmpty()){
+		if(!isEmpty(input)){
 			MessageDigest md;
 		
 			try {
@@ -176,8 +175,7 @@ public class StringManagerImpl implements StringManager {
 					list.add(param.toLowerCase().trim());
 				}
 			}			
-		}		
-		
+		}			
 		return list;
 	}
 
