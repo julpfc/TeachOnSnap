@@ -46,8 +46,8 @@
 				<!-- Right menu -->				
 				<ul class="nav navbar-nav navbar-right">      	
 		        	<c:choose>
-		        		<!-- Not logged in -->
 						<c:when test="${empty user}">
+		        			<!-- Not logged in -->
 							<li class="dropdown">
 				        		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 				        			<img alt="${userLang.language}" src="${host}/resources/img/ico/flag_${userLang.language}.jpg"/> <span class="caret"></span>
