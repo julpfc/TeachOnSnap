@@ -38,3 +38,8 @@ war{
 	//copy webapp resources to the WAR file
  	from 'main/webapp/resources'
 }
+
+tasks.withType(JavaCompile) {
+	//Use UTF-8 encoding
+	options.encoding = "utf-8"
+}
