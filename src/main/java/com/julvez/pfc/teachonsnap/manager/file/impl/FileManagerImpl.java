@@ -61,8 +61,11 @@ public class FileManagerImpl implements FileManager {
 		if(fileName != null){
 			String[] matches = fileName.split("\\.");
 			
-			if(matches != null && matches.length > 0){
+			if(matches != null && matches.length > 1){
 				extension = matches[matches.length - 1];
+			}
+			if(extension!=null && extension.length()==0){
+				extension=null;
 			}
 		}
 		return extension;

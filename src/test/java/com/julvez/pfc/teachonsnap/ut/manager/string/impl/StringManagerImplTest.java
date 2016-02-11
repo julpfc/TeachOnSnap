@@ -1,17 +1,14 @@
-package com.julvez.pfc.teachonsnap.manager.string.impl.ut;
+package com.julvez.pfc.teachonsnap.ut.manager.string.impl;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.julvez.pfc.teachonsnap.manager.log.LogManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.impl.StringManagerImpl;
-import com.julvez.pfc.teachonsnap.manager.string.ut.StringManagerTest;
+import com.julvez.pfc.teachonsnap.ut.manager.string.StringManagerTest;
 
-@RunWith(MockitoJUnitRunner.class)
 public class StringManagerImplTest extends StringManagerTest {
 
 	@Mock

@@ -1,29 +1,16 @@
-package com.julvez.pfc.teachonsnap.manager.string.ut;
+package com.julvez.pfc.teachonsnap.ut.manager.string;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
+import com.julvez.pfc.teachonsnap.ut.manager.ManagerTest;
 
-public abstract class StringManagerTest {
-
-	private final String NULL_STRING = null;
-	private final String BLANK_STRING = "     ";
-	private final String EMPTY_STRING = "";
-	
-	private StringManager test;
-	
-	protected abstract StringManager getManager();
-	
-	@Before
-	public void setUp() {
-		test = getManager();
-	}
+public abstract class StringManagerTest extends ManagerTest<StringManager>{
 
 	@Test
 	public void testIsEmpty() {
