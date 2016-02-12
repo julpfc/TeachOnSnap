@@ -1,6 +1,7 @@
 package com.julvez.pfc.teachonsnap.ut.manager.date;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -11,9 +12,23 @@ import com.julvez.pfc.teachonsnap.ut.manager.ManagerTest;
 
 public abstract class DateManagerTest extends ManagerTest<DateManager>{
 		
+	protected Date getDate() {		
+		Calendar cal = Calendar.getInstance();
+		
+		if(cal.get(Calendar.MILLISECOND) >= 850){
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			cal = Calendar.getInstance();
+		}		
+		return cal.getTime();
+	}
+
 	@Test
 	public void testGetCurrentDate() {
-		Date date = new Date();
+		Date date = getDate();		
 		String testDate = test.getCurrentDate();
 
 		SimpleDateFormat formatter = new SimpleDateFormat(DateManager.DEFAULT_DATE_FORMAT);
@@ -26,7 +41,7 @@ public abstract class DateManagerTest extends ManagerTest<DateManager>{
 	@Test
 	public void testGetCurrentDateString() {
 		String format = "dd/MM/yyyy HH:mm [ss]";
-		Date date = new Date();
+		Date date = getDate();		
 		String testDate = test.getCurrentDate(DateManager.DEFAULT_DATE_FORMAT);
 		String testDate2 = test.getCurrentDate(format);
 
