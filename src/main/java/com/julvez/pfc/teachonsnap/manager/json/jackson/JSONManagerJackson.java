@@ -46,16 +46,19 @@ public class JSONManagerJackson implements JSONManager {
 	@Override
 	public String object2JSON(Object o) {
 		String json = null;
-		try{
-			//get object mapper
-			ObjectMapper mapper = new ObjectMapper();
-			
-			//write JSON from object
-			json = mapper.writeValueAsString(o);
-		}
-		catch(Throwable t){
-			logger.error(t, "Error getting JSON from object: " + o);
-			json = null;
+		
+		if(o != null){
+			try{
+				//get object mapper
+				ObjectMapper mapper = new ObjectMapper();
+				
+				//write JSON from object
+				json = mapper.writeValueAsString(o);
+			}
+			catch(Throwable t){
+				logger.error(t, "Error getting JSON from object: " + o);
+				json = null;
+			}
 		}
 		return json;
 	}
@@ -86,20 +89,23 @@ public class JSONManagerJackson implements JSONManager {
 	@Override
 	public String object2SimpleJSON(Object o) {
 		String json = null;
-		try{
-			//get object mapper
-			ObjectMapper mapper = new ObjectMapper();
-			
-			//disable default view 
-			mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-			
-			//write JSON from object using Simple view
-			json = mapper.writerWithView(JSONManager.SimpleView.class)
-		            .writeValueAsString(o);
-		}
-		catch(Throwable t){
-			logger.error(t, "Error getting JSON from object (simple view): " + o);
-			json = null;
+		
+		if(o != null){
+			try{
+				//get object mapper
+				ObjectMapper mapper = new ObjectMapper();
+				
+				//disable default view 
+				mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+				
+				//write JSON from object using Simple view
+				json = mapper.writerWithView(JSONManager.SimpleView.class)
+			            .writeValueAsString(o);
+			}
+			catch(Throwable t){
+				logger.error(t, "Error getting JSON from object (simple view): " + o);
+				json = null;
+			}
 		}
 		return json;
 	}

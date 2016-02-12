@@ -87,6 +87,14 @@ public class Question {
 	public String getText() {
 		return text;
 	}
+	
+	/**
+	 * Sets question's text
+	 * @param text
+	 */
+	public void setText(String text) {
+		this.text = text;		
+	}
 
 	/**
 	 * @return Question's order within the test

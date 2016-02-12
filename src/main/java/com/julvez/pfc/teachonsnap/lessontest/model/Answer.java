@@ -79,10 +79,26 @@ public class Answer {
 	}
 	
 	/**
-	 * @return tru if it's the correct answer for the question
+	 * Sets answer's text
+	 * @param text
+	 */
+	public void setText(String text) {
+		this.text = text;		
+	}
+	
+	/**
+	 * @return true if it's the correct answer for the question
 	 */
 	public boolean isCorrect() {
 		return correct;
+	}
+	
+	/**
+	 * Indicates if it's the correct answer for the question
+	 * @param correct 
+	 */
+	public void setCorrect(boolean correct) {
+		this.correct = correct;		
 	}
 
 	/**
@@ -90,6 +106,14 @@ public class Answer {
 	 */
 	public String getReason() {
 		return reason;
+	}
+	
+	/**
+	 * Sets why the answer is the correct one for the question, or not
+	 * @param reason 
+	 */
+	public void setReason(String reason) {
+		this.reason = reason;		
 	}
 
 	@Override
