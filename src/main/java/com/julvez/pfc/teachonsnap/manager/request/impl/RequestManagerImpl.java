@@ -47,34 +47,42 @@ public class RequestManagerImpl implements RequestManager {
 	public String[] splitParamsFromControllerURI(HttpServletRequest request) {
 		String[] params = null;
 		
-		//get URI and remove controller mapping
-		String req = request.getRequestURI().replaceFirst(request.getServletContext().getContextPath(),"").replaceFirst(request.getServletPath()+"/", "");
-		
-		//split params if present
-		if(req.contains("/")){
-			params = req.split("/");
+		if(request != null){
+			//get URI and remove controller mapping
+			String req = request.getRequestURI().replaceFirst(request.getServletContext().getContextPath(),"").replaceFirst(request.getServletPath()+"/", "");
+			
+			//split params if present
+			if(req.contains("/")){
+				params = req.split("/");
+			}
+			else if(!stringManager.isEmpty(req))
+				params = new String[]{req};
 		}
-		else if(!stringManager.isEmpty(req))
-			params = new String[]{req};		
 		
 		return params;
 	}
 
 	@Override
 	public String getParameter(HttpServletRequest request, Enum<?> parameter) {
-		//get parameter from request
-		String param = request.getParameter(parameter.toString());
-		//check if empty
-		if(stringManager.isEmpty(param)){
-			param = null;
+		String param = null;	
+		if(request != null && parameter != null){
+			//get parameter from request
+			param = request.getParameter(parameter.toString());
+			//check if empty
+			if(stringManager.isEmpty(param)){
+				param = null;
+			}
 		}
 		return param;
 	}
 
 	@Override
 	public String getBlankParameter(HttpServletRequest request, Enum<?> parameter) {
-		//get parameter from request
-		return request.getParameter(parameter.toString());
+		if(request != null && parameter != null){
+			//get parameter from request
+			return request.getParameter(parameter.toString());
+		}
+		else return null;
 	}
 
 	
@@ -105,7 +113,7 @@ public class RequestManagerImpl implements RequestManager {
 	public List<String> getParameterList(HttpServletRequest request, Enum<?> parameter) {
 		List<String> list = null;
 		
-		if(request.getParameterMap() != null){
+		if(request != null && request.getParameterMap() != null && parameter != null){
 			//get parameter map from request
 			String[] parameters = request.getParameterMap().get(parameter.toString());
 			
@@ -118,14 +126,14 @@ public class RequestManagerImpl implements RequestManager {
 					}
 				}
 			}
-		}
-		
+		}		
 		return list;
 	}
 	
 	@Override
 	public String getPartFilename(Part part) {
 		String filename = null;
+		if(part != null && part.getHeader(HTTP_HEADER_CONTENT_DISPOSITION) != null){
 			//Get part file name
 	        for (String cd : part.getHeader(HTTP_HEADER_CONTENT_DISPOSITION).split(";")) {
 	            if (cd.trim().startsWith("filename")) {
@@ -135,28 +143,35 @@ public class RequestManagerImpl implements RequestManager {
 	        }
 	        return filename;
 	    }
+		else return null;
+	}
 
 	@Override
 	public String getRequestLanguage(HttpServletRequest request) {
 		String lang = null;
-		//get locale
-		Locale locale = request.getLocale();
 		
-		//get language
-		if(locale!=null && !stringManager.isEmpty(locale.getLanguage())){
-			lang = locale.getLanguage();
+		if(request != null){
+			//get locale
+			Locale locale = request.getLocale();
+			
+			//get language
+			if(locale!=null && !stringManager.isEmpty(locale.getLanguage())){
+				lang = locale.getLanguage();
+			}
 		}
 		return lang;
 	}
 
 	@Override
 	public String getIP(HttpServletRequest request) {
-		//get IP from request
-		String ip = request.getRemoteAddr();
-		if(stringManager.isEmpty(ip)){
-			ip = null;
+		String ip = null;
+		if(request != null){
+			//get IP from request
+			ip = request.getRemoteAddr();
+			if(stringManager.isEmpty(ip)){
+				ip = null;
+			}
 		}
-		
 		return ip;
 	}
 
@@ -164,17 +179,23 @@ public class RequestManagerImpl implements RequestManager {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getSessionAttribute(HttpServletRequest request, Enum<?> sessionAttribute, Class<T> returnClass) {
-		return (T)request.getSession(true).getAttribute(sessionAttribute.toString());
+		if(request != null && sessionAttribute != null && returnClass != null){
+			return (T)request.getSession(true).getAttribute(sessionAttribute.toString());
+		}
+		else return null;
 	}
 
 	@Override
 	public String getSessionAttribute(HttpServletRequest request, Enum<?> sessionAttribute) {
-		return getSessionAttribute(request, sessionAttribute, String.class);
+		if(request != null && sessionAttribute != null){
+			return getSessionAttribute(request, sessionAttribute, String.class);
+		}
+		else return null;
 	}
 
 	@Override
 	public void setSessionAttribute(HttpServletRequest request,	Enum<?> sessionAttribute, Object attribute) {
-		if(sessionAttribute != null && attribute != null){
+		if(request != null && sessionAttribute != null && attribute != null){
 			request.getSession(true).setAttribute(sessionAttribute.toString(), attribute);
 		}
 	}
@@ -232,7 +253,10 @@ public class RequestManagerImpl implements RequestManager {
 
 	@Override
 	public String getSessionID(HttpServletRequest request) {
-		return request.getSession(true).getId().substring(0,10);
+		if(request != null){
+			return request.getSession(true).getId().substring(0,10);
+		}
+		else return null;
 	}
 
 }

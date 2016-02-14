@@ -15,9 +15,9 @@ public abstract class DateManagerTest extends ManagerTest<DateManager>{
 	protected Date getDate() {		
 		Calendar cal = Calendar.getInstance();
 		
-		if(cal.get(Calendar.MILLISECOND) >= 850){
+		if(cal.get(Calendar.MILLISECOND) >= 750){
 			try {
-				Thread.sleep(200);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
