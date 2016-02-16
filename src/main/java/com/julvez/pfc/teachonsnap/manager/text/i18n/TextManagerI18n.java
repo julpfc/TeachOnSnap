@@ -23,7 +23,14 @@ public class TextManagerI18n implements TextManager {
 		
 		if(locale != null && textKey!=null && bundle != null){
 			//get resource from bundle name and locale
-			ResourceBundle rb = ResourceBundle.getBundle(bundle, locale);
+			ResourceBundle rb = null;
+			
+			try{
+				rb = ResourceBundle.getBundle(bundle, locale);
+			}
+			catch(Throwable t){
+				rb = null;
+			}
 			
 			if(rb != null){
 				//get localized text by key
