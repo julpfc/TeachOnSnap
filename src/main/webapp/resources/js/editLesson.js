@@ -1,3 +1,6 @@
+/*
+ * Reload uploaded files metadata on the page, generating the corresponding HTML code.
+ */
 function reloadUploadedFiles(data) {	
 	if(data){
 		var len = data.length;
@@ -28,6 +31,10 @@ function reloadUploadedFiles(data) {
 	}
 }
 
+/*
+ * Validates the files to upload are fit to the apps requirements, 
+ * adding them to the upload queue if fitted, showing a message otherwise.
+ */
 function validateFiles(data) {
 	var validFiles = [];
 	$("#uploadFile").empty();
@@ -61,6 +68,9 @@ function validateFiles(data) {
     return validFiles;
 }
 
+/*
+ * Removes media tag from the page
+ */
 function removeMedia(){
 	$("#uploadDiv").removeClass('hidden');
 	$("#mediaDiv").empty();
@@ -68,6 +78,9 @@ function removeMedia(){
 	$("#confirm").modal('hide');
 }
 
+/*
+ * Show confirm modal before submit
+ */
 $('#lessonForm').on('submit.confirm',function(e){
     e.preventDefault();
     confirmSubmit('lesson.confirm',$('#lessonForm'));   
@@ -75,16 +88,16 @@ $('#lessonForm').on('submit.confirm',function(e){
 
 
 $(document).ready(function() {
-    
+    //Activate pop overs
 	$('[data-toggle="popover"]').popover(); 
 	
 	var tags = $('#tags');
 	var formTags = $('#formTags');
 	var newTag = $('#inputLessonTag');
 	
+	//Adds a tag to the list. Generates a MD5 hash to identify the tag
 	$('#addTag').on('click', function(event) {
-		var tag = newTag.prop('value');
-		
+		var tag = newTag.prop('value');		
 		if (tag){
 			tag = tag.toLowerCase();
 			tags.append('<span class="label label-default" onclick="this.remove();$(\'#tag_'+CryptoJS.MD5(tag)+'\').remove();">'+tag+'</span> ');
@@ -98,9 +111,9 @@ $(document).ready(function() {
 	var formSource = $('#formSources');
 	var newSource = $('#inputLessonSource');
 	
+	//Adds a source link to the list. Generates a MD5 hash to identify the link.
 	$('#addSource').on('click', function(event) {
-		var source = newSource.prop('value');
-		
+		var source = newSource.prop('value');		
 		if (source){
 			sources.append('<tr onclick="this.remove();$(\'#sources_'+CryptoJS.MD5(source)+'\').remove();"><td><span class="glyphicon glyphicon-link"></span> '+source+'</td></tr>');
 			formSource.append('<option id="sources_'+CryptoJS.MD5(source)+'" selected="selected">'+source+'</option>');
@@ -114,9 +127,9 @@ $(document).ready(function() {
 	var formMoreInfo = $('#formMoreInfo');
 	var newMoreInfo = $('#inputLessonMoreInfo');
 	
+	//Adds a more info link to the list. Generates a MD5 hash to identify the link.
 	$('#addMoreInfo').on('click', function(event) {
-		var moreInfoURL = newMoreInfo.prop('value');
-		
+		var moreInfoURL = newMoreInfo.prop('value');		
 		if (moreInfoURL){
 			moreInfo.append('<tr onclick="this.remove();$(\'#more_'+CryptoJS.MD5(moreInfoURL)+'\').remove();"><td><span class="glyphicon glyphicon-link"></span> '+moreInfoURL+'</td></tr>');
 			formMoreInfo.append('<option id="more_'+CryptoJS.MD5(moreInfoURL)+'" selected="selected">'+moreInfoURL+'</option>');
@@ -125,26 +138,32 @@ $(document).ready(function() {
 		}
     });
 
-	
+	//Asks for confirmation before removing the current media from lesson.
 	$('#removeMedia').on('click', function(event) {
 		confirm('javascript:removeMedia();','lesson.form.media.remove.confirm');
 	});
 	
+	//Ajax call to list current files already uploaded.
 	$.ajax(appHost + "/upload/?l=1").done(function(data){reloadUploadedFiles(data);});	
 	
 });
 
+/*
+ * Fileupload.js initialization and event handling
+ */
 $(function () {	
     $('#fileupload').fileupload({
         dataType: 'json',       
-               
+        
+        //reload file metadata information on the page
         done: function (e, data) {        	
         	$("#uploadFile").empty();
         	reloadUploadedFiles(data.result);
             $("#buttonSave").prop('disabled',false);
             $('#progress').addClass('hidden');
         },
- 
+
+        //Fill the progress bar
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             var progressbar = $('#progressbar');
@@ -156,8 +175,8 @@ $(function () {
             progressbar_bw.append(progress+'%');
         },
         
+        //validate files before submitting, disable submit button while uploading files
         change: function (e, data) {
-            
             data.files = validateFiles(data);
             
             if(data.files.length>0){
@@ -166,7 +185,8 @@ $(function () {
             }
 
         },
-
+        //drop file zone
+      //validate files before submitting, disable submit button while uploading files
         drop: function (e, data) {
         	            
             data.files = validateFiles(data);
@@ -177,6 +197,7 @@ $(function () {
             }
         },
  
+        //On error: Show message
         fail: function (e,data) {        	
     	    if (data.jqXHR.status == 403) {
     	    	location.reload();

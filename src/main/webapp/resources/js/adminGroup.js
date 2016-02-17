@@ -1,7 +1,13 @@
+//Activate tooltips animation
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
+/* 
+ * Toggles to show/hide edit form
+ * for the group name.
+ * Hides all other forms.
+ */
 function showEditName(show){	
 	var span = $('#span-name');
 	var div = $('#div-name');
@@ -17,6 +23,11 @@ function showEditName(show){
 	
 }
 
+/* 
+ * Toggles to show/hide edit form
+ * for the group export.
+ * Hides all other forms.
+ */
 function showExport(show){	
 	var span = $('#span-export');
 	var div = $('#div-export');

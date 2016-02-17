@@ -1,14 +1,18 @@
+//Activate tooltips animation
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+});
+
+//Ask for confirmation before submitting the form
 $('#broadcastForm').on('submit.confirm',function(e){
 	e.preventDefault();
 	confirmSubmit('admin.broadcast.confirm',$('#broadcastForm'));   
 });
 
-
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-});
-
-
+/*
+ * Generate a preview from the text/html specified on the form.
+ * Loads the HTML template and renders it on an iFrame.
+ */
 $('#previewButton').on('click',function(e){
 	$('#iFrameBody').removeClass("hidden");
 	var $iframe = document.getElementById("iFrameRender"), iframe, iframeDoc;

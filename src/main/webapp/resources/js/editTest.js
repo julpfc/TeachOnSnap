@@ -1,5 +1,8 @@
 var positions = {};
 
+/*
+ * Store and return initial position for this question ID
+ */
 function currentPosition(questionID,initialPos){
 	if(positions[questionID]==undefined){
 		positions={};	
@@ -8,7 +11,10 @@ function currentPosition(questionID,initialPos){
 	return positions[questionID];
 }
 
-
+/*
+ * Move this question ID up a position from the initial.
+ * Move other questions to accomplish.
+ */
 function moveUp(questionID,initialPos) {
 	var currentPos = currentPosition(questionID,initialPos);
 	
@@ -22,6 +28,10 @@ function moveUp(questionID,initialPos) {
 	}
 }
 
+/*
+ * Move this question ID down a position from the initial.
+ * Move other questions to accomplish.
+ */
 function moveDown(questionID,initialPos,numQuestions) {	
 	var currentPos = currentPosition(questionID,initialPos)
 	
@@ -36,6 +46,9 @@ function moveDown(questionID,initialPos,numQuestions) {
 	}
 }
 
+/*
+ * Reset question position to the initial one.
+ */
 function restorePosition(questionID,initialPos){
 	var currentPos = currentPosition(questionID, initialPos);
 	positions[questionID] = initialPos;
@@ -50,6 +63,9 @@ function restorePosition(questionID,initialPos){
 	}	
 }
 
+/*
+ * Show controls to manage question position.
+ */
 function showMoveControls(questionID) {
 	hideMoveControls();
 	$('#moveButton'+questionID).addClass('hidden');
@@ -59,6 +75,9 @@ function showMoveControls(questionID) {
 	$('#downButton'+questionID).removeClass('hidden');	
 }
 
+/*
+ * Hide controls to manage question position.
+ */
 function hideMoveControls(questionID, initialPos) {
 	if(questionID){		
 		$('#saveButton'+questionID).addClass('hidden');

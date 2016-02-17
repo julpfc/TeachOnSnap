@@ -1,3 +1,8 @@
+/* 
+ * Toggles to show/hide edit form
+ * for the user's name.
+ * Hides all other forms.
+ */
 function showEditName(show){	
 	var span = $('#span-name');
 	var div = $('#div-name');
@@ -19,6 +24,11 @@ function showEditName(show){
 	
 }
 
+/* 
+ * Toggles to show/hide edit form
+ * for the user's password.
+ * Hides all other forms. 
+ */
 function showEditPassword(show){
 	var span = $('#span-password');
 	var div = $('#div-password');
@@ -39,6 +49,11 @@ function showEditPassword(show){
 	}	
 }
 
+/* 
+ * Toggles to show/hide edit form
+ * for the user's type.
+ * Hides all other forms. 
+ */
 function showEditType(show){
 	var span = $('#span-type');
 	var div = $('#div-type');
@@ -59,6 +74,11 @@ function showEditType(show){
 	}	
 }
 
+/* 
+ * Toggles to show/hide edit form
+ * for the user's status.
+ * Hides all other forms. 
+ */
 function showEditStatus(show){	
 	var span = $('#span-status');
 	var div = $('#div-status');
@@ -79,6 +99,11 @@ function showEditStatus(show){
 	}	
 }
 
+/* 
+ * Toggles to show/hide edit form
+ * for the user's groups.
+ * Hides all other forms. 
+ */
 function showGroups(show){	
 	var span = $('#span-groups');
 	var div = $('#div-groups');
@@ -100,6 +125,11 @@ function showGroups(show){
 	
 }
 
+/* 
+ * Toggles to show/hide edit form
+ * for the user's extra information.
+ * Hides all other forms. 
+ */
 function showEditExtra(show){	
 	var span = $('#span-extra');
 	var div = $('#div-extra');
@@ -120,6 +150,11 @@ function showEditExtra(show){
 	}
 }
 
+/* 
+ * Toggles to show/hide edit form
+ * for the user's avatar.
+ * Hides all other forms. 
+ */
 function showEditAvatar(show){	
 	var span = $('#span-avatar');
 	var div = $('#div-avatar');
@@ -141,7 +176,10 @@ function showEditAvatar(show){
 	
 }
 
-
+/*
+ * Validate passwords, old and new, on user's click.
+ * Show custom message.
+ */
 $("#passwordFormButton").on('click', function () {		
 	var ret = (($("#pwo")[0] == undefined)?true:$("#pwo")[0].checkValidity()) &&  $("#pwn1")[0].checkValidity() && $("#pwn2")[0].checkValidity() && ($("#pwn1").prop('value') != $("#pwn2").prop('value'));
 		
@@ -152,6 +190,9 @@ $("#passwordFormButton").on('click', function () {
 	}		
 })
 
+/*
+ * Validate old and new matching passwords on user's submit
+ */
 $("#passwordForm").on('submit', function () {
 	return $("#pwn1").prop('value') == $("#pwn2").prop('value');		
 })

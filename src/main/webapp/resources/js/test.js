@@ -1,4 +1,9 @@
 $(document).ready(function() {
+	
+	/* 
+	 * Handles a hidden input choice type, to
+	 * manage clicks on test's answers. 
+	 */
     var choices = $('.answer');
     choices.on('click', function(event) {
         var choice = $(event.target);
@@ -22,6 +27,9 @@ $(document).ready(function() {
         }
     });
     
+    /*
+     * Toggle answer status
+     */
     var inputs = $('.answer input');
     inputs.on('changeRadio', function(event) {
         var input = $(event.target);
@@ -35,6 +43,9 @@ $(document).ready(function() {
         choice.addClass('active');
     });
     
+    /*
+     * Toggle hidden input choice status
+     */
     inputs.on('changeCheckBox', function(event) {
         var input = $(event.target);
         var choice = $(this).closest('.answer');
@@ -47,8 +58,3 @@ $(document).ready(function() {
         }
     });
 });
-
-
-
-    
-    

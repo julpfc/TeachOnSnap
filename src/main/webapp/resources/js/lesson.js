@@ -1,4 +1,5 @@
 
+//Initialize DOM references
 var commentNew = $('#commentNew');
 var collapseComment = $('#collapseNewComment');
 var form = collapseComment.find("form");
@@ -12,8 +13,10 @@ var originalURL = undefined;
 var originalButton = undefined;
 var banButton = '<span class="glyphicon glyphicon-ban-circle"></span> '
 
+/*
+ * Moves the comment form to the selected comment in order to edit it.
+ */	
 function moveCommentForm(commentId, heading, commentBody, buttonText){
-	
 	if(originalHeading){
 		resetForm();
 	}
@@ -52,6 +55,9 @@ function moveCommentForm(commentId, heading, commentBody, buttonText){
     commentHeading.prop('innerHTML', heading);
 }
 
+/*
+ * Reset the comment form to the initial position
+ */
 function resetForm(){
 	commentHeading.prop('innerHTML', originalHeading);
 	commentNew.insertAfter(commentNewAnchor);
@@ -63,18 +69,29 @@ function resetForm(){
 	originalButton = undefined;	
 }
 
-
+/*
+ * Converts <p> tags to \n characters to be submitted
+ */
 function convertFromHTMLParagraph(data){
 	data = data.replace(/<\/p><p>/g,'\n').replace(/<p>/g,'').replace(/<\/p>/g,'');		
 	data = $('<div />').html(data).text();
 	return data;
 }
 
+/*
+ * Override collapse events to reset the comment form to the initial position
+ * when user collapses (cancels edition). 
+ */
 collapseComment.on('hidden.bs.collapse', function () {
 	if(originalHeading){
 		resetForm();
     }	
 })
+
+/*
+ * Override collapse events to focus on the text area when the comment form
+ * is shown. 
+ */
 
 collapseComment.on('shown.bs.collapse', function () {
 	textarea.focus();

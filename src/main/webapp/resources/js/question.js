@@ -1,9 +1,11 @@
 $(document).ready(function() {
+	//On submit convert form data to JSON and attach to the POST
 	$('#questionForm').on('submit', function(event) {
 		$('#json').prop('name','json');
 		$('#json').val(JSON.stringify(form2js('questionForm', '.', true)));	
     });
 
+	//Unmark table rows as highlighted when other is selected 
 	$('input[type=radio]').change(function() {
 		var notThisInput = $('input[type=radio]:checked').not(this);
 		notThisInput.prop('checked', false);
@@ -11,6 +13,7 @@ $(document).ready(function() {
 		notThisInput.closest('tr').removeClass('list-group-item-success');
 	});
 	
+	//Unmark table rows as highlighted when other is selected
 	$('input[type=checkbox]').change(function() {
 		if($(this).prop('checked')){
 			$(this).closest('tr').addClass('list-group-item-success');	
@@ -19,10 +22,11 @@ $(document).ready(function() {
 			$(this).closest('tr').removeClass('list-group-item-success');
 		}				
 	});
-	
-	
 });
 
+/*
+ * Parses JSON string into the question's form.
+ */
 function importJSON() {	
 	var json = $('#JSONarea').val();
 	$('#jsonAlert').alert('close');
