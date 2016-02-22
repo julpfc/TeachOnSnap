@@ -91,7 +91,6 @@
 		) AS t
 		JOIN ttag USING (idtag)
 		ORDER BY tag; 
-		;
 	</sql-query>		
 	<sql-query name="SQL_TAG_GET_CLOUDTAG_VIEW_LESSONIDS">
 		SELECT idLesson FROM (

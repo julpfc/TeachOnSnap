@@ -22,7 +22,7 @@ public abstract class TextManagerTest extends ManagerTest<TextManager> {
 		Locale localeEN = new Locale("en");
 		Locale localeEMPTY = new Locale(EMPTY_STRING);
 		String bundle = "test";
-		
+		 
 		Assert.assertNull(test.getLocalizedText(null, NULL_STRING, NULL_STRING));
 		Assert.assertNull(test.getLocalizedText(localeES, NULL_STRING, bundle));
 		Assert.assertNull(test.getLocalizedText(localeES, "test", NULL_STRING));

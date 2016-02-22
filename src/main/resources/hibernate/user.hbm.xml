@@ -168,8 +168,7 @@
 	    SELECT tugm.idUser as idFollower
 	    FROM tfollowgroupuser tfgu
 	    JOIN tusergroupmember tugm ON (idfollowergroup=idusergroup)	    
-	    WHERE tfgu.idUser = ?
-	    GROUP BY idFollower;	       
+	    WHERE tfgu.idUser = ?;	       
 	</sql-query>
 	<sql-query name="SQL_USER_GET_LESSON_FOLLOWERIDS">
 	    SELECT idFollower
@@ -180,8 +179,7 @@
 	    	FROM tfollowgrouptag tfgt
 	    	JOIN tusergroupmember tugm ON (idfollowergroup=idusergroup)	    
         	JOIN tlessontag USING (idtag)
-	    	WHERE idlesson = ?	    
-		GROUP BY idFollower   	       
+	    	WHERE idlesson = ?;
 	</sql-query>
 	<sql-query name="SQL_USER_GET_TAG_FOLLOWERIDS">
 	    SELECT tugm.idUser

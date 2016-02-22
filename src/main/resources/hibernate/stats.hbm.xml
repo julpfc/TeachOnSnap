@@ -152,7 +152,7 @@
 		JOIN tvisitlesson tvl USING(idvisit)
 		JOIN tlesson tl USING(idLesson)		
 		WHERE idUser = ? AND tv.date > date_sub(now(),INTERVAL 30 DAY)  
-		GROUP BY tvl.idlesson
+		GROUP BY tl.idlesson
 		ORDER BY COUNT(tv.idVisit) DESC
 		LIMIT ?;       
 	</sql-query>
@@ -162,7 +162,7 @@
 		JOIN tvisitlesson tvl USING(idvisit)
 		JOIN tlesson tl USING(idLesson)		
 		WHERE idUser = ? AND tv.date > date_sub(now(),INTERVAL 12 MONTH)  
-		GROUP BY tvl.idlesson
+		GROUP BY tl.idlesson
 		ORDER BY COUNT(tv.idVisit) DESC
 		LIMIT ?;       
 	</sql-query>
@@ -222,7 +222,7 @@
 		JOIN tvisitlesson tvl USING(idvisit)
 		JOIN tlesson tl USING(idLesson)		
 		WHERE tv.date > date_sub(now(),INTERVAL 30 DAY)  
-		GROUP BY tvl.idlesson
+		GROUP BY tl.idlesson
 		ORDER BY COUNT(tv.idVisit) DESC
 		LIMIT ?;       
 	</sql-query>
@@ -232,7 +232,7 @@
 		JOIN tvisitlesson tvl USING(idvisit)
 		JOIN tlesson tl USING(idLesson)		
 		WHERE tv.date > date_sub(now(),INTERVAL 12 MONTH)  
-		GROUP BY tvl.idlesson
+		GROUP BY tl.idlesson
 		ORDER BY COUNT(tv.idVisit) DESC
 		LIMIT ?;       
 	</sql-query>
