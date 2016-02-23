@@ -44,45 +44,47 @@ public class CacheManagerMap implements CacheManager {
 	public Object executeImplCached(Object impl, Object... params) {
 		Object result = null;
 		
-		//get cache name
-		String methodName = getCallerMethodName();
-		
-		//get parameter's classes from the parameters
-		Class<?>[] paramClasses = getClasses(params);
-		
-		//get cache from name
-		Map<String, Object> cache = getCache(methodName);
-		
-		//synchronize threads
-		synchronized (cache) {
-			//check if the result is cached
-			result = cache.get(stringManager.getKey(params));
+		if(impl != null && params != null){
+			//get cache name
+			String methodName = getCallerMethodName();
 			
-			logger.debug(methodName + stringManager.getKey(params) + "=" + result);
+			//get parameter's classes from the parameters
+			Class<?>[] paramClasses = getClasses(params);
 			
-			//invoke the implementation method to get the result
-			if(result == null ){		
-				try{
-					Method m = impl.getClass().getMethod(methodName, paramClasses);
-					result = m.invoke(impl,params);
-					
-					//save result if valid
-					if(result != null){
-						if(isPrimitiveClass(result.getClass())){
-							if(isPrimitiveValidResult(result)){
+			//get cache from name
+			Map<String, Object> cache = getCache(methodName);
+			
+			//synchronize threads
+			synchronized (cache) {
+				//check if the result is cached
+				result = cache.get(stringManager.getKey(params));
+				
+				logger.debug(methodName + stringManager.getKey(params) + "=" + result);
+				
+				//invoke the implementation method to get the result
+				if(result == null ){		
+					try{
+						Method m = impl.getClass().getMethod(methodName, paramClasses);
+						result = m.invoke(impl,params);
+						
+						//save result if valid
+						if(result != null){
+							if(isPrimitiveClass(result.getClass())){
+								if(isPrimitiveValidResult(result)){
+									cache.put(stringManager.getKey(params), result);
+								}
+							}
+							else{
 								cache.put(stringManager.getKey(params), result);
 							}
 						}
-						else{
-							cache.put(stringManager.getKey(params), result);
-						}
+					}
+					catch(Throwable t){					
+						logger.error(t, "Error executing read method: " + methodName + paramClasses);
 					}
 				}
-				catch(Throwable t){					
-					logger.error(t, "Error executing read method: " + methodName + paramClasses);
-				}
-			}
-		}		 
+			}		 
+		}
 		return result;
 	}	
 	
@@ -90,52 +92,56 @@ public class CacheManagerMap implements CacheManager {
 	public Object updateImplCached(Object impl, String[] cacheKeys, String[] cacheNames, Object... params) {
 		Object result = null;
 		
-		//get cache name
-		String methodName = getCallerMethodName();
-		
-		//get parameter's classes from the parameters
-		Class<?>[] paramClasses = getClasses(params);
-		
-		try{
-			//invoke the implementation method
-			Method m = impl.getClass().getMethod(methodName, paramClasses);
-			result = m.invoke(impl,params);
-
-			//if cache keys where specified...
-			if(cacheKeys != null){
-				int i=0;
-				//for each cache name...
-				for(String cacheName:cacheNames){
-					//get cache from name
-					Map<String, Object> cache = getCache(cacheName);
-				
-					//Synchronize the threads
-					synchronized (cache) {
-						//remove from cache
-						Object obj = cache.remove(cacheKeys[i]);
-						
-						if(obj!=null) {							
-							logger.debug("Cache Key Deleted: "+cacheName+"["+cacheKeys[i]+"]");
-						}
-						else{
-							//if no cache was deleted, try with the key prefix
-							List<String> keys = new ArrayList<String>(cache.keySet());
+		if(impl != null && params != null){
+			//get cache name
+			String methodName = getCallerMethodName();
+			
+			//get parameter's classes from the parameters
+			Class<?>[] paramClasses = getClasses(params);
+			
+			try{
+				//invoke the implementation method
+				Method m = impl.getClass().getMethod(methodName, paramClasses);
+				result = m.invoke(impl,params);
+	
+				//if cache keys where specified...
+				if(cacheKeys != null){
+					int i=0;
+					//for each cache name...
+					for(String cacheName:cacheNames){
+						//get cache from name
+						Map<String, Object> cache = getCache(cacheName);
+					
+						//Synchronize the threads
+						synchronized (cache) {
+							//remove from cache
+							Object obj = cache.remove(cacheKeys[i]);
 							
-							for(String key:keys){
-								if(key.startsWith(cacheKeys[i])){
-									cache.remove(key);
-									logger.debug("Cache Key Prefix Deleted: "+cacheName+"["+key+"*]");
+							if(obj!=null) {							
+								logger.debug("Cache Key Deleted: "+cacheName+"["+cacheKeys[i]+"]");
+							}
+							else{
+								//if no cache was deleted, try with the key prefix
+								List<String> keys = new ArrayList<String>(cache.keySet());
+								
+								if(keys != null){								
+									for(String key:keys){
+										if(key.startsWith(cacheKeys[i])){
+											cache.remove(key);
+											logger.debug("Cache Key Prefix Deleted: "+cacheName+"["+key+"*]");
+										}
+									}
 								}
 							}
 						}
+						i++;
 					}
-					i++;
 				}
 			}
+			catch(Throwable t){			
+				logger.error(t, "Error executing write method: " + methodName + paramClasses);
+			}		
 		}
-		catch(Throwable t){			
-			logger.error(t, "Error executing write method: " + methodName + paramClasses);
-		}		
 		return result;
 	}
 
