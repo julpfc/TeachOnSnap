@@ -3,8 +3,7 @@ package com.julvez.pfc.teachonsnap.ut.manager.property;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.julvez.pfc.teachonsnap.lesson.model.LessonPropertyName;

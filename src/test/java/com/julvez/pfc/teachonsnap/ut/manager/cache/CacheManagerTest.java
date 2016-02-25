@@ -1,7 +1,6 @@
 package com.julvez.pfc.teachonsnap.ut.manager.cache;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;

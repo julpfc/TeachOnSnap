@@ -1,7 +1,7 @@
 package com.julvez.pfc.teachonsnap.ut.repository;
 
-import junit.framework.Assert;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
