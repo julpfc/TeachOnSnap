@@ -11,6 +11,10 @@ public abstract class RepositoryTest<R> {
 	protected final String BLANK_STRING = "     ";
 	protected final String EMPTY_STRING = "";
 	
+	protected final int FIRST_RESULT = 0;
+	protected final int SECOND_RESULT = 1;
+	protected final int INVALID_RESULT = -1;
+	
 	protected R test;
 	
 	protected abstract R getRepository();
