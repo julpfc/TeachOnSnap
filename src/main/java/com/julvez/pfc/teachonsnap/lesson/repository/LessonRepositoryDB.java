@@ -62,6 +62,7 @@ public class LessonRepositoryDB implements LessonRepository {
 
 	@Override
 	public int createLesson(Lesson newLesson) {
+		if(newLesson == null) return -1;
 		return (int)dbm.insertQueryAndGetLastInserID("SQL_LESSON_CREATE_LESSON", newLesson.getIdUser(),
 				newLesson.getIdLanguage(),newLesson.getTitle(),newLesson.getURIname());
 	}
@@ -73,12 +74,12 @@ public class LessonRepositoryDB implements LessonRepository {
 
 	@Override
 	public void saveLessonLanguage(int idLesson, short idLanguage) {
-		dbm.updateQuery("SQL_LESSON_SAVE_LANGUAGE", idLanguage, idLesson);
-		
+		dbm.updateQuery("SQL_LESSON_SAVE_LANGUAGE", idLanguage, idLesson);		
 	}
 
 	@Override
 	public boolean saveLessonTitle(Lesson lesson, String title, String URIName) {
+		if(lesson == null) return false;
 		return dbm.updateQuery("SQL_LESSON_SAVE_TITLE", title, URIName, lesson.getId()) >= 0;
 	}
 

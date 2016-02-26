@@ -63,7 +63,9 @@ public class LessonRepositoryDBCache implements LessonRepository {
 	}
 
 	@Override
-	public int createLesson(Lesson newLesson) {		
+	public int createLesson(Lesson newLesson) {
+		if(newLesson == null) return -1;
+		
 		int id =(int)cache.updateImplCached(repoDB, 
 				new String[]{stringManager.getKey(newLesson.getAuthor().getURIName())}, 
 				new String[]{"getLessonIDsFromAuthor"}, newLesson);
@@ -92,6 +94,7 @@ public class LessonRepositoryDBCache implements LessonRepository {
 
 	@Override
 	public boolean saveLessonTitle(Lesson lesson, String title, String URIName) {
+		if(lesson == null) return false;
 		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(lesson.getId()), stringManager.getKey(lesson.getURIname())}, 
 				new String[]{"getLesson","getLessonIDFromURI"}, lesson, title, URIName);
 	}
