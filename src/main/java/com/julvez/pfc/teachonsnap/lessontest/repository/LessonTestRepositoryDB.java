@@ -92,41 +92,42 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 	public int createQuestion(Question question) {
 		int idQuestion = -1;
 		
-		//Begin database transaction
-		Object session = dbm.beginTransaction();
-		
-		//Create question
-		idQuestion = (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_LESSONTEST_CREATE_QUESTION", question.getIdLessonTest(),
-				question.getPriority(), question.getText());
-		
-		if(idQuestion>0){
-			question.setId(idQuestion);
+		if(question != null){
+			//Begin database transaction
+			Object session = dbm.beginTransaction();
 			
-			//Create answers
-			for(Answer answer:question.getAnswers()){
-				int idAnswer = (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_LESSONTEST_CREATE_ANSWER", idQuestion, 
-						answer.getReason(), answer.getText(), answer.isCorrect());
-				if(idAnswer >0){
-					answer.setId(idAnswer);
-					answer.setIdQuestion(idQuestion);
-				}
-				else{
-					idQuestion = -1;
-					break;
-				}
-				
-			}	
+			//Create question
+			idQuestion = (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_LESSONTEST_CREATE_QUESTION", question.getIdLessonTest(),
+					question.getPriority(), question.getText());
 			
-			//Increase number of test's questions
 			if(idQuestion>0){
-				if(changeLessonTestNumQuestions(session, question.getIdLessonTest(), true) != 1){
-					idQuestion = -1;
+				question.setId(idQuestion);
+				
+				//Create answers
+				for(Answer answer:question.getAnswers()){
+					int idAnswer = (int)dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_LESSONTEST_CREATE_ANSWER", idQuestion, 
+							answer.getReason(), answer.getText(), answer.isCorrect());
+					if(idAnswer >0){
+						answer.setId(idAnswer);
+						answer.setIdQuestion(idQuestion);
+					}
+					else{
+						idQuestion = -1;
+						break;
+					}
+					
+				}	
+				
+				//Increase number of test's questions
+				if(idQuestion>0){
+					if(changeLessonTestNumQuestions(session, question.getIdLessonTest(), true) != 1){
+						idQuestion = -1;
+					}
 				}
 			}
+			//Commit if success, rollback otherwise 
+			dbm.endTransaction(idQuestion>0, session);
 		}
-		//Commit if success, rollback otherwise 
-		dbm.endTransaction(idQuestion>0, session);
-		
 		return idQuestion;
 	}
 
@@ -144,26 +145,27 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 	public void removeLessonTest(LessonTest test) {
 		int affectedRows = -1;
 		
-		//Begin database transaction
-		Object session = dbm.beginTransaction();
-		
-		//Remove questions
-		for(Question question:test.getQuestions()){
-			if(!removeQuestion(session, test, question)){
-				affectedRows = -1;
-				break;
+		if(test != null){
+			//Begin database transaction
+			Object session = dbm.beginTransaction();
+			
+			//Remove questions
+			for(Question question:test.getQuestions()){
+				if(!removeQuestion(session, test, question)){
+					affectedRows = -1;
+					break;
+				}
+				else affectedRows = 1;
 			}
-			else affectedRows = 1;
-		}
-		
-		//Remove test
-		if(affectedRows>0 || test.getQuestions()==null || test.getQuestions().size()==0){
-			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_LESSONTEST", test.getId());							
-		}
-		
-		//Commit if success, rollback otherwise
-		dbm.endTransaction(affectedRows>0, session);
-	
+			
+			//Remove test
+			if(affectedRows>0 || test.getQuestions()==null || test.getQuestions().size()==0){
+				affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_LESSONTEST", test.getId());							
+			}
+			
+			//Commit if success, rollback otherwise
+			dbm.endTransaction(affectedRows>0, session);
+		}		
 	}
 
 	@Override
@@ -218,28 +220,31 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 	
 		int affectedRows = -1;
 		
-		//Remove answers from question
-		affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_ANSWERS", question.getId());
-		
-		if(affectedRows>0){
-			//remove question
-			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_QUESTION", question.getId());
+		if(question != null && test!= null){
+			
+			//Remove answers from question
+			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_ANSWERS", question.getId());
 			
 			if(affectedRows>0){
-				//decrease number of test's questions
-				affectedRows = changeLessonTestNumQuestions(session, question.getIdLessonTest(), false);
+				//remove question
+				affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_QUESTION", question.getId());
 				
 				if(affectedRows>0){
-					//Recalculate question's positions
-					for(Question q:test.getQuestions()){
-						if(q.getId() != question.getId()){
-							if(question.getPriority()<q.getPriority()){								
-								saveQuestion(q.getId(), q.getText(), (byte)(q.getPriority()-1), q.getIdLessonTest());
+					//decrease number of test's questions
+					affectedRows = changeLessonTestNumQuestions(session, question.getIdLessonTest(), false);
+					
+					if(affectedRows>0){
+						//Recalculate question's positions
+						for(Question q:test.getQuestions()){
+							if(q.getId() != question.getId()){
+								if(question.getPriority()<q.getPriority()){								
+									saveQuestion(q.getId(), q.getText(), (byte)(q.getPriority()-1), q.getIdLessonTest());
+								}
 							}
-						}
-					} 
-				}
-			}			
+						} 
+					}
+				}			
+			}
 		}
 		
 		return affectedRows>0;

@@ -108,6 +108,7 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 
 	@Override
 	public int createQuestion(Question question) {
+		if(question == null) return -1;
 		return (int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(question.getIdLessonTest()),
 				stringManager.getKey(question.getIdLessonTest())}, new String[]{"getLessonTestQuestionIDs","getLessonTest"},
 				question);
@@ -115,16 +116,20 @@ public class LessonTestRepositoryDBCache implements LessonTestRepository {
 
 	@Override
 	public void removeQuestion(LessonTest test, Question question) {
-		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(question.getIdLessonTest()),
+		if(test != null && question != null){
+			cache.updateImplCached(repoDB, new String[]{stringManager.getKey(question.getIdLessonTest()),
 				stringManager.getKey(question.getIdLessonTest()), stringManager.getKey(question.getId())}, 
-				new String[]{"getLessonTestQuestionIDs","getLessonTest","getQuestion"},	test, question);		
+				new String[]{"getLessonTestQuestionIDs","getLessonTest","getQuestion"},	test, question);
+		}
 	}
 
 	@Override
 	public void removeLessonTest(LessonTest test) {
-		cache.updateImplCached(repoDB, new String[]{stringManager.getKey(test.getId()), 
+		if(test != null){
+			cache.updateImplCached(repoDB, new String[]{stringManager.getKey(test.getId()), 
 				stringManager.getKey(test.getIdLesson()),stringManager.getKey(test.getIdLesson())},
 				new String[]{"getLessonTest", "getLesson","getLessonTestID"}, test);
+		}
 	}
 
 	@Override
