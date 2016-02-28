@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.julvez.pfc.teachonsnap.comment.model.Comment;
 import com.julvez.pfc.teachonsnap.comment.model.CommentPropertyName;
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 /**
@@ -15,8 +16,8 @@ public interface CommentService {
 	 * Returns a list of comments from the specified lesson (idLesson). If the lesson has more than the maximum
 	 * number of comments allowed for a page {@link CommentPropertyName}, it will paginate them. 
 	 * @param idLesson a lesson id to look for comments
-	 * @param firstResult first comment from the pagination should start.
-	 * @return comments list for this lesson, pagination starts at the firstResult element	 * 
+	 * @param firstResult first comment the pagination should start from.
+	 * @return comments list for this lesson, pagination starts at the firstResult element 
 	 * @see Lesson
 	 */
 	public List<Comment> getComments(int idLesson, int firstResult);
@@ -71,7 +72,7 @@ public interface CommentService {
 	/**
 	 * Notifies a new comment on a lesson to users subscribed/following this lesson
 	 * @param idLesson Lesson which receives a new comment
-	 * @param comment
+	 * @param comment Comment to notify about
 	 * @return true if all followers(users) are notified correctly
 	 * @see Lesson
 	 */
