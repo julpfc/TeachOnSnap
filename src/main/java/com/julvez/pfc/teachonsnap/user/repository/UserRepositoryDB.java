@@ -90,8 +90,7 @@ public class UserRepositoryDB implements UserRepository {
 
 	@Override
 	public void savePasswordTemporaryToken(int idUser, String token) {
-		dbm.updateQuery("SQL_USER_SAVE_TMP_TOKEN", idUser, token, token);
-		
+		dbm.updateQuery("SQL_USER_SAVE_TMP_TOKEN", idUser, token, token);		
 	}
 
 	@Override
@@ -135,9 +134,11 @@ public class UserRepositoryDB implements UserRepository {
 	@Override
 	public void saveAuthor(int idUser, String fullName) {
 		//Generate URI name from full name
-		String URI = stringManager.generateURIname(fullName);		
-		dbm.updateQuery("SQL_USER_SAVE_AUTHOR", idUser);
-		dbm.updateQuery("SQL_USER_SAVE_AUTHOR_URI", idUser, URI, URI);		
+		String URI = stringManager.generateURIname(fullName);
+		if(URI != null){
+			dbm.updateQuery("SQL_USER_SAVE_AUTHOR", idUser);
+			dbm.updateQuery("SQL_USER_SAVE_AUTHOR_URI", idUser, URI, URI);		
+		}
 	}
 
 	@Override
@@ -196,8 +197,10 @@ public class UserRepositoryDB implements UserRepository {
 		
 		List<Short> list = dbm.getQueryResultList("SQL_USER_GET_FOLLOW_AUTHORIDS", Short.class, idUser);
 		
-		for(short item:list){
-			map.put(stringManager.getKey(item), item+"");
+		if(list != null){
+			for(short item:list){
+				map.put(stringManager.getKey(item), item+"");
+			}
 		}
 		
 		return map;		
@@ -209,8 +212,10 @@ public class UserRepositoryDB implements UserRepository {
 		
 		List<Integer> list = dbm.getQueryResultList("SQL_USER_GET_FOLLOW_LESSONIDS", Integer.class, idUser);
 		
-		for(int item:list){
-			map.put(stringManager.getKey(item), item+"");
+		if(list != null){
+			for(int item:list){
+				map.put(stringManager.getKey(item), item+"");
+			}
 		}
 		
 		return map;

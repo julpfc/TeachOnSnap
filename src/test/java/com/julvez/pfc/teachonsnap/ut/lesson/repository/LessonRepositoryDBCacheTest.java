@@ -133,7 +133,6 @@ public class LessonRepositoryDBCacheTest extends LessonRepositoryTest {
 		
 		super.testSaveLessonLanguage();
 		verify(cache, times(2)).updateImplCached(eq(repoDB), (String[])anyObject(), (String[])anyObject(), anyInt(), anyInt());
-
 	}
 
 	@Test
