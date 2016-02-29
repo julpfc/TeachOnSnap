@@ -58,31 +58,38 @@ public class LinkRepositoryDB implements LinkRepository {
 
 	@Override
 	public void addLessonSources(int idLesson, ArrayList<Integer> sourceLinkIDs) {
-		for(int linkID:sourceLinkIDs){
-			dbm.updateQuery("SQL_LINK_SAVE_SOURCE", idLesson,linkID);
-		}			
+		if(sourceLinkIDs != null){
+			for(int linkID:sourceLinkIDs){
+				dbm.updateQuery("SQL_LINK_SAVE_SOURCE", idLesson,linkID);
+			}			
+		}
 	}
 
 	@Override
 	public void addLessonMoreInfos(int idLesson, ArrayList<Integer> moreInfoLinkIDs) {
-		for(int linkID:moreInfoLinkIDs){
-			dbm.updateQuery("SQL_LINK_SAVE_MOREINFO", idLesson,linkID);
-		}			
-		
+		if(moreInfoLinkIDs != null){
+			for(int linkID:moreInfoLinkIDs){
+				dbm.updateQuery("SQL_LINK_SAVE_MOREINFO", idLesson,linkID);
+			}			
+		}		
 	}
 
 	@Override
 	public void removeLessonSources(int idLesson, ArrayList<Integer> removeLinkIDs) {
-		for(int linkID:removeLinkIDs){
-			dbm.updateQuery("SQL_LINK_DELETE_SOURCE", idLesson, linkID);
-		}		
+		if(removeLinkIDs != null){
+			for(int linkID:removeLinkIDs){
+				dbm.updateQuery("SQL_LINK_DELETE_SOURCE", idLesson, linkID);
+			}
+		}
 	}
 
 	@Override
 	public void removeLessonMoreInfos(int idLesson, ArrayList<Integer> removeLinkIDs) {
-		for(int linkID:removeLinkIDs){
-			dbm.updateQuery("SQL_LINK_DELETE_MOREINFO", idLesson, linkID);
-		}		
+		if(removeLinkIDs != null){
+			for(int linkID:removeLinkIDs){
+				dbm.updateQuery("SQL_LINK_DELETE_MOREINFO", idLesson, linkID);
+			}
+		}
 	}
 
 }
