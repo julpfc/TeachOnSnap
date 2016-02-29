@@ -56,9 +56,11 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 	@Override
 	public short getMimeTypeID(MediaType mediaType, String fileType) {
 		short id = -1;
-		Byte obj = dbm.getQueryResultUnique("SQL_MEDIA_GET_MIMETYPEID", Byte.class, mediaType.ordinal(),fileType);
-		if(obj!=null)
-			id = obj;
+		if(mediaType != null && fileType != null){
+			Byte obj = dbm.getQueryResultUnique("SQL_MEDIA_GET_MIMETYPEID", Byte.class, mediaType.ordinal(),fileType);
+			if(obj!=null)
+				id = obj;
+		}
 		return id; 		
 	}
 
@@ -84,7 +86,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 		//Create lesson media
 		int idLessonMedia = createLessonMedia(session, idLesson);
 		
-		if(idLessonMedia>0){
+		if(idLessonMedia>0 && file != null && repoPath != null){
 			//Create media file
 			long fileSize = Long.parseLong(file.getFileSize());
 			idMediaFile = createMediaFile(session, idLessonMedia, repoPath.getId(), idMediaMimeType, file.getFileName(), fileSize);
@@ -122,8 +124,11 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 
 	@Override
 	public short createMimeTypeID(MediaType mediaType, String fileType,	String fileName) {
-		String ext = fileManager.getFileExtension(fileName);
-		return (short) dbm.insertQueryAndGetLastInserID("SQL_MEDIA_CREATE_MIMETYPE", mediaType.ordinal(), fileType, ext);
+		if(mediaType != null && fileType != null && fileName != null){
+			String ext = fileManager.getFileExtension(fileName);
+			return (short) dbm.insertQueryAndGetLastInserID("SQL_MEDIA_CREATE_MIMETYPE", mediaType.ordinal(), fileType, ext);
+		}
+		else return -1;
 	}
 
 	@Override
@@ -132,46 +137,47 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 		int affectedRows = -1;
 		int idLessonMedia = -1;
 		
-		//Begin database transaction
-		Object session = dbm.beginTransaction();
-		
-		//for each media file
-		for(MediaFile file:medias){
-			affectedRows = -1;
+		if(medias != null){
+			//Begin database transaction
+			Object session = dbm.beginTransaction();
 			
-			idLessonMedia = file.getIdLessonMedia();
-			
-			//get file path
-			String path = repoPath.getURI() + repoPath.getFilePathSeparator() +
-					file.getIdLessonMedia() + repoPath.getFilePathSeparator()	+ 
-					file.getId() + repoPath.getFilePathSeparator();
-
-			//detele file from filesystem
-			boolean deleteOK = fileManager.delete(path, file.getFilename());
-			
-			//delete media file 
-			if(deleteOK){
-				affectedRows = dbm.updateQuery_NoCommit(session, "SQL_MEDIA_DELETE_MEDIAFILE", file.getId());
+			//for each media file
+			for(MediaFile file:medias){
+				affectedRows = -1;
 				
-				if(affectedRows < 0){
-					break;
-				}
-			}				
+				idLessonMedia = file.getIdLessonMedia();
+				
+				//get file path
+				String path = repoPath.getURI() + repoPath.getFilePathSeparator() +
+						file.getIdLessonMedia() + repoPath.getFilePathSeparator()	+ 
+						file.getId() + repoPath.getFilePathSeparator();
+	
+				//detele file from filesystem
+				boolean deleteOK = fileManager.delete(path, file.getFilename());
+				
+				//delete media file 
+				if(deleteOK){
+					affectedRows = dbm.updateQuery_NoCommit(session, "SQL_MEDIA_DELETE_MEDIAFILE", file.getId());
+					
+					if(affectedRows < 0){
+						break;
+					}
+				}				
+			}
+			
+			//delete lesson media
+			if(affectedRows >= 0){
+				affectedRows = dbm.updateQuery_NoCommit(session, "SQL_MEDIA_DELETE_LESSONMEDIA", idLessonMedia);
+			}		
+			
+			//if success, commit, rollback otherwise
+			if(affectedRows >= 0){
+				dbm.endTransaction(true, session);
+			}
+			else{
+				dbm.endTransaction(false, session);
+			}
 		}
-		
-		//delete lesson media
-		if(affectedRows >= 0){
-			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_MEDIA_DELETE_LESSONMEDIA", idLessonMedia);
-		}		
-		
-		//if success, commit, rollback otherwise
-		if(affectedRows >= 0){
-			dbm.endTransaction(true, session);
-		}
-		else{
-			dbm.endTransaction(false, session);
-		}
-		
 		return affectedRows >= 0;
 	}
 
@@ -217,7 +223,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 	 * Creates a new lesson media
 	 * @param session Open transaction in database
 	 * @param idLesson Lesson to create a lesson media
-	 * @return idLEssonMEdia created, -1 otherwise
+	 * @return idLessonMEdia created, -1 otherwise
 	 */
 	private int createLessonMedia(Object session, int idLesson){
 		return (int)dbm.insertQueryAndGetLastInserID_NoCommit(session,"SQL_MEDIA_CREATE_LESSONMEDIA", idLesson);

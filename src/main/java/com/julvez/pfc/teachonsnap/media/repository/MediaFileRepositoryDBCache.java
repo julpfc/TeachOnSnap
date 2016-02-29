@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.julvez.pfc.teachonsnap.manager.cache.CacheManager;
-import com.julvez.pfc.teachonsnap.manager.cache.CacheManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.media.model.MediaFile;
 import com.julvez.pfc.teachonsnap.media.model.MediaFileRepositoryPath;
 import com.julvez.pfc.teachonsnap.media.model.MediaType;
@@ -25,10 +23,10 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 	private MediaFileRepositoryDB repoDB;
 	
 	/** Cache manager providing access/modification capabilities to the cache system */
-	private CacheManager cache = CacheManagerFactory.getManager();
+	private CacheManager cache;
 	
 	/** String manager providing string manipulation utilities */
-	private StringManager stringManager = StringManagerFactory.getManager();
+	private StringManager stringManager;
 
 	
 	/**
@@ -68,7 +66,7 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 	@Override
 	public int saveMediaFile(int idLesson, FileMetadata file,
 			MediaFileRepositoryPath repoPath, short idMediaMimeType) {
-		
+		if(repoPath == null) return -1;
 		int id =(int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson), stringManager.getKey(repoPath.getId())}, 
 				new String[]{"getLesson","getRepositorySize"}, idLesson, file, repoPath, idMediaMimeType);		
 		cache.clearCache("getAuthorQuotaUsed");
@@ -87,6 +85,7 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 
 	@Override
 	public boolean removeMediaFiles(int idLesson, ArrayList<MediaFile> medias, MediaFileRepositoryPath repoPath) {
+		if(repoPath == null) return false;
 		cache.clearCache("getAuthorQuotaUsed");
 		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson), stringManager.getKey(repoPath.getId())}, 
 				new String[]{"getLesson","getRepositorySize"}, idLesson, medias, repoPath);
