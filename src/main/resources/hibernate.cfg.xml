@@ -27,7 +27,8 @@
     	<mapping class="com.julvez.pfc.teachonsnap.media.model.MediaFile"/>
     	<mapping class="com.julvez.pfc.teachonsnap.media.model.MediaFileRepositoryPath"/>
     	<mapping class="com.julvez.pfc.teachonsnap.stats.model.UserTestRank"/>    	
-    	<mapping class="com.julvez.pfc.teachonsnap.stats.model.StatsData"/>    	
+    	<mapping class="com.julvez.pfc.teachonsnap.stats.model.StatsData"/>
+    	<mapping class="com.julvez.pfc.teachonsnap.stats.model.Visit"/>    	
     	<mapping class="com.julvez.pfc.teachonsnap.tag.model.Tag"/>
     	<mapping class="com.julvez.pfc.teachonsnap.user.model.User"/>
     	<mapping class="com.julvez.pfc.teachonsnap.user.model.UserBannedInfo"/>

@@ -17,6 +17,13 @@ import com.julvez.pfc.teachonsnap.stats.model.Visit;
 public interface StatsRepository {
 
 	/**
+	 * Returns the corresponding Visit object from the specified id.
+	 * @param idVisit Visit's id
+	 * @return Visit object from the id if it's a valid one, null otherwise.
+	 */
+	public Visit getVisit(int idVisit);
+	
+	/**
 	 * Creates a new visit from the IP address.
 	 * @param ip a user connects from
 	 * @return Newly created visit id, -1 if error

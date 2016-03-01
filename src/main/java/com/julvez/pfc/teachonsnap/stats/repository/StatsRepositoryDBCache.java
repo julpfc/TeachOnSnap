@@ -91,6 +91,7 @@ public class StatsRepositoryDBCache implements StatsRepository {
 
 	@Override
 	public boolean saveUserTest(Visit visit, UserLessonTest userTest, boolean betterRank) {
+		if(visit == null && userTest == null) return false;
 		return (boolean)cache.updateImplCached(repoDB, new String[]{
 				stringManager.getKey(userTest.getIdLessonTest(), visit.getUser().getId()),
 				stringManager.getKey(userTest.getIdLessonTest()),stringManager.getKey(userTest.getIdLessonTest()),stringManager.getKey(userTest.getIdLessonTest())}, 
@@ -208,5 +209,10 @@ public class StatsRepositoryDBCache implements StatsRepository {
 	@SuppressWarnings("unchecked")
 	public List<StatsData> getAuthorsVisitsLastYear() {
 		return (List<StatsData>)cache.executeImplCached(repoDB);
+	}
+
+	@Override
+	public Visit getVisit(int idVisit) {
+		return (Visit)cache.executeImplCached(repoDB, idVisit);
 	}	
 }

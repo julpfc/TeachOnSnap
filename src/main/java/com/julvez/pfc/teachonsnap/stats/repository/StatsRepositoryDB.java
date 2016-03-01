@@ -76,60 +76,47 @@ public class StatsRepositoryDB implements StatsRepository {
 		boolean saved = false;
 		long affectedRows = 0;
 		
-		//Begin transaction on database
-		Object session = dbm.beginTransaction();
-		
-		//Create VisitTest
-		long idVisitTest = dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_STATS_SAVE_USERTEST", 
-				visit.getId(), userTest.getIdLessonTest(), userTest.getPoints());
-		
-		if(idVisitTest>0){
-			//Save questions results
-			for(UserQuestion question:userTest.getQuestions()){
-				if(!question.isOK()){
-					affectedRows = dbm.updateQuery_NoCommit(session, "SQL_STATS_SAVE_USERTEST_KO",
-							idVisitTest, question.getId());
-					if(affectedRows == -1) break;					
+		if(visit != null && userTest != null){
+			//Begin transaction on database
+			Object session = dbm.beginTransaction();
+			
+			//Create VisitTest
+			long idVisitTest = dbm.insertQueryAndGetLastInserID_NoCommit(session, "SQL_STATS_SAVE_USERTEST", 
+					visit.getId(), userTest.getIdLessonTest(), userTest.getPoints());
+			
+			if(idVisitTest>0){
+				//Save questions results
+				for(UserQuestion question:userTest.getQuestions()){
+					if(!question.isOK()){
+						affectedRows = dbm.updateQuery_NoCommit(session, "SQL_STATS_SAVE_USERTEST_KO",
+								idVisitTest, question.getId());
+						if(affectedRows == -1) break;					
+					}
+				}
+				
+				//If improved result
+				if(affectedRows>=0 && betterRank){
+				
+					//Get current number of attempts
+					int attempts = getUserTestCount(session, userTest.getIdLessonTest(), visit.getUser().getId());
+					
+					//Update best result
+					if(attempts>=0){
+						affectedRows = dbm.updateQuery_NoCommit(session, "SQL_STATS_SAVE_USERTESTRANK",
+								userTest.getIdLessonTest(), visit.getUser().getId(), idVisitTest,
+								attempts, idVisitTest, attempts);
+						
+						saved = affectedRows>0;
+					}				
+				}
+				else if(affectedRows>=0){
+					saved = true;
 				}
 			}
-			
-			//If improved result
-			if(affectedRows>=0 && betterRank){
-			
-				//Get current number of attempts
-				int attempts = getUserTestCount(session, userTest.getIdLessonTest(), visit.getUser().getId());
-				
-				//Update best result
-				if(attempts>=0){
-					affectedRows = dbm.updateQuery_NoCommit(session, "SQL_STATS_SAVE_USERTESTRANK",
-							userTest.getIdLessonTest(), visit.getUser().getId(), idVisitTest,
-							attempts, idVisitTest, attempts);
-					
-					saved = affectedRows>0;
-				}				
-			}
-			else if(affectedRows>=0){
-				saved = true;
-			}
+			//Commit if success, rollback otherwise
+			dbm.endTransaction(saved, session);		
 		}
-		//Commit if success, rollback otherwise
-		dbm.endTransaction(saved, session);		
-		
 		return saved;
-	}
-
-	private int getUserTestCount(Object session, int idLessonTest, int idUser) {
-		int attempts = -1;
-		//Get stats from database
-		BigInteger count = dbm.getQueryResultUnique_NoCommit(session, "SQL_STATS_GET_USERTEST_COUNT",
-				BigInteger.class, idLessonTest, idUser);
-		
-		if(count!=null){
-			//Convert to int
-			attempts = count.intValue();
-		}
-		
-		return attempts;
 	}
 
 	@Override
@@ -214,7 +201,7 @@ public class StatsRepositoryDB implements StatsRepository {
 	public List<StatsData> getAuthorLessonsVisitsLastMonth(int idUser) {
 		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
 		List<StatsData> stats = dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONS_VISITS_LASTMONTH_STATSDATA", StatsData.class, idUser, limit);
-		Collections.reverse(stats);
+		if(stats != null) Collections.reverse(stats);
 		return stats; 
 	}
 
@@ -222,7 +209,7 @@ public class StatsRepositoryDB implements StatsRepository {
 	public List<StatsData> getAuthorLessonsVisitsLastYear(int idUser) {
 		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);		
 		List<StatsData> stats = dbm.getQueryResultList("SQL_STATS_GET_AUTHOR_LESSONS_VISITS_LASTYEAR_STATSDATA", StatsData.class, idUser, limit);
-		Collections.reverse(stats);
+		if(stats != null) Collections.reverse(stats);
 		return stats; 
 	}
 
@@ -250,7 +237,7 @@ public class StatsRepositoryDB implements StatsRepository {
 	public List<StatsData> getLessonsVisitsLastMonth() {
 		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		List<StatsData> stats =  dbm.getQueryResultList("SQL_STATS_GET_LESSONS_VISITS_LASTMONTH_STATSDATA", StatsData.class, limit);
-		Collections.reverse(stats);
+		if(stats != null) Collections.reverse(stats);
 		return stats;
 	}
 
@@ -258,7 +245,7 @@ public class StatsRepositoryDB implements StatsRepository {
 	public List<StatsData> getLessonsVisitsLastYear() {
 		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		List<StatsData> stats =  dbm.getQueryResultList("SQL_STATS_GET_LESSONS_VISITS_LASTYEAR_STATSDATA", StatsData.class, limit);
-		Collections.reverse(stats);
+		if(stats != null) Collections.reverse(stats);
 		return stats;
 	}
 
@@ -266,7 +253,7 @@ public class StatsRepositoryDB implements StatsRepository {
 	public List<StatsData> getAuthorsVisitsLastMonth() {
 		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		List<StatsData> stats =  dbm.getQueryResultList("SQL_STATS_GET_AUTHORS_VISITS_LASTMONTH_STATSDATA", StatsData.class, limit);
-		Collections.reverse(stats);
+		if(stats != null) Collections.reverse(stats);
 		return stats;
 	}
 
@@ -274,8 +261,34 @@ public class StatsRepositoryDB implements StatsRepository {
 	public List<StatsData> getAuthorsVisitsLastYear() {
 		long limit = properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS);
 		List<StatsData> stats =  dbm.getQueryResultList("SQL_STATS_GET_AUTHORS_VISITS_LASTYEAR_STATSDATA", StatsData.class, limit);
-		Collections.reverse(stats);
+		if(stats != null) Collections.reverse(stats);
 		return stats;
-	}	
+	}
 	
+	/**
+	 * Returns current number of attempts for this user and test within the 
+	 * current transaction.
+	 * @param session Open database transaction.
+	 * @param idLessonTest Test
+	 * @param idUser User
+	 * @return Attempts for this user and test.
+	 */
+	private int getUserTestCount(Object session, int idLessonTest, int idUser) {
+		int attempts = -1;
+		//Get stats from database
+		BigInteger count = dbm.getQueryResultUnique_NoCommit(session, "SQL_STATS_GET_USERTEST_COUNT",
+				BigInteger.class, idLessonTest, idUser);
+		
+		if(count!=null){
+			//Convert to int
+			attempts = count.intValue();
+		}
+		
+		return attempts;
+	}
+
+	@Override
+	public Visit getVisit(int idVisit) {
+		return dbm.getQueryResultUnique("SQL_STATS_GET_VISIT", Visit.class, idVisit);
+	}
 }

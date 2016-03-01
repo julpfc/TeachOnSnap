@@ -258,4 +258,10 @@
 		ORDER BY COUNT(tv.idVisit) DESC
 		LIMIT ?;       
 	</sql-query>
+	<sql-query name="SQL_STATS_GET_VISIT">
+		SELECT idVisit, IFNULL(idUser, -1) as idUser
+	    FROM tvisit	 
+	    LEFT JOIN tvisituser USING(idVisit)   	    
+	    WHERE idVisit = ?;
+	</sql-query>
 </hibernate-mapping>

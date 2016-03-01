@@ -3,28 +3,43 @@ package com.julvez.pfc.teachonsnap.stats.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import com.julvez.pfc.teachonsnap.user.model.User;
 
 /**
- * Domain entity. Describes a visit to the web application.
+ * Entity. Describes a visit to the web application.
  * It can contain a User reference if logged in. It contains 
  * lessons and tags viewed during this visit (session).
  */
+@Entity
 public class Visit {
 
-	/** Visit's identifier */
+	/** Visit's identifier and PK for the entity*/
+	@Id
+	@Column(name = "idVisit")
 	private int id;
 	
 	/** Visit's language */
+	@Transient
 	private short idLanguage;
 	
+	/** Visit's user if logged in, -1 otherwise */
+	private int idUser;
+	
 	/** Visit's user if logged in, null otherwise */
+	@Transient
 	private User user;
 	
 	/** List of viewed lessons during the visit */
+	@Transient
 	private List<Integer> viewedLessons;
 	
 	/** List of viewed tags during the visit */
+	@Transient
 	private List<Integer> viewedTags;
 	
 	/**
@@ -34,6 +49,7 @@ public class Visit {
 	public Visit(int idVisit) {
 		this.id = idVisit;
 		this.idLanguage = -1;
+		this.idUser =-1;
 		this.user = null;
 		viewedLessons = new ArrayList<Integer>();
 		viewedTags = new ArrayList<Integer>();
@@ -115,5 +131,12 @@ public class Visit {
 		return "Visit [id=" + id + ", idLanguage=" + idLanguage 
 				+ ", user=" + user	+ ", viewedLessons=" + viewedLessons 
 				+ ", viewedTags=" + viewedTags + "]";
-	}		
+	}
+
+	/**
+	 * @return Visit's user if logged in, -1 otherwise
+	 */
+	public int getIdUser() {
+		return idUser;
+	}
 }

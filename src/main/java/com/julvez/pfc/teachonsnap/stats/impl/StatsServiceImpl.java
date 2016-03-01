@@ -351,4 +351,12 @@ public class StatsServiceImpl implements StatsService {
 		return statsRepository.getAuthorsVisitsLastYear();
 	}
 
+	@Override
+	public Visit getVisit(int idVisit) {
+		Visit visit = null;
+		if(idVisit > 0){
+			visit = statsRepository.getVisit(idVisit);
+		}
+		return visit;
+	}
 }
