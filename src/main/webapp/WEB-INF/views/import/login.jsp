@@ -114,9 +114,17 @@
        					<fmt:message key="nav.menu.explore.about"/>
        				</h2>
      		 	</div> 
-    			<div class="modal-body form-signin">      			
-      				<div class="form-signin"><fmt:message key="about"/></div>		    	
-      				<div class="form-signin"><fmt:message key="about.glyphicons"/><a href="http://glyphicons.com">Glyphicons.com</a></div>
+    			<div class="modal-body form-about">      			
+      				<div class="form-about"><fmt:message key="about"/></div>		    	
+      				<div class="form-about"><fmt:message key="about.glyphicons"/><a href="http://glyphicons.com">Glyphicons.com</a></div>
+      				<div class="form-about text-center">
+      					<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+	        				<img alt="Creative Commons license" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+	        			</a>
+	        		</div>
+      				<div class="form-about">
+	        			<fmt:message key="footer.license"/>
+	        		</div>
     			</div>
    			</div>
 		</div>	

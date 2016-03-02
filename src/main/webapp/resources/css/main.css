@@ -247,6 +247,20 @@ button.close{
 .form-signin a{
 	color: #563D7C;	
 }
+
+.form-about {
+  max-width: 500px;
+ padding: 15px;
+  margin: 0 auto;
+}
+.form-about{
+  margin-bottom: 10px;
+}
+.form-about a{
+	color: #563D7C;	
+}
+
+
 #login .modal-footer{
 	border-top: 0px;
 	padding-top: 0px;
