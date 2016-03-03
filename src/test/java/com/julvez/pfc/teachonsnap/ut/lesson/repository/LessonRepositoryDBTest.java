@@ -61,8 +61,8 @@ public class LessonRepositoryDBTest extends LessonRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		
@@ -83,8 +83,8 @@ public class LessonRepositoryDBTest extends LessonRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		
@@ -201,8 +201,8 @@ public class LessonRepositoryDBTest extends LessonRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(properties.getNumericProperty(LessonPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		

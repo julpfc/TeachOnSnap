@@ -44,8 +44,8 @@ public class TagRepositoryDBCacheTest extends TagRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(cache.executeImplCached(eq(repoDB), anyString(), anyInt())).thenReturn(null);
 		when(cache.executeImplCached(eq(repoDB), eq(query), eq(FIRST_RESULT))).thenReturn(ids);
@@ -162,8 +162,8 @@ public class TagRepositoryDBCacheTest extends TagRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(cache.executeImplCached(eq(repoDB), anyString(), anyInt())).thenReturn(null);
 		when(cache.executeImplCached(eq(repoDB), eq(query), eq(FIRST_RESULT))).thenReturn(ids);
@@ -181,8 +181,8 @@ public class TagRepositoryDBCacheTest extends TagRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(cache.executeImplCached(eq(repoDB), eq(FIRST_RESULT))).thenReturn(ids);
 		when(cache.executeImplCached(eq(repoDB), eq(SECOND_RESULT))).thenReturn(ids2);

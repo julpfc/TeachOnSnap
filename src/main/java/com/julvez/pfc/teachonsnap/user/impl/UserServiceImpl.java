@@ -239,7 +239,6 @@ public class UserServiceImpl implements UserService {
 		return token;		
 	}
 
-
 	@Override
 	public User getUserFromPasswordTemporaryToken(String token) {
 		User user = null;
@@ -562,7 +561,7 @@ public class UserServiceImpl implements UserService {
 		User retUser = null;
 		
 		if(user != null && author != null && author.isAuthor()){						
-			if(user.getAuthorFollowed() != null && !user.getAuthorFollowed().containsKey(author.getId())){
+			if(user.getAuthorFollowed() != null && !user.getAuthorFollowed().containsKey("["+author.getId()+"]")){
 				//follow user
 				if(userRepository.followAuthor(user.getId(), author.getId())){	
 					//update user
@@ -593,7 +592,7 @@ public class UserServiceImpl implements UserService {
 		
 		if(user != null && lesson != null){
 						
-			if(user.getLessonFollowed() != null && !user.getLessonFollowed().containsKey(lesson.getId())){
+			if(user.getLessonFollowed() != null && !user.getLessonFollowed().containsKey("["+lesson.getId()+"]")){
 				//follow lesson
 				if(userRepository.followLesson(user.getId(), lesson.getId())){	
 					//update user

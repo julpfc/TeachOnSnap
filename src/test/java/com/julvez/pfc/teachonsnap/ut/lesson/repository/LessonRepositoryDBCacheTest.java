@@ -67,8 +67,8 @@ public class LessonRepositoryDBCacheTest extends LessonRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(cache.executeImplCached(eq(repoDB), eq(FIRST_RESULT))).thenReturn(ids);
 		when(cache.executeImplCached(eq(repoDB), eq(SECOND_RESULT))).thenReturn(ids2);
@@ -86,8 +86,8 @@ public class LessonRepositoryDBCacheTest extends LessonRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(cache.executeImplCached(eq(repoDB), anyString(), anyInt())).thenReturn(null);
 		when(cache.executeImplCached(eq(repoDB), eq("author"), eq(FIRST_RESULT))).thenReturn(ids);
@@ -195,8 +195,8 @@ public class LessonRepositoryDBCacheTest extends LessonRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(cache.executeImplCached(eq(repoDB), anyInt(), anyInt())).thenReturn(null);
 		when(cache.executeImplCached(eq(repoDB), eq(idUser), eq(FIRST_RESULT))).thenReturn(ids);

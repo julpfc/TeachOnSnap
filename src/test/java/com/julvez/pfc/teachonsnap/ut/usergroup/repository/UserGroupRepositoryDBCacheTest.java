@@ -45,8 +45,8 @@ public class UserGroupRepositoryDBCacheTest extends UserGroupRepositoryTest {
 		ids.add((short) 2);
 		
 		List<Short> ids2 = new ArrayList<Short>();
-		ids.add((short) 3);
-		ids.add((short) 4);
+		ids2.add((short) 3);
+		ids2.add((short) 4);
 		
 		when(cache.executeImplCached(eq(repoDB), eq(FIRST_RESULT))).thenReturn(ids);
 		when(cache.executeImplCached(eq(repoDB), eq(SECOND_RESULT))).thenReturn(ids2);
@@ -64,8 +64,8 @@ public class UserGroupRepositoryDBCacheTest extends UserGroupRepositoryTest {
 		ids.add((short) 2);
 		
 		List<Short> ids2 = new ArrayList<Short>();
-		ids.add((short) 3);
-		ids.add((short) 4);
+		ids2.add((short) 3);
+		ids2.add((short) 4);
 		
 		when(cache.executeImplCached(eq(repoDB), anyString(), anyInt())).thenReturn(null);
 		when(cache.executeImplCached(eq(repoDB), eq(query), eq(FIRST_RESULT))).thenReturn(ids);

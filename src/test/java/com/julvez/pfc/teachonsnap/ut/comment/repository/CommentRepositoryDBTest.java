@@ -45,8 +45,8 @@ public class CommentRepositoryDBTest extends CommentRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(properties.getNumericProperty(CommentPropertyName.MAX_PAGE_COMMENTS)).thenReturn((long)2);
 		

@@ -44,8 +44,8 @@ public class CommentRepositoryDBCacheTest extends CommentRepositoryTest {
 		ids.add(2);
 		
 		List<Integer> ids2 = new ArrayList<Integer>();
-		ids.add(3);
-		ids.add(4);
+		ids2.add(3);
+		ids2.add(4);
 		
 		when(cache.executeImplCached(eq(repoDB), eq(invalidIdLesson),anyInt())).thenReturn(null);
 		when(cache.executeImplCached(eq(repoDB), eq(idLesson),eq(FIRST_RESULT))).thenReturn(ids);

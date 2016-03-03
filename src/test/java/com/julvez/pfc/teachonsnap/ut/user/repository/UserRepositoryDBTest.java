@@ -169,8 +169,8 @@ public class UserRepositoryDBTest extends UserRepositoryTest {
 		ids.add((short) 2);
 		
 		List<Short> ids2 = new ArrayList<Short>();
-		ids.add((short) 3);
-		ids.add((short) 4);
+		ids2.add((short) 3);
+		ids2.add((short) 4);
 		
 		when(properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		
@@ -191,8 +191,8 @@ public class UserRepositoryDBTest extends UserRepositoryTest {
 		ids.add((short) 2);
 		
 		List<Short> ids2 = new ArrayList<Short>();
-		ids.add((short) 3);
-		ids.add((short) 4);
+		ids2.add((short) 3);
+		ids2.add((short) 4);
 		
 		when(properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		
@@ -213,8 +213,8 @@ public class UserRepositoryDBTest extends UserRepositoryTest {
 		ids.add((short) 2);
 		
 		List<Short> ids2 = new ArrayList<Short>();
-		ids.add((short) 3);
-		ids.add((short) 4);
+		ids2.add((short) 3);
+		ids2.add((short) 4);
 		
 		when(properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		
@@ -324,8 +324,8 @@ public class UserRepositoryDBTest extends UserRepositoryTest {
 		ids.add((short) 2);
 		
 		List<Short> ids2 = new ArrayList<Short>();
-		ids.add((short) 3);
-		ids.add((short) 4);
+		ids2.add((short) 3);
+		ids2.add((short) 4);
 		
 		when(properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		
@@ -346,8 +346,8 @@ public class UserRepositoryDBTest extends UserRepositoryTest {
 		ids.add((short) 2);
 		
 		List<Short> ids2 = new ArrayList<Short>();
-		ids.add((short) 3);
-		ids.add((short) 4);
+		ids2.add((short) 3);
+		ids2.add((short) 4);
 		
 		when(properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		
@@ -368,8 +368,8 @@ public class UserRepositoryDBTest extends UserRepositoryTest {
 		ids.add((short) 2);
 		
 		List<Short> ids2 = new ArrayList<Short>();
-		ids.add((short) 3);
-		ids.add((short) 4);
+		ids2.add((short) 3);
+		ids2.add((short) 4);
 		
 		when(properties.getNumericProperty(UserPropertyName.MAX_PAGE_RESULTS)).thenReturn((long)2);
 		
