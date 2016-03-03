@@ -3,46 +3,13 @@
  
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">See same key into teachonsnap.password.properties file</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/teachonsnap</property>
-        <property name="hibernate.current_session_context_class">thread</property>
-        <property name="hibernate.c3p0.min_size">5</property>
-		<property name="hibernate.c3p0.max_size">20</property>
-		<property name="hibernate.c3p0.timeout">1800</property>
-		<property name="hibernate.c3p0.max_statements">50</property>
-		<property name="hibernate.jdbc.lob.non_contextual_creation">true</property>
-		
-        <property name="show_sql">false</property>
-        <property name="format_sql">false</property>
-    
-<!--     	<mapping class="com.julvez.pfc.teachonsnap.comment.model.Comment"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.lang.model.Language"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.lesson.model.Lesson"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.lessontest.model.Answer"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.lessontest.model.LessonTest"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.lessontest.model.Question"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.link.model.Link"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.media.model.MediaFile"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.media.model.MediaFileRepositoryPath"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.stats.model.UserTestRank"/>    	
-    	<mapping class="com.julvez.pfc.teachonsnap.stats.model.StatsData"/>    	
-    	<mapping class="com.julvez.pfc.teachonsnap.tag.model.Tag"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.user.model.User"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.user.model.UserBannedInfo"/>
-    	<mapping class="com.julvez.pfc.teachonsnap.usergroup.model.UserGroup"/>
+        <property name="hibernate.connection.driver_class">org.h2.Driver</property>
+        <property name="hibernate.connection.url">jdbc:h2:mem:;MODE=MySQL;DB_CLOSE_ON_EXIT=TRUE;USER=sa;</property>
+        <property name="hibernate.connection.username">sa</property>
         
-		<mapping resource="/hibernate/comment.hbm.xml"/>
-        <mapping resource="/hibernate/lang.hbm.xml"/>
-        <mapping resource="/hibernate/lesson.hbm.xml"/>
-        <mapping resource="/hibernate/lessontest.hbm.xml"/>
-        <mapping resource="/hibernate/link.hbm.xml"/>
-        <mapping resource="/hibernate/media.hbm.xml"/>
-        <mapping resource="/hibernate/stats.hbm.xml"/>
-        <mapping resource="/hibernate/tag.hbm.xml"/>
-        <mapping resource="/hibernate/user.hbm.xml"/>
-        <mapping resource="/hibernate/usergroup.hbm.xml"/>
-     -->
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="show_sql">true</property>
+        
+        <mapping resource="./hibernate/test.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
