@@ -286,6 +286,7 @@ public class PageServiceImpl implements PageService {
 			Page page = new Page(PageNameKey.LESSON_TEST, test.getURL());
 			pages.add(page);
 		}
+		else pages = null;
 		return pages;
 	}
 
