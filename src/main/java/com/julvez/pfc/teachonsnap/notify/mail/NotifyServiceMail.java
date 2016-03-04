@@ -94,7 +94,7 @@ public class NotifyServiceMail implements NotifyService {
 			}
 			
 			//if not empty adresees
-			if(emails.length()>0){
+			if(emails != null && emails.length()>0){
 				String mailSubject = "TeachOnSnap";
 			
 				//build 
