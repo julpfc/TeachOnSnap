@@ -7,9 +7,7 @@ import java.util.List;
 import com.julvez.pfc.teachonsnap.lang.LangService;
 import com.julvez.pfc.teachonsnap.lang.model.Language;
 import com.julvez.pfc.teachonsnap.lang.repository.LangRepository;
-import com.julvez.pfc.teachonsnap.lang.repository.LangRepositoryFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
-import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
 import com.julvez.pfc.teachonsnap.user.model.User;
 
@@ -21,10 +19,10 @@ import com.julvez.pfc.teachonsnap.user.model.User;
 public class LangServiceImpl implements LangService {
 
 	/** Repository than provides data access/modification */
-	private LangRepository langRepo = LangRepositoryFactory.getRepository();
+	private LangRepository langRepo;
 	
 	/** String manager providing string manipulation utilities */
-	private StringManager stringManager = StringManagerFactory.getManager();
+	private StringManager stringManager;
 	
 	/**
 	 * Constructor requires all parameters not to be null
