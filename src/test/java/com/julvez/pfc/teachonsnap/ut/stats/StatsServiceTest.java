@@ -1,13 +1,7 @@
-package com.julvez.pfc.teachonsnap.ut.stats.repository;
+package com.julvez.pfc.teachonsnap.ut.stats;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,43 +9,47 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
+import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
 import com.julvez.pfc.teachonsnap.lessontest.model.UserQuestion;
+import com.julvez.pfc.teachonsnap.stats.StatsService;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
+import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
 import com.julvez.pfc.teachonsnap.stats.model.UserTestRank;
 import com.julvez.pfc.teachonsnap.stats.model.Visit;
-import com.julvez.pfc.teachonsnap.stats.repository.StatsRepository;
+import com.julvez.pfc.teachonsnap.tag.model.Tag;
 import com.julvez.pfc.teachonsnap.user.model.User;
-import com.julvez.pfc.teachonsnap.ut.repository.RepositoryTest;
+import com.julvez.pfc.teachonsnap.ut.service.ServiceTest;
 
-public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository> {
+public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 
 	protected int idVisit = 1;
 	protected int invalidIdVisit = -1;
 	
-	protected String ip = "127.0.0.1";
-	
 	protected int idUser = 1;
 	protected int invalidIdUser = -1;
+	
+	protected String ip = "127.0.0.1";
 	
 	protected int idLesson = 1;
 	protected int invalidIdLesson = -1;
 	
+	protected int count = 100;
+	
 	protected int idLessonTest = 1;
 	protected int invalidIdLessonTest = -1;
-	
-	protected int count = 100;
 
 	protected int idTag = 1;
 	protected int invalidIdTag = -1;
 	
 	@Test
 	public void testCreateVisit() {
-		assertEquals(idVisit, test.createVisit(ip));
+		assertEquals(idVisit, test.createVisit(ip).getId());
 		
-		assertEquals(invalidIdVisit, test.createVisit(NULL_STRING));
-		assertEquals(invalidIdVisit, test.createVisit(EMPTY_STRING));
-		assertEquals(invalidIdVisit, test.createVisit(BLANK_STRING));
+		assertNull(test.createVisit(NULL_STRING));
+		assertNull(test.createVisit(EMPTY_STRING));
+		assertNull(test.createVisit(BLANK_STRING));
 	}
 
 	@Test
@@ -60,37 +58,50 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 		assertNotNull(visit);
 		assertEquals(invalidIdUser, visit.getIdUser());
 		
-		assertFalse(test.saveUser(invalidIdVisit, invalidIdUser));
+		assertNull(test.saveUser(null, null));
 		
 		visit = test.getVisit(idVisit);
 		assertNotNull(visit);
 		assertEquals(invalidIdUser, visit.getIdUser());
 		
-		assertTrue(test.saveUser(idVisit, idUser));
+		
+		User user = mock(User.class);
+		when(user.getId()).thenReturn(idUser);
+		
+		assertNotNull(test.saveUser(visit, user));
 		
 		visit = test.getVisit(idVisit);
 		assertNotNull(visit);
-		assertEquals(idUser, visit.getIdUser());
+		assertSame(user, visit.getUser());
 	}
 
 	@Test
 	public void testSaveLesson() {
-		assertEquals(0, test.getLessonViewsCount(idLesson));
+		Lesson lesson = mock(Lesson.class);
+		when(lesson.getId()).thenReturn(idLesson);
 		
-		assertFalse(test.saveLesson(invalidIdVisit, invalidIdLesson));
+		Visit visit = test.getVisit(idVisit);
+		assertNotNull(visit);
 		
-		assertEquals(0, test.getLessonViewsCount(idLesson));
+		assertEquals(0, test.getLessonViewsCount(lesson));
 		
-		assertTrue(test.saveLesson(idVisit, idLesson));
+		assertNull(test.saveLesson(null, null));
 		
-		assertEquals(1, test.getLessonViewsCount(idLesson));
+		assertEquals(0, test.getLessonViewsCount(lesson));
+		
+		assertNotNull(test.saveLesson(visit, lesson));
+		
+		assertEquals(1, test.getLessonViewsCount(lesson));
 	}
 
 	@Test
 	public void testGetLessonViewsCount() {
-		assertEquals(count, test.getLessonViewsCount(idLesson));
+		Lesson lesson = mock(Lesson.class);
+		when(lesson.getId()).thenReturn(idLesson);
 		
-		assertEquals(0, test.getLessonViewsCount(invalidIdLesson));
+		assertEquals(count, test.getLessonViewsCount(lesson));
+		
+		assertEquals(-1, test.getLessonViewsCount(null));
 	}
 
 	@Test
@@ -109,28 +120,22 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 		UserTestRank rank = test.getUserTestRank(idLessonTest, idUser);
 		assertNull(rank);
 		
-		assertFalse(test.saveUserTest(null, null, false));
+		assertFalse(test.saveUserTest(null, null));
 		
 		rank = test.getUserTestRank(idLessonTest, idUser);
 		assertNull(rank);
 		
-		assertTrue(test.saveUserTest(visit, userTest, true));
+		assertTrue(test.saveUserTest(visit, userTest));
 		
 		rank = test.getUserTestRank(idLessonTest, idUser);
 		assertNotNull(rank);
 		assertEquals(userTest.getPoints(), rank.getPoints());
 		
-		assertTrue(test.saveUserTest(visit, userTestBest, false));
+		assertTrue(test.saveUserTest(visit, userTestBest));
 		
 		rank = test.getUserTestRank(idLessonTest, idUser);
 		assertNotNull(rank);
 		assertNotEquals(userTestBest.getPoints(), rank.getPoints());
-		
-		assertTrue(test.saveUserTest(visit, userTestBest, true));
-		
-		rank = test.getUserTestRank(idLessonTest, idUser);
-		assertNotNull(rank);
-		assertEquals(userTestBest.getPoints(), rank.getPoints());
 	}
 
 	@Test
@@ -143,69 +148,80 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 	}
 
 	@Test
-	public void testGetUserIDsTestRank() {
-		List<Short> ids = test.getUserIDsTestRank(invalidIdLessonTest);		
-		assertNull(ids);
+	public void testGetTestRanks() {
+		List<UserTestRank> testRanks = test.getTestRanks(invalidIdLessonTest);		
+		assertNotNull(testRanks);
+		assertEquals(0, testRanks.size());
 
-		ids = test.getUserIDsTestRank(idLessonTest);		
-		assertNotNull(ids);
+		testRanks = test.getTestRanks(idLessonTest);		
+		assertNotNull(testRanks);
 		
 		short i=1;
-		for(short b:ids){
-			assertEquals(i++, b);
+		for(UserTestRank b:testRanks){
+			assertEquals(i++, b.getIdLessonTest());
 		}
 	}
 
 	@Test
 	public void testSaveTag() {
-		assertEquals(0, test.getTagViewsCount(idTag));
+		Tag tag = mock(Tag.class);
+		when(tag.getId()).thenReturn(idTag);
 		
-		assertFalse(test.saveTag(invalidIdVisit, invalidIdTag));
+		Visit visit = test.getVisit(idVisit);
+		assertNotNull(visit);
 		
-		assertEquals(0, test.getTagViewsCount(idTag));
+		assertEquals(0, test.getTagViewsCount(tag));
 		
-		assertTrue(test.saveTag(idVisit, idTag));
+		assertNull(test.saveTag(null, null));
 		
-		assertEquals(1, test.getTagViewsCount(idTag));
+		assertEquals(0, test.getTagViewsCount(tag));
+		
+		assertNotNull(test.saveTag(visit, tag));
+		
+		assertEquals(1, test.getTagViewsCount(tag));
 	}
 
 	@Test
 	public void testGetTagViewsCount() {
-		assertEquals(count, test.getTagViewsCount(idTag));
+		Tag tag = mock(Tag.class);
+		when(tag.getId()).thenReturn(idTag);
 		
-		assertEquals(0, test.getTagViewsCount(invalidIdTag));
+		assertEquals(count, test.getTagViewsCount(tag));
+		
+		assertEquals(-1, test.getTagViewsCount(null));
 	}
 
 	@Test
-	public void testGetStatsLessonTestNumTests() {
-		assertEquals(count, test.getStatsLessonTestNumTests(idLessonTest));
+	public void testGetStatsLessonTest() {
+		LessonTest lessonTest = mock(LessonTest.class);
+		when(lessonTest.getId()).thenReturn(idLessonTest);
 		
-		assertEquals(0, test.getStatsLessonTestNumTests(invalidIdLessonTest));
-	}
-
-	@Test
-	public void testGetStatsLessonTestQuestionKOs() {
-		Map<String, String> ids = test.getStatsLessonTestQuestionKOs(invalidIdLessonTest);		
+		StatsLessonTest stat = test.getStatsLessonTest(lessonTest);
+		assertNotNull(stat);
+		assertEquals(count, stat.getNumTests());
+			
+		Map<String, String> ids = stat.getQuestionKOs();		
 		assertNotNull(ids);
-		assertEquals(0, ids.size());
 
-		ids = test.getStatsLessonTestQuestionKOs(idLessonTest);
-		assertNotNull(ids);
-		
 		int i=1;
 		for(String b:ids.keySet()){
 			assertEquals("[" + String.valueOf(i) + "]", b);
 			assertEquals(String.valueOf(i), ids.get(b));
 			i++;
 		}
+		
+		assertNull(test.getStatsLessonTest(null));		
 	}
 
 	@Test
 	public void testGetLessonVisitsLastMonth() {
-		List<StatsData> stats = test.getLessonVisitsLastMonth(invalidIdLesson);		
+		Lesson lesson = mock(Lesson.class);
+		when(lesson.getId()).thenReturn(idLesson);
+		
+		List<StatsData> stats = test.getLessonVisitsLastMonth(null);		
 		assertNull(stats);
 
-		stats = test.getLessonVisitsLastMonth(idLesson);		
+		stats = test.getLessonVisitsLastMonth(lesson);		
 		assertNotNull(stats);
 		
 		int i=1;
@@ -216,10 +232,13 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 
 	@Test
 	public void testGetLessonVisitsLastYear() {
-		List<StatsData> stats = test.getLessonVisitsLastYear(invalidIdLesson);		
+		Lesson lesson = mock(Lesson.class);
+		when(lesson.getId()).thenReturn(idLesson);
+		
+		List<StatsData> stats = test.getLessonVisitsLastYear(null);		
 		assertNull(stats);
 
-		stats = test.getLessonVisitsLastYear(idLesson);		
+		stats = test.getLessonVisitsLastYear(lesson);		
 		assertNotNull(stats);
 		
 		int i=1;
@@ -230,10 +249,13 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 
 	@Test
 	public void testGetAuthorVisitsLastMonth() {
-		List<StatsData> stats = test.getAuthorVisitsLastMonth(invalidIdUser);		
+		User user = mock(User.class);
+		when(user.getId()).thenReturn(idUser);
+		
+		List<StatsData> stats = test.getAuthorVisitsLastMonth(null);		
 		assertNull(stats);
 
-		stats = test.getAuthorVisitsLastMonth(idUser);		
+		stats = test.getAuthorVisitsLastMonth(user);		
 		assertNotNull(stats);
 		
 		int i=1;
@@ -244,10 +266,13 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 
 	@Test
 	public void testGetAuthorVisitsLastYear() {
-		List<StatsData> stats = test.getAuthorVisitsLastYear(invalidIdUser);		
+		User user = mock(User.class);
+		when(user.getId()).thenReturn(idUser);
+		
+		List<StatsData> stats = test.getAuthorVisitsLastYear(null);		
 		assertNull(stats);
 
-		stats = test.getAuthorVisitsLastYear(idUser);		
+		stats = test.getAuthorVisitsLastYear(user);		
 		assertNotNull(stats);
 		
 		int i=1;
@@ -258,10 +283,30 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 
 	@Test
 	public void testGetAuthorLessonsVisitsLastMonth() {
-		List<StatsData> stats = test.getAuthorLessonsVisitsLastMonth(invalidIdUser);		
+		User user = mock(User.class);
+		when(user.getId()).thenReturn(idUser);
+		
+		List<StatsData> stats = test.getAuthorLessonsVisitsLastMonth(null);		
 		assertNull(stats);
 
-		stats = test.getAuthorLessonsVisitsLastMonth(idUser);		
+		stats = test.getAuthorLessonsVisitsLastMonth(user);		
+		assertNotNull(stats);
+		
+		int i=1;
+		for(StatsData b:stats){
+			assertEquals(i++, b.getValue());
+		}
+	}
+	
+	@Test
+	public void testGetAuthorLessonsVisitsLastYear() {
+		User user = mock(User.class);
+		when(user.getId()).thenReturn(idUser);
+		
+		List<StatsData> stats = test.getAuthorLessonsVisitsLastYear(null);		
+		assertNull(stats);
+
+		stats = test.getAuthorLessonsVisitsLastYear(user);		
 		assertNotNull(stats);
 		
 		int i=1;
@@ -271,25 +316,29 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 	}
 
 	@Test
-	public void testGetAuthorLessonsVisitsLastYear() {
-		List<StatsData> stats = test.getAuthorLessonsVisitsLastYear(invalidIdUser);		
-		assertNull(stats);
+	public void testGetCSVFromStats() {
+		StatsData stat = mock(StatsData.class);
+		when(stat.getKey()).thenReturn("1");
+		when(stat.getValue()).thenReturn(2);
 
-		stats = test.getAuthorLessonsVisitsLastYear(idUser);		
-		assertNotNull(stats);
+		List<StatsData> stats = new ArrayList<StatsData>();
 		
-		int i=1;
-		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
-		}
+		assertNull(test.getCSVFromStats(null));
+		assertEquals(EMPTY_STRING, test.getCSVFromStats(stats));
+		
+		stats.add(stat);
+		assertEquals("1;2\n", test.getCSVFromStats(stats));		
 	}
 
 	@Test
 	public void testGetAuthorLessonMediaVisitsLastMonth() {
-		List<StatsData> stats = test.getAuthorLessonMediaVisitsLastMonth(invalidIdUser);		
+		User user = mock(User.class);
+		when(user.getId()).thenReturn(idUser);
+		
+		List<StatsData> stats = test.getAuthorLessonMediaVisitsLastMonth(null);		
 		assertNull(stats);
 
-		stats = test.getAuthorLessonMediaVisitsLastMonth(idUser);		
+		stats = test.getAuthorLessonMediaVisitsLastMonth(user);		
 		assertNotNull(stats);
 		
 		int i=1;
@@ -300,10 +349,13 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 
 	@Test
 	public void testGetAuthorLessonMediaVisitsLastYear() {
-		List<StatsData> stats = test.getAuthorLessonMediaVisitsLastYear(invalidIdUser);		
+		User user = mock(User.class);
+		when(user.getId()).thenReturn(idUser);
+		
+		List<StatsData> stats = test.getAuthorLessonMediaVisitsLastYear(null);		
 		assertNull(stats);
 
-		stats = test.getAuthorLessonMediaVisitsLastYear(idUser);		
+		stats = test.getAuthorLessonMediaVisitsLastYear(user);		
 		assertNotNull(stats);
 		
 		int i=1;
@@ -311,7 +363,7 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 			assertEquals(i++, b.getValue());
 		}
 	}
-
+	
 	@Test
 	public void testGetVisitsLastMonth() {
 		List<StatsData> stats = test.getVisitsLastMonth();		
@@ -377,7 +429,7 @@ public abstract class StatsRepositoryTest extends RepositoryTest<StatsRepository
 			assertEquals(i++, b.getValue());
 		}
 	}
-	
+
 	@Test
 	public void testGetVisit(){
 		Visit visit = test.getVisit(idVisit);
