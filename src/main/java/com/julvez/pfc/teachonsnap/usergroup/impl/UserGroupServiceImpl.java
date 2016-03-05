@@ -264,16 +264,17 @@ public class UserGroupServiceImpl implements UserGroupService {
 	public List<User> getAuthorFollowings(UserGroup group) {
 		List<User> users = Collections.emptyList();
 		
-		List<Short> ids = groupRepository.getAuthorFollowings(group.getId());
-		//Get author's ids followed by this group
-		if(ids != null){
-			users = new ArrayList<User>();
-			//Get authors from ids
-			for(short id:ids){
-				users.add(userService.getUser(id));
+		if(group != null){
+			List<Short> ids = groupRepository.getAuthorFollowings(group.getId());
+			//Get author's ids followed by this group
+			if(ids != null){
+				users = new ArrayList<User>();
+				//Get authors from ids
+				for(short id:ids){
+					users.add(userService.getUser(id));
+				}
 			}
-		}
-		
+		}		
 		return users;
 	}
 
@@ -294,17 +295,18 @@ public class UserGroupServiceImpl implements UserGroupService {
 	public List<Tag> getTagFollowings(UserGroup group) {
 		List<Tag> tags = Collections.emptyList();
 		
-		//Get tags ids followed by this group
-		List<Integer> ids = groupRepository.getTagFollowings(group.getId());
-		
-		if(ids != null){
-			tags = new ArrayList<Tag>();
-			for(int id:ids){
-				//Get tags from ids
-				tags.add(tagService.getTag(id));
+		if(group != null){
+			//Get tags ids followed by this group
+			List<Integer> ids = groupRepository.getTagFollowings(group.getId());
+			
+			if(ids != null){
+				tags = new ArrayList<Tag>();
+				for(int id:ids){
+					//Get tags from ids
+					tags.add(tagService.getTag(id));
+				}
 			}
-		}
-		
+		}		
 		return tags;
 	}
 
