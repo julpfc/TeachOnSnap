@@ -189,7 +189,7 @@ public class CommentServiceImpl implements CommentService {
 					//Get localized notification texts and notify
 					String subject = textService.getLocalizedText(follower.getLanguage(),CommentMessageKey.NEW_COMMENT_SUBJECT, lesson.getTitle());
 					String message = textService.getLocalizedText(follower.getLanguage(),CommentMessageKey.NEW_COMMENT_MESSAGE, url, author.getFullName(), lesson.getTitle());
-					notifyService.info(follower, subject, message);
+					success = notifyService.info(follower, subject, message);
 				}
 			}
 		}
@@ -212,7 +212,7 @@ public class CommentServiceImpl implements CommentService {
 				//Get localized notification texts and notify
 				String subject = textService.getLocalizedText(parentAuthor.getLanguage(),CommentMessageKey.REPLY_COMMENT_SUBJECT, lesson.getTitle());
 				String message = textService.getLocalizedText(parentAuthor.getLanguage(),CommentMessageKey.REPLY_COMMENT_MESSAGE, url, author.getFullName(), lesson.getTitle());
-				notifyService.info(parentAuthor, subject, message);				
+				success = notifyService.info(parentAuthor, subject, message);				
 			}		
 		}		
 		return success;		
