@@ -147,16 +147,6 @@ public class LessonTestServiceImpl implements LessonTestService {
 	}
 
 	@Override
-	public void saveAnswer(Answer answer) {
-		if(answer!=null && answer.getId() >0){
-			//save answer
-			lessonTestRepository.saveAnswer(answer.getId(), answer.getText(), 
-					answer.isCorrect(), answer.getReason(), answer.getIdQuestion(),
-					getQuestion(answer.getIdQuestion()).getIdLessonTest());
-		}		
-	}
-
-	@Override
 	public LessonTest createQuestion(Question question) {
 		LessonTest test = null;
 		
@@ -306,5 +296,16 @@ public class LessonTestServiceImpl implements LessonTestService {
 		return test;	
 	}
 
-
+	/**
+	 * Persists changes of the answer
+	 * @param answer to be persisted
+	 */
+	private void saveAnswer(Answer answer) {
+		if(answer!=null && answer.getId() >0){
+			//save answer
+			lessonTestRepository.saveAnswer(answer.getId(), answer.getText(), 
+					answer.isCorrect(), answer.getReason(), answer.getIdQuestion(),
+					getQuestion(answer.getIdQuestion()).getIdLessonTest());
+		}		
+	}
 }

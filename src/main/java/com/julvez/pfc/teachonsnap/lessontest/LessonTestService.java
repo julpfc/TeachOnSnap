@@ -1,7 +1,6 @@
 package com.julvez.pfc.teachonsnap.lessontest;
 
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
-import com.julvez.pfc.teachonsnap.lessontest.model.Answer;
 import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lessontest.model.Question;
 
@@ -50,12 +49,7 @@ public interface LessonTestService {
 	 */
 	public void saveQuestion(Question question);
 
-	/**
-	 * Persists changes of the answer
-	 * @param answer to be persisted
-	 */
-	public void saveAnswer(Answer answer);
-
+	
 	/**
 	 * Creates a new question
 	 * @param question contains the question to be created
