@@ -112,9 +112,9 @@ public class LinkServiceImpl implements LinkService {
 	@Override
 	public int createLink(String url) {
 		int id = -1;
-		url = normalizeURL(url);
 		
 		try{
+			url = normalizeURL(url);
 			//try to get the URL
 			URL link = new URL(url);
 			String host = link.getHost();
