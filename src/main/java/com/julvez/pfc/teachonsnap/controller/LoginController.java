@@ -269,9 +269,12 @@ public class LoginController extends HttpServlet {
 			
 			//if logging out...
 			if(logOut){
-				//save visit changes to session
-				visit.setUser(null);
-				requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
+				
+				if(visit != null){
+					//save visit changes to session
+					visit.setUser(null);
+					requestManager.setSessionAttribute(request, SessionAttribute.VISIT, visit);
+				}
 				
 				//set last page to home 
 				lastPage = urlService.getHomeURL();
