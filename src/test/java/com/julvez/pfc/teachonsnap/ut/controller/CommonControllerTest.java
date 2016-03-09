@@ -48,13 +48,18 @@ public abstract class CommonControllerTest extends ControllerTest<CommonControll
 	@Test
 	public void testDoGetHttpServletRequestHttpServletResponse() {
 		when(request.getMethod()).thenReturn("GET");
+		when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+		
 		Language lang = mock(Language.class);
 		when(langService.getUserSessionLanguage(anyString(), any(Visit.class), anyString())).thenReturn(lang);
 		
 		try {
 			test.service(request, response);
 			verify(requestManager).setSessionAttribute(eq(request), eq(SessionAttribute.ERROR), any(ErrorBean.class));
-			verify(requestManager, times(4)).setAttribute(eq(request), any(Attribute.class), anyObject());			
+			verify(requestManager).setAttribute(eq(request), eq(Attribute.LIST_LANGUAGES), anyObject());			
+			verify(requestManager).setAttribute(eq(request), eq(Attribute.LANGUAGE_USERLANGUAGE), anyObject());			
+			verify(requestManager).setAttribute(eq(request), eq(Attribute.USER), anyObject());			
+			verify(requestManager).setAttribute(eq(request), eq(Attribute.STRING_HOST), anyObject());			
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
@@ -66,7 +71,10 @@ public abstract class CommonControllerTest extends ControllerTest<CommonControll
 		try {
 			test.service(request, response);
 			verify(requestManager, times(2)).setSessionAttribute(eq(request), eq(SessionAttribute.ERROR), any(ErrorBean.class));
-			verify(requestManager, times(8)).setAttribute(eq(request), any(Attribute.class), anyObject());			
+			verify(requestManager, times(2)).setAttribute(eq(request), eq(Attribute.LIST_LANGUAGES), anyObject());			
+			verify(requestManager, times(2)).setAttribute(eq(request), eq(Attribute.LANGUAGE_USERLANGUAGE), anyObject());			
+			verify(requestManager, times(2)).setAttribute(eq(request), eq(Attribute.USER), anyObject());			
+			verify(requestManager, times(2)).setAttribute(eq(request), eq(Attribute.STRING_HOST), anyObject());			
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
