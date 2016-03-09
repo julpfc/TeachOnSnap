@@ -23,8 +23,6 @@ import com.julvez.pfc.teachonsnap.manager.request.RequestManager;
 import com.julvez.pfc.teachonsnap.manager.request.RequestManagerFactory;
 import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
-import com.julvez.pfc.teachonsnap.stats.StatsService;
-import com.julvez.pfc.teachonsnap.stats.StatsServiceFactory;
 import com.julvez.pfc.teachonsnap.url.URLService;
 import com.julvez.pfc.teachonsnap.url.URLServiceFactory;
 import com.julvez.pfc.teachonsnap.url.model.ControllerURI;
@@ -75,8 +73,7 @@ public class ChangePWController extends HttpServlet {
     public ChangePWController() {
     	this(UserServiceFactory.getService(),
         	LangServiceFactory.getService(),
-        	URLServiceFactory.getService(),
-        	StatsServiceFactory.getService(),
+        	URLServiceFactory.getService(),        	
         	RequestManagerFactory.getManager(),
         	LogManagerFactory.getManager(),
         	StringManagerFactory.getManager());        
@@ -93,13 +90,13 @@ public class ChangePWController extends HttpServlet {
 	 */
 	public ChangePWController(UserService userService,
 			LangService langService, URLService urlService,
-			StatsService statsService, RequestManager requestManager,
-			LogManager logger, StringManager stringManager) {
+			RequestManager requestManager, LogManager logger, 
+			StringManager stringManager) {
 
 		super();
 		
 		if(userService == null || langService == null || urlService == null
-				|| statsService == null || requestManager == null || logger == null
+				|| requestManager == null || logger == null
 				|| stringManager == null){
 			throw new IllegalArgumentException("Parameters cannot be null.");
 		}		
