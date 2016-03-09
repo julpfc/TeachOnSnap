@@ -47,12 +47,7 @@ public class LoginControllerTest extends ControllerTest<LoginController> {
 	@Test
 	public void testDoGetHttpServletRequestHttpServletResponse() {
 		when(request.getMethod()).thenReturn("GET");
-	}
-
-	@Test
-	public void testDoPostHttpServletRequestHttpServletResponse() {
-		when(request.getMethod()).thenReturn("POST");
-		when(urlService.getHomeURL()).thenReturn(url);
+when(urlService.getHomeURL()).thenReturn(url);
 		
 		try {
 			test.service(request, response);
@@ -139,5 +134,11 @@ public class LoginControllerTest extends ControllerTest<LoginController> {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+
+	}
+
+	@Test
+	public void testDoPostHttpServletRequestHttpServletResponse() {
+		testDoGetHttpServletRequestHttpServletResponse();
 	}
 }
