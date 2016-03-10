@@ -25,8 +25,7 @@ public abstract class AdminControllerTest extends CommonControllerTest {
 	}	
 	
 	@Test
-	public void testProcessControllerError() {
-		when(request.getMethod()).thenReturn("GET");
+	public void testProcessControllerError() {		
 		testCommonController();
 		try { verify(response).sendError(HttpServletResponse.SC_FORBIDDEN); }
 		catch (Throwable t) {t.printStackTrace();}		

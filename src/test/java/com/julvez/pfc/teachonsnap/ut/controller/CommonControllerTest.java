@@ -86,6 +86,9 @@ public abstract class CommonControllerTest extends ControllerTest<CommonControll
 	}
 
 	public void testCommonController(){
+		if(request.getMethod() == null){
+			when(request.getMethod()).thenReturn("GET");
+		}
 		when(visit.getUser()).thenReturn(user);		
 		when(requestManager.getSessionAttribute(request, SessionAttribute.VISIT, Visit.class)).thenReturn(visit);
 		when(request.getRequestDispatcher(anyString())).thenReturn(dispatcher);
