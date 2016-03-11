@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.controller.common;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -215,10 +216,13 @@ public class QuestionController extends CommonController {
 								
 								//if export request
 								if(export != null){
-									//export JSON data
-									requestManager.setFileMetadataHeaders(response, "application/json", "question_"+question.getId()+".json");															 	 
-									String outJSON = jsonManager.object2SimpleJSON(question);									
-									response.getOutputStream().write(outJSON.getBytes("UTF-8"));									
+									//export JSON data																								 	 
+									String outJSON = jsonManager.object2SimpleJSON(question);
+									if(outJSON != null){
+										requestManager.downloadFile(response, "application/json", "test_"+test.getId()+".json\"", 
+											new ByteArrayInputStream(outJSON.getBytes("UTF-8")));
+									}
+									
 								}
 								else{
 									//load question information for view						

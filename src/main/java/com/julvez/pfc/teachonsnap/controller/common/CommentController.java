@@ -121,6 +121,7 @@ public class CommentController extends CommonController {
 		Lesson lesson = lessonService.getLessonFromURI(lessonURI);
 		
 		if(lesson != null){
+			boolean error = false;
 			//get comment id from parameter
 			int commentID = requestManager.getNumericParameter(request, Parameter.LESSON_COMMENTID);
 			//get isBanned parameter
@@ -154,11 +155,13 @@ public class CommentController extends CommonController {
 						setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_BLOCKED);
 					}
 					else{
+						error = true;
 						//isEditing=false, isBanned=false -> bad params
 						response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 					}
 				}
 				else{
+					error = true;
 					//bad params
 					response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				}
@@ -175,17 +178,21 @@ public class CommentController extends CommonController {
 						setErrorSession(request, ErrorType.ERR_NONE, ErrorMessageKey.COMMENT_UNBLOCKED);
 					}
 					else{
+						error = true;
 						//It's not allowed banning via GET method
 						response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 					}
 				}
 				else{
+					error = true;
 					//bad params
 					response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				}
 			}
-			//redirect to lesson view
-			response.sendRedirect(lesson.getURL());
+			if(!error){
+				//redirect to lesson view
+				response.sendRedirect(lesson.getURL());
+			}
 		}
 		else{
 			//lesson not found

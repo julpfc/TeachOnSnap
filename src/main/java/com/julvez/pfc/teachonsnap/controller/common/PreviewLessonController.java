@@ -175,12 +175,12 @@ public class PreviewLessonController extends CommonController {
 				request.getRequestDispatcher("/WEB-INF/views/lesson.jsp").forward(request, response);
 			}
 			else{
-				//hay URI pero no es válida o error en repo 404
+				//not valid URI -> 404
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
 		}
 		else{
-			//Sin lessonURI -> Mandar a error 400
+			//No lessonURI -> error 400
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 		}				
 	}

@@ -108,7 +108,7 @@ public class UserProfileController extends CommonController {
 						//save first name
 						user = userService.saveFirstName(user, firstname);					
 					}
-					if(!lastname.equals(user.getLastName())){
+					if(user != null && !lastname.equals(user.getLastName())){
 						//save last name
 						user = userService.saveLastName(user, lastname);
 					}

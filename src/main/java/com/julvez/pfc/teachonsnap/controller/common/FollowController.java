@@ -45,9 +45,9 @@ import com.julvez.pfc.teachonsnap.user.model.User;
 public class FollowController extends CommonController {
 
 	private static final long serialVersionUID = 1246453638086965160L;
-	/** Provides the functionality to work with lessons. */
 	
-	protected LessonService lessonService;
+	/** Provides the functionality to work with lessons. */
+	private LessonService lessonService;
 			
 	/**
      * Default constructor

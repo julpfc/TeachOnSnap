@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.controller.common;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -264,9 +265,11 @@ public class EditLessonTestController extends CommonController {
 									//check if the parameters are present
 									if(export != null){
 										//export lesson in JSON
-										requestManager.setFileMetadataHeaders(response, "application/json", "test_"+test.getId()+".json\"");																 	 
-										String outJSON = jsonManager.object2SimpleJSON(test);										
-										response.getOutputStream().write(outJSON.getBytes("UTF-8"));									
+										String outJSON = jsonManager.object2SimpleJSON(test);	
+										if(outJSON != null){
+											requestManager.downloadFile(response, "application/json", "test_"+test.getId()+".json\"", 
+												new ByteArrayInputStream(outJSON.getBytes("UTF-8")));
+										}
 									}
 									else{
 										//no modifications or exportation request
