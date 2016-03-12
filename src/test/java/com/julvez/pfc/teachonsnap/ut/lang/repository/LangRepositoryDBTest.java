@@ -28,23 +28,22 @@ public class LangRepositoryDBTest extends LangRepositoryTest {
 		return new LangRepositoryDB(dbm);
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
+	@Override	
 	public void testGetLanguage() {
 		Language lang = new Language();
-		lang.setLanguage("es");
+		lang.setLanguage(language);
 		
-		when(dbm.getQueryResultUnique(eq("SQL_LANG_GET_LANGUAGE"), eq(Language.class), eq(-1))).thenReturn(null);
+		when(dbm.getQueryResultUnique(eq("SQL_LANG_GET_LANGUAGE"), eq(Language.class), eq(invalidIdLanguage))).thenReturn(null);
 		when(dbm.getQueryResultUnique(eq("SQL_LANG_GET_LANGUAGE"), eq(Language.class), eq(idLanguage))).thenReturn(lang);
 		super.testGetLanguage();
 		
-		verify(dbm, times(2)).getQueryResultUnique(eq("SQL_LANG_GET_LANGUAGE"), any(Class.class), anyShort());
+		verify(dbm, times(2)).getQueryResultUnique(eq("SQL_LANG_GET_LANGUAGE"), eq(Language.class), anyShort());
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public void testGetIdLanguage() {
-		when(dbm.getQueryResultUnique(eq("SQL_LANG_GET_IDLANGUAGE_FROM_LANGUAGE"), any(Class.class), eq("es"))).thenReturn((short)2);
+		when(dbm.getQueryResultUnique(eq("SQL_LANG_GET_IDLANGUAGE_FROM_LANGUAGE"), any(Class.class), eq(language))).thenReturn((short)2);
 			
 		super.testGetIdLanguage();
 		

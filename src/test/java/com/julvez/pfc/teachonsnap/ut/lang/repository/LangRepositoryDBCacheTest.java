@@ -34,9 +34,9 @@ public class LangRepositoryDBCacheTest extends LangRepositoryTest {
 	@Override
 	public void testGetLanguage() {
 		Language lang = new Language();
-		lang.setLanguage("es");
+		lang.setLanguage(language);
 		
-		when(cache.executeImplCached(eq(repoDB), eq((short)-1))).thenReturn(null);
+		when(cache.executeImplCached(eq(repoDB), eq(invalidIdLanguage))).thenReturn(null);
 		when(cache.executeImplCached(eq(repoDB), eq(idLanguage))).thenReturn(lang);
 		
 		super.testGetLanguage();
@@ -46,7 +46,7 @@ public class LangRepositoryDBCacheTest extends LangRepositoryTest {
 
 	@Override
 	public void testGetIdLanguage() {
-		when(cache.executeImplCached(eq(repoDB), eq("es"))).thenReturn((short)2);
+		when(cache.executeImplCached(eq(repoDB), eq(language))).thenReturn((short)2);
 	
 		super.testGetIdLanguage();
 		
