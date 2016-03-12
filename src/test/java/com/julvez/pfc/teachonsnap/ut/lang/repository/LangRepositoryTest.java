@@ -13,28 +13,30 @@ import com.julvez.pfc.teachonsnap.ut.repository.RepositoryTest;
 public abstract class LangRepositoryTest extends RepositoryTest<LangRepository> {
 
 	protected short idLanguage = 2;
+	protected String language = "es";
+	protected short invalidIdLanguage = -1;
 	
 	@Test
 	public void testGetLanguage() {
 		Language lang = test.getLanguage(idLanguage);
 		assertNotNull(lang);
-		assertEquals("es",lang.getLanguage());
+		assertEquals(language, lang.getLanguage());
 		
-		assertNull(test.getLanguage((short)-1));
+		assertNull(test.getLanguage(invalidIdLanguage));
 	}
 
 	@Test
 	public void testGetIdLanguage() {
-		assertEquals(2,test.getIdLanguage("es"));
+		assertEquals(idLanguage, test.getIdLanguage(language));
 		
-		assertEquals(-1,test.getIdLanguage(NULL_STRING));
-		assertEquals(-1,test.getIdLanguage(EMPTY_STRING));
-		assertEquals(-1,test.getIdLanguage(BLANK_STRING));
+		assertEquals(invalidIdLanguage, test.getIdLanguage(NULL_STRING));
+		assertEquals(invalidIdLanguage, test.getIdLanguage(EMPTY_STRING));
+		assertEquals(invalidIdLanguage, test.getIdLanguage(BLANK_STRING));
 	}
 
 	@Test
 	public void testGetDefaultIdLanguage() {
-		assertEquals(1,test.getDefaultIdLanguage());
+		assertEquals(1, test.getDefaultIdLanguage());
 	}
 
 	@Test
@@ -48,5 +50,4 @@ public abstract class LangRepositoryTest extends RepositoryTest<LangRepository> 
 			assertEquals(i++, b);
 		}		
 	}
-
 }
