@@ -12,9 +12,7 @@ public abstract class ManagerFactoryTest<M>{
 	
 	@Test
 	public void testGetManager() {
-		M manager;
-		
-		manager = getTestManager();
+		M manager = getTestManager();
 		
 		Assert.assertNotNull(manager);
 		Assert.assertSame(manager, getTestManager());		
