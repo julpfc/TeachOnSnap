@@ -26,8 +26,6 @@ public abstract class PagerControllerTest extends CommonControllerTest {
 	@Test
 	public void testProcessController() {
 		when(request.getServletPath()).thenReturn("/");
-		when(request.getMethod()).thenReturn("GET");
-		
 		testCommonController();
 		
 		verify(requestManager).setAttribute(eq(request), eq(Attribute.STRING_NEXTPAGE), anyObject());
@@ -44,8 +42,7 @@ public abstract class PagerControllerTest extends CommonControllerTest {
 	}	
 	
 	@Test
-	public void testProcessControllerError() {
-		when(request.getMethod()).thenReturn("GET");
+	public void testProcessControllerError() {		
 		testCommonController();
 		try { verify(response).sendError(HttpServletResponse.SC_BAD_REQUEST); }
 		catch (Throwable t) {t.printStackTrace();}		

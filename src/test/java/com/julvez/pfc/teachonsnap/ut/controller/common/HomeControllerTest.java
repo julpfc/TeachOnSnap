@@ -3,7 +3,6 @@ package com.julvez.pfc.teachonsnap.ut.controller.common;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.mockito.Mock;
@@ -32,8 +31,6 @@ public class HomeControllerTest extends CommonControllerTest {
 
 	@Test
 	public void testProcessController() {
-		when(request.getMethod()).thenReturn("GET");
-		
 		testCommonController();
 		
 		verify(requestManager).setAttribute(eq(request), eq(Attribute.LIST_CLOUDTAG_AUTHOR), anyObject());

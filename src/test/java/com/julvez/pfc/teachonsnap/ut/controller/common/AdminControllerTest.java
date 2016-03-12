@@ -17,10 +17,7 @@ public abstract class AdminControllerTest extends CommonControllerTest {
 	protected PageService pageService;
 	
 	public void testProcessController() {		
-		when(user.isAdmin()).thenReturn(true);
-		if(request.getMethod() == null){
-			when(request.getMethod()).thenReturn("GET");
-		}
+		when(user.isAdmin()).thenReturn(true);		
 		testCommonController();
 	}	
 	
