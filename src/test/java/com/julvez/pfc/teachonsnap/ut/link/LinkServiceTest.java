@@ -21,9 +21,12 @@ public abstract class LinkServiceTest extends ServiceTest<LinkService> {
 	protected int idLesson = 1;
 	protected int invalidIdLesson = -1;
 	
-	protected int idLink = 1;
+	protected int idLink = 1;	
+	protected int idLink2 = 2;	
 	protected int invalidIdLink = -1;
 	protected String url = "url";
+	protected String url2 = "url2";
+	
 	
 	@Test
 	public void testGetLink() {
@@ -96,7 +99,7 @@ public abstract class LinkServiceTest extends ServiceTest<LinkService> {
 
 	@Test
 	public void testCreateLink() {
-		assertEquals(idLink, test.createLink(url));
+		assertEquals(idLink2, test.createLink(url2));
 		
 		assertEquals(invalidIdLink, test.createLink(NULL_STRING));
 		assertEquals(invalidIdLink, test.createLink(EMPTY_STRING));

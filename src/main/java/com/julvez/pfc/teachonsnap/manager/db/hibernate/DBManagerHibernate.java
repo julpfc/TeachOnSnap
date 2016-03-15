@@ -422,7 +422,7 @@ public class DBManagerHibernate implements DBManager{
 			Session sess = beginTransaction();
 			
 			//Execute update
-			retValue = updateQuery_NoCommit(sess, queryName, queryParams);
+			retValue = updateQuery_NoCommit(sess, queryName, getLastInsertId, queryParams);
 			
 			//Commit if success, rollback otherwise
 			endTransaction(retValue>-1, sess);

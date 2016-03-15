@@ -113,16 +113,18 @@ public class LinkServiceImpl implements LinkService {
 	public int createLink(String url) {
 		int id = -1;
 		
-		try{
-			url = normalizeURL(url);
-			//try to get the URL
-			URL link = new URL(url);
-			String host = link.getHost();
-			//Create a new link
-			id = linkRepository.createLink(url,host);
-		}
-		catch(Throwable t){
-			logger.error(t,"Error, malformed URL: " + url);			
+		if(!stringManager.isEmpty(url)){
+			try{
+				url = normalizeURL(url);
+				//try to get the URL
+				URL link = new URL(url);
+				String host = link.getHost();
+				//Create a new link
+				id = linkRepository.createLink(url,host);
+			}
+			catch(Throwable t){
+				logger.error(t,"Error, malformed URL: " + url);			
+			}
 		}
 		return id;		 
 	}

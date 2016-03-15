@@ -92,7 +92,7 @@ public class LinkServiceImplTest extends LinkServiceTest {
 	@Test
 	public void testCreateLink() {
 		when(linkRepository.createLink(anyString(), anyString())).thenReturn(invalidIdLink);
-		when(linkRepository.createLink("http://" + url, url)).thenReturn(idLink);
+		when(linkRepository.createLink("http://" + url2, url2)).thenReturn(idLink2);
 		super.testCreateLink();
 		
 		verify(linkRepository, times(3)).createLink(anyString(), anyString());
