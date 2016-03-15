@@ -42,6 +42,12 @@ public class Visit {
 	@Transient
 	private List<Integer> viewedTags;
 	
+	
+	/**
+	 * Default constructor for Hibernate.
+	 */
+	public Visit() {}
+	
 	/**
 	 * Initializes a visit with default values.
 	 * @param idVisit Visit's id
