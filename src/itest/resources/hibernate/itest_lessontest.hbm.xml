@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>	
+	<sql-query name="SQL_IT_LESSONTEST_TRUNCATE_DRAFT">
+	    TRUNCATE teachonsnap_it.tlessontestdraft;   
+	</sql-query>	
+	<sql-query name="SQL_IT_LESSONTEST_DELETE_QUESTION">
+	    DELETE FROM teachonsnap_it.tquestion WHERE idQuestion = 2;	       
+	</sql-query>
+	<sql-query name="SQL_IT_LESSONTEST_RESET_QUESTION_ID">	    	       
+		ALTER TABLE teachonsnap_it.tquestion AUTO_INCREMENT = ?;
+	</sql-query>	
+	<sql-query name="SQL_IT_LESSONTEST_RESET_TEST_ID">	    	       
+		ALTER TABLE teachonsnap_it.tlessontest AUTO_INCREMENT = ?;
+	</sql-query>	
+	<sql-query name="SQL_IT_LESSONTEST_DELETE_ANSWER">
+	    DELETE FROM teachonsnap_it.tanswer WHERE idAnswer = 2;	       
+	</sql-query>
+	<sql-query name="SQL_IT_LESSONTEST_DELETE_TEST">
+	    DELETE FROM teachonsnap_it.tlessontest WHERE idlessontest = 2;	       
+	</sql-query>
+	<sql-query name="SQL_IT_LESSONTEST_RESET_ANSWER_ID">	    	       
+		ALTER TABLE teachonsnap_it.tanswer AUTO_INCREMENT = ?;
+	</sql-query>	
+	<sql-query name="SQL_IT_LESSONTEST_RECREATE_TEST">
+		INSERT INTO `teachonsnap_it`.`tlessontest` (`idlessontest`, `idlesson`, `numQuestions`, `numAnswers`, `multiplechoice`) VALUES ('1', '1', '1', '1', '0');
+	</sql-query>
+	<sql-query name="SQL_IT_LESSONTEST_RECREATE_QUESTION">
+		INSERT INTO `teachonsnap_it`.`tquestion` (`idquestion`, `idlessontest`, `text`, `priority`) VALUES ('1', '1', 'text', '1');
+	</sql-query>
+	<sql-query name="SQL_IT_LESSONTEST_RECREATE_ANSWER">
+		INSERT INTO `teachonsnap_it`.`tanswer` (`idAnswer`, `idquestion`, `text`, `correct`, `reason`) VALUES ('1', '1', 'text', '0', 'reason');
+	</sql-query>
+</hibernate-mapping>

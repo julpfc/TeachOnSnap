@@ -225,15 +225,15 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 			//Remove answers from question
 			affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_ANSWERS", question.getId());
 			
-			if(affectedRows>0){
+			if(affectedRows>=0){
 				//remove question
 				affectedRows = dbm.updateQuery_NoCommit(session, "SQL_LESSONTEST_REMOVE_QUESTION", question.getId());
 				
-				if(affectedRows>0){
+				if(affectedRows>=0){
 					//decrease number of test's questions
 					affectedRows = changeLessonTestNumQuestions(session, question.getIdLessonTest(), false);
 					
-					if(affectedRows>0){
+					if(affectedRows>=0){
 						//Recalculate question's positions
 						for(Question q:test.getQuestions()){
 							if(q.getId() != question.getId()){
@@ -247,7 +247,7 @@ public class LessonTestRepositoryDB implements LessonTestRepository {
 			}
 		}
 		
-		return affectedRows>0;
+		return affectedRows>=0;
 	}
 
 }

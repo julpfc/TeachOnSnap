@@ -34,7 +34,6 @@
     	<mapping class="com.julvez.pfc.teachonsnap.user.model.UserBannedInfo"/>
     	<mapping class="com.julvez.pfc.teachonsnap.usergroup.model.UserGroup"/>
         
-		  
 		<mapping resource="../main/hibernate/comment.hbm.xml"/>
         <mapping resource="../main/hibernate/lang.hbm.xml"/>
         <mapping resource="../main/hibernate/lesson.hbm.xml"/>
@@ -45,8 +44,8 @@
         <mapping resource="../main/hibernate/tag.hbm.xml"/>
         <mapping resource="../main/hibernate/user.hbm.xml"/>
         <mapping resource="../main/hibernate/usergroup.hbm.xml"/>
-		<!-- Gradle 
-		
+		<!-- Gradle 		  
+
 		<mapping resource="./hibernate/comment.hbm.xml"/>
         <mapping resource="./hibernate/lang.hbm.xml"/>
         <mapping resource="./hibernate/lesson.hbm.xml"/>
@@ -57,8 +56,10 @@
         <mapping resource="./hibernate/tag.hbm.xml"/>
         <mapping resource="./hibernate/user.hbm.xml"/>
         <mapping resource="./hibernate/usergroup.hbm.xml"/>
-		 -->
+		-->
+		 
         
+        <mapping resource="./hibernate/itest_lessontest.hbm.xml"/>
         <mapping resource="./hibernate/itest_link.hbm.xml"/>
         <mapping resource="./hibernate/itest_tag.hbm.xml"/>
         <mapping resource="./hibernate/itest_usergroup.hbm.xml"/>
