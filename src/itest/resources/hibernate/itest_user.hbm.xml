@@ -5,4 +5,7 @@
 	<sql-query name="SQL_IT_USER_TRUNCATE_FOLLOWLESSON">
 	    TRUNCATE teachonsnap_it.tfollowlesson;   
 	</sql-query>	
+	<sql-query name="SQL_IT_USER_TRUNCATE_FOLLOWUSER">
+	    TRUNCATE teachonsnap_it.tfollowuser;   
+	</sql-query>	
 </hibernate-mapping>

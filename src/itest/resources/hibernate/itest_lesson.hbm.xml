@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>	
+	<sql-query name="SQL_IT_LESSON_TRUNCATE_ONLINE">
+	    TRUNCATE teachonsnap_it.tlessononline;   
+	</sql-query>
+	<sql-query name="SQL_IT_LESSON_DELETE_LESSON">
+	    DELETE FROM teachonsnap_it.tlesson WHERE idLesson = 2;	       
+	</sql-query>
+	<sql-query name="SQL_IT_LESSON_RESET_LESSON_ID">	    	       
+		ALTER TABLE teachonsnap_it.tlesson AUTO_INCREMENT = 2;
+	</sql-query>		
+</hibernate-mapping>

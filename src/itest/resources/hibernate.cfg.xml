@@ -60,6 +60,7 @@
 		 
         
 		<mapping resource="./hibernate/itest_comment.hbm.xml"/>
+        <mapping resource="./hibernate/itest_lesson.hbm.xml"/>
         <mapping resource="./hibernate/itest_lessontest.hbm.xml"/>
         <mapping resource="./hibernate/itest_link.hbm.xml"/>
         <mapping resource="./hibernate/itest_tag.hbm.xml"/>

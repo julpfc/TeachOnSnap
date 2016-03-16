@@ -27,7 +27,7 @@ public abstract class LessonServiceTest extends ServiceTest<LessonService> {
 	protected int idUser = 1;
 	protected int invalidIdUser = -1;
 	
-	protected String URI = "URI";
+	protected String URI = "uri";
 	protected String text = "text";
 	protected String title = "title";
 	
@@ -106,7 +106,7 @@ public abstract class LessonServiceTest extends ServiceTest<LessonService> {
 		Lesson newLesson = new Lesson();
 		newLesson.setIdUser(idUser);
 		newLesson.setIdLanguage((short)1);
-		newLesson.setTitle(title);
+		newLesson.setTitle(text);
 		newLesson.setURIname(URI);
 		
 		User user = mock(User.class);
@@ -114,7 +114,7 @@ public abstract class LessonServiceTest extends ServiceTest<LessonService> {
 		
 		Lesson lesson = test.createLesson(newLesson);
 		assertNotNull(lesson);
-		assertEquals(idLesson, lesson.getId());
+		assertEquals(idLesson*2, lesson.getId());
 		
 		Lesson invalidLesson = new Lesson();
 		invalidLesson.setIdUser(invalidIdUser);
@@ -190,9 +190,9 @@ public abstract class LessonServiceTest extends ServiceTest<LessonService> {
 		
 		assertNull(test.saveLessonTitle(null, NULL_STRING));
 		
-		lesson = test.saveLessonTitle(lesson, title);
+		lesson = test.saveLessonTitle(lesson, URI);
 		assertNotNull(lesson);
-		assertEquals(title, lesson.getTitle());
+		assertEquals(URI, lesson.getTitle());
 		assertEquals(URI, lesson.getURIname());
 	}
 

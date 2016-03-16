@@ -98,7 +98,7 @@ public class LessonServiceImplTest extends LessonServiceTest {
 		
 		super.testGetLessonsFromAuthor();
 		
-		verify(lessonRepository, times(6)).getLessonIDsFromAuthor(anyString(), anyInt());
+		verify(lessonRepository, times(5)).getLessonIDsFromAuthor(anyString(), anyInt());
 	}
 
 	@Test
@@ -120,7 +120,7 @@ public class LessonServiceImplTest extends LessonServiceTest {
 		
 		super.testGetLastLessons();
 		
-		verify(lessonRepository, times(3)).getLastLessonIDs(anyInt());
+		verify(lessonRepository, times(2)).getLastLessonIDs(anyInt());
 	}
 
 	@Test
@@ -128,10 +128,10 @@ public class LessonServiceImplTest extends LessonServiceTest {
 		when(stringManager.generateURIname(anyString())).thenReturn(URI);
 		
 		Lesson lesson = mock(Lesson.class);		
-		when(lesson.getId()).thenReturn(idLesson);
+		when(lesson.getId()).thenReturn(idLesson*2);
 		when(lessonRepository.getLesson(anyInt())).thenReturn(lesson);
 		
-		when(lessonRepository.createLesson(any(Lesson.class))).thenReturn(idLesson);
+		when(lessonRepository.createLesson(any(Lesson.class))).thenReturn(idLesson*2);
 		
 		super.testCreateLesson();
 		
@@ -191,11 +191,11 @@ public class LessonServiceImplTest extends LessonServiceTest {
 		when(stringManager.generateURIname(anyString())).thenReturn(URI);
 		Lesson lesson = mock(Lesson.class);		
 		when(lesson.getId()).thenReturn(idLesson);
-		when(lesson.getTitle()).thenReturn(EMPTY_STRING, EMPTY_STRING, title);
+		when(lesson.getTitle()).thenReturn(EMPTY_STRING, EMPTY_STRING, URI);
 		when(lesson.getURIname()).thenReturn(URI);
 		when(lessonRepository.getLesson(idLesson)).thenReturn(lesson);
 		
-		when(lessonRepository.saveLessonTitle(any(Lesson.class), eq(title), eq(URI))).thenReturn(true);
+		when(lessonRepository.saveLessonTitle(any(Lesson.class), eq(URI), eq(URI))).thenReturn(true);
 		super.testSaveLessonTitle();
 		verify(lessonRepository).saveLessonTitle(any(Lesson.class), anyString(), anyString());
 	}
@@ -258,7 +258,7 @@ public class LessonServiceImplTest extends LessonServiceTest {
 		
 		super.testGetLessonDraftsFromUser();
 		
-		verify(lessonRepository, times(3)).getDraftLessonIDsFromUser(anyInt(), anyInt());
+		verify(lessonRepository, times(2)).getDraftLessonIDsFromUser(anyInt(), anyInt());
 	}
 
 	@Test

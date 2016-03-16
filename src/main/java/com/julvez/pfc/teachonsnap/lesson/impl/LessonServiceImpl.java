@@ -120,17 +120,18 @@ public class LessonServiceImpl implements LessonService{
 	public List<Lesson> getLessonsFromAuthor(String author,int firstResult) {
 		List<Lesson> lessons = Collections.emptyList();
 		
-		//get lessons ids from author URI
-		List<Integer> ids = lessonRepository.getLessonIDsFromAuthor(author,firstResult);
-		
-		if(ids != null){
-			lessons = new ArrayList<Lesson>();
-			//get lessons from ids
-			for(int id:ids){
-				lessons.add(getLesson(id));
+		if(!stringManager.isEmpty(author) && firstResult >=0){
+			//get lessons ids from author URI
+			List<Integer> ids = lessonRepository.getLessonIDsFromAuthor(author,firstResult);
+			
+			if(ids != null){
+				lessons = new ArrayList<Lesson>();
+				//get lessons from ids
+				for(int id:ids){
+					lessons.add(getLesson(id));
+				}
 			}
 		}
-		
 		return lessons;
 	}
 
@@ -138,17 +139,18 @@ public class LessonServiceImpl implements LessonService{
 	public List<Lesson> getLastLessons(int firstResult) {
 		List<Lesson> lessons = Collections.emptyList();
 		
-		//get last lessons ids from repo. Pagination
-		List<Integer> ids = lessonRepository.getLastLessonIDs(firstResult);
-		
-		if(ids != null){
-			lessons = new ArrayList<Lesson>();
-			//get lessons from ids
-			for(int id:ids){
-				lessons.add(getLesson(id));
+		if(firstResult >=0){
+			//get last lessons ids from repo. Pagination
+			List<Integer> ids = lessonRepository.getLastLessonIDs(firstResult);
+			
+			if(ids != null){
+				lessons = new ArrayList<Lesson>();
+				//get lessons from ids
+				for(int id:ids){
+					lessons.add(getLesson(id));
+				}
 			}
 		}
-		
 		return lessons;
 	}
 
@@ -312,7 +314,7 @@ public class LessonServiceImpl implements LessonService{
 	public List<Lesson> getLessonDraftsFromUser(User user, int firstResult) {
 		List<Lesson> lessons = Collections.emptyList();
 		
-		if(user!=null){			  
+		if(user!=null && firstResult >=0){			  
 			//get drafts ids from repo
 			List<Integer> ids = lessonRepository.getDraftLessonIDsFromUser(user.getId(), firstResult);
 		
