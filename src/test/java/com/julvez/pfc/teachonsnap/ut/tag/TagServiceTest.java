@@ -98,7 +98,7 @@ public abstract class TagServiceTest extends ServiceTest<TagService> {
 		
 		assertNotNull(clouds);
 		
-		int i=1;
+		int i=0;
 		for(CloudTag tag:clouds){
 			assertEquals(i++, tag.getWeight());
 		}
@@ -110,7 +110,7 @@ public abstract class TagServiceTest extends ServiceTest<TagService> {
 		
 		assertNotNull(clouds);
 		
-		int i=1;
+		int i=0;
 		for(CloudTag tag:clouds){
 			assertEquals(i++, tag.getWeight());	
 		}
@@ -122,7 +122,7 @@ public abstract class TagServiceTest extends ServiceTest<TagService> {
 		
 		assertNotNull(clouds);
 		
-		int i=1;
+		int i=0;
 		for(CloudTag tag:clouds){
 			assertEquals(i++, tag.getWeight());
 		}
@@ -134,7 +134,7 @@ public abstract class TagServiceTest extends ServiceTest<TagService> {
 		
 		assertNotNull(clouds);
 		
-		int i=1;
+		int i=0;
 		for(CloudTag tag:clouds){
 			assertEquals(i++, tag.getWeight());
 		}
@@ -254,12 +254,12 @@ public abstract class TagServiceTest extends ServiceTest<TagService> {
 		Tag tag1 = new Tag();
 		tag1.setId(idTag);
 		
-		Tag user2 = new Tag();
-		user2.setId(2*idTag);
+		Tag tag2 = new Tag();
+		tag2.setId(2*idTag);
 		
 		List<Tag> tags = new ArrayList<Tag>();
 		tags.add(tag1);
-		tags.add(user2);
+		tags.add(tag2);
 		
 		List<Tag> followings = new ArrayList<Tag>();
 		followings.add(tag1);
@@ -277,7 +277,7 @@ public abstract class TagServiceTest extends ServiceTest<TagService> {
 		assertEquals(2, followed.size());
 		
 		assertEquals(tag1.getId(), followed.get(0).getId());
-		assertEquals(user2.getId(), followed.get(1).getId());
+		assertEquals(tag2.getId(), followed.get(1).getId());
 		assertFalse(followed.get(0).isFollowed());
 		assertFalse(followed.get(1).isFollowed());
 		
@@ -286,7 +286,7 @@ public abstract class TagServiceTest extends ServiceTest<TagService> {
 		assertEquals(2, followed.size());
 		
 		assertEquals(tag1.getId(), followed.get(0).getId());
-		assertEquals(user2.getId(), followed.get(1).getId());
+		assertEquals(tag2.getId(), followed.get(1).getId());
 		assertTrue(followed.get(0).isFollowed());
 		assertFalse(followed.get(1).isFollowed());	
 	}

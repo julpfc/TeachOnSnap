@@ -106,7 +106,7 @@ public class TagServiceImpl implements TagService {
 	public List<Lesson> getLessonsFromTag(Tag tag, int firstResult) {		
 		List<Lesson> lessons = Collections.emptyList();
 		
-		if(tag != null){
+		if(tag != null && firstResult >= 0){
 			//get lesson ids from tag
 			List<Integer> ids = tagRepository.getLessonIDsFromTag(tag.getTag(), firstResult);
 			
@@ -280,17 +280,18 @@ public class TagServiceImpl implements TagService {
 	public List<Tag> getTags(int firstResult) {
 		List<Tag> tags = Collections.emptyList();
 		
-		//get all tags ids from repo. Pagination
-		List<Integer> ids = tagRepository.getTags(firstResult);
-		
-		if(ids != null){
-			tags = new ArrayList<Tag>();
-			//get tags from ids 
-			for(int id:ids){
-				tags.add(getTag(id));
+		if(firstResult >= 0){
+			//get all tags ids from repo. Pagination
+			List<Integer> ids = tagRepository.getTags(firstResult);
+			
+			if(ids != null){
+				tags = new ArrayList<Tag>();
+				//get tags from ids 
+				for(int id:ids){
+					tags.add(getTag(id));
+				}
 			}
 		}
-		
 		return tags;
 	}
 
@@ -320,17 +321,18 @@ public class TagServiceImpl implements TagService {
 	public List<Tag> searchTag(String searchQuery, int firstResult) {
 		List<Tag> tags = Collections.emptyList();
 		
-		//get tags ids result from query
-		List<Integer> ids = tagRepository.searchTag(searchQuery, firstResult);
-		
-		if(ids != null){
-			tags = new ArrayList<Tag>();
-			//get tags from ids
-			for(int id:ids){
-				tags.add(getTag(id));
+		if(!stringManager.isEmpty(searchQuery) && firstResult >= 0){
+			//get tags ids result from query
+			List<Integer> ids = tagRepository.searchTag(searchQuery, firstResult);
+			
+			if(ids != null){
+				tags = new ArrayList<Tag>();
+				//get tags from ids
+				for(int id:ids){
+					tags.add(getTag(id));
+				}
 			}
 		}
-		
 		return tags;
 	}
 

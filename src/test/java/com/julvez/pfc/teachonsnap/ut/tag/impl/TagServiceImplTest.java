@@ -95,7 +95,7 @@ public class TagServiceImplTest extends TagServiceTest {
 		
 		super.testGetLessonsFromTag();
 		
-		verify(tagRepository, times(3)).getLessonIDsFromTag(anyString(), anyInt());
+		verify(tagRepository, times(2)).getLessonIDsFromTag(anyString(), anyInt());
 	}
 
 	@Test
@@ -119,11 +119,6 @@ public class TagServiceImplTest extends TagServiceTest {
 	public void testGetTagUseCloudTags() {
 		List<Object[]> ids = new ArrayList<Object[]>();
 		ids.add(new Object[]{1,BigInteger.valueOf(1)});
-		ids.add(new Object[]{2,BigInteger.valueOf(2)});
-		ids.add(new Object[]{3,BigInteger.valueOf(3)});
-		ids.add(new Object[]{4,BigInteger.valueOf(4)});
-		ids.add(new Object[]{5,BigInteger.valueOf(5)});
-		ids.add(new Object[]{6,BigInteger.valueOf(6)});
 		
 		when(tagRepository.getTagUseCloudTags()).thenReturn(ids);
 		
@@ -140,11 +135,6 @@ public class TagServiceImplTest extends TagServiceTest {
 	public void testGetAuthorCloudTags() {
 		List<Object[]> ids = new ArrayList<Object[]>();
 		ids.add(new Object[]{(short)1,BigInteger.valueOf(1)});
-		ids.add(new Object[]{(short)2,BigInteger.valueOf(2)});
-		ids.add(new Object[]{(short)3,BigInteger.valueOf(3)});
-		ids.add(new Object[]{(short)4,BigInteger.valueOf(4)});
-		ids.add(new Object[]{(short)5,BigInteger.valueOf(5)});
-		ids.add(new Object[]{(short)6,BigInteger.valueOf(6)});
 		
 		when(tagRepository.getAuthorCloudTags()).thenReturn(ids);
 		
@@ -227,7 +217,7 @@ public class TagServiceImplTest extends TagServiceTest {
 				
 		super.testGetTags();
 		
-		verify(tagRepository, times(3)).getTags(anyInt());
+		verify(tagRepository, times(2)).getTags(anyInt());
 	}
 
 	
@@ -250,7 +240,7 @@ public class TagServiceImplTest extends TagServiceTest {
 		
 		super.testSearchTag();
 		
-		verify(tagRepository, times(6)).searchTag(anyString(), anyInt());
+		verify(tagRepository, times(5)).searchTag(anyString(), anyInt());
 	}
 
 	@Test
@@ -290,15 +280,10 @@ public class TagServiceImplTest extends TagServiceTest {
 	public void testGetTagSearchCloudTags() {
 		List<Integer> ids = new ArrayList<Integer>();
 		ids.add(1);
-		ids.add(2);
-		ids.add(3);
-		ids.add(4);
-		ids.add(5);
-		ids.add(6);
-
+		
 		when(tagRepository.getTagSearchCloudTags()).thenReturn(ids);
 		
-		when(statsService.getTagViewsCount(any(Tag.class))).thenReturn(1,2,3,4,5,6);
+		when(statsService.getTagViewsCount(any(Tag.class))).thenReturn(1);
 		
 		Tag tag = mock(Tag.class);
 		when(tag.getId()).thenReturn(idTag);		
@@ -313,18 +298,13 @@ public class TagServiceImplTest extends TagServiceTest {
 	public void testGetLessonViewCloudTags() {
 		List<Integer> ids = new ArrayList<Integer>();
 		ids.add(1);
-		ids.add(2);
-		ids.add(3);
-		ids.add(4);
-		ids.add(5);
-		ids.add(6);
-
+		
 		when(tagRepository.getLessonViewCloudTags()).thenReturn(ids);
 		
-		when(statsService.getLessonViewsCount(any(Lesson.class))).thenReturn(1,2,3,4,5,6);
+		when(statsService.getLessonViewsCount(any(Lesson.class))).thenReturn(1);
 		
 		Lesson lesson = mock(Lesson.class);
-		when(lesson.getId()).thenReturn(1,2,3,4,5,6);
+		when(lesson.getId()).thenReturn(1);
 		
 		when(lessonService.getLesson(anyInt())).thenReturn(lesson);
 		

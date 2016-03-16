@@ -45,22 +45,25 @@ tasks.withType(JavaCompile) {
 }
 
 configurations {
-  itestCompile.extendsFrom testCompile
-  itestRuntime.extendsFrom testRuntime
+	//Define integration test task configurations
+	itestCompile.extendsFrom testCompile
+	itestRuntime.extendsFrom testRuntime
 }
 
 sourceSets {
-  itest {
-    compileClasspath += main.output + test.output
-    runtimeClasspath += main.output + test.output
+	//Define folders for integration test task
+	itest {
+		compileClasspath += main.output + test.output
+		runtimeClasspath += main.output + test.output
     
-    java.srcDir file('src/itest/java')  
-    resources.srcDir file('src/itest/resources')
-  }  
+		java.srcDir file('src/itest/java')  
+		resources.srcDir file('src/itest/resources')
+	}  
 }
 
+//Define integration test task
 task itest(type: Test) {
-  testClassesDir = sourceSets.itest.output.classesDir
-  classpath = sourceSets.itest.runtimeClasspath
-  itest.reports.html.destination = file("$buildDir/reports/itests")
+	testClassesDir = sourceSets.itest.output.classesDir
+	classpath = sourceSets.itest.runtimeClasspath
+	itest.reports.html.destination = file("$buildDir/reports/itests")
 }

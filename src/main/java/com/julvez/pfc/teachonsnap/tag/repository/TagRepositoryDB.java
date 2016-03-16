@@ -54,7 +54,7 @@ public class TagRepositoryDB implements TagRepository {
 	@Override
 	public List<Object[]> getTagUseCloudTags() {
 		long limit = properties.getNumericProperty(TagPropertyName.LIMIT_CLOUDTAG);		
-		return  dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_USE_TAG", Object[].class, limit);		
+		return dbm.getQueryResultList("SQL_TAG_GET_CLOUDTAG_USE_TAG", Object[].class, limit);		
 	}
 
 	@Override
