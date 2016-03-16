@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
 		List<Comment> comments = Collections.emptyList();
 		
 		// If is a valid lesson id
-		if(idLesson > 0){		
+		if(idLesson > 0 && firstResult >= 0){		
 		
 			// get list of comments ids from repository
 			List<Integer> ids = commentRepository.getCommentIDs(idLesson, firstResult);

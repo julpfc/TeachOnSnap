@@ -23,13 +23,14 @@ public abstract class CommentServiceTest extends ServiceTest<CommentService> {
 	protected int invalidIdLesson = -1;
 	
 	protected int idComment = 1;
-	protected int idParentComment = 10;
+	protected int idParentComment = 1;
 	protected int invalidIdComment = -1;
 
 	protected int idUser = 1;
 	protected int invalidIdUser = -1;
 	
 	protected String body = "comment";
+	protected String newBody = "comment2";
 	
 	@Test
 	public void testGetComments() {
@@ -77,19 +78,19 @@ public abstract class CommentServiceTest extends ServiceTest<CommentService> {
 	public void testSaveCommentBody() {
 		Comment comment = test.getComment(idComment);
 		assertNotNull(comment);
-		assertEquals(EMPTY_STRING, comment.getBody());
+		assertEquals("<p>"+body+"</p>", comment.getBody());
 		
 		test.saveCommentBody(invalidIdComment, invalidIdUser, NULL_STRING);
 		
 		comment = test.getComment(idComment);
 		assertNotNull(comment);
-		assertEquals(EMPTY_STRING, comment.getBody());
+		assertEquals("<p>"+body+"</p>", comment.getBody());
 		
-		test.saveCommentBody(idComment, idUser, body);
+		test.saveCommentBody(idComment, idUser, newBody);
 		
 		comment = test.getComment(idComment);
 		assertNotNull(comment);
-		assertEquals(body, comment.getBody());
+		assertEquals("<p>"+newBody+"</p>", comment.getBody());
 	}
 
 	@Test
@@ -149,7 +150,7 @@ public abstract class CommentServiceTest extends ServiceTest<CommentService> {
 		Comment comment = test.getComment(idLesson);
 		assertNotNull(comment);
 		
-		assertTrue(test.notifyComment(idLesson, comment));
+		assertFalse(test.notifyComment(idLesson, comment));
 		assertFalse(test.notifyComment(invalidIdLesson, comment));
 		assertFalse(test.notifyComment(idLesson, null));
 	}
@@ -159,7 +160,7 @@ public abstract class CommentServiceTest extends ServiceTest<CommentService> {
 		Comment comment = test.getComment(idLesson);
 		assertNotNull(comment);
 		
-		assertTrue(test.notifyParentComment(idLesson, comment, idParentComment));
+		assertFalse(test.notifyParentComment(idLesson, comment, idParentComment));
 		assertFalse(test.notifyParentComment(invalidIdLesson, comment, invalidIdComment));
 		assertFalse(test.notifyParentComment(idLesson, null, invalidIdComment));
 	}

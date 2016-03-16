@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>	
+	<sql-query name="SQL_IT_COMMENT_TRUNCATE_BANNED">
+	    TRUNCATE teachonsnap_it.tcommentbanned;   
+	</sql-query>	
+	<sql-query name="SQL_IT_COMMENT_TRUNCATE_EDIT">
+	    TRUNCATE teachonsnap_it.tcommentedit;   
+	</sql-query>	
+	<sql-query name="SQL_IT_COMMENT_DELETE_COMMENT">
+	    DELETE FROM teachonsnap_it.tcomment WHERE idComment = 2;	       
+	</sql-query>
+	<sql-query name="SQL_IT_COMMENT_DELETE_BODY">
+	    DELETE FROM teachonsnap_it.tcommentbody WHERE idComment = 2;	       
+	</sql-query>
+	<sql-query name="SQL_IT_COMMENT_DELETE_RESPONSE">
+	    DELETE FROM teachonsnap_it.tcommentresponse WHERE idCommentResponse = 2;	       
+	</sql-query>
+	<sql-query name="SQL_IT_COMMENT_RESET_COMMENT_ID">	    	       
+		ALTER TABLE teachonsnap_it.tcomment AUTO_INCREMENT = 2;
+	</sql-query>	
+</hibernate-mapping>

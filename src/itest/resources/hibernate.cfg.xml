@@ -44,8 +44,8 @@
         <mapping resource="../main/hibernate/tag.hbm.xml"/>
         <mapping resource="../main/hibernate/user.hbm.xml"/>
         <mapping resource="../main/hibernate/usergroup.hbm.xml"/>
-		<!-- Gradle 		  
 
+		<!-- Gradle 		  
 		<mapping resource="./hibernate/comment.hbm.xml"/>
         <mapping resource="./hibernate/lang.hbm.xml"/>
         <mapping resource="./hibernate/lesson.hbm.xml"/>
@@ -59,9 +59,11 @@
 		-->
 		 
         
+		<mapping resource="./hibernate/itest_comment.hbm.xml"/>
         <mapping resource="./hibernate/itest_lessontest.hbm.xml"/>
         <mapping resource="./hibernate/itest_link.hbm.xml"/>
         <mapping resource="./hibernate/itest_tag.hbm.xml"/>
+        <mapping resource="./hibernate/itest_user.hbm.xml"/>
         <mapping resource="./hibernate/itest_usergroup.hbm.xml"/>
      
     </session-factory>

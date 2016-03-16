@@ -68,7 +68,7 @@ public class CommentServiceImplTest extends CommentServiceTest {
 		
 		super.testGetComments();
 		
-		verify(commentRepository, times(3)).getCommentIDs(anyInt(), anyInt());
+		verify(commentRepository, times(2)).getCommentIDs(anyInt(), anyInt());
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class CommentServiceImplTest extends CommentServiceTest {
 		Comment comment = mock(Comment.class);
 		when(comment.getId()).thenReturn(idComment);
 		when(comment.getIdUser()).thenReturn(idUser);
-		when(comment.getBody()).thenReturn(EMPTY_STRING, EMPTY_STRING, body);
+		when(comment.getBody()).thenReturn("<p>"+body+"</p>", "<p>"+body+"</p>", "<p>"+newBody+"</p>");
 		when(commentRepository.getComment(idComment)).thenReturn(comment);
 		
 		super.testSaveCommentBody();
@@ -153,7 +153,6 @@ public class CommentServiceImplTest extends CommentServiceTest {
 		author.setId(idUser);
 		when(userService.getUser(idUser)).thenReturn(author);
 		
-		when(notifyService.info(any(User.class), anyString(), anyString())).thenReturn(true);
 		super.testNotifyComment();
 		verify(notifyService).info(any(User.class), anyString(), anyString());
 	}
@@ -174,7 +173,6 @@ public class CommentServiceImplTest extends CommentServiceTest {
 		when(author.getId()).thenReturn(idUser, 0);
 		when(userService.getUser(anyInt())).thenReturn(author);
 		
-		when(notifyService.info(any(User.class), anyString(), anyString())).thenReturn(true);
 		super.testNotifyParentComment();
 		verify(notifyService).info(any(User.class), anyString(), anyString());
 	}
