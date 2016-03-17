@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>	
+	<sql-query name="SQL_IT_MEDIA_DELETE_FILE">
+	    DELETE FROM teachonsnap_it.tmediafile WHERE idMediaFile = 1;	       
+	</sql-query>
+	<sql-query name="SQL_IT_MEDIA_DELETE_LESSONMEDIA">
+	    DELETE FROM teachonsnap_it.tlessonmedia WHERE idLessonMedia = 1;	       
+	</sql-query>
+	<sql-query name="SQL_IT_MEDIA_RESET_FILE_ID">	    	       
+		ALTER TABLE teachonsnap_it.tmediafile AUTO_INCREMENT = 1;
+	</sql-query>	
+	<sql-query name="SQL_IT_MEDIA_RESET_LESSONMEDIA_ID">	    	       
+		ALTER TABLE teachonsnap_it.tlessonmedia AUTO_INCREMENT = 1;
+	</sql-query>	
+</hibernate-mapping>

@@ -70,6 +70,7 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 		int id =(int)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson), stringManager.getKey(repoPath.getId())}, 
 				new String[]{"getLesson","getRepositorySize"}, idLesson, file, repoPath, idMediaMimeType);		
 		cache.clearCache("getAuthorQuotaUsed");
+		cache.clearCache("getLessonMedias");
 		return id;
 	}
 
@@ -87,6 +88,7 @@ public class MediaFileRepositoryDBCache implements MediaFileRepository {
 	public boolean removeMediaFiles(int idLesson, ArrayList<MediaFile> medias, MediaFileRepositoryPath repoPath) {
 		if(repoPath == null) return false;
 		cache.clearCache("getAuthorQuotaUsed");
+		cache.clearCache("getLessonMedias");
 		return (boolean)cache.updateImplCached(repoDB, new String[]{stringManager.getKey(idLesson), stringManager.getKey(repoPath.getId())}, 
 				new String[]{"getLesson","getRepositorySize"}, idLesson, medias, repoPath);
 	}

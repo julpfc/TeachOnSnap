@@ -89,7 +89,9 @@ public class MediaFileServiceImplTest extends MediaFileServiceTest {
 		
 		List<MediaFile> medias = new ArrayList<MediaFile>();	
 		medias.add(new MediaFile());
-		when(mediaFileRepository.getLessonMedias(idLessonMedia)).thenReturn(null, null, medias);
+		
+		List<MediaFile> emptyMedias = new ArrayList<MediaFile>();
+		when(mediaFileRepository.getLessonMedias(idLessonMedia)).thenReturn(emptyMedias, emptyMedias, medias);
 		
 		super.testSaveMediaFile();
 		
@@ -121,7 +123,8 @@ public class MediaFileServiceImplTest extends MediaFileServiceTest {
 		
 		List<MediaFile> medias = new ArrayList<MediaFile>();	
 		medias.add(new MediaFile());
-		when(mediaFileRepository.getLessonMedias(idLessonMedia)).thenReturn(medias, medias, medias, null);
+		List<MediaFile> emptyMedias = new ArrayList<MediaFile>();
+		when(mediaFileRepository.getLessonMedias(idLessonMedia)).thenReturn(medias, medias, medias, emptyMedias);
 		
 		super.testRemoveMediaFiles();
 		

@@ -7,5 +7,5 @@
 	</sql-query>	
 	<sql-query name="SQL_IT_USER_TRUNCATE_FOLLOWUSER">
 	    TRUNCATE teachonsnap_it.tfollowuser;   
-	</sql-query>	
+	</sql-query>
 </hibernate-mapping>
