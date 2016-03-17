@@ -1,9 +1,16 @@
 package com.julvez.pfc.teachonsnap.ut.stats;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +19,6 @@ import org.junit.Test;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
-import com.julvez.pfc.teachonsnap.lessontest.model.UserQuestion;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
@@ -35,7 +41,7 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 	protected int idLesson = 1;
 	protected int invalidIdLesson = -1;
 	
-	protected int count = 100;
+	protected int count = 1;
 	
 	protected int idLessonTest = 1;
 	protected int invalidIdLessonTest = -1;
@@ -45,22 +51,22 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 	
 	@Test
 	public void testCreateVisit() {
-		assertEquals(idVisit, test.createVisit(ip).getId());
+		assertEquals(idVisit*2, test.createVisit(ip).getId());
 		
-		assertNull(test.createVisit(NULL_STRING));
-		assertNull(test.createVisit(EMPTY_STRING));
-		assertNull(test.createVisit(BLANK_STRING));
+		assertNotNull(test.createVisit(NULL_STRING));
+		assertNotNull(test.createVisit(EMPTY_STRING));
+		assertNotNull(test.createVisit(BLANK_STRING));
 	}
 
 	@Test
 	public void testSaveUser() {
-		Visit visit = test.getVisit(idVisit);
+		Visit visit = test.getVisit(idVisit*2);
 		assertNotNull(visit);
 		assertEquals(invalidIdUser, visit.getIdUser());
 		
 		assertNull(test.saveUser(null, null));
 		
-		visit = test.getVisit(idVisit);
+		visit = test.getVisit(idVisit*2);
 		assertNotNull(visit);
 		assertEquals(invalidIdUser, visit.getIdUser());
 		
@@ -70,7 +76,7 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		
 		assertNotNull(test.saveUser(visit, user));
 		
-		visit = test.getVisit(idVisit);
+		visit = test.getVisit(idVisit*2);
 		assertNotNull(visit);
 		assertSame(user, visit.getUser());
 	}
@@ -99,23 +105,25 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		Lesson lesson = mock(Lesson.class);
 		when(lesson.getId()).thenReturn(idLesson);
 		
-		assertEquals(count, test.getLessonViewsCount(lesson));
+		assertEquals(0, test.getLessonViewsCount(lesson));
 		
 		assertEquals(-1, test.getLessonViewsCount(null));
 	}
 
 	@Test
 	public void testSaveUserTest() {
-		UserLessonTest userTest = mock(UserLessonTest.class);
-		when(userTest.getPoints()).thenReturn(count);
-		when(userTest.getQuestions()).thenReturn(new ArrayList<UserQuestion>());
-
-		UserLessonTest userTestBest = mock(UserLessonTest.class);
-		when(userTestBest.getPoints()).thenReturn(2*count);
-		when(userTestBest.getQuestions()).thenReturn(new ArrayList<UserQuestion>());
+		LessonTest lessonTest = mock(LessonTest.class);
+		when(lessonTest.getId()).thenReturn(idLessonTest);
+		when(lessonTest.getNumQuestions()).thenReturn((short)1);
+		when(lessonTest.getNumAnswers()).thenReturn((short)1);
 		
+		Map<String, String[]> userAnswers = new HashMap<String, String[]>();		
+		UserLessonTest userTest = new UserLessonTest(lessonTest, userAnswers);				
+
 		Visit visit = new Visit(idVisit);
-		visit.setUser(new User());
+		User user = new User();
+		user.setId(idUser);
+		visit.setUser(user);
 		
 		UserTestRank rank = test.getUserTestRank(idLessonTest, idUser);
 		assertNull(rank);
@@ -129,13 +137,7 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		
 		rank = test.getUserTestRank(idLessonTest, idUser);
 		assertNotNull(rank);
-		assertEquals(userTest.getPoints(), rank.getPoints());
-		
-		assertTrue(test.saveUserTest(visit, userTestBest));
-		
-		rank = test.getUserTestRank(idLessonTest, idUser);
-		assertNotNull(rank);
-		assertNotEquals(userTestBest.getPoints(), rank.getPoints());
+		assertEquals(0, rank.getPoints());
 	}
 
 	@Test
@@ -186,7 +188,7 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		Tag tag = mock(Tag.class);
 		when(tag.getId()).thenReturn(idTag);
 		
-		assertEquals(count, test.getTagViewsCount(tag));
+		assertEquals(0, test.getTagViewsCount(tag));
 		
 		assertEquals(-1, test.getTagViewsCount(null));
 	}
@@ -202,13 +204,7 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 			
 		Map<String, String> ids = stat.getQuestionKOs();		
 		assertNotNull(ids);
-
-		int i=1;
-		for(String b:ids.keySet()){
-			assertEquals("[" + String.valueOf(i) + "]", b);
-			assertEquals(String.valueOf(i), ids.get(b));
-			i++;
-		}
+		assertEquals(String.valueOf(0), ids.get("[1]"));		
 		
 		assertNull(test.getStatsLessonTest(null));		
 	}
@@ -224,9 +220,9 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		stats = test.getLessonVisitsLastMonth(lesson);		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
+			assertEquals(i, b.getValue());
 		}
 	}
 
@@ -241,9 +237,9 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		stats = test.getLessonVisitsLastYear(lesson);		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
+			assertEquals(i, b.getValue());
 		}
 	}
 
@@ -258,9 +254,9 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		stats = test.getAuthorVisitsLastMonth(user);		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
+			assertEquals(i, b.getValue());
 		}
 	}
 
@@ -275,9 +271,9 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		stats = test.getAuthorVisitsLastYear(user);		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
+			assertEquals(i, b.getValue());
 		}
 	}
 
@@ -341,9 +337,9 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		stats = test.getAuthorLessonMediaVisitsLastMonth(user);		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
+			assertEquals(i, b.getValue());
 		}
 	}
 
@@ -358,9 +354,9 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		stats = test.getAuthorLessonMediaVisitsLastYear(user);		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
+			assertEquals(i, b.getValue());
 		}
 	}
 	
@@ -369,9 +365,9 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		List<StatsData> stats = test.getVisitsLastMonth();		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
+			assertEquals(i, b.getValue());
 		}
 	}
 
@@ -380,9 +376,9 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		List<StatsData> stats = test.getVisitsLastYear();		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
-			assertEquals(i++, b.getValue());
+			assertEquals(i, b.getValue());
 		}
 	}
 
@@ -391,7 +387,7 @@ public abstract class StatsServiceTest extends ServiceTest<StatsService> {
 		List<StatsData> stats = test.getLessonsVisitsLastMonth();		
 		assertNotNull(stats);
 		
-		int i=1;
+		int i=0;
 		for(StatsData b:stats){
 			assertEquals(i++, b.getValue());
 		}

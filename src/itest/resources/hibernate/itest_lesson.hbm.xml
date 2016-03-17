@@ -6,7 +6,7 @@
 	    TRUNCATE teachonsnap_it.tlessononline;   
 	</sql-query>
 	<sql-query name="SQL_IT_LESSON_DELETE_LESSON">
-	    DELETE FROM teachonsnap_it.tlesson WHERE idLesson = 2;	       
+	    DELETE FROM teachonsnap_it.tlesson WHERE idLesson = ?;	       
 	</sql-query>
 	<sql-query name="SQL_IT_LESSON_RESET_LESSON_ID">	    	       
 		ALTER TABLE teachonsnap_it.tlesson AUTO_INCREMENT = 2;

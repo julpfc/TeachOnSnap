@@ -46,7 +46,10 @@ public class Visit {
 	/**
 	 * Default constructor for Hibernate.
 	 */
-	public Visit() {}
+	public Visit() {
+		viewedLessons = new ArrayList<Integer>();
+		viewedTags = new ArrayList<Integer>();		
+	}
 	
 	/**
 	 * Initializes a visit with default values.

@@ -45,7 +45,7 @@ public class LessonServiceIT extends LessonServiceTest {
 	@Override
 	public void testCreateLesson() {
 		try{ super.testCreateLesson();} catch(Throwable t){ t.printStackTrace();}
-		dbm.updateQuery("SQL_IT_LESSON_DELETE_LESSON");
+		dbm.updateQuery("SQL_IT_LESSON_DELETE_LESSON", 2);
 		dbm.updateQuery("SQL_IT_LESSON_RESET_LESSON_ID");
 	}
 

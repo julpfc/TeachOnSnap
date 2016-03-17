@@ -1,5 +1,6 @@
 package com.julvez.pfc.teachonsnap.stats;
 
+import com.julvez.pfc.teachonsnap.manager.string.StringManagerFactory;
 import com.julvez.pfc.teachonsnap.stats.impl.StatsServiceImpl;
 import com.julvez.pfc.teachonsnap.stats.repository.StatsRepositoryFactory;
 import com.julvez.pfc.teachonsnap.user.UserServiceFactory;
@@ -22,7 +23,8 @@ public class StatsServiceFactory {
 	public static StatsService getService(){
 		if(service==null){
 			service = new StatsServiceImpl(StatsRepositoryFactory.getRepository(),
-											UserServiceFactory.getService());
+											UserServiceFactory.getService(),
+											StringManagerFactory.getManager());
 		}
 		return service;
 	}

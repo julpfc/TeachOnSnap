@@ -8,6 +8,7 @@ import java.util.Map;
 import com.julvez.pfc.teachonsnap.lesson.model.Lesson;
 import com.julvez.pfc.teachonsnap.lessontest.model.LessonTest;
 import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
 import com.julvez.pfc.teachonsnap.stats.model.StatsLessonTest;
@@ -33,20 +34,25 @@ public class StatsServiceImpl implements StatsService {
 	/** Provides the functionality to work with application's users */
 	private UserService userService;
 	
+	/** String manager providing string manipulation utilities */
+	private StringManager stringManager;
+	
 	
 	/**
 	 * Constructor requires all parameters not to be null
 	 * @param statsRepository Repository than provides data access/modification
 	 * @param userService Provides the functionality to work with application's users
+	 * @param stringManager String manager providing string manipulation utilities
 	 */
 	public StatsServiceImpl(StatsRepository statsRepository,
-			UserService userService) {
+			UserService userService, StringManager stringManager) {
 		if(statsRepository == null || userService == null){
 			throw new IllegalArgumentException("Parameters cannot be null.");
 		}
 		
 		this.statsRepository = statsRepository;
 		this.userService = userService;
+		this.stringManager = stringManager;
 	}
 
 	@Override
@@ -54,7 +60,7 @@ public class StatsServiceImpl implements StatsService {
 		Visit visit = null;
 		
 		//Use blank IP if it's missing
-		if(ip==null){
+		if(stringManager.isEmpty(ip)){
 			ip = IP_NULL;
 		}
 		

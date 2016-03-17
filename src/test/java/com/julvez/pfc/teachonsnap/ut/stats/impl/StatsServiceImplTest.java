@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import com.julvez.pfc.teachonsnap.lessontest.model.UserLessonTest;
+import com.julvez.pfc.teachonsnap.manager.string.StringManager;
 import com.julvez.pfc.teachonsnap.stats.StatsService;
 import com.julvez.pfc.teachonsnap.stats.impl.StatsServiceImpl;
 import com.julvez.pfc.teachonsnap.stats.model.StatsData;
@@ -37,24 +38,27 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Mock
 	private UserService userService;
 	
+	@Mock
+	private StringManager stringManager;
+	
 	@Override
 	protected StatsService getService() {
-		return new StatsServiceImpl(statsRepository, userService);
+		return new StatsServiceImpl(statsRepository, userService, stringManager);
 	}
 	
 	@Test
 	public void testCreateVisit() {		
-		when(statsRepository.createVisit(ip)).thenReturn(idVisit);
+		when(statsRepository.createVisit(anyString())).thenReturn(idVisit*2);
 		super.testCreateVisit();
 		verify(statsRepository, times(4)).createVisit(anyString());
 	}
 
 	@Test
 	public void testSaveUser() {
-		Visit visit = new Visit(idVisit);		
-		when(statsRepository.getVisit(eq(idVisit))).thenReturn(visit);
+		Visit visit = new Visit(idVisit*2);		
+		when(statsRepository.getVisit(eq(idVisit*2))).thenReturn(visit);
 
-		when(statsRepository.saveUser(idVisit, idUser)).thenReturn(true);
+		when(statsRepository.saveUser(idVisit*2, idUser)).thenReturn(true);
 		super.testSaveUser();
 		verify(statsRepository).saveUser(anyInt(), anyInt());
 	}
@@ -73,12 +77,12 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testSaveUserTest() {
 		UserTestRank userTest = mock(UserTestRank.class);
-		when(userTest.getPoints()).thenReturn(count);
+		when(userTest.getPoints()).thenReturn(0);
 		when(statsRepository.getUserTestRank(idLessonTest, idUser)).thenReturn(null, null,userTest);
 		
 		when(statsRepository.saveUserTest(any(Visit.class), any(UserLessonTest.class), anyBoolean())).thenReturn(true);
 		super.testSaveUserTest();
-		verify(statsRepository, times(2)).saveUserTest(any(Visit.class), any(UserLessonTest.class), anyBoolean());
+		verify(statsRepository).saveUserTest(any(Visit.class), any(UserLessonTest.class), anyBoolean());
 	}
 
 	@Test
@@ -116,14 +120,14 @@ public class StatsServiceImplTest extends StatsServiceTest {
 
 	@Test
 	public void testGetTagViewsCount() {
-		when(statsRepository.getTagViewsCount(idTag)).thenReturn(count);				
+		when(statsRepository.getTagViewsCount(idTag)).thenReturn(0);				
 		super.testGetTagViewsCount();
 		verify(statsRepository).getTagViewsCount(anyInt());
 	}
 
 	@Test
 	public void testGetLessonViewsCount() {
-		when(statsRepository.getLessonViewsCount(idLesson)).thenReturn(count);		
+		when(statsRepository.getLessonViewsCount(idLesson)).thenReturn(0);		
 		super.testGetLessonViewsCount();
 		verify(statsRepository).getLessonViewsCount(anyInt());
 	}
@@ -131,7 +135,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetStatsLessonTest() {
 		Map<String, String> ids = new HashMap<String, String>();
-		ids.put("[1]", "1");
+		ids.put("[1]", "0");
 		when(statsRepository.getStatsLessonTestQuestionKOs(idLessonTest)).thenReturn(ids);
 		when(statsRepository.getStatsLessonTestNumTests(idLessonTest)).thenReturn(count);
 		super.testGetStatsLessonTest();
@@ -143,7 +147,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetLessonVisitsLastMonth() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);
@@ -156,7 +160,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetLessonVisitsLastYear() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);
@@ -169,7 +173,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetAuthorVisitsLastMonth() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);
@@ -182,7 +186,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetAuthorVisitsLastYear() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);
@@ -221,7 +225,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetAuthorLessonMediaVisitsLastMonth() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);
@@ -234,7 +238,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetAuthorLessonMediaVisitsLastYear() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);
@@ -247,7 +251,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetVisitsLastMonth() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);
@@ -260,7 +264,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetVisitsLastYear() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);
@@ -273,7 +277,7 @@ public class StatsServiceImplTest extends StatsServiceTest {
 	@Test
 	public void testGetLessonsVisitsLastMonth() {
 		StatsData stat = new StatsData();
-		stat.setValue(BigInteger.valueOf(1));
+		stat.setValue(BigInteger.valueOf(0));
 		
 		List<StatsData> stats = new ArrayList<StatsData>();
 		stats.add(stat);

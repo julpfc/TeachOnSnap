@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>	
+	<sql-query name="SQL_IT_STATS_DELETE_VISIT">
+	    DELETE FROM teachonsnap_it.tvisit WHERE idVisit = ?;	       
+	</sql-query>
+	<sql-query name="SQL_IT_STATS_RESET_VISIT_ID">	    	       
+		ALTER TABLE teachonsnap_it.tvisit AUTO_INCREMENT = 2;
+	</sql-query>	
+	<sql-query name="SQL_IT_STATS_DELETE_USER">
+	    DELETE FROM teachonsnap_it.tvisituser WHERE idVisit = ?;
+	</sql-query>
+	<sql-query name="SQL_IT_STATS_DELETE_LESSON">
+	    DELETE FROM teachonsnap_it.tvisitlesson WHERE idVisit = ?;
+	</sql-query>	
+	<sql-query name="SQL_IT_STATS_DELETE_TAG">
+	    DELETE FROM teachonsnap_it.tvisittag WHERE idVisit = ?;
+	</sql-query>
+	<sql-query name="SQL_IT_STATS_DELETE_TEST">
+	    DELETE FROM teachonsnap_it.tvisittest WHERE idVisitTest = ?;
+	</sql-query>
+	<sql-query name="SQL_IT_STATS_DELETE_TESTRANK">
+	    DELETE FROM teachonsnap_it.tvisittestrank WHERE idLessonTest = ?;
+	</sql-query>
+	<sql-query name="SQL_IT_STATS_RESET_TEST_ID">	    	       
+		ALTER TABLE teachonsnap_it.tvisittest AUTO_INCREMENT = 2;
+	</sql-query>
+</hibernate-mapping>
