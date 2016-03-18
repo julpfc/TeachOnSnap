@@ -21,6 +21,11 @@ import com.julvez.pfc.teachonsnap.ut.service.ServiceTest;
 public abstract class PageServiceTest extends ServiceTest<PageService> {
 
 	protected String URL = "url";
+	protected String URL2 = "url";
+	protected String URL3 = "url";
+	protected String URL4 = "url";
+	protected String URL5 = "url";
+	protected String URL6 = "url";
 	protected String extraName = "extraname";
 	protected String query = "search";
 	
@@ -48,9 +53,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getEditLessonPageStack(lesson);
 		assertNotNull(pages);		
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(0).getLink());		
+		
 		assertNull(test.getEditLessonPageStack(null));
 	}
 
@@ -64,9 +69,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getNewLessonTestPageStack(lesson);
 		assertNotNull(pages);		
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(0).getLink());		
+		assertEquals(URL3, pages.get(0).getLink());
 		assertNull(test.getNewLessonTestPageStack(null));
 	}
 
@@ -82,9 +87,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getEditLessonTestPageStack(lesson, lessonTest);
 		assertNotNull(pages);		
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(0).getLink());		
+		assertEquals(URL3, pages.get(0).getLink());
 		assertNull(test.getEditLessonTestPageStack(null, null));
 		assertNull(test.getEditLessonTestPageStack(null, lessonTest));
 		assertNull(test.getEditLessonTestPageStack(lesson, null));
@@ -105,9 +110,10 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getEditQuestionPageStack(lesson, lessonTest, question);
 		assertNotNull(pages);		
 		assertEquals(4, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(0).getLink());		
+		assertEquals(URL3, pages.get(0).getLink());
+		assertEquals(URL4, pages.get(0).getLink());
 		assertNull(test.getEditQuestionPageStack(null, null, null));
 		assertNull(test.getEditQuestionPageStack(null, lessonTest, null));
 		assertNull(test.getEditQuestionPageStack(lesson, null, null));
@@ -129,9 +135,10 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getNewQuestionPageStack(lesson, lessonTest);
 		assertNotNull(pages);		
 		assertEquals(4, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(0).getLink());		
+		assertEquals(URL3, pages.get(0).getLink());
+		assertEquals(URL4, pages.get(0).getLink());
 		assertNull(test.getNewQuestionPageStack(null, null));
 		assertNull(test.getNewQuestionPageStack(null, lessonTest));
 		assertNull(test.getNewQuestionPageStack(lesson, null));
@@ -151,14 +158,14 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
 		assertEquals(URL, pages.get(0).getLink());
+		assertEquals(URL2, pages.get(1).getLink());
 		
 		pages = test.getAdminUsersSearchPageStack(query, SearchType.NAME.toString());
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
-		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL3, pages.get(1).getLink());		
+				
 		assertNull(test.getAdminUsersSearchPageStack(null, null));
 		assertNull(test.getAdminUsersSearchPageStack(query, null));
 		assertNull(test.getAdminUsersSearchPageStack(null, SearchType.EMAIL.toString()));
@@ -171,10 +178,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminUserProfilePageStack(profile);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
-				
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(0).getLink());		
+						
 		assertNull(test.getAdminUserProfilePageStack(null));		
 	}
 
@@ -183,10 +189,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminGroupsSearchPageStack(query);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
-		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+				
 		assertNull(test.getAdminGroupsSearchPageStack(null));	
 	}
 
@@ -205,10 +210,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminGroupProfilePageStack(group);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
-		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+				
 		assertNull(test.getAdminGroupProfilePageStack(null));		
 	}
 
@@ -219,9 +223,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminGroupFollowPageStack(group);
 		assertNotNull(pages);
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
 		
 		assertNull(test.getAdminGroupFollowPageStack(null));
 	}
@@ -233,9 +237,11 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminGroupFollowAuthorPageStack(group);
 		assertNotNull(pages);
 		assertEquals(4, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
+		assertEquals(URL4, pages.get(3).getLink());
 		
 		assertNull(test.getAdminGroupFollowAuthorPageStack(null));
 	}
@@ -247,16 +253,20 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminGroupFollowAuthorSearchPageStack(group, query, SearchType.EMAIL.toString());
 		assertNotNull(pages);
 		assertEquals(5, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
+		assertEquals(URL4, pages.get(3).getLink());
+		assertEquals(URL5, pages.get(4).getLink());
 		
 		pages = test.getAdminGroupFollowAuthorSearchPageStack(group, query, SearchType.NAME.toString());
 		assertNotNull(pages);
 		assertEquals(5, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
+		assertEquals(URL4, pages.get(3).getLink());
+		assertEquals(URL6, pages.get(4).getLink());
 				
 		assertNull(test.getAdminGroupFollowAuthorSearchPageStack(null, null, null));
 		assertNull(test.getAdminGroupFollowAuthorSearchPageStack(null, query, null));
@@ -266,9 +276,10 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		pages = test.getAdminGroupFollowAuthorSearchPageStack(group, null, null);
 		assertNotNull(pages);
 		assertEquals(4, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
+		assertEquals(URL4, pages.get(3).getLink());
 	}
 
 	@Test
@@ -278,9 +289,10 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminGroupFollowTagPageStack(group);
 		assertNotNull(pages);
 		assertEquals(4, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
+		assertEquals(URL4, pages.get(3).getLink());
 		
 		assertNull(test.getAdminGroupFollowTagPageStack(null));
 	}
@@ -292,9 +304,11 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminGroupFollowTagSearchPageStack(group, query);
 		assertNotNull(pages);
 		assertEquals(5, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());	 	
+		assertEquals(URL3, pages.get(2).getLink());
+		assertEquals(URL4, pages.get(3).getLink());
+		assertEquals(URL5, pages.get(4).getLink());
 		
 		assertNull(test.getAdminGroupFollowTagSearchPageStack(null, null));
 		assertNull(test.getAdminGroupFollowTagSearchPageStack(null, query));
@@ -302,9 +316,10 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		pages = test.getAdminGroupFollowTagSearchPageStack(group, null);
 		assertNotNull(pages);
 		assertEquals(4, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
+		assertEquals(URL4, pages.get(3).getLink());
 	}
 
 	@Test
@@ -326,9 +341,8 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getUserFollowAuthorPageStack(profile);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());			
 
 		assertNull(test.getUserFollowAuthorPageStack(null));
 	}
@@ -340,16 +354,16 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getUserFollowAuthorSearchPageStack(profile, query, SearchType.EMAIL.toString());
 		assertNotNull(pages);
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
 		
 		pages = test.getUserFollowAuthorSearchPageStack(profile, query, SearchType.NAME.toString());
 		assertNotNull(pages);
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL4, pages.get(2).getLink());
 				
 		assertNull(test.getUserFollowAuthorSearchPageStack(null, null, null));
 		assertNull(test.getUserFollowAuthorSearchPageStack(null, query, null));
@@ -359,9 +373,8 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		pages = test.getUserFollowAuthorSearchPageStack(profile, null, null);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());
 	}
 
 	@Test
@@ -413,15 +426,15 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		assertEquals(3, pages.size());
 		for(Page page:pages){
 			assertEquals(URL, page.getLink());		
-		}
+		}	
 		
 		pages = test.getStatsLessonPageStack(lesson, StatsType.YEAR);
 		assertNotNull(pages);		
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
-		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL, pages.get(1).getLink());		
+		assertEquals(URL2, pages.get(2).getLink());
+				
 		assertNull(test.getStatsLessonPageStack(null, null));
 		assertNull(test.getStatsLessonPageStack(lesson, null));
 		assertNull(test.getStatsLessonPageStack(null, StatsType.MONTH));
@@ -441,7 +454,7 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		pages = test.getStatsAuthorPageStack(profile, StatsType.YEAR);
 		assertNotNull(pages);
 		assertEquals(1, pages.size());
-		assertEquals(URL, pages.get(0).getLink());
+		assertEquals(URL2, pages.get(0).getLink());
 		assertEquals(extraName, pages.get(0).getExtraName());
 
 		assertNull(test.getStatsAuthorPageStack(null, null));
@@ -459,16 +472,15 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getStatsAuthorLessonPageStack(lesson, StatsType.MONTH);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+				
 		
 		pages = test.getStatsAuthorLessonPageStack(lesson, StatsType.YEAR);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL3, pages.get(0).getLink());		
+		assertEquals(URL4, pages.get(1).getLink());
 
 		assertNull(test.getStatsAuthorLessonPageStack(null, null));
 		assertNull(test.getStatsAuthorLessonPageStack(lesson, null));
@@ -487,9 +499,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getStatsAuthorLessonTestPageStack(lesson, lessonTest);
 		assertNotNull(pages);
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());	
+		assertEquals(URL3, pages.get(2).getLink());	
 		
 		assertNull(test.getStatsAuthorLessonTestPageStack(null, null));
 		assertNull(test.getStatsAuthorLessonTestPageStack(lesson, null));
@@ -500,16 +512,17 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 	public void testGetStatsLessonTestPageStack() {
 		Lesson lesson = mock(Lesson.class);
 		when(lesson.getURL()).thenReturn(URL);
-		when(lesson.getEditURL()).thenReturn(URL);
+		when(lesson.getEditURL()).thenReturn(URL2);
 		
 		LessonTest lessonTest = mock(LessonTest.class);
 				
 		List<Page> pages = test.getStatsLessonTestPageStack(lesson, lessonTest);
 		assertNotNull(pages);		
 		assertEquals(4, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());
+		assertEquals(URL4, pages.get(3).getLink());
 		
 		assertNull(test.getStatsLessonTestPageStack(null, null));
 		assertNull(test.getStatsLessonTestPageStack(lesson, null));
@@ -526,7 +539,7 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		pages = test.getAdminStatsPageStack(StatsType.YEAR);
 		assertNotNull(pages);
 		assertEquals(1, pages.size());
-		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(0).getLink());		
 
 		assertNull(test.getAdminStatsPageStack(null));		
 	}
@@ -543,9 +556,10 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getStatsAdminAuthorLessonTestPageStack(lesson, lessonTest);
 		assertNotNull(pages);
 		assertEquals(4, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());	
+		assertEquals(URL4, pages.get(3).getLink());	
 		
 		assertNull(test.getStatsAdminAuthorLessonTestPageStack(null, null));
 		assertNull(test.getStatsAdminAuthorLessonTestPageStack(lesson, null));
@@ -560,9 +574,9 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getStatsAdminLessonTestPageStack(lesson, lessonTest);
 		assertNotNull(pages);
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());	
 		
 		assertNull(test.getStatsAdminLessonTestPageStack(null, null));
 		assertNull(test.getStatsAdminLessonTestPageStack(lesson, null));
@@ -576,16 +590,14 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getStatsAdminAuthorPageStack(profile, StatsType.MONTH);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
-		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+				
 		pages = test.getStatsAdminAuthorPageStack(profile, StatsType.YEAR);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL3, pages.get(0).getLink());		
+		assertEquals(URL4, pages.get(1).getLink());		
 
 		assertNull(test.getStatsAdminAuthorPageStack(null, null));
 		assertNull(test.getStatsAdminAuthorPageStack(profile, null));
@@ -602,16 +614,17 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getStatsAdminAuthorLessonPageStack(lesson, StatsType.MONTH);
 		assertNotNull(pages);
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());		
+		
 		
 		pages = test.getStatsAdminAuthorLessonPageStack(lesson, StatsType.YEAR);
 		assertNotNull(pages);
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL4, pages.get(0).getLink());		
+		assertEquals(URL5, pages.get(1).getLink());		
+		assertEquals(URL6, pages.get(2).getLink());	
 
 		assertNull(test.getStatsAdminAuthorLessonPageStack(null, null));
 		assertNull(test.getStatsAdminAuthorLessonPageStack(lesson, null));
@@ -625,17 +638,15 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getStatsAdminLessonPageStack(lesson, StatsType.MONTH);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());
 		
 		pages = test.getStatsAdminLessonPageStack(lesson, StatsType.YEAR);
 		assertNotNull(pages);
 		assertEquals(2, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}		
-
+		assertEquals(URL3, pages.get(0).getLink());		
+		assertEquals(URL4, pages.get(1).getLink());		
+		
 		assertNull(test.getStatsAdminLessonPageStack(null, null));
 		assertNull(test.getStatsAdminLessonPageStack(lesson, null));
 		assertNull(test.getStatsAdminLessonPageStack(null, StatsType.MONTH));	
@@ -648,10 +659,10 @@ public abstract class PageServiceTest extends ServiceTest<PageService> {
 		List<Page> pages = test.getAdminBroadcastGroupPageStack(group);
 		assertNotNull(pages);
 		assertEquals(3, pages.size());
-		for(Page page:pages){
-			assertEquals(URL, page.getLink());		
-		}
-		
+		assertEquals(URL, pages.get(0).getLink());		
+		assertEquals(URL2, pages.get(1).getLink());		
+		assertEquals(URL3, pages.get(2).getLink());		
+				
 		assertNull(test.getAdminBroadcastGroupPageStack(null));	
 	}
 }
