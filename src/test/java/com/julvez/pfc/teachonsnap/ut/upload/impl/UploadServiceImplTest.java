@@ -72,7 +72,7 @@ public class UploadServiceImplTest extends UploadServiceTest {
 		FileMetadata uploadFile = new FileMetadata();
 		uploadFiles.add(uploadFile);
 		
-		when(uploadRepository.getTemporaryFiles(idUser)).thenReturn(uploadFiles, (List<FileMetadata>)null);
+		when(uploadRepository.getTemporaryFiles(idUser)).thenReturn(uploadFiles, (List<FileMetadata>)new ArrayList<FileMetadata>());
 		
 		super.testRemoveTemporaryFiles();
 		

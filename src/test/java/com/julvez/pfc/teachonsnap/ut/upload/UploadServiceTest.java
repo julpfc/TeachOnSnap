@@ -95,7 +95,8 @@ public abstract class UploadServiceTest extends ServiceTest<UploadService> {
 		
 		test.removeTemporaryFiles(user);
 		files = test.getTemporaryFiles(user);
-		assertNull(files);	
+		assertNotNull(files);
+		assertEquals(0, files.size());
 	}
 
 	@Test
