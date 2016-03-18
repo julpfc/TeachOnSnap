@@ -13,7 +13,7 @@ import com.julvez.pfc.teachonsnap.text.TextService;
 public class TextServiceImpl implements TextService {
 
 	/**	Package prefix where i18n properties files are located */
-	private static final String I18n_PACKAGE = "com.julvez.pfc.teachonsnap.i18n";
+	private static final String I18n_PACKAGE = "i18n";
 	
 	/** Localized texts manager providing access to localized texts by key and language. */
 	private TextManager textManager;

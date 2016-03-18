@@ -4,10 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lessons" var="lessonsBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.lesson" var="lessonBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+<fmt:setBundle basename="i18n.views.lessons" var="lessonsBundle"/>
+<fmt:setBundle basename="i18n.views.lesson" var="lessonBundle"/>
+<fmt:setBundle basename="i18n.views.admin" var="adminBundle"/>
+<fmt:setBundle basename="i18n.views.common"/>
 <%-- List lessons --%>
 <!DOCTYPE html>
 <html>

@@ -2,9 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+<fmt:setBundle basename="i18n.views.login" var="loginBundle"/>
+<fmt:setBundle basename="i18n.views.userprofile" var="profBundle"/>
+<fmt:setBundle basename="i18n.views.common"/>
 <%-- Application login/register/about modals: portion of code to be included into a page --%>
 	<!-- Login modal for displaying login form -->
 	<div class="container-fluid modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">

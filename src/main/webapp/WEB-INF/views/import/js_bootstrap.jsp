@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${userLang.language}"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+<fmt:setBundle basename="i18n.views.common"/>
 <%-- Common page javascript scritps: portion of code to be included into page's bottom --%>
  	<!-- Bootstrap core JavaScript
     ================================================== -->

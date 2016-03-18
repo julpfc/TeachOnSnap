@@ -36,7 +36,7 @@ dependencies {
 
 war{
 	//copy webapp resources to the WAR file
- 	from 'main/webapp/resources'
+ 	from 'main/webapp/resources' 	
 }
 
 tasks.withType(JavaCompile) {
@@ -55,7 +55,7 @@ sourceSets {
 	itest {
 		compileClasspath += main.output + test.output
 		runtimeClasspath += main.output + test.output
-    
+    	
 		java.srcDir file('src/itest/java')  
 		resources.srcDir file('src/itest/resources')
 	}  

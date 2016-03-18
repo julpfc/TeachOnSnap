@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${userLang.language}"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.userprofile" var="profBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+<fmt:setBundle basename="i18n.views.userprofile" var="profBundle"/>
+<fmt:setBundle basename="i18n.views.common"/>
 <%-- Manage user password setup --%>
 <!DOCTYPE html>
 <html> 

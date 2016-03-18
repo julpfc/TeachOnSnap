@@ -24,14 +24,15 @@ public class TextManagerI18n implements TextManager {
 		if(locale != null && textKey!=null && bundle != null){
 			//get resource from bundle name and locale
 			ResourceBundle rb = null;
-			
+			System.out.println(bundle);	
+			System.out.println(locale);	
 			try{
 				rb = ResourceBundle.getBundle(bundle, locale);
 			}
 			catch(Throwable t){
 				rb = null;
 			}
-			
+		System.out.println(rb);
 			if(rb != null){
 				//get localized text by key
 				text = rb.getString(textKey);

@@ -4,9 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.admin" var="adminBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.login" var="loginBundle"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+<fmt:setBundle basename="i18n.views.admin" var="adminBundle"/>
+<fmt:setBundle basename="i18n.views.login" var="loginBundle"/>
+<fmt:setBundle basename="i18n.views.common"/>
 <%-- Follow author --%>
 <!DOCTYPE html>
 <html> 

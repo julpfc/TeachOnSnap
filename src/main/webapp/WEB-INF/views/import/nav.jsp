@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${userLang.language}"/>
-<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+<fmt:setBundle basename="i18n.views.common"/>
 <%-- Application menu: portion of code to be included into a page --%>
 	<!-- Menu -->
 	<nav class="navbar ${not empty user?'navbar-inverse':'navbar-default'}" role="navigation">
@@ -55,11 +55,11 @@
 				            	<ul class="dropdown-menu" role="menu">
 					            	<c:forEach items="${languages}" var="lang" varStatus="loop">
 					            		<fmt:setLocale value="${lang.language}"/>
-					            		<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+					            		<fmt:setBundle basename="i18n.views.common"/>
 					            		<li><a href="?changeLang=${lang.language}"><img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/> <fmt:message key="nav.menu.lang"/></a></li>		            	
 					            	</c:forEach>
 				            		<fmt:setLocale value="${userLang.language}"/>
-				            		<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+				            		<fmt:setBundle basename="i18n.views.common"/>
 								</ul>
 				        	</li>
 							<li><a href="#" data-toggle="modal" data-target="#login"><fmt:message key="nav.menu.login"/> <span class="glyphicon glyphicon-log-in"></span></a></li>			        
@@ -105,11 +105,11 @@
 								<ul class="dropdown-menu" role="menu">
 					            	<c:forEach items="${languages}" var="lang" varStatus="loop">
 					            		<fmt:setLocale value="${lang.language}"/>    
-					            		<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>        	
+					            		<fmt:setBundle basename="i18n.views.common"/>        	
 					            		<li><a href="?changeLang=${lang.language}"><img alt="${lang.language}" src="${host}/resources/img/ico/flag_${lang.language}.jpg"/> <fmt:message key="nav.menu.lang"/></a></li>		            	
 					            	</c:forEach>
 					            	<fmt:setLocale value="${userLang.language}"/>
-					            	<fmt:setBundle basename="com.julvez.pfc.teachonsnap.i18n.views.common"/>
+					            	<fmt:setBundle basename="i18n.views.common"/>
 								</ul>
 					        </li>
 		        			<li><a href="${host}/login/?logout=1"><fmt:message key="nav.menu.logout"/> <span class="glyphicon glyphicon-log-out"></span></a></li>
