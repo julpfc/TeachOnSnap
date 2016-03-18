@@ -5,4 +5,13 @@
 	<sql-query name="SQL_IT_USERGROUP_TRUNCATE_GROUPMEMBER">
 	    TRUNCATE teachonsnap_it.tusergroupmember;   
 	</sql-query>	
+	<sql-query name="SQL_IT_USERGROUP_TRUNCATE_FOLLOWGROUPAUTHOR">
+	    TRUNCATE teachonsnap_it.tfollowgroupuser;   
+	</sql-query>	
+	<sql-query name="SQL_IT_USERGROUP_DELETE_USERGROUP">
+	    DELETE FROM teachonsnap_it.tusergroup WHERE idUserGroup = 1;	       
+	</sql-query>
+	<sql-query name="SQL_IT_USERGROUP_RESET_USERGROUP_ID">	    	       
+		ALTER TABLE teachonsnap_it.tusergroup AUTO_INCREMENT = 1;
+	</sql-query>	
 </hibernate-mapping>

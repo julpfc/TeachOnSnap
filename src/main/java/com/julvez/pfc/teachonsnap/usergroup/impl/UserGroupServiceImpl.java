@@ -57,17 +57,18 @@ public class UserGroupServiceImpl implements UserGroupService {
 	public List<UserGroup> searchGroupsByName(String searchQuery, int firstResult) {
 		List<UserGroup> groups = Collections.emptyList();
 		
-		//Groups ids as results from search
-		List<Short> ids = groupRepository.searchGroupsByName(searchQuery, firstResult);
-		
-		if(ids != null){
-			groups = new ArrayList<UserGroup>();
-			//Get group objects from ids
-			for(short id:ids){
-				groups.add(getGroup(id));
+		if(!stringManager.isEmpty(searchQuery) && firstResult >= 0){
+			//Groups ids as results from search
+			List<Short> ids = groupRepository.searchGroupsByName(searchQuery, firstResult);
+			
+			if(ids != null){
+				groups = new ArrayList<UserGroup>();
+				//Get group objects from ids
+				for(short id:ids){
+					groups.add(getGroup(id));
+				}
 			}
 		}
-		
 		return groups;
 	}
 
@@ -75,17 +76,18 @@ public class UserGroupServiceImpl implements UserGroupService {
 	public List<UserGroup> getGroups(int firstResult) {
 		List<UserGroup> groups = Collections.emptyList();
 		
-		//Get groups from repo (pagination)
-		List<Short> ids = groupRepository.getGroups(firstResult);
-		
-		if(ids != null){
-			groups = new ArrayList<UserGroup>();
-			//Get group objects from ids
-			for(short id:ids){
-				groups.add(getGroup(id));
+		if(firstResult >= 0){
+			//Get groups from repo (pagination)
+			List<Short> ids = groupRepository.getGroups(firstResult);
+			
+			if(ids != null){
+				groups = new ArrayList<UserGroup>();
+				//Get group objects from ids
+				for(short id:ids){
+					groups.add(getGroup(id));
+				}
 			}
 		}
-		
 		return groups;
 	}
 

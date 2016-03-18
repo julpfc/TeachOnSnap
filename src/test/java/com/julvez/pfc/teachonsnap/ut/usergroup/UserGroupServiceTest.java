@@ -22,7 +22,7 @@ public abstract class UserGroupServiceTest extends ServiceTest<UserGroupService>
 	
 	protected int idUser = 1;
 	
-	protected String email = "name@teachonsnap.com";
+	protected String email = "teachonsnap@gmail.com";
 
 	protected String query = "search";
 
@@ -107,7 +107,8 @@ public abstract class UserGroupServiceTest extends ServiceTest<UserGroupService>
 		assertNotNull(group);
 		
 		List<User> users = group.getUsers();		
-		assertNull(users);
+		assertNotNull(users);
+		assertEquals(0, users.size());
 		
 		assertNull(test.addUserByMailList(null, null));
 		
@@ -128,7 +129,8 @@ public abstract class UserGroupServiceTest extends ServiceTest<UserGroupService>
 		assertNotNull(group);
 		
 		List<User> users = group.getUsers();		
-		assertNull(users);
+		assertNotNull(users);
+		assertEquals(0, users.size());
 		
 		assertNull(test.addUser(null, null));
 		assertNull(test.addUser(group, null));

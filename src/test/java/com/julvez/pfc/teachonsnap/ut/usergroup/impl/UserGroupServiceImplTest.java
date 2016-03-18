@@ -64,7 +64,7 @@ public class UserGroupServiceImplTest extends UserGroupServiceTest {
 		when(groupRepository.getGroup(anyShort())).thenReturn(group);	
 		
 		super.testSearchGroupsByName();
-		verify(groupRepository, times(6)).searchGroupsByName(anyString(), anyInt());		
+		verify(groupRepository, times(5)).searchGroupsByName(anyString(), anyInt());		
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class UserGroupServiceImplTest extends UserGroupServiceTest {
 		when(groupRepository.getGroup(anyShort())).thenReturn(group);	
 		
 		super.testGetGroups();
-		verify(groupRepository, times(3)).getGroups(anyInt());		
+		verify(groupRepository, times(2)).getGroups(anyInt());		
 	}
 
 	@Test
@@ -130,7 +130,10 @@ public class UserGroupServiceImplTest extends UserGroupServiceTest {
 		List<User> users = new ArrayList<User>();
 		user.setId(idUser);
 		users.add(user);		
-		when(group.getUsers()).thenReturn(null, null, users);
+		
+		List<User> emptyUsers = new ArrayList<User>();
+		
+		when(group.getUsers()).thenReturn(emptyUsers, emptyUsers, users);
 		
 		when(groupRepository.getGroup(idUserGroup)).thenReturn(group);
 		
@@ -153,7 +156,8 @@ public class UserGroupServiceImplTest extends UserGroupServiceTest {
 		User user = new User();
 		user.setId(idUser);
 		users.add(user);		
-		when(group.getUsers()).thenReturn(null, users);
+		List<User> emptyUsers = new ArrayList<User>();
+		when(group.getUsers()).thenReturn(emptyUsers, users);
 		
 		when(groupRepository.getGroup(idUserGroup)).thenReturn(group);
 		
