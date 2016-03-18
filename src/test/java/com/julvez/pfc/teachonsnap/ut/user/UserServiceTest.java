@@ -29,7 +29,7 @@ public abstract class UserServiceTest extends ServiceTest<UserService> {
 
 	protected int idUser = 1;
 	protected int invalidIdUser = -1;
-	protected String email = "name@teachonsnap.com";
+	protected String email = "teachonsnap@gmail.com";
 	protected String unverifiedEmail = "mail@unverified.com";
 	protected String password = "secret";
 	protected String firstname = "firstName";
@@ -235,10 +235,10 @@ public abstract class UserServiceTest extends ServiceTest<UserService> {
 		
 		assertFalse(test.sendRegister(unverifiedEmail, EMPTY_STRING, EMPTY_STRING, language));
 		
-		user = test.getUserFromEmail(email);
+		user = test.getUserFromEmail(unverifiedEmail);
 		assertNull(user);
 		
-		assertTrue(test.sendRegister(email, EMPTY_STRING, EMPTY_STRING, language));		
+		assertTrue(test.sendRegister("2"+email, EMPTY_STRING, EMPTY_STRING, language));		
 	}
 
 	@Test
@@ -249,7 +249,7 @@ public abstract class UserServiceTest extends ServiceTest<UserService> {
 		assertNull(test.createUser(NULL_STRING, NULL_STRING, NULL_STRING, null));
 		assertNull(test.createUser(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, language));
 		assertNull(test.createUser(BLANK_STRING, EMPTY_STRING, EMPTY_STRING, language));
-		assertNotNull(test.createUser(email, EMPTY_STRING, EMPTY_STRING, language));
+		assertNotNull(test.createUser(email+"2", EMPTY_STRING, EMPTY_STRING, language));
 	}
 
 	@Test

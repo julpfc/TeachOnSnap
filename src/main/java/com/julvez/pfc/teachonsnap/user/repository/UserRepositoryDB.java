@@ -163,14 +163,12 @@ public class UserRepositoryDB implements UserRepository {
 
 	@Override
 	public void blockUser(int idUser, String reason, int idAdmin) {
-		dbm.updateQuery("SQL_USER_BLOCK", idUser, reason, idAdmin, reason, idAdmin);
-		
+		dbm.updateQuery("SQL_USER_BLOCK", idUser, reason, idAdmin, reason, idAdmin);		
 	}
 
 	@Override
 	public void unblockUser(int idUser) {
-		dbm.updateQuery("SQL_USER_UNBLOCK", idUser);
-		
+		dbm.updateQuery("SQL_USER_UNBLOCK", idUser);		
 	}
 
 	@Override

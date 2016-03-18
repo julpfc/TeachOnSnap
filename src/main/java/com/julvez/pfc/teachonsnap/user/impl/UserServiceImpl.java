@@ -107,7 +107,10 @@ public class UserServiceImpl implements UserService {
 				if(user.isBanned()){
 					UserBannedInfo bannedInfo = userRepository.getUserBannedInfo(idUser);
 					if(bannedInfo != null){
-						bannedInfo.setAdmin(getUser(bannedInfo.getIdAdmin()));
+						if(bannedInfo.getIdAdmin() == idUser){
+							bannedInfo.setAdmin(user);
+						}
+						else bannedInfo.setAdmin(getUser(bannedInfo.getIdAdmin()));
 					}
 					user.setBannedInfo(bannedInfo);
 				}
@@ -128,11 +131,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserFromEmail(String email) {
 		User user = null;
-		//get user id from email
-		int idUser = userRepository.getIdUserFromEmail(email);
-		if (idUser>0){
-			//get user from id
-			user = getUser(idUser);
+		if(!stringManager.isEmpty(email)){
+			//get user id from email
+			int idUser = userRepository.getIdUserFromEmail(email);
+			if (idUser>0){
+				//get user from id
+				user = getUser(idUser);
+			}
 		}
 		return user;
 	}
@@ -242,11 +247,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserFromPasswordTemporaryToken(String token) {
 		User user = null;
-		//get user id from token
-		int idUser = userRepository.getIdUserFromPasswordTemporaryToken(token);
-		if (idUser>0){
-			//get user from id
-			user = getUser(idUser);
+		
+		if(!stringManager.isEmpty(token)){
+			//get user id from token
+			int idUser = userRepository.getIdUserFromPasswordTemporaryToken(token);
+			if (idUser>0){
+				//get user from id
+				user = getUser(idUser);
+			}
 		}
 		return user;
 	}
@@ -343,18 +351,19 @@ public class UserServiceImpl implements UserService {
 	public List<User> getUsers(int firstResult) {
 		List<User> users = Collections.emptyList();
 		
-		//gets users's ids from repo. Pagination
-		List<Short> ids = userRepository.getUsers(firstResult);
-		
-		if(ids != null){
-			users = new ArrayList<User>();
-		
-			//get users from ids
-			for(short id:ids){
-				users.add(getUser(id));
+		if(firstResult >= 0){
+			//gets users's ids from repo. Pagination
+			List<Short> ids = userRepository.getUsers(firstResult);
+			
+			if(ids != null){
+				users = new ArrayList<User>();
+			
+				//get users from ids
+				for(short id:ids){
+					users.add(getUser(id));
+				}
 			}
-		}
-		
+		}		
 		return users;
 	}
 
@@ -362,17 +371,18 @@ public class UserServiceImpl implements UserService {
 	public List<User> searchUsersByEmail(String searchQuery, int firstResult) {
 		List<User> users = Collections.emptyList();
 		
-		//gets users's ids from repo's search. Pagination
-		List<Short> ids = userRepository.searchUsersByEmail(searchQuery, firstResult);
-		
-		if(ids != null){
-			users = new ArrayList<User>();
-			for(short id:ids){
-				//get users from ids
-				users.add(getUser(id));
+		if(!stringManager.isEmpty(searchQuery) && firstResult >= 0){
+			//gets users's ids from repo's search. Pagination
+			List<Short> ids = userRepository.searchUsersByEmail(searchQuery, firstResult);
+			
+			if(ids != null){
+				users = new ArrayList<User>();
+				for(short id:ids){
+					//get users from ids
+					users.add(getUser(id));
+				}
 			}
-		}
-		
+		}		
 		return users;
 	}
 
@@ -380,17 +390,18 @@ public class UserServiceImpl implements UserService {
 	public List<User> searchUsersByName(String searchQuery, int firstResult) {
 		List<User> users = Collections.emptyList();
 		
-		//gets users's ids from repo's search. Pagination
-		List<Short> ids = userRepository.searchUsersByName(searchQuery, firstResult);
-		
-		if(ids != null){
-			users = new ArrayList<User>();
-			for(short id:ids){
-				//get users from ids
-				users.add(getUser(id));
+		if(!stringManager.isEmpty(searchQuery) && firstResult >= 0){
+			//gets users's ids from repo's search. Pagination
+			List<Short> ids = userRepository.searchUsersByName(searchQuery, firstResult);
+			
+			if(ids != null){
+				users = new ArrayList<User>();
+				for(short id:ids){
+					//get users from ids
+					users.add(getUser(id));
+				}
 			}
-		}
-		
+		}		
 		return users;
 	}
 
@@ -482,18 +493,19 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAuthors(int firstResult) {
 		List<User> users = Collections.emptyList();
 		
-		//get authors ids from repo. Pagination
-		List<Short> ids = userRepository.getAuthors(firstResult);
-		
-		if(ids != null){
-			users = new ArrayList<User>();
+		if(firstResult >= 0){
+			//get authors ids from repo. Pagination
+			List<Short> ids = userRepository.getAuthors(firstResult);
 			
-			for(short id:ids){
-				//get users from ids
-				users.add(getUser(id));
+			if(ids != null){
+				users = new ArrayList<User>();
+				
+				for(short id:ids){
+					//get users from ids
+					users.add(getUser(id));
+				}
 			}
 		}
-		
 		return users;
 	}
 
@@ -501,17 +513,18 @@ public class UserServiceImpl implements UserService {
 	public List<User> searchAuthorsByEmail(String searchQuery, int firstResult) {
 		List<User> users = Collections.emptyList();
 		
-		//Get authors ids from repo's search. Pagination
-		List<Short> ids = userRepository.searchAuthorsByEmail(searchQuery, firstResult);
-		
-		if(ids != null){
-			users = new ArrayList<User>();
-			for(short id:ids){
-				//get users from ids
-				users.add(getUser(id));
+		if(!stringManager.isEmpty(searchQuery) && firstResult >= 0){
+			//Get authors ids from repo's search. Pagination
+			List<Short> ids = userRepository.searchAuthorsByEmail(searchQuery, firstResult);
+			
+			if(ids != null){
+				users = new ArrayList<User>();
+				for(short id:ids){
+					//get users from ids
+					users.add(getUser(id));
+				}
 			}
 		}
-		
 		return users;
 	}
 
@@ -519,17 +532,18 @@ public class UserServiceImpl implements UserService {
 	public List<User> searchAuthorsByName(String searchQuery, int firstResult) {
 		List<User> users = Collections.emptyList();
 		
-		//Get authors ids from repo's search. Pagination
-		List<Short> ids = userRepository.searchAuthorsByName(searchQuery, firstResult);
-		
-		if(ids != null){
-			users = new ArrayList<User>();
-			for(short id:ids){
-				//get users from ids
-				users.add(getUser(id));
+		if(!stringManager.isEmpty(searchQuery) && firstResult >= 0){
+			//Get authors ids from repo's search. Pagination
+			List<Short> ids = userRepository.searchAuthorsByName(searchQuery, firstResult);
+			
+			if(ids != null){
+				users = new ArrayList<User>();
+				for(short id:ids){
+					//get users from ids
+					users.add(getUser(id));
+				}
 			}
 		}
-		
 		return users;
 	}
 

@@ -215,9 +215,10 @@ public class UserServiceImplTest extends UserServiceTest {
 	public void testSendRegister() {
 		when(stringManager.isEmpty(anyString())).thenReturn(true);
 		when(stringManager.isEmpty(eq(email))).thenReturn(false);
+		when(stringManager.isEmpty(eq("2"+email))).thenReturn(false);
 		
 		List<String> domains = new ArrayList<String>();
-		domains.add("teachonsnap.com");
+		domains.add("gmail.com");
 		
 		when(properties.getListProperty(eq(UserPropertyName.VERIFIED_EMAIL_DOMAINS))).thenReturn(domains);
 		
@@ -225,6 +226,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		when(userRepository.getUser(eq(idUser))).thenReturn(user);
 				
 		when(userRepository.getIdUserFromEmail(eq(email))).thenReturn(idUser, idUser, invalidIdUser, invalidIdUser);
+		when(userRepository.getIdUserFromEmail(eq("2"+email))).thenReturn(invalidIdUser);
 
 		Language lang = new Language();
 		lang.setId((short)1);
@@ -235,7 +237,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		
 		when(notifyService.info(eq(user), anyString(), anyString())).thenReturn(true);
 		
-		when(userRepository.createUser(eq(email), anyString(), anyString(), anyShort())).thenReturn(idUser);
+		when(userRepository.createUser(eq("2"+email), anyString(), anyString(), anyShort())).thenReturn(idUser);
 		
 		super.testSendRegister();
 	}
@@ -243,9 +245,9 @@ public class UserServiceImplTest extends UserServiceTest {
 	@Test
 	public void testCreateUser() {
 		when(stringManager.isEmpty(anyString())).thenReturn(true);
-		when(stringManager.isEmpty(eq(email))).thenReturn(false);
+		when(stringManager.isEmpty(eq(email+"2"))).thenReturn(false);
 		
-		when(userRepository.createUser(eq(email), anyString(), anyString(), anyShort())).thenReturn(idUser);
+		when(userRepository.createUser(eq(email+"2"), anyString(), anyString(), anyShort())).thenReturn(idUser);
 		
 		User user = mock(User.class);
 		when(userRepository.getUser(eq(idUser))).thenReturn(user);
@@ -261,7 +263,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		when(stringManager.isEmpty(eq(email))).thenReturn(false);
 		
 		List<String> domains = new ArrayList<String>();
-		domains.add("teachonsnap.com");
+		domains.add("gmail.com");
 		
 		when(properties.getListProperty(eq(UserPropertyName.VERIFIED_EMAIL_DOMAINS))).thenReturn(domains);
 		
@@ -288,7 +290,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		
 		super.testGetUsers();
 		
-		verify(userRepository, times(3)).getUsers(anyInt());
+		verify(userRepository, times(2)).getUsers(anyInt());
 	}
 
 	@Test
@@ -311,7 +313,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		
 		super.testSearchUsersByEmail();
 		
-		verify(userRepository, times(6)).searchUsersByEmail(anyString(), anyInt());
+		verify(userRepository, times(5)).searchUsersByEmail(anyString(), anyInt());
 	}
 
 	@Test
@@ -334,7 +336,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		
 		super.testSearchUsersByName();
 		
-		verify(userRepository, times(6)).searchUsersByName(anyString(), anyInt());
+		verify(userRepository, times(5)).searchUsersByName(anyString(), anyInt());
 	}
 
 	@Test
@@ -439,7 +441,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		
 		super.testGetAuthors();
 		
-		verify(userRepository, times(3)).getAuthors(anyInt());
+		verify(userRepository, times(2)).getAuthors(anyInt());
 	}
 
 	@Test
@@ -462,7 +464,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		
 		super.testSearchAuthorsByEmail();
 		
-		verify(userRepository, times(6)).searchAuthorsByEmail(anyString(), anyInt());
+		verify(userRepository, times(5)).searchAuthorsByEmail(anyString(), anyInt());
 
 	}
 
@@ -486,7 +488,7 @@ public class UserServiceImplTest extends UserServiceTest {
 		
 		super.testSearchAuthorsByName();
 		
-		verify(userRepository, times(6)).searchAuthorsByName(anyString(), anyInt());
+		verify(userRepository, times(5)).searchAuthorsByName(anyString(), anyInt());
 	}
 
 	@Test

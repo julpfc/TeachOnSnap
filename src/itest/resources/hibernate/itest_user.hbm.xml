@@ -8,4 +8,10 @@
 	<sql-query name="SQL_IT_USER_TRUNCATE_FOLLOWUSER">
 	    TRUNCATE teachonsnap_it.tfollowuser;   
 	</sql-query>
+	<sql-query name="SQL_IT_USER_DELETE_USER">
+	    DELETE FROM teachonsnap_it.tuser WHERE idUser = ?;	       
+	</sql-query>
+	<sql-query name="SQL_IT_USER_RESET_USER_ID">	    	       
+		ALTER TABLE teachonsnap_it.tuser AUTO_INCREMENT = 2;
+	</sql-query>		
 </hibernate-mapping>
