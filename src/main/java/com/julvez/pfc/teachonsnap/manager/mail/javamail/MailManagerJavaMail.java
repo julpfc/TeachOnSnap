@@ -79,63 +79,69 @@ public class MailManagerJavaMail implements MailManager {
 		
 		boolean success = true;
 
-		//Setup JavaMail properties
-		Properties props = new Properties();
-		props.put(JAVAMAIL_SMTP_HOST,propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_HOST));
-		props.put(JAVAMAIL_SMTP_PORT,propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_PORT));
-		
-		boolean auth = propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_USER)!=null;
-		props.put(JAVAMAIL_SMTP_AUTH,auth?"true":"false");
-		
-		props.put(JAVAMAIL_SMTP_STARTTLS, propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_STARTTLS));
-		
-		//Setup JavaMail session
-		Session session = Session.getInstance(props,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(
-						propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_USER), 
-						propertyManager.getPasswordProperty(MailPropertyName.JAVAMAIL_AUTH_PASS)
-					);
+		if(addresses != null && addresses.trim().length()>5){
+			//Setup JavaMail properties
+			Properties props = new Properties();
+			props.put(JAVAMAIL_SMTP_HOST,propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_HOST));
+			props.put(JAVAMAIL_SMTP_PORT,propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_PORT));
+			
+			boolean auth = propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_USER)!=null;
+			props.put(JAVAMAIL_SMTP_AUTH,auth?"true":"false");
+			
+			props.put(JAVAMAIL_SMTP_STARTTLS, propertyManager.getProperty(MailPropertyName.JAVAMAIL_SMTP_STARTTLS));
+			
+			//Setup JavaMail session
+			Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(
+							propertyManager.getProperty(MailPropertyName.JAVAMAIL_AUTH_USER), 
+							propertyManager.getPasswordProperty(MailPropertyName.JAVAMAIL_AUTH_PASS)
+						);
+					}
 				}
+			);
+	
+			try {			
+				MimeMessage message = new MimeMessage(session);
+				
+				//Set sender
+				message.setFrom(new InternetAddress(propertyManager.getProperty(MailPropertyName.JAVAMAIL_SENDER)));
+				
+				//Set destination
+				if(isBroadcast){
+					message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(propertyManager.getProperty(MailPropertyName.JAVAMAIL_SENDER)));
+					message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(addresses));
+				}
+				else{
+					message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(addresses));
+				}
+				
+				//Set subject
+				message.setSubject(subject);
+				
+				//Set body
+				if(isHTML){
+					message.setContent(body, "text/html; charset=utf-8");
+				}
+				else{
+					message.setText(body);
+				}
+	
+				//Send mail (benchmark)
+				logger.startTimer();
+				logger.info("MailManager: Sending mail to "+addresses + "[Subject=" + subject + "]");
+				Transport.send(message);
+				logger.infoTime("MailManager: Mail sent to "+addresses + "[Subject=" + subject + "]");
+				
+			} 
+			catch (Throwable t) {
+				logger.error(t, "Error sending mail: " + addresses + "[Subject=" + subject + "]");			
+				success = false;
 			}
-		);
-
-		try {			
-			MimeMessage message = new MimeMessage(session);
-			
-			//Set sender
-			message.setFrom(new InternetAddress(propertyManager.getProperty(MailPropertyName.JAVAMAIL_SENDER)));
-			
-			//Set destination
-			if(isBroadcast){
-				message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(propertyManager.getProperty(MailPropertyName.JAVAMAIL_SENDER)));
-				message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(addresses));
-			}
-			else{
-				message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(addresses));
-			}
-			
-			//Set subject
-			message.setSubject(subject);
-			
-			//Set body
-			if(isHTML){
-				message.setContent(body, "text/html; charset=utf-8");
-			}
-			else{
-				message.setText(body);
-			}
-
-			//Send mail (benchmark)
-			logger.startTimer();
-			logger.info("MailManager: Sending mail to "+addresses + "[Subject=" + subject + "]");
-			Transport.send(message);
-			logger.infoTime("MailManager: Mail sent to "+addresses + "[Subject=" + subject + "]");
-			
-		} 
-		catch (Throwable t) {
-			logger.error(t, "Error sending mail: " + addresses + "[Subject=" + subject + "]");			
+		}
+		else{
+			//No valid addressees
 			success = false;
 		}
 		return success;
