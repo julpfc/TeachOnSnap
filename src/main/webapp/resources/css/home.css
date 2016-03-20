@@ -33,3 +33,11 @@
 	color: #CDBFE3;
 }
 
+.list-group-item-warning{
+	background-color: #CDBFE3;
+}
+
+a.list-group-item-warning:hover, a.list-group-item-warning:focus{
+	background-color: #6F5499;
+	color: white;
+}
