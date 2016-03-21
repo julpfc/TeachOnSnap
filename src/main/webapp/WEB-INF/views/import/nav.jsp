@@ -5,7 +5,7 @@
 <fmt:setBundle basename="i18n.views.common"/>
 <%-- Application menu: portion of code to be included into a page --%>
 	<!-- Menu -->
-	<nav class="navbar ${not empty user?'navbar-inverse':'navbar-default'}" role="navigation">
+	<nav class="navbar ${not empty user?'navbar-inverse':'navbar-default'}">
 		<div class="container-fluid">
 	    	<!-- Brand and toggle get grouped for better mobile display -->
 	    	<div class="navbar-header">
@@ -16,7 +16,7 @@
 		        	<span class="icon-bar"></span>
 	      		</button>
 	      		<a class="navbar-brand" href="${host}/">
-	      			<span><img src="${host}/resources/favicon/apple-touch-icon-precomposed.png" width="22" height="22"/></span>
+	      			<span><img src="${host}/resources/favicon/apple-touch-icon-precomposed.png" width="22" height="22" alt="TeachOnSnap"/></span>
 	      			<fmt:message key="app.name"/>
 	      		</a>
 	    	</div>
@@ -122,7 +122,7 @@
 
 <c:if test="${not empty pageStack}">
 	<!-- Page stack -->
-	<nav class="navbar subnav navbar-default" role="navigation">
+	<nav class="navbar subnav navbar-default">
 	  <div class="container-fluid col-sm-8 col-sm-offset-2">
 	      <ul class="nav subnav navbar-nav">
 	      	<c:forEach items="${pageStack}" var="page" varStatus="loop">

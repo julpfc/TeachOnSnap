@@ -28,7 +28,7 @@
      						<fmt:message key="admin.users.search.result.heading" bundle="${adminBundle}"/>: <span class="label label-info">${param['searchQuery']}</span>     						    
      					</c:when>
      					<c:otherwise>     						
-		     				<form action="" method="post" role="form">
+		     				<form action="" method="post">
 				    			<div class="col-sm-4 col-sm-offset-8 input-group">
 			      					<input type="text" class="form-control" name="searchQuery" placeholder="<fmt:message key="admin.users.search.placeholder" bundle="${adminBundle}"/>"/>
 			      					<span class="input-group-addon">      
@@ -111,7 +111,7 @@
      			<!-- add user collapsable -->    				   
      			<div class="col-sm-10 col-sm-offset-1">
      				<div class="collapse" id="collapseNewUser">
-						<form action="" method="post" class="form-signin" role="form">		  		    	
+						<form action="" method="post" class="form-signin">		  		    	
     						<div class="panel panel-primary">
 	      						<div class="panel-heading">
 		      						<fmt:message key="admin.users.new.user" bundle="${adminBundle}"/>	      				
@@ -154,7 +154,7 @@
 	    		</div><!-- /add user -->
 	    		<!-- Add users (multiple) collapsable -->			 	
     			<div class="collapse" id="collapseNewMultipleUsers">
-			  		<form action="" method="post" class="" role="form">		  		    	
+			  		<form action="" method="post" class="">		  		    	
 	    				<div class="panel panel-primary">
 		      				<div class="panel-heading">
 			      				<fmt:message key="admin.users.new.user.multiple" bundle="${adminBundle}"/>      				

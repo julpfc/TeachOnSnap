@@ -26,7 +26,7 @@
 		        </div>
 		        <div class="col-sm-4">
 		        	<h2><span class="glyphicon glyphicon-facetime-video"></span>
-		        	<span class="glyphicon glyphicon-book"></span></h2>
+		        	<span class="glyphicon glyphicon-book"></span>&nbsp;</h2>
 		        </div>
 		    </div>
 	    </div>

@@ -38,7 +38,9 @@
      			</c:if>	            			 
       			<fmt:formatDate type="both" dateStyle="long" timeStyle="short" value="${lesson.date}"/><c:set var="authorID" value="[${lesson.author.id}]"/>
       			 <fmt:message key="lesson.meta.author.by"/> <a href="${lesson.author.URL}">${lesson.author.fullName}${not empty user.authorFollowed[authorID]?' <span class="glyphicon glyphicon-star"></span>':''}</a>
-   				 <a href="#comments"><span class="glyphicon glyphicon-comment"></span></a>
+      			 <c:if test="${not empty comments}">
+	   				 <a href="#comments"><span class="glyphicon glyphicon-comment"></span></a>
+      			 </c:if>
    			</p>
        	</div>
 		<div class="row">
@@ -211,7 +213,7 @@
 							</a>
 						</div>
 						<div class="collapse${not empty comments?'':' in'}" id="collapseNewComment">
-		  					<form role="form" action="${lesson.commentURL}" method="post">
+		  					<form action="${lesson.commentURL}" method="post">
 		  						<div class="form-group well">    					
 						    		<p><textarea name="comment" class="form-control" rows="4" maxlength="65535"></textarea></p>				    	
 		  							<p><button class="btn btn-primary form-control" type="submit"><span class="glyphicon glyphicon-send"></span>

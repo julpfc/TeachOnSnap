@@ -32,7 +32,7 @@
 					</span>
 					<button class="btn btn-sm btn-danger pull-right" type="button" onclick="confirm('?removeGroup=true','admin.group.remove.confirm');"><span class="glyphicon glyphicon-remove"></span> <fmt:message key="admin.group.remove" bundle="${adminBundle}"/></button>
 					<div id="div-name" class="hidden">
-						<form action="" method="post" role="form">
+						<form action="" method="post">
 			    			<div class="col-sm-5 input-group">
 					    		<input type="text" name="groupName" value="${group.groupName}" id="inputGroupName" class="form-control" placeholder="<fmt:message key="admin.group.name" bundle="${adminBundle}"/>" required>			      					
 		      					<div class="input-group-btn">
@@ -98,7 +98,7 @@
 				<!-- Group add multiple users -->
 				<div class="panel-footer">					 
 					<label for="emailListInput"><fmt:message key="admin.users.new.user.multiple.tip" bundle="${adminBundle}"/> :</label>					    	
-						<form action="" method="post" role="form">
+						<form action="" method="post">
 			    			<div class="input-group violetButton">
 			  					<input class="form-control" id="emailListInput" name="emailList" type="email" placeholder="<fmt:message key="admin.users.new.user.multiple.placeholder" bundle="${adminBundle}"/>" multiple pattern="^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},*[\W]*)+$" value="" required="required"/>
 		      					<div class="input-group-btn">

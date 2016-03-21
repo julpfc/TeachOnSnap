@@ -30,7 +30,7 @@
 <c:import url="./import/nav.jsp"/>
 	<div class="content container-fluid">	
 		<div class="row">
-			<form id="lessonForm" role="form" method="POST"> 
+			<form id="lessonForm" method="post"> 
 <c:import url="./import/confirm.jsp"/>
 				<div class="col-sm-7">
 					<!-- Title -->					

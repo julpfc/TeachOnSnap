@@ -29,7 +29,7 @@
      						<fmt:message key="admin.users.search.result.heading" bundle="${adminBundle}"/>: <span class="label label-info">${param['searchQuery']}</span>     						    
      					</c:when>
      					<c:otherwise>				
-		     				<form action="" method="post" role="form">
+		     				<form action="" method="post">
 				    			<div class="col-sm-4 col-sm-offset-8 input-group">
 			      					<input type="text" class="form-control" name="searchQuery" placeholder="<fmt:message key="admin.search.author.placeholder" bundle="${adminBundle}"/>"/>
 			      					<span class="input-group-addon">      

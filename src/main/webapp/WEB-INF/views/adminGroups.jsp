@@ -27,7 +27,7 @@
      						<fmt:message key="admin.groups.search.result.heading" bundle="${adminBundle}"/>: <span class="label label-info">${param['searchQuery']}</span>     						    
      					</c:when>
      					<c:otherwise>     						
-		     				<form action="" method="post" role="form">
+		     				<form action="" method="post">
 				    			<div class="col-sm-4 col-sm-offset-8 input-group">
 			      					<input type="text" class="form-control" name="searchQuery" placeholder="<fmt:message key="admin.groups.search.placeholder" bundle="${adminBundle}"/>"/>			      					
 			      					<div class="input-group-btn">
@@ -88,7 +88,7 @@
 	     			</span>
 					 <c:if test="${empty param['searchQuery']}">
 					 	<!-- Create group -->
-					 	<form action="" method="post" role="form">
+					 	<form action="" method="post">
 			    			<div class="col-sm-5 col-sm-offset-7 input-group violetButton">
 					    		<input type="text" name="groupName" id="inputGroupName" class="form-control" placeholder="<fmt:message key="admin.group.name" bundle="${adminBundle}"/>" required>			      					
 		      					<div class="input-group-btn">
