@@ -13,6 +13,7 @@
 <html>
 <head>	
 	<c:import url="./import/head_bootstrap.jsp"/>
+	<link rel="stylesheet" href="<c:url value="/resources/css/home.css"/>"/>
 	<c:choose> 
 		<c:when test="${not empty searchKeyword}">
 			<title><fmt:message key="app.name"/> - <fmt:message key="search.by.${searchType}" bundle="${lessonsBundle}"/>: ${searchKeyword}</title>

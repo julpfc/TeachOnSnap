@@ -8,7 +8,7 @@
 		<div class="container-fluid">
 	        <div class="col-sm-3">
 	        	&nbsp;
-	        	<a href="http://it.uc3m.es"><img class="img-responsive img-rounded" src="${host}/resources/img/it_uc3m.gif" alt="it.uc3m.es"/></a>
+	        	<a href="http://it.uc3m.es"><img class="img-responsive img-rounded" src="${host}/resources/img/it_uc3m.png" alt="it.uc3m.es"/></a>
 	        </div>
 	      	<div class="col-sm-5 text-center">
 	        	&nbsp;
