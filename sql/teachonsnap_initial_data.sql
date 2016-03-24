@@ -35,3 +35,13 @@ INSERT INTO `teachonsnap_it`.`tmediamimetype` (`idmediamimetype`, `idmediatype`,
 INSERT INTO `teachonsnap_it`.`tmediamimetype` (`idmediamimetype`, `idmediatype`, `mimetype`, `extension`) VALUES ('3', '1', 'audio/mpeg', 'mp3');
 INSERT INTO `teachonsnap_it`.`tmediamimetype` (`idmediamimetype`, `idmediatype`, `mimetype`, `extension`) VALUES ('4', '0', 'video/3gpp', '3gp');
 INSERT INTO `teachonsnap_it`.`tmediamimetype` (`idmediamimetype`, `idmediatype`, `mimetype`, `extension`) VALUES ('5', '2', 'image/jpeg', 'jpg');
+
+-- -----------------------------------------------------
+-- Table `teachonsnap`.`tuser`
+-- -----------------------------------------------------
+INSERT INTO `teachonsnap`.`tuser` (`email`, `password`, `idLanguage`, `firstName`, `lastName`, `dateIni`) VALUES ('teachonsnap@gmail.com', password('teachadmin'), 2, 'Admin', '', now());
+
+-- -----------------------------------------------------
+-- Table `teachonsnap`.`tuseradmin`
+-- -----------------------------------------------------
+INSERT INTO `teachonsnap`.`tuseradmin` (`idUser`) VALUES (1);
