@@ -39,7 +39,7 @@ INSERT INTO `teachonsnap_it`.`tmediamimetype` (`idmediamimetype`, `idmediatype`,
 -- -----------------------------------------------------
 -- Table `teachonsnap`.`tuser`
 -- -----------------------------------------------------
-INSERT INTO `teachonsnap`.`tuser` (`email`, `password`, `idLanguage`, `firstName`, `lastName`, `dateIni`) VALUES ('teachonsnap@gmail.com', password('teachadmin'), 2, 'Admin', '', now());
+INSERT INTO `teachonsnap`.`tuser` (`email`, `password`, `idLanguage`, `firstName`, `lastName`, `dateIni`) VALUES ('teachonsnap@gmail.com', password('teachadmin'), 2, 'TeachOnSnap', 'User', now());
 
 -- -----------------------------------------------------
 -- Table `teachonsnap`.`tuseradmin`
