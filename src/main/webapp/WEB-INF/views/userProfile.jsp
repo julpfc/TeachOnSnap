@@ -155,6 +155,7 @@
 				        	<button id="passwordFormButton" class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-floppy-disk"></span></button>
 				        	<button class="btn btn-default" type="button" onclick="return showEditPassword(false);"><span class="glyphicon glyphicon-remove"></span></button>
 				      	</span>
+				      	<span>&nbsp;</span>
 						<c:if test="${not empty profile}">
 							<a class="alert-link" href="?sendPassword=true"><fmt:message key="admin.user.password.resendPassword" bundle="${adminBundle}"/></a>
 						</c:if>
