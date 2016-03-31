@@ -338,34 +338,4 @@ public class CacheManagerMap implements CacheManager {
 		}
 		return cache;		
 	}
-
-	//TODO Investigar lo de los clones en la caché
-	/*
-
-	 private Object copy(Object source) {
-		 Object obj = null;
-		 
-		 if(source != null){
-	    	 try {
-				 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				 ObjectOutputStream oos = new ObjectOutputStream(baos);
-				 oos.writeObject(source);
-				 oos.flush();
-				 oos.close();
-
-		         ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray()));
-		         obj = ois.readObject();
-			 }
-			 catch(IOException e) {
-				 e.printStackTrace();
-				 obj = source;
-			 }
-			 catch(ClassNotFoundException cnfe) {
-				 cnfe.printStackTrace();
-				 obj = source;
-			 }
-	 	} 
-        return obj;
-	}
-	*/	
 }
