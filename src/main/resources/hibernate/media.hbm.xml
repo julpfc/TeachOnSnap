@@ -16,9 +16,8 @@
 	</sql-query>	
 	<sql-query name="SQL_MEDIA_GET_MIMETYPEID">
 	    SELECT idMediamimetype
-	    FROM tMediamimetype
-	    JOIN tMediatype USING (idmediatype)
-	    WHERE mediatype = ? AND mimetype = ?	    
+	    FROM tMediamimetype	    
+	    WHERE idmediatype = ? AND mimetype = ?	    
 	</sql-query>
 	<sql-query name="SQL_MEDIA_CREATE_LESSONMEDIA">
 	    INSERT INTO tlessonmedia(idLesson)

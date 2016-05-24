@@ -80,7 +80,7 @@ public class MediaFileRepositoryDB implements MediaFileRepository {
 		
 		int idMediaFile = -1;
 		
-		//eEgin database transaction
+		//Begin database transaction
 		Object session = dbm.beginTransaction();
 		
 		//Create lesson media
