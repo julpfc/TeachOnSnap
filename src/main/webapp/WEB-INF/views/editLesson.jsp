@@ -438,7 +438,7 @@
 	<script src="${host}/resources/js/ext/jquery.ui.widget.js"></script>
 	<script src="${host}/resources/js/ext/jquery.iframe-transport.js"></script>
 	<script src="${host}/resources/js/ext/jquery.fileupload.js"></script>	
-	<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+	<script src="${host}/resources/js/ext/CryptoJS.3.1.2.md5.min.js"></script>
 		<script type="text/javascript">
 		<!--	    
 		var msg = {};
